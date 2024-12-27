@@ -1,0 +1,15 @@
+{
+    "Sample Page": "Beispielseite",
+    "Menu Level": "Menüebene",
+    "Sub Caption": "Untertitel",
+    "Chip": "Chip",
+    "Outlined": "Umrandet",
+    "External Link": "Externer Link",
+    "MenuItems": {
+        "schedule_management": "Einsatzplan verwalten",
+        "staff_management": "Personal verwalten",
+        "time_tracking": "Zeiterfassung",
+        "employees": "Mitarbeiter",
+        "clients": "Kunden"
+    }
+}
