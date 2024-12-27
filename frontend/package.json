@@ -2,13 +2,15 @@
   "name": "hps_erp",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://gitname.github.io/react-gh-pages",
+  "homepage": "https://gitradik.github.io/HPS_ERP",
   "description": "",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
     "build": "tsc && vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
