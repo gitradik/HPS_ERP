@@ -87,7 +87,7 @@ const Search = () => {
           </Typography>
           <Box>
             <List component="nav">
-              {searchData.map((menu: menuType) => {
+              {searchData().map((menu: menuType) => {
                 return (
                   <Box key={menu.title ? menu.id : menu.subheader}>
                     {menu.title && !menu.children ? (
