@@ -43,6 +43,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@types/fslightbox-react": "^1.7.8",
     "@types/node": "22.10.1",
     "@types/react": "19.0.1",
     "@types/react-dom": "^19.0.1",

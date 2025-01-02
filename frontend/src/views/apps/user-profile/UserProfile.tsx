@@ -6,7 +6,6 @@ import PageContainer from 'src/components/container/PageContainer';
 
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
 import IntroCard from 'src/components/apps/userprofile/profile/IntroCard';
-import PhotosCard from 'src/components/apps/userprofile/profile/PhotosCard';
 import Post from 'src/components/apps/userprofile/profile/Post';
 
 const UserProfile = () => {

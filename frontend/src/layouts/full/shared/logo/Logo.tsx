@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router';
-import { Box, styled, Typography } from '@mui/material';
+import { styled, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from 'src/store/Store';
 import herbaImage from 'src/assets/images/logos/herba.jpg';

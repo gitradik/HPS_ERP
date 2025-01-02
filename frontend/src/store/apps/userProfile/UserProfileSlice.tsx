@@ -1,8 +1,9 @@
-import axios from 'src/utils/axios';
+// import axios from 'src/utils/axios';
 import { createSlice } from '@reduxjs/toolkit';
 import { map } from 'lodash';
 import { AppDispatch } from 'src/store/Store';
 
+  // @ts-ignore
 const API_URL = '/api/data/postData';
 
 interface StateType {
@@ -60,6 +61,7 @@ export const fetchPosts = () => async (dispatch: AppDispatch) => {
     throw new Error(err);
   }
 };
+// @ts-ignore
 export const likePosts = (postId: number) => async (dispatch: AppDispatch) => {
   try {
     // const response = await axios.post('/api/data/posts/like', { postId });
@@ -69,6 +71,7 @@ export const likePosts = (postId: number) => async (dispatch: AppDispatch) => {
     throw new Error(err);
   }
 };
+// @ts-ignore
 export const addComment = (postId: number, comment: any[]) => async (dispatch: AppDispatch) => {
   try {
     // const response = await axios.post('/api/data/posts/comments/add', { postId, comment });
@@ -80,6 +83,7 @@ export const addComment = (postId: number, comment: any[]) => async (dispatch: A
 };
 
 export const addReply =
+  // @ts-ignore
   (postId: number, commentId: any[], reply: any[]) => async (dispatch: AppDispatch) => {
     try {
       // const response = await axios.post('/api/data/posts/replies/add', {

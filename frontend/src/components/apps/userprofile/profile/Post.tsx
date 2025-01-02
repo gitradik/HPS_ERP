@@ -18,8 +18,6 @@ const Post = () => {
 
   const getPosts: PostType[] = useSelector((state) => state.userpostsReducer.posts);
 
-  console.log(getPosts)
-
   return (
     (<Grid container spacing={3}>
       <Grid
