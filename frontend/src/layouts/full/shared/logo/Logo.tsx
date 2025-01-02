@@ -43,13 +43,14 @@ const Logo: FC = () => {
 
   return (
     <ParentWrapper>
-      <LinkStyled to="/">
-        <Box sx={{ height: '35px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'left' }}> 
+      <LinkStyled to="/" sx={{ position: 'relative', alignItems: 'center', justifyContent: 'left' }}>
+        {/* <Box >  */}
           <img
             src={herbaImage}
             alt="Herba Logo"
             style={{
-              height: '35px',
+              height: '100%',
+              maxHeight: '30px',
               width: 'auto',
               // Применяем абсолютное позиционирование, только когда текст скрыт
               position: isTextHidden ? 'absolute' : 'relative',
@@ -66,7 +67,7 @@ const Logo: FC = () => {
           >
             HPS ERP
           </StyledTypography>
-        </Box>
+        {/* </Box> */}
       </LinkStyled>
     </ParentWrapper>
   );
