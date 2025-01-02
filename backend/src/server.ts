@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import dotenv from 'dotenv';
-import './config/db_connect';
+// import './config/db_connect';
 // import userRoutes from './routes/userRoutes';
 
 // Загрузка переменных окружения
