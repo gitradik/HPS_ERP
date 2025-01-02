@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router';
-import { styled, Typography } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { AppState } from 'src/store/Store';
 import herbaImage from 'src/assets/images/logos/herba.jpg';
@@ -43,29 +43,30 @@ const Logo: FC = () => {
 
   return (
     <ParentWrapper>
-      <LinkStyled to="/" sx={{justifyContent: 'left'}}>
-        <img
-          src={herbaImage}
-          alt="Herba Logo"
-          style={{
-            height: '100%',
-            width: 'auto',
-            maxHeight: '35px',
-            // Применяем абсолютное позиционирование, только когда текст скрыт
-            position: isTextHidden ? 'absolute' : 'relative',
-            left: isTextHidden ? '50%' : 'initial',
-            top: isTextHidden ? '8px' : 'initial',
-            transform: isTextHidden ? 'translateX(-50%)' : 'initial',
-          }}
-        />
-        <StyledTypography
-          style={{
-            opacity: !customizer.isCollapse || customizer.isSidebarHover ? 1 : 0,
-            visibility: !customizer.isCollapse || customizer.isSidebarHover ? 'visible' : 'hidden',
-          }}
-        >
-          HPS ERP
-        </StyledTypography>
+      <LinkStyled to="/">
+        <Box sx={{ height: '35px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'left' }}> 
+          <img
+            src={herbaImage}
+            alt="Herba Logo"
+            style={{
+              height: '35px',
+              width: 'auto',
+              // Применяем абсолютное позиционирование, только когда текст скрыт
+              position: isTextHidden ? 'absolute' : 'relative',
+              left: isTextHidden ? '50%' : 'initial',
+              top: isTextHidden ? '8px' : 'initial',
+              transform: isTextHidden ? 'translateX(-50%)' : 'initial',
+            }}
+          />
+          <StyledTypography
+            style={{
+              opacity: !customizer.isCollapse || customizer.isSidebarHover ? 1 : 0,
+              visibility: !customizer.isCollapse || customizer.isSidebarHover ? 'visible' : 'hidden',
+            }}
+          >
+            HPS ERP
+          </StyledTypography>
+        </Box>
       </LinkStyled>
     </ParentWrapper>
   );
