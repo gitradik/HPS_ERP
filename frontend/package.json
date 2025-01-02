@@ -25,6 +25,8 @@
     "@tabler/icons-react": "^2.39.0",
     "axios": "1.7.7",
     "axios-mock-adapter": "2.0.0",
+    "date-fns": "^4.1.0",
+    "fslightbox-react": "^1.7.6",
     "i18next": "^23.5.1",
     "lodash": "^4.17.21",
     "react": "19.0.0-rc-02c0e824-20241028",
