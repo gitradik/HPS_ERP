@@ -15,10 +15,10 @@ const userSchema = gql`
     firstName: String!
     lastName: String!
     email: String!
-    role: UserRole!
     isActive: Boolean!
     createdAt: String!
     updatedAt: String!
+    role: UserRole
     position: String
     contactDetails: String
   }
@@ -27,8 +27,8 @@ const userSchema = gql`
     firstName: String!
     lastName: String!
     email: String!
-    role: UserRole!  # Обязательно указываем роль при создании
     password: String!
+    role: UserRole
     position: String
     contactDetails: String
   }

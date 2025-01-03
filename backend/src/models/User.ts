@@ -58,10 +58,12 @@ User.init(
     role: {
       type: DataTypes.ENUM(...Object.values(UserRole)),
       allowNull: false,
+      defaultValue: UserRole.USER
     },
     isActive: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: true
     },
   },
   {

@@ -12,15 +12,18 @@ const employeeResolvers = {
     },
   },
   Mutation: {
-    createEmployee: async (_: unknown, { userId }: { userId: number; }): Promise<Employee> => {
+    createEmployee: async (_: unknown, { input }: { input: { userId: number } }): Promise<Employee> => {
+      const { userId } = input;
       const user = await User.findByPk(userId);
       if (!user) {
         throw new Error(`User with id ${userId} not found`);
       }
 
+      const newEmployee = await Employee.create({ userId });
+
       await user.update({ role: UserRole.EMPLOYEE });
     
-      return await Employee.create({ userId });
+      return newEmployee;
     },
     
 

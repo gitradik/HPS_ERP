@@ -50,8 +50,6 @@ const resolvers = {
     ): Promise<User> => {
       const newUser = await User.create({
         ...input,
-        role: input.role ?? UserRole.USER,
-        isActive: input.isActive ?? true,
       });
       return newUser;
     },

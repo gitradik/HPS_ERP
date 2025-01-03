@@ -12,15 +12,18 @@ const clientResolvers = {
     },
   },
   Mutation: {
-    createClient: async (_: unknown, { userId }: { userId: number }): Promise<Client> => {
+    createClient: async (_: unknown, { input }: { input: { userId: number } }): Promise<Client> => {
+      const { userId } = input;
       const user = await User.findByPk(userId);
       if (!user) {
         throw new Error(`User with id ${userId} not found`);
       }
 
+      const newClient = await Client.create({ userId });
+
       await user.update({ role: UserRole.CLIENT });
 
-      return await Client.create({ userId });
+      return newClient;
     },
 
     deleteClient: async (_: unknown, { id }: { id: number }): Promise<boolean> => {
