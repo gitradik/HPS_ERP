@@ -2,23 +2,23 @@ import sequelize from "../services/databaseService"; // Замените на в
 import { userSeed } from "./userSeed"; // Импортируйте сиды, которые нужно выполнить
 
 const runSeeds = async () => {
-  console.log("Starting seed execution...");
+    console.log("Starting seed execution...");
 
-  try {
-    await sequelize.authenticate();
-    console.log("Database connected");
+    try {
+        await sequelize.authenticate();
+        console.log("Database connected");
 
-    console.log("Running seed: User");
-    await userSeed();
+        console.log("Running seed: User");
+        await userSeed();
 
-    console.log("All seeds executed successfully");
-  } catch (error) {
-    console.error("Seed execution failed:", error);
-  } finally {
-    // Закрытие подключения к базе данных
-    await sequelize.close();
-    console.log("Database connection closed");
-  }
+        console.log("All seeds executed successfully");
+    } catch (error) {
+        console.error("Seed execution failed:", error);
+    } finally {
+        // Закрытие подключения к базе данных
+        await sequelize.close();
+        console.log("Database connection closed");
+    }
 };
 
 runSeeds();

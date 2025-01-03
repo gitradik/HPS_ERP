@@ -4,33 +4,33 @@ import sequelize from "../services/databaseService";
 import User from "./User";
 
 class Client extends Model {
-  public id!: number;
-  public userId!: number;
-  public createdAt!: Date;
-  public updatedAt!: Date;
+    public id!: number;
+    public userId!: number;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 }
 
 Client.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        userId: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: User,
+                key: "id",
+            },
+            allowNull: false,
+        },
     },
-    userId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: User,
-        key: "id",
-      },
-      allowNull: false,
-    },
-  },
-  {
-    sequelize,
-    tableName: "clients",
-    timestamps: true,
-  }
+    {
+        sequelize,
+        tableName: "clients",
+        timestamps: true,
+    }
 );
 
 // Устанавливаем связь с моделью User

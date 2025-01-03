@@ -14,29 +14,29 @@ const server = new ApolloServer({ typeDefs: combinedSchema, resolvers });
 const PORT = process.env.PORT || 4000;
 
 async function startServer() {
-  try {
-    // Подключение к базе данных
-    await sequelize.authenticate();
-    console.log(
-      "Connection to the database has been established successfully."
-    );
+    try {
+        // Подключение к базе данных
+        await sequelize.authenticate();
+        console.log(
+            "Connection to the database has been established successfully."
+        );
 
-    // Синхронизация моделей с базой данных
-    await sequelize.sync({ alter: true });
-    console.log("All models were synchronized successfully.");
+        // Синхронизация моделей с базой данных
+        await sequelize.sync({ alter: true });
+        console.log("All models were synchronized successfully.");
 
-    // Запуск Apollo сервера
-    await server.start();
-    // @ts-ignore
-    server.applyMiddleware({ app });
+        // Запуск Apollo сервера
+        await server.start();
+        // @ts-ignore
+        server.applyMiddleware({ app });
 
-    // Запуск приложения
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}/graphql`);
-    });
-  } catch (error) {
-    console.error("Error starting server:", error);
-  }
+        // Запуск приложения
+        app.listen(PORT, () => {
+            console.log(`Server running at http://localhost:${PORT}/graphql`);
+        });
+    } catch (error) {
+        console.error("Error starting server:", error);
+    }
 }
 
 startServer();

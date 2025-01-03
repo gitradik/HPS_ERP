@@ -4,9 +4,9 @@ import Client from "./Client";
 import Employee from "./Employee";
 
 const models = {
-  User,
-  Client,
-  Employee,
+    User,
+    Client,
+    Employee,
 };
 
 export { sequelize, models };

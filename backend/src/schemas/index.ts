@@ -7,12 +7,12 @@ import documentSchema from "./documentSchema";
 import statisticsSchema from "./statisticsSchema";
 
 const combinedSchema = mergeTypeDefs([
-  userSchema,
-  clientSchema,
-  employeeSchema,
-  // timeTrackingSchema,
-  // documentSchema,
-  // statisticsSchema,
+    userSchema,
+    clientSchema,
+    employeeSchema,
+    // timeTrackingSchema,
+    // documentSchema,
+    // statisticsSchema,
 ]);
 
 export default combinedSchema;

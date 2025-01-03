@@ -7,13 +7,13 @@ dotenv.config();
 const { DB_HOST, DB_USER, DB_PASS, DB_NAME } = process.env;
 
 if (!DB_HOST || !DB_USER || !DB_PASS || !DB_NAME) {
-  throw new Error("Missing database environment variables");
+    throw new Error("Missing database environment variables");
 }
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
-  host: DB_HOST,
-  dialect: "postgres",
-  logging: false,
+    host: DB_HOST,
+    dialect: "postgres",
+    logging: false,
 });
 
 export default sequelize;
