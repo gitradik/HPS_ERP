@@ -1,23 +1,42 @@
-import express, { Application } from 'express';
-import dotenv from 'dotenv';
-// import './config/db_connect';
-// import userRoutes from './routes/userRoutes';
+// server.ts
+import { ApolloServer } from "apollo-server-express";
+import express from "express";
+import combinedSchema from "./schemas";
+import resolvers from "./resolvers";
+import { sequelize } from "./models";
+import dotenv from "dotenv";
 
-// Загрузка переменных окружения
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
+const app = express();
+const server = new ApolloServer({ typeDefs: combinedSchema, resolvers });
 
-// Создание Express-приложения
-const app: Application = express();
+const PORT = process.env.PORT || 4000;
 
-// Middleware
-app.use(express.json());
+async function startServer() {
+  try {
+    // Подключение к базе данных
+    await sequelize.authenticate();
+    console.log(
+      "Connection to the database has been established successfully."
+    );
 
-// Routes
-// app.use('/api/users', userRoutes);
+    // Синхронизация моделей с базой данных
+    await sequelize.sync({ alter: true });
+    console.log("All models were synchronized successfully.");
 
-// Запуск сервера
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+    // Запуск Apollo сервера
+    await server.start();
+    // @ts-ignore
+    server.applyMiddleware({ app });
+
+    // Запуск приложения
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}/graphql`);
+    });
+  } catch (error) {
+    console.error("Error starting server:", error);
+  }
+}
+
+startServer();
