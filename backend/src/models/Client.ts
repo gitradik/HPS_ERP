@@ -33,7 +33,6 @@ Client.init(
     }
 );
 
-// Устанавливаем связь с моделью User
-Client.belongsTo(User, { foreignKey: "userId" });
+Client.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 export default Client;
