@@ -1,29 +1,30 @@
 import { configureStore } from '@reduxjs/toolkit';
-import CustomizerReducer from './customizer/CustomizerSlice';
-import UserProfileReducer from './apps/userProfile/UserProfileSlice';
-import { combineReducers } from 'redux';
-import {
-  useDispatch as useAppDispatch,
-  useSelector as useAppSelector,
-  TypedUseSelectorHook,
-} from 'react-redux';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { useDispatch as useReduxDispatch, useSelector as useReduxSelector, TypedUseSelectorHook } from 'react-redux';
+import { authApi } from '../services/api';
+import customizerReducer from './customizer/CustomizerSlice';
+import userProfileReducer from './apps/userProfile/UserProfileSlice';
+import authReducer from './apps/auth/AuthSlice';
 
 export const store = configureStore({
   reducer: {
-    customizer: CustomizerReducer,
-    userpostsReducer: UserProfileReducer,
+    customizer: customizerReducer,
+    userProfile: userProfileReducer,
+    auth: authReducer,
+    [authApi.reducerPath]: authApi.reducer, // Добавление authApi
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(authApi.middleware), // Подключение middleware для RTK Query
 });
 
-const rootReducer = combineReducers({
-  customizer: CustomizerReducer,
-  userpostsReducer: UserProfileReducer,
-});
+setupListeners(store.dispatch);
 
-export type AppState = ReturnType<typeof rootReducer>;
+// Типизация для RootState и AppDispatch
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const { dispatch } = store;
-export const useDispatch = () => useAppDispatch<AppDispatch>();
-export const useSelector: TypedUseSelectorHook<AppState> = useAppSelector;
+
+// Экспорт кастомных хуков useSelector и useDispatch
+export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
+export const useDispatch = () => useReduxDispatch<AppDispatch>();
 
 export default store;

@@ -1,0 +1,12 @@
+schema: "http://localhost:4000/graphql"  # или путь к вашему файлу схемы GraphQL
+documents: "src/**/*.graphql"
+generates:
+  src/services/api.ts:
+    plugins:
+      - "typescript"
+      - "typescript-rtk-query"
+    config:
+      importBaseApiFrom: "./src/services/api"  # укажите правильный путь к файлу, где используется createApi
+      immutableTypes: true
+      exportHooks: true
+      fetcher: "graphql-request"  # если нужно использовать graphql-request как fetcher

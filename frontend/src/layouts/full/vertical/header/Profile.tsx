@@ -147,7 +147,7 @@ const Profile = () => {
           </Box>
         ))}
         <Box mt={2}>
-          <Button to="/" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button to="auth/login" variant="outlined" color="primary" component={Link} fullWidth>
             Logout
           </Button>
         </Box>
