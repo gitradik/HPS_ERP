@@ -1,7 +1,6 @@
 import { UserRole } from "../models/User";
 import Employee from "../models/Employee";
 import User from "../models/User";
-import Client from "../models/Client";
 
 const employeeResolvers = {
     Query: {
@@ -12,8 +11,12 @@ const employeeResolvers = {
         ): Promise<Employee | null> => await Employee.findByPk(id),
         activeEmployees: async (): Promise<Employee[]> =>
             await Employee.findAll({
-                where: { isActive: true },
-                include: User,
+                include: {
+                    model: User,
+                    where: { isActive: true },
+                    required: true,
+                    as: "user",
+                },
             }),
         employeeByUserId: async (
             _: unknown,

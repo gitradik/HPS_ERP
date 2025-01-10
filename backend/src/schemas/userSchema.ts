@@ -14,7 +14,8 @@ const userSchema = gql`
         id: ID!
         firstName: String!
         lastName: String!
-        email: String!
+        email: String
+        phoneNumber: String
         isActive: Boolean!
         createdAt: String!
         updatedAt: String!
@@ -26,7 +27,8 @@ const userSchema = gql`
     input CreateUserInput {
         firstName: String!
         lastName: String!
-        email: String!
+        email: String
+        phoneNumber: String
         password: String!
         role: UserRole
         position: String
@@ -37,10 +39,32 @@ const userSchema = gql`
         firstName: String
         lastName: String
         email: String
+        phoneNumber: String
         role: UserRole
         isActive: Boolean
         position: String
         contactDetails: String
+    }
+
+    input RegisterInput {
+        firstName: String!
+        lastName: String!
+        email: String
+        phoneNumber: String
+        password: String!
+    }
+
+    type RegisterResponse {
+        success: Boolean!
+        message: String!
+        user: User
+    }
+
+    type LoginResponse {
+        success: Boolean!
+        message: String!
+        accessToken: String
+        refreshToken: String
     }
 
     # Define the root Query type
@@ -57,6 +81,10 @@ const userSchema = gql`
         createUser(input: CreateUserInput!): User! # Create a user
         updateUser(id: ID!, input: UpdateUserInput!): User! # Update a user
         deleteUser(id: ID!): Boolean! # Delete a user
+        registerUser(input: RegisterInput!): RegisterResponse! # Register a new user
+        login(email: String, phoneNumber: String, password: String!): LoginResponse!
+        logout: Boolean!
+        refreshToken(refreshToken: String!): LoginResponse!
     }
 `;
 

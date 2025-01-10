@@ -15,7 +15,8 @@ class User extends Model {
     public id!: number;
     public firstName!: string;
     public lastName!: string;
-    public email!: string;
+    public email?: string;
+    public phoneNumber?: string;
     public password!: string;
     public role!: UserRole;
     public isActive!: boolean;
@@ -42,8 +43,19 @@ User.init(
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             unique: true,
+            validate: {
+                isEmail: true,
+            },
+        },
+        phoneNumber: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+            validate: {
+                is: /^\+\d{10,15}$/, // Регулярное выражение для номера телефона
+            },
         },
         password: {
             type: DataTypes.STRING,

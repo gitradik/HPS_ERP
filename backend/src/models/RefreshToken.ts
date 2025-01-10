@@ -1,22 +1,18 @@
-// src/models/Employee.ts
-import { DataTypes, Model } from "sequelize";
+// models/RefreshToken.ts
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../services/databaseService";
 import User from "./User";
 
-class Employee extends Model {
+class RefreshToken extends Model {
     public id!: number;
     public userId!: number;
+    public token!: string;
     public createdAt!: Date;
     public updatedAt!: Date;
 }
 
-Employee.init(
+RefreshToken.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
         userId: {
             type: DataTypes.INTEGER,
             references: {
@@ -25,14 +21,17 @@ Employee.init(
             },
             allowNull: false,
         },
+        token: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
     },
     {
         sequelize,
-        tableName: "employees",
-        timestamps: true,
+        modelName: "RefreshToken",
     }
 );
 
-Employee.belongsTo(User, { foreignKey: "userId", as: "user" });
+RefreshToken.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
-export default Employee;
+export default RefreshToken;
