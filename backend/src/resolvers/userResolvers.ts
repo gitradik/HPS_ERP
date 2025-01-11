@@ -2,11 +2,14 @@ import { Op } from "sequelize";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { ApolloError } from "apollo-server-express";
 import bcrypt from "bcrypt";
+import dotenv from "dotenv";
 import { UserRole } from "../models/User";
 import User from "../models/User";
 import { UserResponse } from "../utils/types";
 import { LoginResponse } from "../utils/types/auth";
 import RefreshToken from "../models/RefreshToken";
+
+dotenv.config();
 
 export interface CreateUserInput {
     firstName: string;
@@ -23,9 +26,9 @@ export interface CreateUserInput {
 export interface UpdateUserInput extends Partial<CreateUserInput> {}
 
 const SALT_ROUNDS = 10;
-const SECRET_KEY = process.env.JWT_SECRET || "TXXS";
-const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET || "TXXS_REFRESH";
-const REFRESH_TOKEN_EXPIRATION = "7d"; // Реализация на 7 дней
+const SECRET_KEY = process.env.JWT_SECRET!;
+const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET!;
+const REFRESH_TOKEN_EXPIRATION = process.env.JWT_REFRESH_SECRET_EXPIRATION!;
 
 const createTokens = (userId: number, role: UserRole) => {
     const accessToken = jwt.sign({ id: userId, role }, SECRET_KEY, { expiresIn: "1h" });
@@ -65,23 +68,14 @@ const resolvers = {
     },
 
     Mutation: {
-        createUser: async (
-            _: unknown,
-            { input }: { input: CreateUserInput }
-        ): Promise<User> => {
-            const newUser = await User.create({
-                ...input,
-            });
-            return newUser;
-        },
-        updateUser: async (
+        update: async (
             _: unknown,
             { id, input }: { id: number; input: UpdateUserInput }
         ): Promise<User | null> => {
             await User.update(input, { where: { id } });
             return await User.findByPk(id);
         },
-        deleteUser: async (
+        delete: async (
             _: unknown,
             { id }: { id: number }
         ): Promise<boolean> => {
@@ -131,13 +125,14 @@ const resolvers = {
                     message: "Login successful.",
                     accessToken,
                     refreshToken,
+                    user
                 };
             } catch (error: any) {
                 throw new ApolloError(error.message || "An unexpected error occurred during login.");
             }
         },
 
-        registerUser: async (
+        register: async (
             _: unknown,
             { input }: { input: CreateUserInput }
         ): Promise<UserResponse> => {
@@ -183,7 +178,6 @@ const resolvers = {
                     user: newUser,
                 };
             } catch (error: any) {
-                console.error("Error during user registration:", error);
                 throw new ApolloError(error.message || "An unexpected error occurred.");
             }
         },
@@ -214,7 +208,7 @@ const resolvers = {
                 const createTokens = (userId: number, role: string) => {
                     const accessToken = jwt.sign(
                         { id: userId, role },
-                        SECRET_KEY || "TXXS",
+                        SECRET_KEY,
                         { expiresIn: "15m" }
                     );
                     const newRefreshToken = jwt.sign(
@@ -236,6 +230,7 @@ const resolvers = {
                     message: "Tokens refreshed successfully.",
                     accessToken,
                     refreshToken: newRefreshToken,
+                    user
                 };
             } catch (error: any) {
                 console.error("Error during token refresh:", error);
@@ -243,10 +238,13 @@ const resolvers = {
             }
         },
         
-        logout: async (): Promise<boolean> => {
+        logout: async (): Promise<UserResponse> => {
             // На серверной стороне это мутация может быть пустой.
             // Клиент должен просто удалить токен.
-            return true;
+            return {
+                success: true,
+                message: "User logged out successfully.",
+            };
         },
 
         

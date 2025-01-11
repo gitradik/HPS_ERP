@@ -41,7 +41,7 @@ const UserProfile = () => {
             lg: 8,
             xs: 12
           }}>
-          <Post />
+          {/* <Post /> */}
         </Grid>
       </Grid>
     </PageContainer>)

@@ -19,6 +19,9 @@ import * as dropdownData from './data';
 import { IconMail } from '@tabler/icons-react';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
+import { useLogoutMutation } from 'src/services/api/auth.api';
+import { useDispatch } from 'src/store/Store';
+import { logoutSuccess } from 'src/store/apps/auth/AuthSlice';
 
 const Profile = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -27,6 +30,19 @@ const Profile = () => {
   };
   const handleClose2 = () => {
     setAnchorEl2(null);
+  };
+
+  
+  const [logout, { isLoading }] = useLogoutMutation();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      dispatch(logoutSuccess())
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   return (
@@ -147,7 +163,12 @@ const Profile = () => {
           </Box>
         ))}
         <Box mt={2}>
-          <Button to="auth/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button 
+                onClick={handleLogout}
+                disabled={isLoading}
+                 variant="outlined" 
+                 color="primary" 
+                 fullWidth>
             Logout
           </Button>
         </Box>

@@ -1,16 +1,29 @@
 import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery } from '@mui/material';
-import { useSelector } from 'src/store/Store';
+import { RootState, useSelector } from 'src/store/Store';
 import img1 from 'src/assets/images/profile/user-1.jpg';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
-import { AppState } from 'src/store/Store';
 import { Link } from 'react-router';
+import { useLogoutMutation } from 'src/services/api/auth.api';
+import { logoutSuccess} from 'src/store/apps/auth/AuthSlice';
+import { useDispatch } from 'react-redux';
 
 export const Profile = () => {
-  const customizer = useSelector((state: AppState) => state.customizer);
+  const customizer = useSelector((state: RootState) => state.customizer);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
+  const [logout, { isLoading }] = useLogoutMutation();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      dispatch(logoutSuccess())
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
   return (
     <Box
@@ -30,9 +43,9 @@ export const Profile = () => {
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
               <IconButton
+                onClick={handleLogout}
+                disabled={isLoading}
                 color="primary"
-                component={Link}
-                to="auth/login"
                 aria-label="logout"
                 size="small"
               >

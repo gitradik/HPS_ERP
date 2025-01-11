@@ -1,12 +1,13 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { graphqlRequestBaseQuery } from '@rtk-query/graphql-request-base-query';
 import { gql } from 'graphql-request';
+import { enhancedBaseQuery } from './baseQueryMiddleware';
+
+export const ACCESS_TOKEN = 'accessToken';
+export const REFRESH_TOKEN = 'refreshToken';
 
 const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: graphqlRequestBaseQuery({
-    url: 'http://localhost:4000/graphql',
-  }),
+  baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
     login: builder.mutation<LoginResponse, LoginInput>({
       query: ({ email, phoneNumber, password }) => {
@@ -14,8 +15,23 @@ const authApi = createApi({
           document: gql`
             mutation Login($email: String, $phoneNumber: String, $password: String!) {
               login(email: $email, phoneNumber: $phoneNumber, password: $password) {
+                success
+                message
                 accessToken
                 refreshToken
+                user {
+                  id
+                  role
+                  email
+                  phoneNumber
+                  firstName
+                  lastName
+                  position
+                  contactDetails
+                  isActive
+                  updatedAt
+                  createdAt
+                }
               }
             }
           `,
@@ -32,10 +48,21 @@ const authApi = createApi({
         document: gql`
           mutation Register($email: String!, $password: String!, $firstName: String!, $lastName: String!) {
             register(email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
-              id
-              email
-              firstName
-              lastName
+              success
+              message
+              user {
+                id
+                role
+                email
+                phoneNumber
+                firstName
+                lastName
+                position
+                contactDetails
+                isActive
+                updatedAt
+                createdAt
+              }
             }
           }
         `,
@@ -47,8 +74,23 @@ const authApi = createApi({
         document: gql`
           mutation RefreshToken($refreshToken: String!) {
             refreshToken(refreshToken: $refreshToken) {
+              success
+              message
               accessToken
               refreshToken
+              user {
+                id
+                role
+                email
+                phoneNumber
+                firstName
+                lastName
+                position
+                contactDetails
+                isActive
+                updatedAt
+                createdAt
+              }
             }
           }
         `,
@@ -61,6 +103,7 @@ const authApi = createApi({
           mutation Logout {
             logout {
               success
+              message
             }
           }
         `,
@@ -85,9 +128,12 @@ interface LoginInput {
   password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
+  success: boolean;
+  message: string;
   accessToken: string;
   refreshToken: string;
+  user?: any
 }
 
 interface RegisterInput {
@@ -106,9 +152,12 @@ interface RefreshTokenInput {
   refreshToken: string;
 }
 
-interface RefreshTokenResponse {
+export interface RefreshTokenResponse {
+  success: boolean;
+  message: string;
   accessToken: string;
   refreshToken: string;
+  user?: any
 }
 
 interface LogoutResponse {

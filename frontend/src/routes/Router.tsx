@@ -3,6 +3,8 @@
 import React, { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
+import ProtectedRoute from './protectedRouteGuard';
+import PublicRouteGuard from './publicRouteGuard';
 
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
 
@@ -32,9 +34,8 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', exact: true, element: <SamplePage /> },
-      // { path: '/', element: <Navigate to="/user-profile" /> },
-      { path: '/user-profile', exact: true, element: <UserProfile /> },
+      { path: '/', exact: true, element: <ProtectedRoute><SamplePage /></ProtectedRoute> },
+      { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfile /></ProtectedRoute> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },
@@ -42,16 +43,16 @@ const Router = [
     path: '/',
     element: <BlankLayout />,
     children: [
-      { path: '/auth/404', element: <Error /> },
-      { path: '/auth/login', element: <Login /> },
-      { path: '/auth/login2', element: <Login2 /> },
-      { path: '/auth/register', element: <Register /> },
-      { path: '/auth/register2', element: <Register2 /> },
-      { path: '/auth/forgot-password', element: <ForgotPassword /> },
-      { path: '/auth/forgot-password2', element: <ForgotPassword2 /> },
-      { path: '/auth/two-steps', element: <TwoSteps /> },
-      { path: '/auth/two-steps2', element: <TwoSteps2 /> },
-      { path: '/auth/maintenance', element: <Maintenance /> },
+      { path: '/auth/404', element: <PublicRouteGuard><Error /></PublicRouteGuard> },
+      { path: '/auth/login', element: <PublicRouteGuard><Login /></PublicRouteGuard> },
+      { path: '/auth/login2', element: <PublicRouteGuard><Login2 /></PublicRouteGuard> },
+      { path: '/auth/register', element: <PublicRouteGuard><Register /></PublicRouteGuard> },
+      { path: '/auth/register2', element: <PublicRouteGuard><Register2 /></PublicRouteGuard> },
+      { path: '/auth/forgot-password', element: <PublicRouteGuard><ForgotPassword /></PublicRouteGuard> },
+      { path: '/auth/forgot-password2', element: <PublicRouteGuard><ForgotPassword2 /></PublicRouteGuard> },
+      { path: '/auth/two-steps', element: <PublicRouteGuard><TwoSteps /></PublicRouteGuard> },
+      { path: '/auth/two-steps2', element: <PublicRouteGuard><TwoSteps2 /></PublicRouteGuard> },
+      { path: '/auth/maintenance', element: <PublicRouteGuard><Maintenance /></PublicRouteGuard> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

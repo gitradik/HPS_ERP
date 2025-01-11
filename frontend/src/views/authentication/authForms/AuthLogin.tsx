@@ -1,4 +1,3 @@
-// src/components/authForms/AuthLogin.tsx
 import React, { useState } from 'react';
 import {
   Box,
@@ -9,8 +8,8 @@ import {
   Stack,
   Divider,
 } from '@mui/material';
-import { Link } from 'react-router';
-import { useLoginMutation } from 'src/services/api/auth.api'; // Подключаем хук для мутации логина
+import { Link, useNavigate } from 'react-router-dom'; // Обратите внимание: 'react-router-dom', а не 'react-router'
+import { useLoginMutation } from 'src/services/api/auth.api';
 
 import { loginType } from 'src/types/auth/auth';
 import CustomCheckbox from '../../../components/forms/theme-elements/CustomCheckbox';
@@ -18,22 +17,48 @@ import CustomTextField from '../../../components/forms/theme-elements/CustomText
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 import AuthSocialButtons from './AuthSocialButtons';
 import { emailRegex, phoneRegex } from 'src/utils/regex';
+import { useDispatch } from 'src/store/Store';
+import { loginFailure, loginRequest, loginSuccess } from 'src/store/apps/auth/AuthSlice';
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
-  const [emailOrPhone, setEmailOrPhone] = useState(''); // Состояние для поля email/phone
-  const [password, setPassword] = useState(''); // Состояние для пароля
-  const [login, { isLoading, error }] = useLoginMutation(); // Используем хук мутации
+  const [emailOrPhone, setEmailOrPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [login, { isLoading, error }] = useLoginMutation();
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // Обработка отправки формы
+  // @ts-ignore
+  const errorMessage = (error?.data as any)?.friendlyMessage;
+
+
   const handleLogin = async () => {
+    dispatch(loginRequest());
+    setValidationError(null);
+
+    const isEmail = emailOrPhone.match(emailRegex);
+    const isPhone = emailOrPhone.match(phoneRegex);
+    if (!isEmail && !isPhone) {
+      setValidationError('Please enter a valid email or phone number.');
+      return;
+    }
+
+    if (!password) {
+      setValidationError('Password cannot be empty.');
+      return;
+    }
+
     try {
-      await login({
-        email: emailOrPhone.match(emailRegex) ? emailOrPhone : undefined,
-        phoneNumber: emailOrPhone.match(phoneRegex) ? emailOrPhone : undefined,
-        password
-      }); // Делаем запрос на логин
-    } catch (err) {
-      console.error('Login failed', err);
+      const res = await login({
+        email: isEmail ? emailOrPhone : undefined,
+        phoneNumber: isPhone ? emailOrPhone : undefined,
+        password,
+      }).unwrap();
+      // @ts-ignore
+      dispatch(loginSuccess(res.login));
+      navigate('/');
+    } catch (err: any) {
+      dispatch(loginFailure(err));
     }
   };
 
@@ -65,21 +90,29 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
       <Stack>
         <Box>
-          {error && (
+          {validationError && (
             <Typography color="error" variant="body2" mt={2}>
-              {/* @ts-ignore */}
-              {error?.data?.message || 'An error occurred during login.'}
+              {validationError}
             </Typography>
           )}
         </Box>
         <Box>
-          <CustomFormLabel htmlFor="username">Username</CustomFormLabel>
+          {errorMessage && (
+            <Typography color="error" variant="body2" mt={2}>
+              {errorMessage}
+            </Typography>
+          )}
+        </Box>
+        <Box>
+          <CustomFormLabel htmlFor="emailOrPhone">Email or Phone Number</CustomFormLabel>
           <CustomTextField
-            id="username"
+            id="emailOrPhone"
             variant="outlined"
             fullWidth
             value={emailOrPhone}
-            onChange={(e: any) => setEmailOrPhone(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setEmailOrPhone(e.target.value)
+            }
           />
         </Box>
         <Box>
@@ -90,7 +123,9 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             variant="outlined"
             fullWidth
             value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
           />
         </Box>
         <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>

@@ -6,9 +6,10 @@ export interface UserResponse {
     user?: User
 }
 
-export interface  LoginResponse {
+export interface LoginResponse {
     success: boolean
     message: string
     accessToken: string
     refreshToken: string
+    user: User
 }

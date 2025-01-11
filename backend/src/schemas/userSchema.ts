@@ -65,6 +65,12 @@ const userSchema = gql`
         message: String!
         accessToken: String
         refreshToken: String
+        user: User
+    }
+
+    type LogoutResponse {
+        success: Boolean!
+        message: String!
     }
 
     # Define the root Query type
@@ -78,12 +84,11 @@ const userSchema = gql`
 
     # Define the root Mutation type
     type Mutation {
-        createUser(input: CreateUserInput!): User! # Create a user
-        updateUser(id: ID!, input: UpdateUserInput!): User! # Update a user
-        deleteUser(id: ID!): Boolean! # Delete a user
-        registerUser(input: RegisterInput!): RegisterResponse! # Register a new user
+        update(id: ID!, input: UpdateUserInput!): User! # Update a user
+        delete(id: ID!): Boolean! # Delete a user
+        register(input: RegisterInput!): RegisterResponse! # Register a new user
         login(email: String, phoneNumber: String, password: String!): LoginResponse!
-        logout: Boolean!
+        logout: LogoutResponse!
         refreshToken(refreshToken: String!): LoginResponse!
     }
 `;
