@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
 
@@ -8,6 +8,8 @@ import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner
 import IntroCard from 'src/components/apps/userprofile/profile/IntroCard';
 import { useGetUserQuery } from 'src/services/api/auth.api';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
+import { useSelector } from 'src/store/Store';
+import { selectAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
 
 const BCrumb = [
   {
@@ -21,13 +23,19 @@ const BCrumb = [
 
 
 const UserProfile = ({ userId }: any) => {
-  const { data } = useGetUserQuery({ userId });
+  const { data, refetch } = useGetUserQuery({ userId });
+  const accountSetting = useSelector(selectAccountSetting);
 
   const user = data?.user
 
+  useEffect(() => {
+    refetch().then()
+  }, [accountSetting])
+
+
   return (
     (<PageContainer title="User Profile" description="this is User Profile page">
-      <Breadcrumb title="Account Setting" items={BCrumb} />
+      <Breadcrumb title="User Profile" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid
           size={{

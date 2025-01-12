@@ -135,7 +135,7 @@ const authApi = createApi({
       }),
     }),
 
-    updateUser: builder.mutation<UserResponse, { updateId: string; input: UpdateUserInput }>({
+    updateUser: builder.mutation<{ update: UserResponse }, { updateId: string; input: UpdateUserInput }>({
       query: ({ updateId, input }) => ({
         document: gql`
           mutation Mutation($updateId: ID!, $input: UpdateUserInput!) {

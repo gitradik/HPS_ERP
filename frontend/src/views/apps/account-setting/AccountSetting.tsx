@@ -21,6 +21,10 @@ const BCrumb = [
     title: 'Home',
   },
   {
+    to: '/user-profile',
+    title: 'My Profile',
+  },
+  {
     title: 'Account Setting',
   },
 ];

@@ -1,51 +1,45 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import React from 'react';
-import { IconButton, Stack, Typography } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 
 import ChildCard from 'src/components/shared/ChildCard';
-import { IconBriefcase, IconDeviceDesktop, IconMail, IconMapPin } from '@tabler/icons-react';
+import { IconMail, IconMapPin } from '@tabler/icons-react';
 import { User } from 'src/types/auth/auth';
-import { Edit } from '@mui/icons-material';
 import { useNavigate } from 'react-router';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 const IntroCard = ({ user }: { user: User }) => {
   const navigate = useNavigate();
 
   return (
     <ChildCard>
-        {/* Кнопка редактировать */}
-        <IconButton
-          sx={{
-            position: 'absolute',
-            top: 10,
-            right: 10,
-          }}
+       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Typography fontWeight={600} variant="h4">
+          Introduction
+        </Typography>
+        <Button
           size="small"
+          variant="outlined"
           color="primary"
           onClick={() => navigate("/account-setting")}
         >
-          <Edit />
-        </IconButton>
-        
-      <Typography fontWeight={600} variant="h4" mb={2}>
-        Introduction
-      </Typography>
+          Edit
+        </Button>
+      </Box>
       <Typography color="textSecondary" variant="subtitle2" mb={2}>
-        Hello, I am {user.firstName} {user.lastName}. I am the {user.position || 'Member'}.
+        Hello, I am {user.firstName} {user.lastName}. I am the {user.position || '...'}.
       </Typography>
-      <Stack direction="row" gap={2} alignItems="center" mb={3}>
-        <IconBriefcase size="21" />
-        <Typography variant="h6">{user.role || 'User Role Not Available'}</Typography>
-      </Stack>
       <Stack direction="row" gap={2} alignItems="center" mb={3}>
         <IconMail size="21" />
-        <Typography variant="h6">{user.email || 'Email Not Provided'}</Typography>
+        <Typography variant="h6">{user.email || 'Email is not provided'}</Typography>
+      </Stack>
+      <Stack direction="row" gap={2} alignItems="center" mb={3}>
+        {/* @ts-ignore */}
+        <WhatsAppIcon size="21" />
+        <Typography variant="h6">{user.phoneNumber || 'Phone Number is not provided'}</Typography>
       </Stack>
       <Stack direction="row" gap={2} alignItems="center" mb={1}>
         <IconMapPin size="21" />
         <Typography variant="h6">
-          {user.contactDetails || 'Address Not Provided'}
+          {user.contactDetails || 'Address is not provided'}
         </Typography>
       </Stack>
     </ChildCard>

@@ -15,11 +15,12 @@ import { User, UserRole } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
 import { selectAccountSetting, setContactDetails, setEmail, setFirstName, setIsActive, setLastName, setPhoneNumber, setPosition, setRole, updateAccountSettings } from 'src/store/apps/accountSetting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { isEmptyObject } from 'src/utils/fn';
 import { useUpdateUserMutation } from 'src/services/api/auth.api';
 import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { actives, roles, userAccessRules } from './AccountTabData';
+import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
+import { isEmpty } from 'lodash';
 
 
 
@@ -33,24 +34,30 @@ const AccountTab = ({ user }: { user: User }) => {
   useEffect(() => {
     dispatch(updateAccountSettings(user));
   }, [user]);
-  
 
   const onSave = async () => {
     try {
       const result = await updateUser({ updateId: user.id, input: data }).unwrap();
-      console.log('User updated successfully:', result);
+      dispatch(updateUserSuccess(result.update));
   
-      // Дополнительно можно добавить уведомление
-      dispatch(addNotification({ message: 'User updated successfully!', type: 'success', autoHideDuration: 3000 }));
-    } catch (error) {
-      console.error('Failed to update user:', error);
-  
-      // Обработка ошибки
-      dispatch(addNotification({ message: 'Failed to update user. Please try again.', type: 'error', autoHideDuration: 3000 }));
+      dispatch(addNotification({
+        message: 'User updated successfully!',
+        type: 'success',
+        autoHideDuration: 3000
+      }));
+    } catch (err: any) {
+      dispatch(addNotification({
+        message: 'Failed to update user. Please try again.',
+        type: 'error',
+        autoHideDuration: 3000
+      }));
     }
   };
+  const onCancel = async () => {
+    dispatch(updateAccountSettings(user));
+  };
 
-  if (!user || isEmptyObject(data) || isLoading) {
+  if (!user || isEmpty(data) || isLoading) {
     return <Spinner />;
   }
 
@@ -352,7 +359,7 @@ const AccountTab = ({ user }: { user: User }) => {
           <Button onClick={() => onSave()} size="large" variant="contained" color="primary">
             Save
           </Button>
-          <Button size="large" variant="text" color="error">
+          <Button onClick={() => onCancel()} size="large" variant="text" color="error">
             Cancel
           </Button>
         </Stack>
@@ -362,3 +369,4 @@ const AccountTab = ({ user }: { user: User }) => {
 };
 
 export default AccountTab;
+

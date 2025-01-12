@@ -82,5 +82,8 @@ export const selectIsAuthenticated = (state: { auth: AuthState }) => !!state.aut
 export const selectUserId = (state: { auth: AuthState }) => state.auth.user?.id;
 export const selectIsLoading = (state: { auth: AuthState }) => state.auth.loading;
 
-export const { loginRequest, loginSuccess, loginFailure, logoutSuccess, refreshTokenRequest, refreshTokenFailure, refreshTokenSuccess } = authSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logoutSuccess, refreshTokenRequest, refreshTokenFailure, refreshTokenSuccess,
+  updateUserSuccess,
+  updateUserFailure,
+ } = authSlice.actions;
 export default authSlice.reducer;
