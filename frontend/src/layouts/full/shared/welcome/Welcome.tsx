@@ -1,23 +1,21 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import * as React from 'react';
 import { Snackbar, Alert, AlertTitle } from '@mui/material';
 
-const Welcome = () => {
-  const [open, setOpen] = React.useState(false);
+const Welcome: React.FC = () => {
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClick = () => {
     setOpen(true);
   };
 
-  const handleClose = (reason) => {
+  const handleClose = (_: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
     setOpen(false);
   };
+
   React.useEffect(() => {
-    // Update the document title using the browser API
     const timer = setTimeout(() => {
       handleClick();
     }, 1500);
@@ -40,7 +38,7 @@ const Welcome = () => {
           sx={{ width: '100%', color: 'white' }}
         >
           <AlertTitle>Welcome To Modernize</AlertTitle>
-          Easy to customize the Template!!!
+          Easy to customize the Template!
         </Alert>
       </Snackbar>
     </React.Fragment>

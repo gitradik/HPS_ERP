@@ -6,17 +6,34 @@ import PageContainer from 'src/components/container/PageContainer';
 
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
 import IntroCard from 'src/components/apps/userprofile/profile/IntroCard';
-import Post from 'src/components/apps/userprofile/profile/Post';
+import { useGetUserQuery } from 'src/services/api/auth.api';
+import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 
-const UserProfile = () => {
+const BCrumb = [
+  {
+    to: '/',
+    title: 'Home',
+  },
+  {
+    title: 'My Profile',
+  },
+];
+
+
+const UserProfile = ({ userId }: any) => {
+  const { data } = useGetUserQuery({ userId });
+
+  const user = data?.user
+
   return (
     (<PageContainer title="User Profile" description="this is User Profile page">
+      <Breadcrumb title="Account Setting" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid
           size={{
             sm: 12
           }}>
-          <ProfileBanner />
+          {user && <ProfileBanner user={user}  />}
         </Grid>
 
         {/* intro and Photos Card */}
@@ -31,7 +48,7 @@ const UserProfile = () => {
               size={{
                 sm: 12
               }}>
-              <IntroCard />
+              {user && <IntroCard user={user}  />}
             </Grid>
           </Grid>
         </Grid>

@@ -1,6 +1,6 @@
 import { IconButton, Box, AppBar, useMediaQuery, Toolbar, styled, Stack } from '@mui/material';
 
-import { useSelector, useDispatch } from 'src/store/Store';
+import { useSelector, useDispatch, RootState } from 'src/store/Store';
 import {
   toggleSidebar,
   toggleMobileSidebar,
@@ -11,17 +11,17 @@ import {
 import { IconMenu2, IconMoon, IconSun } from '@tabler/icons-react';
 import Profile from './Profile';
 import Language from './Language';
-import { AppState } from 'src/store/Store';
 import MobileRightSidebar from './MobileRightSidebar';
 import Search from './Search';
 import Navigation from './Navigation';
+import Notifications from './Notification';
 
 const Header = () => {
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
   const lgDown = useMediaQuery((theme: any) => theme.breakpoints.down('lg'));
 
   // drawer
-  const customizer = useSelector((state: AppState) => state.customizer);
+  const customizer = useSelector((state: RootState) => state.customizer);
   const dispatch = useDispatch();
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
@@ -75,6 +75,7 @@ const Header = () => {
           </IconButton>
 
           {/* <Notifications /> */}
+          <Notifications />
           {/* ------------------------------------------- */}
           {/* Toggle Right Sidebar for mobile */}
           {/* ------------------------------------------- */}

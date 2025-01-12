@@ -1,6 +1,7 @@
 // src/store/auth/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ACCESS_TOKEN, LoginResponse, REFRESH_TOKEN, RefreshTokenResponse } from 'src/services/api/auth.api';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/services/api/auth.api';
+import { LoginResponse, RefreshTokenResponse } from 'src/types/auth/auth';
 
 interface AuthState {
   accessToken: string | null;
@@ -45,6 +46,10 @@ const authSlice = createSlice({
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
     },
+    refreshTokenRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
     refreshTokenSuccess: (state, action: PayloadAction<RefreshTokenResponse>) => {
       state.loading = false;
       state.user = action.payload.user;
@@ -53,10 +58,29 @@ const authSlice = createSlice({
       localStorage.setItem(ACCESS_TOKEN, state.accessToken);
       localStorage.setItem(REFRESH_TOKEN, state.refreshToken);
     },
+    refreshTokenFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.user = null;
+      state.accessToken = null;
+      state.refreshToken = null;
+      localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(REFRESH_TOKEN);
+    },
+    updateUserSuccess: (state, action: PayloadAction<any>) => {
+      state.loading = false;
+      state.user = { ...state.user, ...action.payload };
+    },
+    updateUserFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 export const selectIsAuthenticated = (state: { auth: AuthState }) => !!state.auth.user;
+export const selectUserId = (state: { auth: AuthState }) => state.auth.user?.id;
+export const selectIsLoading = (state: { auth: AuthState }) => state.auth.loading;
 
-export const { loginRequest, loginSuccess, loginFailure, logoutSuccess, refreshTokenSuccess } = authSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logoutSuccess, refreshTokenRequest, refreshTokenFailure, refreshTokenSuccess } = authSlice.actions;
 export default authSlice.reducer;

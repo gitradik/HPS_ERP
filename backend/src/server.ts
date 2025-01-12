@@ -9,9 +9,20 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const server = new ApolloServer({ typeDefs: combinedSchema, resolvers });
+const server = new ApolloServer({
+    typeDefs: combinedSchema,
+    resolvers,
+    context: ({ req }: any) => {
+      // Attach the request object to the context
+      return {
+        req,  // Pass the express `req` object to the context for access in resolvers and middlewares
+        user: req.user, // You can also add other things to context, like `user` if it's authenticated
+      };
+    },
+  });
 
 const PORT = process.env.PORT || 4000;
+
 
 async function startServer() {
     try {

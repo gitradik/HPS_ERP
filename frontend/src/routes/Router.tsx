@@ -6,14 +6,19 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './protectedRouteGuard';
 import PublicRouteGuard from './publicRouteGuard';
 
-const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
+
+/* ***Apps**** */
+const UserProfileUserId = Loadable(lazy(() => import('../views/apps/user-profile/UserProfileUserId')));
+const AccountSetting = Loadable(
+  lazy(() => import('../views/apps/account-setting/AccountSetting')),
+);
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const SamplePage = Loadable(lazy(() => import('../views/sample-page/SamplePage')))
+const ModernDash = Loadable(lazy(() => import('../views/dashboard/Modern')));
 
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
@@ -34,8 +39,10 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', exact: true, element: <ProtectedRoute><SamplePage /></ProtectedRoute> },
-      { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfile /></ProtectedRoute> },
+      { path: '/', element: <Navigate to="/dashboards/modern" /> },
+      { path: '/dashboards/modern', exact: true, element: <ProtectedRoute><ModernDash /></ProtectedRoute> },
+      { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileUserId /></ProtectedRoute> },
+      { path: '/account-setting', exact: true, element: <ProtectedRoute><AccountSetting /></ProtectedRoute> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

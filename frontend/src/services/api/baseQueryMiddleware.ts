@@ -23,9 +23,7 @@ const baseQueryWithMiddleware: BaseQueryFn<any, unknown, FetchBaseQueryError> = 
   url: 'http://localhost:4000/graphql',
   prepareHeaders: (headers) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
-    }
+    if (token) headers.set('Authorization', token)
     return headers;
   },
 });

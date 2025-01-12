@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import User, { UserRole } from "../models/User";
 
 export const userSeed = async () => {
@@ -6,7 +7,7 @@ export const userSeed = async () => {
             firstName: "Hermann",
             lastName: "Baun",
             email: "info@info.com",
-            password: "admin", // Рекомендуется хешировать пароль перед сохранением
+            password: await bcrypt.hash("admin", 10), // Рекомендуется хешировать пароль перед сохранением
             role: UserRole.SUPER_ADMIN,
             isActive: true,
             position: "Geschäftsführung",

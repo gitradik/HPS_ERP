@@ -37,6 +37,7 @@
     "i18next": "^23.5.1",
     "lodash": "^4.17.21",
     "react": "19.0.0-rc-02c0e824-20241028",
+    "react-apexcharts": "^1.7.0",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-helmet": "^6.1.0",
     "react-i18next": "^13.2.2",
@@ -48,6 +49,7 @@
     "simplebar": "^6.2.7",
     "simplebar-react": "^3.2.4",
     "stylis-plugin-rtl": "^2.1.1",
+    "uuid": "^11.0.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {

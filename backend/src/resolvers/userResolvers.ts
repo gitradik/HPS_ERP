@@ -8,6 +8,7 @@ import User from "../models/User";
 import { UserResponse } from "../utils/types";
 import { LoginResponse } from "../utils/types/auth";
 import RefreshToken from "../models/RefreshToken";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 dotenv.config();
 
@@ -38,125 +39,146 @@ const createTokens = (userId: number, role: UserRole) => {
 
 const resolvers = {
     Query: {
-        users: async (): Promise<User[]> => await User.findAll(),
-
-        user: async (
-            _: unknown,
-            { id }: { id: number }
-        ): Promise<User | null> => await User.findByPk(id),
-
-        usersByRole: async (
-            _: unknown,
-            { role }: { role: UserRole }
-        ): Promise<User[]> => await User.findAll({ where: { role } }),
-
-        activeUsers: async (): Promise<User[]> =>
-            await User.findAll({ where: { isActive: true } }),
-
-        usersByName: async (
-            _: unknown,
-            { name }: { name: string }
-        ): Promise<User[]> =>
-            await User.findAll({
-                where: {
-                    [Op.or]: [
-                        { firstName: { [Op.like]: `%${name}%` } },
-                        { lastName: { [Op.like]: `%${name}%` } },
-                    ],
+        users: async (parent: any, args: any, context: any, info: any) => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) => {
+                    return User.findAll();
                 },
-            }),
+                parent, args, context, info
+            );
+        },
+
+        user: async (parent: any, { id }: { id: number }, context: any, info: any) => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) => {
+                    return User.findByPk(id);
+                },
+                parent, { id }, context, info
+            );
+        },
+
+        usersByRole: async (parent: any, { role }: { role: UserRole }, context: any, info: any) => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) => {
+                    return User.findAll({ where: { role } });
+                },
+                parent, { role }, context, info
+            );
+        },
+
+        activeUsers: async (parent: any, args: any, context: any, info: any) => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) => {
+                    return User.findAll({ where: { isActive: true } });
+                },
+                parent, args, context, info
+            );
+        },
+
+        usersByName: async (parent: any, { name }: { name: string }, context: any, info: any) => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) => {
+                    return User.findAll({
+                        where: {
+                            [Op.or]: [
+                                { firstName: { [Op.like]: `%${name}%` } },
+                                { lastName: { [Op.like]: `%${name}%` } },
+                            ],
+                        },
+                    });
+                },
+                parent, { name }, context, info
+            );
+        },
     },
 
     Mutation: {
-        update: async (
-            _: unknown,
-            { id, input }: { id: number; input: UpdateUserInput }
-        ): Promise<User | null> => {
-            await User.update(input, { where: { id } });
-            return await User.findByPk(id);
+        update: async (parent: any, { id, input }: { id: number; input: UpdateUserInput }, context: any, info: any) => {
+            return await authMiddleware(
+                async (_parent: any, _args: any, _context: any, _info: any) => {
+                    await User.update(input, { where: { id } });
+                    return await User.findByPk(id);
+                },
+                parent, { id, input }, context, info
+            );
         },
-        delete: async (
-            _: unknown,
-            { id }: { id: number }
-        ): Promise<boolean> => {
-            await User.destroy({ where: { id } });
-            return true;
+
+        delete: async (parent: any, { id }: { id: number }, context: any, info: any) => {
+            return await authMiddleware(
+                async (_parent: any, _args: any, _context: any, _info: any) => {
+                    await User.destroy({ where: { id } });
+                    return true;
+                },
+                parent, { id }, context, info
+            );
         },
-        
-        login: async (
-            _: unknown,
-            input: { email?: string; phoneNumber?: string; password: string }
-        ): Promise<LoginResponse> => {
+
+        login: async (_: unknown, input: { email?: string; phoneNumber?: string; password: string }): Promise<LoginResponse> => {
             const { email, phoneNumber, password } = input;
             try {
                 if (!email && !phoneNumber) {
                     throw new ApolloError("Either email or phone number must be provided.");
                 }
-        
+
                 let user = null;
-        
+
                 if (phoneNumber) {
                     user = await User.findOne({ where: { phoneNumber } });
                 }
                 if (email) {
                     user = await User.findOne({ where: { email } });
                 }
-        
+
                 if (!user) {
                     throw new ApolloError("User not found.");
                 }
-        
+
                 const isPasswordValid = await bcrypt.compare(password, user.password);
                 if (!isPasswordValid) {
                     throw new ApolloError("Invalid credentials.");
                 }
-        
-                // Создаем access и refresh токены
+
                 const { accessToken, refreshToken } = createTokens(user.id, user.role);
-        
-                // Сохраняем рефреш-токен в базе данных
+
                 await RefreshToken.create({
                     userId: user.id,
                     token: refreshToken,
                 });
-        
+
                 return {
                     success: true,
                     message: "Login successful.",
                     accessToken,
                     refreshToken,
-                    user
+                    user,
                 };
             } catch (error: any) {
                 throw new ApolloError(error.message || "An unexpected error occurred during login.");
             }
         },
 
-        register: async (
-            _: unknown,
-            { input }: { input: CreateUserInput }
-        ): Promise<UserResponse> => {
+        register: async (_: unknown, { input }: { input: CreateUserInput }): Promise<UserResponse> => {
             const { email, phoneNumber, password, firstName, lastName, role } = input;
-        
+
             try {
                 if (!email && !phoneNumber) {
                     throw new ApolloError("Either email or phone number must be provided.");
                 }
-        
+
                 let existingUser = null;
-        
+
                 if (phoneNumber) {
                     existingUser = await User.findOne({ where: { phoneNumber } });
                 }
-        
+
                 if (email) {
                     existingUser = await User.findOne({ where: { email } });
                 }
-        
+
                 if (existingUser) {
                     throw new ApolloError("User with this email or phone number already exists.");
                 }
-        
+
                 const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
                 const newUser = await User.create({
                     firstName,
@@ -167,11 +189,11 @@ const resolvers = {
                     role: role || UserRole.USER,
                     isActive: true,
                 });
-        
+
                 if (!newUser) {
                     throw new ApolloError("Failed to create user.");
                 }
-        
+
                 return {
                     success: true,
                     message: "User registered successfully.",
@@ -182,72 +204,56 @@ const resolvers = {
             }
         },
 
-        refreshToken: async (_: unknown, { refreshToken }: { refreshToken: string }): Promise<LoginResponse> => {
-            try {
-                // Декодируем refresh token и явно указываем тип JwtPayload
-                const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET) as JwtPayload & { id: number };
+        refreshToken: async (parent: any, { refreshToken }: { refreshToken: string }, context: any, info: any) => {
+            return await authMiddleware(
+                async (_parent: any, _args: any, _context: any, _info: any) => {
+                    try {
+                        const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET) as JwtPayload & { id: number };
+                        if (!decoded.id) {
+                            throw new ApolloError("Invalid refresh token.");
+                        }
 
-                // Проверка наличия id в декодированном объекте
-                if (!decoded.id) {
-                    throw new ApolloError("Invalid refresh token.");
-                }
+                        const storedToken = await RefreshToken.findOne({ where: { userId: decoded.id, token: refreshToken } });
+                        if (!storedToken) {
+                            throw new ApolloError("Invalid or expired refresh token.");
+                        }
 
-                // Проверяем, существует ли рефреш-токен в базе данных
-                const storedToken = await RefreshToken.findOne({ where: { userId: decoded.id, token: refreshToken } });
-                if (!storedToken) {
-                    throw new ApolloError("Invalid or expired refresh token.");
-                }
+                        const user = await User.findByPk(decoded.id);
+                        if (!user) {
+                            throw new ApolloError("User not found.");
+                        }
 
-                // Получаем пользователя по id из декодированного токена
-                const user = await User.findByPk(decoded.id);
-                if (!user) {
-                    throw new ApolloError("User not found.");
-                }
+                        const { accessToken, refreshToken: newRefreshToken } = createTokens(user.id, user.role);
 
-                // Функция для создания новых токенов
-                const createTokens = (userId: number, role: string) => {
-                    const accessToken = jwt.sign(
-                        { id: userId, role },
-                        SECRET_KEY,
-                        { expiresIn: "15m" }
-                    );
-                    const newRefreshToken = jwt.sign(
-                        { id: userId, role },
-                        REFRESH_TOKEN_SECRET,
-                        { expiresIn: "7d" }
-                    );
-                    return { accessToken, newRefreshToken };
-                };
+                        await storedToken.update({ token: newRefreshToken });
 
-                // Создаем новые токены
-                const { accessToken, newRefreshToken } = createTokens(user.id, user.role);
-
-                // Обновляем рефреш-токен в базе данных
-                await storedToken.update({ token: newRefreshToken });
-
-                return {
-                    success: true,
-                    message: "Tokens refreshed successfully.",
-                    accessToken,
-                    refreshToken: newRefreshToken,
-                    user
-                };
-            } catch (error: any) {
-                console.error("Error during token refresh:", error);
-                throw new ApolloError(error.message || "An unexpected error occurred while refreshing tokens.");
-            }
-        },
-        
-        logout: async (): Promise<UserResponse> => {
-            // На серверной стороне это мутация может быть пустой.
-            // Клиент должен просто удалить токен.
-            return {
-                success: true,
-                message: "User logged out successfully.",
-            };
+                        return {
+                            success: true,
+                            message: "Tokens refreshed successfully.",
+                            accessToken,
+                            refreshToken: newRefreshToken,
+                            user,
+                        };
+                    } catch (error: any) {
+                        console.error("Error during token refresh:", error);
+                        throw new ApolloError(error.message || "An unexpected error occurred while refreshing tokens.");
+                    }
+                },
+                parent, { refreshToken }, context, info
+            );
         },
 
-        
+        logout: async (parent: any, args: any, context: any, info: any) => {
+            return await authMiddleware(
+                async (_parent: any, _args: any, _context: any, _info: any) => {
+                    return {
+                        success: true,
+                        message: "User logged out successfully.",
+                    };
+                },
+                parent, args, context, info
+            );
+        },
     },
 };
 

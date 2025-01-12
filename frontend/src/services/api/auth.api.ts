@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { gql } from 'graphql-request';
 import { enhancedBaseQuery } from './baseQueryMiddleware';
+import { LoginResponse, UpdateUserInput, UserResponse, RegisterInput, RegisterResponse, RefreshTokenResponse, RefreshTokenInput, LogoutResponse, LoginInput } from 'src/types/auth/auth';
 
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
@@ -109,6 +110,57 @@ const authApi = createApi({
         `,
       }),
     }),
+
+    // ***USER CRUD*** <
+    getUser: builder.query<{ user: UserResponse }, { userId: string }>({
+      query: ({ userId }) => ({
+        document: gql`
+          query Query($userId: ID!) {
+            user(id: $userId) {
+              id
+              role
+              email
+              phoneNumber
+              firstName
+              lastName
+              position
+              contactDetails
+              isActive
+              updatedAt
+              createdAt
+            }
+          }
+        `,
+        variables: { userId },
+      }),
+    }),
+
+    updateUser: builder.mutation<UserResponse, { updateId: string; input: UpdateUserInput }>({
+      query: ({ updateId, input }) => ({
+        document: gql`
+          mutation Mutation($updateId: ID!, $input: UpdateUserInput!) {
+            update(id: $updateId, input: $input) {
+              id
+              role
+              email
+              phoneNumber
+              firstName
+              lastName
+              position
+              contactDetails
+              isActive
+              updatedAt
+              createdAt
+            }
+          }
+        `,
+        variables: {
+          updateId,
+          input,
+        },
+      }),
+    }),
+    // ***USER CRUD*** >
   }),
 });
 
@@ -117,49 +169,8 @@ export const {
   useRegisterMutation,
   useRefreshTokenMutation,
   useLogoutMutation,
+  useGetUserQuery,
+  useUpdateUserMutation
 } = authApi;
 
 export default authApi;
-
-// Типы для запросов и ответов
-interface LoginInput {
-  email?: string; // Универсальное поле для email или телефона
-  phoneNumber?: string; // Универсальное поле для email или телефона
-  password: string;
-}
-
-export interface LoginResponse {
-  success: boolean;
-  message: string;
-  accessToken: string;
-  refreshToken: string;
-  user?: any
-}
-
-interface RegisterInput {
-  email: string;
-  password: string;
-  name: string;
-}
-
-interface RegisterResponse {
-  id: string;
-  email: string;
-  name: string;
-}
-
-interface RefreshTokenInput {
-  refreshToken: string;
-}
-
-export interface RefreshTokenResponse {
-  success: boolean;
-  message: string;
-  accessToken: string;
-  refreshToken: string;
-  user?: any
-}
-
-interface LogoutResponse {
-  success: boolean;
-}
