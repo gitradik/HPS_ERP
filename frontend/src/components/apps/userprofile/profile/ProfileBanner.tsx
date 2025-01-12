@@ -9,7 +9,7 @@ import {
   CardMedia,
   styled,
 } from '@mui/material';
-import profilecover from 'src/assets/images/backgrounds/profilebg.jpg';
+import profilecover from 'src/assets/images/backgrounds/abstract-paper-background-concept.jpg';
 import userimg from 'src/assets/images/profile/user-1.jpg';
 import ProfileTab from './ProfileTab';
 import BlankCard from '../../../shared/BlankCard';
@@ -29,7 +29,7 @@ const ProfileBanner = ({ user }: { user: User }) => {
 
   return (<>
     <BlankCard>
-      <CardMedia component="img" image={profilecover} alt={profilecover} width="100%" />
+      <CardMedia component="img" image={profilecover} alt={profilecover} width="100%" sx={{ maxHeight: '320px' }} />
       <Grid container spacing={0} justifyContent="center" alignItems="center">
         {/* about profile */}
         <Grid

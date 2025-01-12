@@ -12,7 +12,7 @@ import {
   Theme,
 } from '@mui/material';
 
-import { useSelector, useDispatch } from 'src/store/Store';
+import { useSelector, useDispatch, RootState } from 'src/store/Store';
 import { toggleMobileSidebar, setDarkMode } from 'src/store/customizer/CustomizerSlice';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -23,13 +23,12 @@ import Profile from 'src/layouts/full/vertical/header/Profile';
 import Search from 'src/layouts/full/vertical/header/Search';
 import Language from 'src/layouts/full/vertical/header/Language';
 import Logo from 'src/layouts/full/shared/logo/Logo';
-import { AppState } from 'src/store/Store';
 
 const Header = () => {
   const lgDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
 
   // drawer
-  const customizer = useSelector((state: AppState) => state.customizer);
+  const customizer = useSelector((state: RootState) => state.customizer);
   const dispatch = useDispatch();
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
