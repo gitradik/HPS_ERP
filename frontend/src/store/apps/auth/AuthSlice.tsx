@@ -1,14 +1,14 @@
 // src/store/auth/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/services/api/auth.api';
-import { LoginResponse, RefreshTokenResponse } from 'src/types/auth/auth';
+import { LoginResponse, RefreshTokenResponse, User } from 'src/types/auth/auth';
 
 interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   loading: boolean;
   error: string | null;
-  user: any;
+  user: User | null;
 }
 
 const initialState: AuthState = {
@@ -78,7 +78,7 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuthenticated = (state: { auth: AuthState }) => !!state.auth.user;
+export const selectIsAuthenticated = (state: { auth: AuthState }) => !!(state.auth.user && state.auth.accessToken);
 export const selectUserId = (state: { auth: AuthState }) => state.auth.user?.id;
 export const selectIsLoading = (state: { auth: AuthState }) => state.auth.loading;
 

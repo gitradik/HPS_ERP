@@ -7,12 +7,14 @@ import accountSettingReducer from './apps/accountSetting/AccountSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
 import userProfileReducer from './apps/userProfile/UserProfileSlice';
 import notificationsReducer from './apps/notifications/NotificationsSlice';
+import registerReducer from './apps/auth/RegisterSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
     accountSetting: accountSettingReducer,
+    register: registerReducer,
     notifications: notificationsReducer,
     customizer: customizerReducer,
     userProfile: userProfileReducer,

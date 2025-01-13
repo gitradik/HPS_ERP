@@ -1,5 +1,3 @@
 import { UserResponse } from "./auth";
 
-export {
-    UserResponse
-}
+export { UserResponse };

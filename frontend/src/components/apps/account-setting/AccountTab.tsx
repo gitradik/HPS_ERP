@@ -45,9 +45,9 @@ const AccountTab = ({ user }: { user: User }) => {
         type: 'success',
         autoHideDuration: 3000
       }));
-    } catch (err: any) {
+    } catch ({ data }: any) {
       dispatch(addNotification({
-        message: 'Failed to update user. Please try again.',
+        message: data.friendlyMessage,
         type: 'error',
         autoHideDuration: 3000
       }));

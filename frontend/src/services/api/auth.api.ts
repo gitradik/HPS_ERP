@@ -44,11 +44,11 @@ const authApi = createApi({
         };
       },
     }),
-    register: builder.mutation<RegisterResponse, RegisterInput>({
+    register: builder.mutation<{ register: RegisterResponse }, RegisterInput>({
       query: (newUser) => ({
         document: gql`
-          mutation Register($email: String!, $password: String!, $firstName: String!, $lastName: String!) {
-            register(email: $email, password: $password, firstName: $firstName, lastName: $lastName) {
+          mutation Register($input: RegisterInput!) {
+            register(input: $input) {
               success
               message
               user {
@@ -67,7 +67,9 @@ const authApi = createApi({
             }
           }
         `,
-        variables: newUser,
+        variables: {
+          input: newUser
+        },
       }),
     }),
     refreshToken: builder.mutation<RefreshTokenResponse, RefreshTokenInput>({
@@ -134,7 +136,6 @@ const authApi = createApi({
         variables: { userId },
       }),
     }),
-
     updateUser: builder.mutation<{ update: UserResponse }, { updateId: string; input: UpdateUserInput }>({
       query: ({ updateId, input }) => ({
         document: gql`

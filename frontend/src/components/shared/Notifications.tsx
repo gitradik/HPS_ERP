@@ -20,6 +20,7 @@ const Notifications: React.FC = () => {
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           autoHideDuration={notification.autoHideDuration || 6000}
           onClose={() => handleClose(notification.id!)}
+          style={{ whiteSpace: 'pre-line' }}
         >
           <Alert
             severity={notification.type}

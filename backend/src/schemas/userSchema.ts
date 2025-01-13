@@ -87,7 +87,11 @@ const userSchema = gql`
         update(id: ID!, input: UpdateUserInput!): User! # Update a user
         delete(id: ID!): Boolean! # Delete a user
         register(input: RegisterInput!): RegisterResponse! # Register a new user
-        login(email: String, phoneNumber: String, password: String!): LoginResponse!
+        login(
+            email: String
+            phoneNumber: String
+            password: String!
+        ): LoginResponse!
         logout: LogoutResponse!
         refreshToken(refreshToken: String!): LoginResponse!
     }

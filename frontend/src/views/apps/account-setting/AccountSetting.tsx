@@ -61,7 +61,7 @@ function a11yProps(index: number) {
 const AccountSetting = () => {
   const [value, setValue] = React.useState(0);
   const userId = useSelector(selectUserId);
-  const { data } = useGetUserQuery({ userId });
+  const { data } = useGetUserQuery({ userId: userId! }, { skip: !userId });
   
   const user = data?.user
 

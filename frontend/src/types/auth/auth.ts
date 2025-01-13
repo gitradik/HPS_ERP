@@ -55,15 +55,17 @@ export interface LoginResponse {
 }
 
 export interface RegisterInput {
-  email: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phoneNumber?: string;
   password: string;
-  name: string;
 }
 
 export interface RegisterResponse {
-  id: string;
-  email: string;
-  name: string;
+  message: string;
+  success: boolean;
+  user: User;
 }
 
 export interface RefreshTokenInput {

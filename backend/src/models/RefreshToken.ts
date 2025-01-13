@@ -32,6 +32,6 @@ RefreshToken.init(
     }
 );
 
-RefreshToken.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+RefreshToken.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 export default RefreshToken;

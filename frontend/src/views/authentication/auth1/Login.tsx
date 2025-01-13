@@ -7,9 +7,11 @@ import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from '../authForms/AuthLogin';
+import Notifications from 'src/components/shared/Notifications';
 
 const Login = () => (
   <PageContainer title="Login" description="this is Login page">
+    <Notifications />
     <Grid container spacing={0} sx={{ overflowX: 'hidden' }}>
       <Grid
         sx={{
@@ -69,17 +71,14 @@ const Login = () => (
         }}>
         <Box p={4}>
           <AuthLogin
-            title="Welcome to Modernize"
+            title="Welcome to HPS-ERP"
             subtext={
               <Typography variant="subtitle1" color="textSecondary" mb={1}>
                 Your Admin Dashboard
               </Typography>
             }
             subtitle={
-              <Stack direction="row" spacing={1} mt={3}>
-                <Typography color="textSecondary" variant="h6" fontWeight="500">
-                  New to Modernize?
-                </Typography>
+              <Stack direction="row" justifyContent={"center"} spacing={1} mt={3}>
                 <Typography
                   component={Link}
                   to="/auth/register"

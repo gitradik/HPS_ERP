@@ -8,12 +8,12 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isLoading = useSelector(selectIsLoading);
 
-  if (isLoading) {
-    return <Spinner />; 
-  }
-
   if (!isAuthenticated) {
     return <Navigate to="/auth/login" replace />;
+  }
+
+  if (isLoading) {
+    return <Spinner />; 
   }
 
   return <>{children}</>;
