@@ -36,17 +36,29 @@ User.init(
         firstName: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "First name cannot be empty.",
+                },
+            },
         },
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "Last name cannot be empty.",
+                },
+            },
         },
         email: {
             type: DataTypes.STRING,
             allowNull: true,
             unique: true,
             validate: {
-                isEmail: true,
+                isEmail: {
+                    msg: "Must be a valid email address.",
+                },
             },
         },
         phoneNumber: {
@@ -54,18 +66,29 @@ User.init(
             allowNull: true,
             unique: true,
             validate: {
-                is: /^\+\d{10,15}$/, // Регулярное выражение для номера телефона
+                is: {
+                    args: /^\+\d{10,15}$/, // Регулярное выражение для номера телефона
+                    msg: "Phone number must be in the format +1234567890.",
+                },
             },
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                notEmpty: {
+                    msg: "Password cannot be empty.",
+                },
+            },
         },
         position: {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [0, 100],
+                len: {
+                    args: [0, 100],
+                    msg: "Position must be between 0 and 100 characters.",
+                },
             },
         },
         contactDetails: {
