@@ -1,6 +1,7 @@
 // server.ts
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
+import cors from "cors"; // Импортируем cors
 import combinedSchema from "./schemas";
 import resolvers from "./resolvers";
 import { sequelize } from "./models";
@@ -9,6 +10,20 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
+
+// Настраиваем CORS
+const allowedOrigins = [
+    "http://herba-solution.com",
+    "https://herba-solution.com",
+];
+app.use(
+    cors({
+        origin: allowedOrigins, // Разрешённые домены
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Разрешённые методы
+        credentials: true, // Разрешить использование cookies
+    })
+);
+
 const server = new ApolloServer({
     typeDefs: combinedSchema,
     resolvers,
