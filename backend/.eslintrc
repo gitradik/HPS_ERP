@@ -1,19 +1,28 @@
 {
     "parser": "@typescript-eslint/parser",
-    "extends": ["plugin:@typescript-eslint/recommended"],
     "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+      "ecmaVersion": 2018,
+      "sourceType": "module"
     },
-    "rules": {
-    "semi": ["error", "always"],
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-explicit-any": 1,
-    "@typescript-eslint/no-inferrable-types": [
-    "warn", {
-    "ignoreParameters": true
-    }
+    "overrides": [
+      {
+        "files": ["*.ts"],
+        "plugins": ["@typescript-eslint"],
+        "extends": ["plugin:@typescript-eslint/recommended"],
+        "rules": {
+          "semi": ["error", "always"],
+          "@typescript-eslint/explicit-function-return-type": "off",
+          "@typescript-eslint/no-explicit-any": "warn",
+          "@typescript-eslint/no-inferrable-types": [
+            "warn",
+            {
+              "ignoreParameters": true
+            }
+          ],
+          "@typescript-eslint/no-unused-vars": "warn"
+        }
+      }
     ],
-    "@typescript-eslint/no-unused-vars": "warn"
-    }
-    }
+    "ignores": ["node_modules", "dist"]
+  }
+  
