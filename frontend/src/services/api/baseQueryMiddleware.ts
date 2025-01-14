@@ -3,7 +3,7 @@ import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { ACCESS_TOKEN } from './auth.api';
 
-const apiHost = process.env.VITE_API_HOST;
+const apiHost = import.meta.env.VITE_API_HOST;
 
 type ExtendedFetchBaseQueryError = FetchBaseQueryError & {
     message?: string;
