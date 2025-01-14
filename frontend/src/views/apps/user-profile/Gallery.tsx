@@ -3,8 +3,8 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
-import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
-import GalleryCard from 'src/components/apps/userprofile/gallery/GalleryCard';
+// import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
+// import GalleryCard from 'src/components/apps/userprofile/gallery/GalleryCard';
 
 
 const Gallery = () => {
@@ -15,13 +15,13 @@ const Gallery = () => {
           size={{
             sm: 12
           }}>
-          <ProfileBanner />
+          {/* <ProfileBanner /> */}
         </Grid>
         <Grid
           size={{
             sm: 12
           }}>
-          <GalleryCard />
+          {/* <GalleryCard /> */}
         </Grid>
       </Grid>
     </PageContainer>)

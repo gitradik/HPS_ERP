@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RegisterResponse } from 'src/types/auth/auth';
 
 // Define the initial state for registration
 interface RegisterState {
@@ -32,7 +31,7 @@ const registerSlice = createSlice({
         state.loading = true;
         state.error = null;
       },
-      registerSuccess: (state, action: PayloadAction<RegisterResponse>) => {
+      registerSuccess: (state) => {
         state.loading = false;
       },
       registerFailure: (state, action: PayloadAction<string>) => {

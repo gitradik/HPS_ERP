@@ -3,7 +3,8 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Card, CardContent, Typography, Box, Stack } from '@mui/material';
-import { RootState, useSelector } from 'src/store/Store';
+import { useSelector } from 'src/store/Store';
+import { RootState } from 'src/store/Store';
 import { IconGridDots } from '@tabler/icons-react';
 
 type Props = {

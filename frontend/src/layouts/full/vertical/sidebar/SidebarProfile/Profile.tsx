@@ -4,7 +4,6 @@ import img1 from 'src/assets/images/profile/user-1.jpg';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
-import { Link } from 'react-router';
 import { useLogoutMutation } from 'src/services/api/auth.api';
 import { logoutSuccess} from 'src/store/apps/auth/AuthSlice';
 import { useDispatch } from 'react-redux';

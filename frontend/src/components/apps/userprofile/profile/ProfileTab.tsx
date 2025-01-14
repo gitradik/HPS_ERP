@@ -2,7 +2,7 @@
 // @ts-ignore
 import React from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
-import { IconHeart, IconPhoto, IconUserCircle } from '@tabler/icons-react';
+import { IconUserCircle } from '@tabler/icons-react';
 import { Link, useLocation } from 'react-router';
 
 const ProfileTab = () => {

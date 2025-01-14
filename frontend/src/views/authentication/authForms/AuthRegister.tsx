@@ -59,7 +59,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
     try {
       dispatch(registerRequest());
   
-      const res = await register({
+      await register({
         firstName,
         lastName,
         email: isEmail ? email : undefined,
@@ -67,7 +67,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         password,
       }).unwrap();
       
-      dispatch(registerSuccess(res.register));
+      dispatch(registerSuccess());
 
       navigate('/');
       

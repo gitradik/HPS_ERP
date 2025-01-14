@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { Link } from 'react-router';
 import { styled, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { AppState } from 'src/store/Store';
+import { RootState } from 'src/store/Store';
 import herbaImage from 'src/assets/images/logos/herba.jpg';
 
 // Styled parent wrapper
@@ -36,7 +36,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 }));
 
 const Logo: FC = () => {
-  const customizer = useSelector((state: AppState) => state.customizer);
+  const customizer = useSelector((state: RootState) => state.customizer);
 
   // Условие для стилей изображения
   const isTextHidden = customizer.isCollapse && !customizer.isSidebarHover;

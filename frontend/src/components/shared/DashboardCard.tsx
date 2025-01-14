@@ -3,12 +3,13 @@
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 import { Card, CardContent, Typography, Stack, Box } from '@mui/material';
-import { RootState, useSelector } from 'src/store/Store';
+import { useSelector } from 'src/store/Store';
+import { RootState } from 'src/store/Store';
 
 type Props = {
   title?: string;
   subtitle?: string;
-  action?: any | any;
+  action?: any;
   footer?: any;
   cardheading?: string | any;
   headtitle?: string | any;
@@ -31,7 +32,7 @@ const DashboardCard = ({
   const customizer = useSelector((state: RootState) => state.customizer);
 
   const theme = useTheme();
-  const borderColor = theme.palette.grey[100];
+  const borderColor = theme.palette.divider;
 
   return (
     <Card

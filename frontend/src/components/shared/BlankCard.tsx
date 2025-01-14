@@ -3,19 +3,19 @@ import { Card } from '@mui/material';
 // @ts-ignore
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { AppState, useSelector } from 'src/store/Store';
+import { RootState, useSelector } from 'src/store/Store';
 
 type Props = {
   className?: string;
-  children: any | any[];
+  children: any | any[]
   sx?: any;
 };
 
 const BlankCard = ({ children, className, sx }: Props) => {
-  const customizer = useSelector((state: AppState) => state.customizer);
+  const customizer = useSelector((state: RootState) => state.customizer);
 
   const theme = useTheme();
-  const borderColor = theme.palette.grey[100];
+  const borderColor = theme.palette.divider;
 
   return (
     <Card

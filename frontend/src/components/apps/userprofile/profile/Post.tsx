@@ -16,7 +16,7 @@ const Post = () => {
     dispatch(fetchPosts());
   }, [dispatch]);
 
-  const getPosts: PostType[] = useSelector((state) => state.userpostsReducer.posts);
+  const getPosts: PostType[] = useSelector(() => []);
 
   return (
     (<Grid container spacing={3}>

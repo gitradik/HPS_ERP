@@ -3,8 +3,8 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
-import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
-import FollowerCard from 'src/components/apps/userprofile/followers/FollowerCard';
+// import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
+// import FollowerCard from 'src/components/apps/userprofile/followers/FollowerCard';
 
 
 const Followers = () => {
@@ -15,13 +15,13 @@ const Followers = () => {
           size={{
             sm: 12
           }}>
-          <ProfileBanner />
+          {/* <ProfileBanner /> */}
         </Grid>
         <Grid
           size={{
             sm: 12
           }}>
-          <FollowerCard />
+          {/* <FollowerCard /> */}
         </Grid>
       </Grid>
     </PageContainer>)

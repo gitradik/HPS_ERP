@@ -2,29 +2,26 @@
 // @ts-ignore
 import React from 'react';
 
-import { Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Card } from '@mui/material';
 import { useSelector } from 'src/store/Store';
 import { RootState } from 'src/store/Store';
 
 type Props = {
-  title: string;
   children: any | any[]
 };
 
-const BaseCard = ({ title, children }: Props) => {
+const AppCard = ({ children }: Props) => {
   const customizer = useSelector((state: RootState) => state.customizer);
 
   return (
     <Card
-      sx={{ padding: 0 }}
+      sx={{ display: 'flex', p: 0 }}
       elevation={customizer.isCardShadow ? 9 : 0}
       variant={!customizer.isCardShadow ? 'outlined' : undefined}
     >
-      <CardHeader title={title} />
-      <Divider />
-      <CardContent>{children}</CardContent>
+      {children}
     </Card>
   );
 };
 
-export default BaseCard;
+export default AppCard;

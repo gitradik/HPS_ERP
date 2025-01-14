@@ -3,9 +3,9 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ApolloError } from "apollo-server-express";
 import dotenv from "dotenv";
-import User from "../models/User";
-import RefreshToken from "../models/RefreshToken";
-import { UserRole } from "../models/User";
+import User from "../../models/User";
+import RefreshToken from "../../models/RefreshToken";
+import { UserRole } from "../../models/User";
 
 dotenv.config();
 

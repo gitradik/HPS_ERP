@@ -13,9 +13,9 @@ import React from 'react';
 const AppDD = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
 
-  const handleClick2 = (event: any) => {
-    setAnchorEl2(event.currentTarget);
-  };
+  // const handleClick2 = (event: any) => {
+  //   setAnchorEl2(event.currentTarget);
+  // };
 
   const handleClose2 = () => {
     setAnchorEl2(null);

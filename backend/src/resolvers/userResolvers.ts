@@ -5,7 +5,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 import userService, {
     CreateUserInput,
     UpdateUserInput,
-} from "../services/userService";
+} from "../services/api/userApiService";
 
 const resolvers = {
     Query: {
