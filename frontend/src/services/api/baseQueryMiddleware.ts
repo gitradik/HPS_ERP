@@ -3,6 +3,8 @@ import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { ACCESS_TOKEN } from './auth.api';
 
+const apiHost = process.env.REACT_APP_API_HOST || 'http://localhost:4000/graphql';
+
 type ExtendedFetchBaseQueryError = FetchBaseQueryError & {
     message?: string;
 };
@@ -20,7 +22,7 @@ const extractDetailedError = (error: ExtendedFetchBaseQueryError | undefined): s
   
 
 const baseQueryWithMiddleware: BaseQueryFn<any, unknown, FetchBaseQueryError> = graphqlRequestBaseQuery({
-  url: 'http://localhost:4000/graphql',
+  url: apiHost,
   prepareHeaders: (headers) => {
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) headers.set('Authorization', token)
