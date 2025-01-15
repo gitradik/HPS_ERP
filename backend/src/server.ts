@@ -15,6 +15,7 @@ const app = express();
 const allowedOrigins = [
     "http://herba-solution.com",
     "https://herba-solution.com",
+    /^http:\/\/localhost:\d+$/
 ];
 app.use(
     cors({

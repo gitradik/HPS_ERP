@@ -33,7 +33,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
 
   const handleLogin = async () => {
-    dispatch(loginRequest());
     setValidationError(null);
 
     const isEmail = emailOrPhone.match(emailRegex);
@@ -49,12 +48,12 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     }
 
     try {
+      dispatch(loginRequest());
       const res = await login({
         email: isEmail ? emailOrPhone : undefined,
         phoneNumber: isPhone ? emailOrPhone : undefined,
         password,
       }).unwrap();
-      // @ts-ignore
       dispatch(loginSuccess(res.login));
       navigate('/');
     } catch (err: any) {

@@ -10,7 +10,7 @@ const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
-    login: builder.mutation<LoginResponse, LoginInput>({
+    login: builder.mutation<{ login: LoginResponse }, LoginInput>({
       query: ({ email, phoneNumber, password }) => {
         return {
           document: gql`

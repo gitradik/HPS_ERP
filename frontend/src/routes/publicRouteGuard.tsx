@@ -11,9 +11,9 @@ const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(refreshTokenRequest())
     const token = localStorage.getItem('refreshToken')
     if (!isAuthenticated && token) {
+      dispatch(refreshTokenRequest())
       refreshToken({ refreshToken: token })
         .unwrap() 
         .then((data: any) => dispatch(refreshTokenSuccess(data.refreshToken)))
