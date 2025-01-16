@@ -6,7 +6,6 @@ import {
   FormControlLabel,
   Button,
   Stack,
-  Divider,
 } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom'; // Обратите внимание: 'react-router-dom', а не 'react-router'
 import { useLoginMutation } from 'src/services/api/auth.api';
@@ -15,7 +14,6 @@ import { loginType } from 'src/types/auth/auth';
 import CustomCheckbox from '../../../components/forms/theme-elements/CustomCheckbox';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
-import AuthSocialButtons from './AuthSocialButtons';
 import { emailRegex, phoneRegex } from 'src/utils/regex';
 import { useDispatch } from 'src/store/Store';
 import { loginFailure, loginRequest, loginSuccess } from 'src/store/apps/auth/AuthSlice';
