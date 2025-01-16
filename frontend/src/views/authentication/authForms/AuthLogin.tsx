@@ -85,7 +85,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           )}
         </Box>
         <Box>
-          <CustomFormLabel htmlFor="emailOrPhone">Email</CustomFormLabel>
+          <CustomFormLabel htmlFor="emailOrPhone">E-Mail</CustomFormLabel>
           <CustomTextField
             id="emailOrPhone"
             variant="outlined"
@@ -97,7 +97,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           />
         </Box>
         <Box>
-          <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
+          <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
           <CustomTextField
             id="password"
             type="password"
@@ -113,7 +113,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           <FormGroup>
             <FormControlLabel
               control={<CustomCheckbox defaultChecked />}
-              label="Remember this Device"
+              label="Dieses Gerät merken"
             />
           </FormGroup>
           <Typography
@@ -139,7 +139,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           onClick={handleLogin}
           disabled={isLoading}
         >
-          {isLoading ? 'Logging in...' : 'Sign In'}
+         {isLoading ? 'Anmeldung läuft...' : 'Anmelden'}
         </Button>
       </Box>
 

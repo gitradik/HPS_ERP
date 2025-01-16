@@ -108,7 +108,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
 
         <Box>
-          <CustomFormLabel htmlFor="first-name">First Name</CustomFormLabel>
+          <CustomFormLabel htmlFor="first-name">Vorname</CustomFormLabel>
           <CustomTextField
             id="first-name"
             variant="outlined"
@@ -121,7 +121,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
 
         <Box>
-          <CustomFormLabel htmlFor="last-name">Last Name</CustomFormLabel>
+          <CustomFormLabel htmlFor="last-name">Nachname</CustomFormLabel>
           <CustomTextField
             id="last-name"
             variant="outlined"
@@ -134,7 +134,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
 
         <Box>
-          <CustomFormLabel htmlFor="emailOrPhone">Email</CustomFormLabel>
+          <CustomFormLabel htmlFor="emailOrPhone">E-Mail</CustomFormLabel>
           <CustomTextField
             id="emailOrPhone"
             variant="outlined"
@@ -149,7 +149,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
 
         <Box>
-          <CustomFormLabel htmlFor="password">Password</CustomFormLabel>
+          <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
           <CustomTextField
             id="password"
             type="password"
@@ -163,7 +163,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
 
         <Box>
-          <CustomFormLabel htmlFor="confirm-password">Confirm Password</CustomFormLabel>
+          <CustomFormLabel htmlFor="confirm-password">Passwort bestätigen</CustomFormLabel>
           <CustomTextField
             id="confirm-password"
             type="password"

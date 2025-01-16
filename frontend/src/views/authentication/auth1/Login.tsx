@@ -80,7 +80,7 @@ const Login = () => (
             subtitle={
               <Stack direction="row" justifyContent={"center"} spacing={1} mt={3}>
                 <Typography color="textSecondary" variant="h6" fontWeight="500">
-                  New to Modernize?
+                  Neu bei HPS ERP?
                 </Typography>
                 <Typography
                   component={Link}

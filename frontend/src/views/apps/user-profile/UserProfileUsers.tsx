@@ -32,7 +32,7 @@ const UserProfileUsers = ({ userId }: any) => {
   }, [accountSetting])
   
   return (
-    (<PageContainer title="Benutzer" description="this is Benutzer page">
+    (<PageContainer title="Benutzer" description="Dies ist die Benutzerseite">
       <Notifications/>
       <Breadcrumb title="Benutzer" items={BCrumb} />
       <Grid container spacing={3}>

@@ -101,7 +101,7 @@ const EmployeesTable = ({ employees }: { employees: Employee[] }) => {
   };
 
   return (
-    <DownloadCard title="Employees Table" onDownload={handleDownload}>
+    <DownloadCard title="Mitarbeiter Tabelle" onDownload={handleDownload}>
       <Box>
         <TableContainer>
         <Table sx={{ whiteSpace: 'nowrap' }}>

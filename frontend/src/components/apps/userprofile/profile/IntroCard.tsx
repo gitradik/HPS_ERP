@@ -13,7 +13,7 @@ const IntroCard = ({ user }: { user: User }) => {
     <ChildCard>
        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Typography fontWeight={600} variant="h4">
-          Introduction
+          Einführung
         </Typography>
         <Button
           size="small"
@@ -21,11 +21,11 @@ const IntroCard = ({ user }: { user: User }) => {
           color="primary"
           onClick={() => navigate("/account-setting")}
         >
-          Edit
+          Bearbeiten
         </Button>
       </Box>
       <Typography color="textSecondary" variant="subtitle2" mb={2}>
-        Hello, I am {user.firstName} {user.lastName}. I am the {user.position || '...'}.
+        Hallo, ich bin {user.firstName} {user.lastName}. Ich bin der {user.position || '...'}.
       </Typography>
       <Stack direction="row" gap={2} alignItems="center" mb={3}>
         <IconMail size="21" />

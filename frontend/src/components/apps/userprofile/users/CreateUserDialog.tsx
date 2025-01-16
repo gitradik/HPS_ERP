@@ -98,7 +98,7 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
                 )}
 
                 <Box>
-                  <CustomFormLabel htmlFor="firstName">First Name</CustomFormLabel>
+                  <CustomFormLabel htmlFor="firstName">Vorname</CustomFormLabel>
                   <CustomTextField
                     id="firstName"
                     name="firstName"
@@ -113,7 +113,7 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
                 </Box>
 
                 <Box>
-                  <CustomFormLabel htmlFor="lastName">Last Name</CustomFormLabel>
+                  <CustomFormLabel htmlFor="lastName">Nachname</CustomFormLabel>
                   <CustomTextField
                     id="lastName"
                     name="lastName"
@@ -128,7 +128,7 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
                 </Box>
 
                 <Box>
-                  <CustomFormLabel htmlFor="email">Email</CustomFormLabel>
+                  <CustomFormLabel htmlFor="email">E-Mail</CustomFormLabel>
                   <CustomTextField
                     id="email"
                     name="email"
@@ -185,7 +185,7 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="secondary">
-          Cancel
+          Abbrechen
         </Button>
       </DialogActions>
     </Dialog>

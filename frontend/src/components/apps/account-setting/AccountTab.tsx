@@ -360,7 +360,7 @@ const AccountTab = ({ user }: { user: User }) => {
             Save
           </Button>
           <Button onClick={() => onCancel()} size="large" variant="text" color="error">
-            Cancel
+            Abbrechen
           </Button>
         </Stack>
       </Grid>

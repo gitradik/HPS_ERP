@@ -99,7 +99,7 @@ import { registerFailure, registerRequest, registerSuccess } from 'src/store/app
   
                   <Box>
                     <FormControl fullWidth>
-                      <InputLabel>Role</InputLabel>
+                      <InputLabel>Rolle</InputLabel>
                       <Select
                         label="Role"
                         id="role"
@@ -109,8 +109,8 @@ import { registerFailure, registerRequest, registerSuccess } from 'src/store/app
                         onBlur={props.handleBlur}
                         error={props.touched.role && Boolean(props.errors.role)}
                       >
-                        <MenuItem value={UserRole.EMPLOYEE}>EMPLOYEE</MenuItem>
-                        <MenuItem value={UserRole.CLIENT}>CLIENT</MenuItem>
+                        <MenuItem value={UserRole.EMPLOYEE}>Mitarbeiter</MenuItem>
+                        <MenuItem value={UserRole.CLIENT}>Kunden</MenuItem>
                       </Select>
                     </FormControl>
                     {props.touched.role && props.errors.role && (
@@ -140,7 +140,7 @@ import { registerFailure, registerRequest, registerSuccess } from 'src/store/app
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} color="secondary">
-            Cancel
+            Abbrechen
           </Button>
         </DialogActions>
       </Dialog>
