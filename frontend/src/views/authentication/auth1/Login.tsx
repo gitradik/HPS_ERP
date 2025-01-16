@@ -91,7 +91,7 @@ const Login = () => (
                     color: 'primary.main',
                   }}
                 >
-                  Create an account
+                  Konto erstellen
                 </Typography>
               </Stack>
             }
