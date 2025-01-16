@@ -45,5 +45,6 @@ export default defineConfig({
 
     build: {
         outDir: 'build', // Change 'build' to whatever folder you want for output
+        assetsInlineLimit: 0
     }
 });
