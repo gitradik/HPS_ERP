@@ -64,17 +64,13 @@ const AccountTab = ({ user }: { user: User }) => {
   return (
     (<Grid container spacing={3}>
       {/* Change Profile */}
-      <Grid
-        size={{
-          xs: 12,
-          lg: 6
-        }}>
+      <Grid size={{ xs: 12, lg: 6 }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Change Profile
+              Profil ändern
             </Typography>
-            <Typography color="textSecondary" mb={3}>Change your profile picture from here</Typography>
+            <Typography color="textSecondary" mb={3}>Ändern Sie Ihr Profilbild hier</Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -84,41 +80,32 @@ const AccountTab = ({ user }: { user: User }) => {
                 />
                 <Stack direction="row" justifyContent="center" spacing={2} my={3}>
                   <Button variant="contained" color="primary" component="label">
-                    Upload
+                    Hochladen
                     <input hidden accept="image/*" multiple type="file" />
                   </Button>
                   <Button variant="outlined" color="error">
-                    Reset
+                    Zurücksetzen
                   </Button>
                 </Stack>
                 <Typography variant="subtitle1" color="textSecondary" mb={4}>
-                  Allowed JPG, GIF or PNG. Max size of 800K
+                  Erlaubte Formate: JPG, GIF oder PNG. Maximalgröße: 800K
                 </Typography>
               </Box>
             </Box>
           </CardContent>
         </BlankCard>
       </Grid>
-      {/*  Change Password */}
-      <Grid
-        size={{
-          xs: 12,
-          lg: 6
-        }}>
+      {/* Change Password */}
+      <Grid size={{ xs: 12, lg: 6 }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Change Password
+              Passwort ändern
             </Typography>
-            <Typography color="textSecondary" mb={3}>To change your password please confirm here</Typography>
+            <Typography color="textSecondary" mb={3}>Bestätigen Sie hier Ihr Passwort, um es zu ändern</Typography>
             <form>
-              <CustomFormLabel
-                sx={{
-                  mt: 0,
-                }}
-                htmlFor="text-cpwd"
-              >
-                Current Password
+              <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
+                Aktuelles Passwort
               </CustomFormLabel>
               <CustomTextField
                 id="text-cpwd"
@@ -128,7 +115,7 @@ const AccountTab = ({ user }: { user: User }) => {
                 type="password"
               />
               {/* 2 */}
-              <CustomFormLabel htmlFor="text-npwd">New Password</CustomFormLabel>
+              <CustomFormLabel htmlFor="text-npwd">Neues Passwort</CustomFormLabel>
               <CustomTextField
                 id="text-npwd"
                 value="MathewAnderson"
@@ -137,7 +124,7 @@ const AccountTab = ({ user }: { user: User }) => {
                 type="password"
               />
               {/* 3 */}
-              <CustomFormLabel htmlFor="text-conpwd">Confirm Password</CustomFormLabel>
+              <CustomFormLabel htmlFor="text-conpwd">Bestätigen Sie das Passwort</CustomFormLabel>
               <CustomTextField
                 id="text-conpwd"
                 value="MathewAnderson"
@@ -154,23 +141,14 @@ const AccountTab = ({ user }: { user: User }) => {
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Personal Details
+              Persönliche Angaben
             </Typography>
-            <Typography color="textSecondary" mb={3}>To change your personal detail , edit and save from here</Typography>
+            <Typography color="textSecondary" mb={3}>Um Ihre persönlichen Angaben zu ändern, bearbeiten und speichern Sie sie hier</Typography>
             <form>
               <Grid container spacing={3}>
-                <Grid
-                  size={{
-                    xs: 12,
-                    sm: 6
-                  }}>
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="first-name"
-                  >
-                    FirstName
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="first-name">
+                    Vorname
                   </CustomFormLabel>
                   <CustomTextField
                     id="first-name"
@@ -180,19 +158,10 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFirstName(e.target.value))}
                   />
                 </Grid>
-                <Grid
-                  size={{
-                    xs: 12,
-                    sm: 6
-                  }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   {/* 2 */}
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="last-name"
-                  >
-                    LastName
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-name">
+                    Nachname
                   </CustomFormLabel>
                   <CustomTextField
                     id="last-name"
@@ -202,20 +171,11 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
                   />
                 </Grid>
-              {/* email */}
-                <Grid
-                  size={{
-                    xs: 12,
-                    sm: 6
-                  }}>
+                {/* email */}
+                <Grid size={{ xs: 12, sm: 6 }}>
                   {/* 5 */}
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="text-email"
-                  >
-                    Email
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-email">
+                    E-Mail
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-email"
@@ -227,19 +187,10 @@ const AccountTab = ({ user }: { user: User }) => {
                   />
                 </Grid>
                 {/* phone */}
-                <Grid
-                  size={{
-                    xs: 12,
-                    sm: 6
-                  }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   {/* 6 */}
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="text-phone"
-                  >
-                    Phone
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-phone">
+                    Telefonnummer
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-phone"
@@ -251,19 +202,10 @@ const AccountTab = ({ user }: { user: User }) => {
                   />
                 </Grid>
                 {/* role */}
-                <Grid
-                  size={{
-                    xs: 6,
-                    sm: 3
-                  }}>
+                <Grid size={{ xs: 6, sm: 3 }}>
                   {/* 3 */}
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="text-role"
-                  >
-                    Role
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-role">
+                    Rolle
                   </CustomFormLabel>
                   <CustomSelect
                     fullWidth
@@ -281,19 +223,9 @@ const AccountTab = ({ user }: { user: User }) => {
                   </CustomSelect>
                 </Grid>
                 {/* active */}
-                <Grid
-                  size={{
-                    xs: 6,
-                    sm: 3,
-                  }}
-                >
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="text-active"
-                  >
-                    Active
+                <Grid size={{ xs: 6, sm: 3 }}>
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
+                    Aktiv
                   </CustomFormLabel>
                   <CustomSelect
                     fullWidth
@@ -310,19 +242,10 @@ const AccountTab = ({ user }: { user: User }) => {
                     ))}
                   </CustomSelect>
                 </Grid>
-                    {/* position */}
-                <Grid
-                  size={{
-                    xs: 12,
-                    sm: 6
-                  }}>
+                {/* position */}
+                <Grid size={{ xs: 12, sm: 6 }}>
                   {/* 6 */}
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="text-position"
-                  >
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-position">
                     Position
                   </CustomFormLabel>
                   <CustomTextField
@@ -335,13 +258,8 @@ const AccountTab = ({ user }: { user: User }) => {
                 </Grid>
                 <Grid size={12}>
                   {/* 7 */}
-                  <CustomFormLabel
-                    sx={{
-                      mt: 0,
-                    }}
-                    htmlFor="text-address"
-                  >
-                    Address
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-address">
+                    Adresse
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-address"
@@ -357,14 +275,15 @@ const AccountTab = ({ user }: { user: User }) => {
         </BlankCard>
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'end' }} mt={3}>
           <Button onClick={() => onSave()} size="large" variant="contained" color="primary">
-            Save
+            Speichern
           </Button>
           <Button onClick={() => onCancel()} size="large" variant="text" color="error">
             Abbrechen
           </Button>
         </Stack>
       </Grid>
-    </Grid>)
+    </Grid>
+    )
   );
 };
 
