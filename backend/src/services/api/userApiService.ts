@@ -104,7 +104,7 @@ const userService = {
     }) {
         if (!email && !phoneNumber) {
             throw new ApolloError(
-                "Either email or phone number must be provided."
+                "Either email must be provided."
             );
         }
 
@@ -148,7 +148,7 @@ const userService = {
 
         if (!email && !phoneNumber) {
             throw new ApolloError(
-                "Either email or phone number must be provided."
+                "Either email must be provided."
             );
         }
 
@@ -166,7 +166,7 @@ const userService = {
 
         if (existingUser) {
             throw new ApolloError(
-                "User with this email or phone number already exists."
+                "User with this email already exists."
             );
         }
 

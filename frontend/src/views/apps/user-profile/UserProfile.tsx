@@ -17,7 +17,7 @@ const BCrumb = [
     title: 'Home',
   },
   {
-    title: 'My Profile',
+    title: 'Mein Profil',
   },
 ];
 
@@ -34,8 +34,8 @@ const UserProfile = ({ userId }: any) => {
 
 
   return (
-    (<PageContainer title="User Profile" description="this is User Profile page">
-      <Breadcrumb title="User Profile" items={BCrumb} />
+    (<PageContainer title="Benutzerprofil" description="this is Benutzerprofil page">
+      <Breadcrumb title="Benutzerprofil" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid
           size={{

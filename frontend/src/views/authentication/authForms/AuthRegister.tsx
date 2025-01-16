@@ -52,7 +52,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
     const isPhone = phoneNumber && phoneNumber.match(phoneRegex);
   
     if (!isEmail && !isPhone) {
-      setValidationError('Please enter a valid email or phone number.');
+      setValidationError('Please enter a valid email.');
       return;
     }
   
@@ -91,21 +91,6 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
       )}
 
       {subtext}
-      <AuthSocialButtons title="Sign up with" />
-      <Box mt={3}>
-        <Divider>
-          <Typography
-            component="span"
-            color="textSecondary"
-            variant="h6"
-            fontWeight="400"
-            position="relative"
-            px={2}
-          >
-            or sign up with
-          </Typography>
-        </Divider>
-      </Box>
 
       <Stack>
         <Box>
@@ -150,7 +135,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
 
         <Box>
-          <CustomFormLabel htmlFor="emailOrPhone">Email or Phone Number</CustomFormLabel>
+          <CustomFormLabel htmlFor="emailOrPhone">Email</CustomFormLabel>
           <CustomTextField
             id="emailOrPhone"
             variant="outlined"

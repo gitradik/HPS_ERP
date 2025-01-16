@@ -99,7 +99,7 @@ const AppDD = () => {
       Chat
     </Button>
     <Button color="inherit" sx={{ color: (theme) => theme.palette.text.secondary }} variant="text" to="/" component={Link}>
-      Calendar
+      Kalendar
     </Button>
   </>);
 };

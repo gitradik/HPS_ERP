@@ -120,20 +120,20 @@ interface ProfileType {
 const profile: ProfileType[] = [
   {
     href: '/user-profile',
-    title: 'My Profile',
-    subtitle: 'Account Settings',
+    title: 'Mein Profil',
+    subtitle: 'Kontoeinstellungen',
     icon: icon1,
   },
   {
     href: '/',
-    title: 'My Inbox',
-    subtitle: 'Messages & Emails',
+    title: 'Mein Posteingang',
+    subtitle: 'Nachrichten',
     icon: icon2,
   },
   {
     href: '/',
-    title: 'My Tasks',
-    subtitle: 'To-do and Daily Tasks',
+    title: 'Meine Aufgaben',
+    subtitle: 'Aufgabenliste',
     icon: icon3,
   },
 ];

@@ -38,7 +38,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     const isEmail = emailOrPhone.match(emailRegex);
     const isPhone = emailOrPhone.match(phoneRegex);
     if (!isEmail && !isPhone) {
-      setValidationError('Please enter a valid email or phone number.');
+      setValidationError('Please enter a valid email.');
       return;
     }
 
@@ -71,22 +71,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
       {subtext}
 
-      <AuthSocialButtons title="Sign in with" />
-      <Box mt={3}>
-        <Divider>
-          <Typography
-            component="span"
-            color="textSecondary"
-            variant="h6"
-            fontWeight="400"
-            position="relative"
-            px={2}
-          >
-            or sign in with
-          </Typography>
-        </Divider>
-      </Box>
-
       <Stack>
         <Box>
           {validationError && (
@@ -103,7 +87,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           )}
         </Box>
         <Box>
-          <CustomFormLabel htmlFor="emailOrPhone">Email or Phone Number</CustomFormLabel>
+          <CustomFormLabel htmlFor="emailOrPhone">Email</CustomFormLabel>
           <CustomTextField
             id="emailOrPhone"
             variant="outlined"
@@ -143,7 +127,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
               color: 'primary.main',
             }}
           >
-            Forgot Password ?
+            Passwort vergessen?
           </Typography>
         </Stack>
       </Stack>

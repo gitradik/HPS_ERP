@@ -87,7 +87,7 @@ const Profile = () => {
           },
         }}
       >
-        <Typography variant="h5">User Profile</Typography>
+        <Typography variant="h5">Benutzerprofil</Typography>
         <Stack direction="row" py={3} spacing={2} alignItems="center">
           <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
           <Box>

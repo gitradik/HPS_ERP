@@ -71,16 +71,16 @@ const Register = () => (
         }}>
         <Box p={4}>
           <AuthRegister
-            title="Welcome to HPS ERP"
+            title="Herzlich Willkommen bei HPS ERP"
             subtext={
               <Typography variant="subtitle1" color="textSecondary" mb={1}>
-                Your Admin Dashboard
+                Ihr persönlicher Registrierungsbereich
               </Typography>
             }
             subtitle={
               <Stack direction="row" spacing={1} mt={3}>
                 <Typography color="textSecondary" variant="h6" fontWeight="400">
-                  Already have an Account?
+                 Haben Sie schon ein Account?
                 </Typography>
                 <Typography
                   component={Link}
@@ -91,7 +91,7 @@ const Register = () => (
                     color: 'primary.main',
                   }}
                 >
-                  Sign In
+                  Login Bereich
                 </Typography>
               </Stack>
             }

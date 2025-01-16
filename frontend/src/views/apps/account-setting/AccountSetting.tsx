@@ -22,10 +22,10 @@ const BCrumb = [
   },
   {
     to: '/user-profile',
-    title: 'My Profile',
+    title: 'Mein Profil',
   },
   {
-    title: 'Account Setting',
+    title: 'Kontoeinstellungen',
   },
 ];
 
@@ -72,9 +72,9 @@ const AccountSetting = () => {
   };
 
   return (
-    (<PageContainer title="Account Setting" description="this is Account Setting page">
+    (<PageContainer title="Kontoeinstellungen " description="this is Kontoeinstellungen  page">
       {/* breadcrumb */}
-      <Breadcrumb title="Account Setting" items={BCrumb} />
+      <Breadcrumb title="Kontoeinstellungen " items={BCrumb} />
       {/* end breadcrumb */}
       <Notifications />
       <Grid container spacing={3}>

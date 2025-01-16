@@ -14,19 +14,19 @@ interface cardType {
 const topcards: cardType[] = [
   {
     icon: icon2,
-    title: 'Employees',
+    title: 'Mitarbeiter',
     digits: '96',
     bgcolor: 'primary',
   },
   {
     icon: icon3,
-    title: 'Clients',
+    title: 'Kunden',
     digits: '3,650',
     bgcolor: 'warning',
   },
   {
     icon: icon1,
-    title: 'Reports',
+    title: 'Berichte',
     digits: '59',
     bgcolor: 'info',
   },
