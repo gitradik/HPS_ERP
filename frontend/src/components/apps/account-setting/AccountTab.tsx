@@ -15,12 +15,12 @@ import { User, UserRole } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
 import { selectAccountSetting, setContactDetails, setEmail, setFirstName, setIsActive, setLastName, setPhoneNumber, setPosition, setRole, updateAccountSettings } from 'src/store/apps/accountSetting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { useUpdateUserMutation } from 'src/services/api/auth.api';
 import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { actives, roles, userAccessRules } from './AccountTabData';
 import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
+import { useUpdateUserMutation } from 'src/services/api/user.api';
 
 
 

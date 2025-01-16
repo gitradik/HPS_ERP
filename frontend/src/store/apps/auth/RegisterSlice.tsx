@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { UserRole } from 'src/types/auth/auth';
 
 // Define the initial state for registration
 interface RegisterState {
@@ -10,6 +11,8 @@ interface RegisterState {
   phoneNumber: string;
   password: string;
   confirmPassword: string;
+  position?: string;
+  role?: UserRole;
 }
 
 const initialState: RegisterState = {
@@ -21,6 +24,8 @@ const initialState: RegisterState = {
   phoneNumber: '',
   password: '',
   confirmPassword: '',
+  position: '',
+  role: UserRole.USER
 };
 
 const registerSlice = createSlice({

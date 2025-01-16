@@ -1,14 +1,51 @@
 import { UserRole } from "../models/User";
 import Employee from "../models/Employee";
 import User from "../models/User";
+import { authMiddleware } from "../middlewares/authMiddleware";
+import { roleMiddleware } from "../middlewares/roleMiddleware";
+import employeeService from "../services/api/employeeApiService";
 
 const employeeResolvers = {
     Query: {
-        employees: async (): Promise<Employee[]> => await Employee.findAll(),
+        employees: async (parent: any, args: any, context: any, info: any): Promise<Employee[]> => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) =>
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+                        () => employeeService.getEmployees(), 
+                        parent,
+                        args,
+                        context,
+                        info
+                    ),
+                parent,
+                args,
+                context,
+                info
+            );
+        },
         employee: async (
-            _: unknown,
-            { id }: { id: number }
-        ): Promise<Employee | null> => await Employee.findByPk(id),
+            parent: any,
+            { id }: { id: number },
+            context: any,
+            info: any
+        ): Promise<Employee | null> => {
+            return await authMiddleware(
+                (parent: any, args: any, context: any, info: any) =>
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Роли, которым разрешен доступ
+                        () => employeeService.getEmployeeById(id), // Получаем сотрудника по id
+                        parent,
+                        { id },
+                        context,
+                        info
+                    ),
+                parent,
+                { id },
+                context,
+                info
+            );
+        },
         activeEmployees: async (): Promise<Employee[]> =>
             await Employee.findAll({
                 include: {
@@ -27,47 +64,28 @@ const employeeResolvers = {
     },
     Mutation: {
         createEmployee: async (
-            _: unknown,
-            { input }: { input: { userId: number } }
+            parent: any,
+            { input }: { input: { userId: number } },
+            context: any,
+            info: any
         ): Promise<Employee> => {
-            const { userId } = input;
-
-            const user = await User.findByPk(userId);
-
-            if (!user) {
-                throw new Error(`User with id ${userId} not found`);
-            }
-
-            if (user.role !== UserRole.USER) {
-                throw new Error(
-                    `User with id ${userId} already has a different role`
-                );
-            }
-
-            const newEmployee = await Employee.create({ userId });
-
-            await user.update({ role: UserRole.EMPLOYEE });
-
-            return newEmployee;
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) =>
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Роли, которым разрешен доступ
+                        () => employeeService.createEmployee(input.userId), // Вызов бизнес-логики для создания сотрудника
+                        _parent,
+                        { input },
+                        _context,
+                        _info
+                    ),
+                parent,
+                { input },
+                context,
+                info
+            );
         },
-
-        deleteEmployee: async (
-            _: unknown,
-            { id }: { id: number }
-        ): Promise<boolean> => {
-            const employee = await Employee.findByPk(id);
-            if (!employee) {
-                throw new Error(`Employee with id ${id} not found`);
-            }
-
-            await employee.destroy();
-            const user = await User.findByPk(employee.userId);
-            if (user) {
-                await user.destroy();
-            }
-
-            return true;
-        },
+        
     },
 };
 

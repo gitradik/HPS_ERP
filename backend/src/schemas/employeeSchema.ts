@@ -29,7 +29,6 @@ const employeeSchema = gql`
     type Mutation {
         createEmployee(input: CreateEmployeeInput!): Employee! # Create an employee
         # updateEmployee(id: ID!, input: UpdateEmployeeInput!): Employee! # Update an employee
-        deleteEmployee(id: ID!): Boolean! # Delete an employee
     }
 `;
 

@@ -60,6 +60,8 @@ export interface RegisterInput {
   email?: string;
   phoneNumber?: string;
   password: string;
+  position?: string;
+  role?: UserRole;
 }
 
 export interface RegisterResponse {

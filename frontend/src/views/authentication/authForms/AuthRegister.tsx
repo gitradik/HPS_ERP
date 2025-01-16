@@ -202,7 +202,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
           onClick={handleRegister}
           disabled={isLoading}
         >
-          {isLoading ? 'Registering...' : 'Sign Up'}
+          {isLoading ? 'Wird registriert...' : 'Registrieren'}
         </Button>
       </Box>
 

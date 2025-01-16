@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector, TypedUseSelectorHook } from 'react-redux';
-import { authApi } from '../services/api';
+import { authApi, employeeApi, userApi } from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/accountSetting/AccountSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
@@ -13,6 +13,8 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
+    [userApi.reducerPath]: userApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
     accountSetting: accountSettingReducer,
     register: registerReducer,
     notifications: notificationsReducer,
@@ -20,7 +22,11 @@ export const store = configureStore({
     userProfile: userProfileReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware),
+    getDefaultMiddleware().concat(
+      authApi.middleware,
+      userApi.middleware,
+      employeeApi.middleware,
+    ),
 });
 
 setupListeners(store.dispatch);

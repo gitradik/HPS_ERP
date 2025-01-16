@@ -6,18 +6,26 @@ import userService, {
     CreateUserInput,
     UpdateUserInput,
 } from "../services/api/userApiService";
+import { roleMiddleware } from "../middlewares/roleMiddleware";
 
 const resolvers = {
     Query: {
         users: async (parent: any, args: any, context: any, info: any) =>
             await authMiddleware(
                 (_parent: any, _args: any, _context: any, _info: any) =>
-                    userService.getUsers(),
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Роли, которым разрешен доступ
+                        () => userService.getUsersExcludingId(context.user.id), // Запрос на получение пользователей, исключая текущего
+                        parent,
+                        args,
+                        context,
+                        info
+                    ),
                 parent,
                 args,
                 context,
                 info
-            ),
+            ),        
         user: async (
             parent: any,
             { id }: { id: number },

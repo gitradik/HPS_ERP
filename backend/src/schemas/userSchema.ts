@@ -52,6 +52,8 @@ const userSchema = gql`
         email: String
         phoneNumber: String
         password: String!
+        position: String
+        role: UserRole
     }
 
     type RegisterResponse {

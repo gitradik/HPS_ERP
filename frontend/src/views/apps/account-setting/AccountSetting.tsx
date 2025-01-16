@@ -10,10 +10,10 @@ import { IconBell, IconUserCircle } from '@tabler/icons-react';
 import BlankCard from '../../../components/shared/BlankCard';
 import { useSelector } from 'src/store/Store';
 import { selectUserId } from 'src/store/apps/auth/AuthSlice';
-import { useGetUserQuery } from 'src/services/api/auth.api';
 import AccountTab from 'src/components/apps/account-setting/AccountTab';
 import NotificationTab from 'src/components/apps/account-setting/NotificationTab';
 import Notifications from 'src/components/shared/Notifications';
+import { useGetUserQuery } from 'src/services/api/user.api';
 
 const BCrumb = [
   {

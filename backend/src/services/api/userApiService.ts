@@ -42,6 +42,15 @@ const userService = {
     async getUsers() {
         return await User.findAll();
     },
+    async getUsersExcludingId(excludedId: number) {
+        return await User.findAll({
+            where: {
+                id: {
+                    [Op.ne]: excludedId,
+                },
+            },
+        });
+    },
 
     async getUserById(id: number) {
         return await User.findByPk(id);
@@ -165,7 +174,7 @@ const userService = {
         const newUser = await User.create({
             firstName,
             lastName,
-            email,
+            email: email?.toLowerCase(),
             phoneNumber,
             password: hashedPassword,
             role: role || UserRole.USER,

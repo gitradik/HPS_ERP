@@ -1,15 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
-
+import UsersCard from 'src/components/apps/userprofile/users/UsersCard';
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
-import IntroCard from 'src/components/apps/userprofile/profile/IntroCard';
-import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
+import { useGetUserQuery } from 'src/services/api/user.api';
 import { useSelector } from 'src/store/Store';
 import { selectAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
-import { useGetUserQuery } from 'src/services/api/user.api';
+import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
+import Notifications from 'src/components/shared/Notifications';
 
 const BCrumb = [
   {
@@ -17,12 +17,11 @@ const BCrumb = [
     title: 'Home',
   },
   {
-    title: 'My Profile',
+    title: 'Benutzer',
   },
 ];
 
-
-const UserProfile = ({ userId }: any) => {
+const UserProfileUsers = ({ userId }: any) => {
   const { data, refetch } = useGetUserQuery({ userId });
   const accountSetting = useSelector(selectAccountSetting);
 
@@ -31,11 +30,11 @@ const UserProfile = ({ userId }: any) => {
   useEffect(() => {
     refetch().then()
   }, [accountSetting])
-
-
+  
   return (
-    (<PageContainer title="User Profile" description="this is User Profile page">
-      <Breadcrumb title="User Profile" items={BCrumb} />
+    (<PageContainer title="Benutzer" description="this is Benutzer page">
+      <Notifications/>
+      <Breadcrumb title="Benutzer" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid
           size={{
@@ -43,34 +42,15 @@ const UserProfile = ({ userId }: any) => {
           }}>
           {user && <ProfileBanner user={user}  />}
         </Grid>
-
-        {/* intro and Photos Card */}
         <Grid
           size={{
-            sm: 12,
-            lg: 4,
-            xs: 12
+            sm: 12
           }}>
-          <Grid container spacing={3}>
-            <Grid
-              size={{
-                sm: 12
-              }}>
-              {user && <IntroCard user={user}  />}
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid
-          size={{
-            sm: 12,
-            lg: 8,
-            xs: 12
-          }}>
-          {/* <Post /> */}
+          <UsersCard />
         </Grid>
       </Grid>
     </PageContainer>)
   );
 };
 
-export default UserProfile;
+export default UserProfileUsers;

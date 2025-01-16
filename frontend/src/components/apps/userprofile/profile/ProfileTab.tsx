@@ -2,7 +2,7 @@
 // @ts-ignore
 import React from 'react';
 import { Tabs, Tab, Box } from '@mui/material';
-import { IconUserCircle } from '@tabler/icons-react';
+import { IconUserCircle, IconUsersGroup } from '@tabler/icons-react';
 import { Link, useLocation } from 'react-router';
 
 const ProfileTab = () => {
@@ -22,9 +22,14 @@ const ProfileTab = () => {
 
   const ProfileTabs: profileType[] = [
     {
-      label: 'Profile',
+      label: 'Profil',
       icon: <IconUserCircle size="20" />,
       to: '/user-profile',
+    },
+    {
+      label: 'Benutzer',
+      icon: <IconUsersGroup size="20" />,
+      to: '/apps/users',
     },
   ];
 

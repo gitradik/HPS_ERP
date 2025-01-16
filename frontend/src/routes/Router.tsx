@@ -8,9 +8,13 @@ import PublicRouteGuard from './publicRouteGuard';
 
 
 /* ***Apps**** */
-const UserProfileUserId = Loadable(lazy(() => import('../views/apps/user-profile/UserProfileUserId')));
+const UserProfileContainer = Loadable(lazy(() => import('../views/apps/user-profile/UserProfileContainer')));
+const UserProfileUsersContainer = Loadable(lazy(() => import('../views/apps/user-profile/UserProfileUsersContainer')))
 const AccountSetting = Loadable(
   lazy(() => import('../views/apps/account-setting/AccountSetting')),
+);
+const Employees = Loadable(
+  lazy(() => import('../views/employees/Employees')),
 );
 
 /* ***Layouts**** */
@@ -41,8 +45,10 @@ const Router = [
     children: [
       { path: '/', element: <Navigate to="/dashboards/modern" /> },
       { path: '/dashboards/modern', exact: true, element: <ProtectedRoute><ModernDash /></ProtectedRoute> },
-      { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileUserId /></ProtectedRoute> },
+      { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileContainer /></ProtectedRoute> },
       { path: '/account-setting', exact: true, element: <ProtectedRoute><AccountSetting /></ProtectedRoute> },
+      { path: '/employees', exact: true, element: <ProtectedRoute><Employees /></ProtectedRoute> },
+      { path: '/apps/users', element: <ProtectedRoute><UserProfileUsersContainer /></ProtectedRoute> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

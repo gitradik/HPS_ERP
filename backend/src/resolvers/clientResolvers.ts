@@ -46,8 +46,12 @@ const clientResolvers = {
             const newClient = await Client.create({ userId });
 
             await user.update({ role: UserRole.CLIENT });
-
-            return newClient;
+        
+            if (newClient) {
+                return await newClient.reload({ include: { model: User, as: 'user' } });
+            }
+            
+            throw new Error('Client creation failed');
         },
 
         deleteClient: async (
