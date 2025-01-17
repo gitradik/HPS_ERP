@@ -21,7 +21,6 @@ import {
   IconPlus
 } from '@tabler/icons-react';
 import { useGetUsersQuery } from 'src/services/api/user.api';
-import Spinner from 'src/views/spinner/Spinner';
 import img2 from 'src/assets/images/profile/user-2.jpg';
 import { User, UserRole } from 'src/types/auth/auth';
 import CreateUserDialog from './CreateUserDialog';
