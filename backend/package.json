@@ -4,7 +4,7 @@
     "description": "",
     "main": "src/server.ts",
     "scripts": {
-        "build": "tsc --build --incremental && npm run lint",
+        "build": "NODE_OPTIONS='--max-old-space-size=2048' tsc --build --incremental && npm run lint",
         "start": "tsc && node dist/server.js",
         "dev": "nodemon --watch src --ext ts --exec ts-node src/server.ts",
         "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",

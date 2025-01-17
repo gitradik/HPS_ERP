@@ -57,7 +57,17 @@ const UsersCard = () => {
 
   const getUsers = useCallback(() => filterUsers(search, users), [users, search, filterUsers]);
 
-  const isRoleUser = (user: User) => user.role === UserRole.USER;
+  const isRoleUser = (u: User) => u.role === UserRole.USER;
+  const showActiveStatus =(u: User) => {
+    if (isRoleUser(u)) return <></>;
+
+    return <Chip
+      label={u.isActive ? 'Aktiv' : 'Inaktiv'}
+      color={u.isActive ? 'success' : 'default'}
+      size="small"
+      sx={{ position: 'absolute', top: 8, right: 8 }}
+    />
+  }
 
 
   return (<>
@@ -129,6 +139,9 @@ const UsersCard = () => {
               lg: 4
             }}>
             <BlankCard className="hoverCard">
+              <Box display="flex" justifyContent="flex-end">
+                {showActiveStatus(profile)}
+              </Box>
               <CardContent>
                 <Stack direction={'column'} gap={1} alignItems="center">
                   <Avatar
