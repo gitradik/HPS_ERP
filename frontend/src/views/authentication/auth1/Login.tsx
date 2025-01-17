@@ -7,11 +7,9 @@ import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from '../authForms/AuthLogin';
-import Notifications from 'src/components/shared/Notifications';
 
 const Login = () => (
   <PageContainer title="Login" description="this is Login page">
-    <Notifications />
     <Grid container spacing={0} sx={{ overflowX: 'hidden' }}>
       <Grid
         sx={{

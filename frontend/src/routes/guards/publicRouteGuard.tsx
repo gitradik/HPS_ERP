@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { refreshTokenFailure, refreshTokenRequest, refreshTokenSuccess, selectIsAuthenticated } from '../store/apps/auth/AuthSlice';
-import { useRefreshTokenMutation } from '../services/api/auth.api'; 
+import { refreshTokenFailure, refreshTokenRequest, refreshTokenSuccess, selectIsAuthenticated } from '../../store/apps/auth/AuthSlice';
+import { useRefreshTokenMutation } from '../../services/api/auth.api'; 
 import Spinner from 'src/views/spinner/Spinner';
 
 const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {

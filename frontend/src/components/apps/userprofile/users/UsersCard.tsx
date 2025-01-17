@@ -43,7 +43,7 @@ const UsersCard = () => {
   const [openUserDialog, setOpenUserDialog] = React.useState(false);
   const isLoadingRegisterUser = useSelector(selectIsLoading);
   const { data, refetch } = useGetUsersQuery();
-  const users = data?.users;
+  const users = data?.users || [];
 
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
 
@@ -59,10 +59,6 @@ const UsersCard = () => {
   const getUsers = useCallback(() => filterUsers(search, users), [users, search, filterUsers]);
 
   const isRoleUser = (user: User) => user.role === UserRole.USER;
-
-  if (!users) {
-    return <Spinner/>
-  }
 
 
   return (<>

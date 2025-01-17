@@ -15,11 +15,11 @@ import {
   registerSuccess,
   registerRequest,
 } from 'src/store/apps/auth/RegisterSlice';
-import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
+import { useSnackbar } from 'notistack';
 
 interface CreateUserDialogProps {
   open: boolean;
@@ -30,6 +30,7 @@ interface CreateUserDialogProps {
 
 const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogProps) => {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
   const [register, { isLoading, error }] = useRegisterMutation();
 
   // @ts-ignore
@@ -73,16 +74,12 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
               }).unwrap();
 
               dispatch(registerSuccess());
-              dispatch(
-                addNotification({
-                  message: 'Benutzer registriert! Jetzt Rolle zuweisen.',
-                  type: 'success',
-                  autoHideDuration: 6000,
-                })
-              );
+              enqueueSnackbar('Benutzer registriert!', { variant: "success", autoHideDuration: 1500 });
+              enqueueSnackbar('Jetzt Rolle zuweisen.', { variant: "info", autoHideDuration: 3000 })
               onClose();
             } catch (err: any) {
               dispatch(registerFailure(err));
+              enqueueSnackbar(err?.data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
             } finally {
               actions.setSubmitting(false);
             }

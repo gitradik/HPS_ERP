@@ -6,11 +6,9 @@ import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import EmployeesTable from 'src/components/tables/Employees';
-import Notifications from 'src/components/shared/Notifications';
-import { useDispatch } from 'src/store/Store';
-import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
 import { useGetEmployeesQuery } from 'src/services/api/employee.api';
 import { Employee } from 'src/types/employee/employee';
+import { useSnackbar } from 'notistack';
 
 const BCrumb = [
   {
@@ -25,8 +23,7 @@ const BCrumb = [
 
 const Employees = () => {
   const { data: employeesData, isLoading, error } = useGetEmployeesQuery();
-
-  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const employees = employeesData?.employees as Employee[];
 
@@ -35,11 +32,7 @@ const Employees = () => {
 
   useEffect(() => {
     if (errorMessage) {
-      dispatch(addNotification({
-        message: errorMessage,
-        type: 'error',
-        autoHideDuration: 3000
-      }));
+      enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
     }
   }, [errorMessage])
 
@@ -53,7 +46,6 @@ const Employees = () => {
 
   return (
     (<PageContainer title="Mitarbeiter" description="this is Mitarbeiter page">
-      <Notifications />
       <Breadcrumb title="Mitarbeiter" items={BCrumb} />
       <Grid container spacing={3}>
         {renderEmployeesTable()}

@@ -20,10 +20,11 @@ import { IconMail } from '@tabler/icons-react';
 
 import ProfileImg from 'src/assets/images/profile/user-1.jpg';
 import { useLogoutMutation } from 'src/services/api/auth.api';
-import { useDispatch } from 'src/store/Store';
-import { logoutSuccess } from 'src/store/apps/auth/AuthSlice';
+import { useDispatch, useSelector } from 'src/store/Store';
+import { logoutSuccess, selectUser } from 'src/store/apps/auth/AuthSlice';
 
 const Profile = () => {
+  const user = useSelector(selectUser);
   const [anchorEl2, setAnchorEl2] = useState(null);
   const handleClick2 = (event: any) => {
     setAnchorEl2(event.currentTarget);
@@ -88,14 +89,14 @@ const Profile = () => {
         }}
       >
         <Typography variant="h5">Benutzerprofil</Typography>
-        <Stack direction="row" py={3} spacing={2} alignItems="center">
+        {user && <Stack direction="row" py={3} spacing={2} alignItems="center">
           <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
           <Box>
             <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-              Hermann Baun
+              {`${user.firstName} ${user.lastName}`}
             </Typography>
             <Typography variant="subtitle2" color="textSecondary">
-              Geschäftsführung
+            {user.position || "Position fehlt"}
             </Typography>
             <Typography
               variant="subtitle2"
@@ -105,14 +106,14 @@ const Profile = () => {
               gap={1}
             >
               <IconMail width={15} height={15} />
-              info@info.com
+              {user.email}
             </Typography>
           </Box>
-        </Stack>
+        </Stack>}
         <Divider />
         {dropdownData.profile.map((profile) => (
           <Box key={profile.title}>
-            <Box sx={{ py: 2, px: 0 }} className="hover-text-primary">
+            <Box onClick={handleClose2} sx={{ py: 2, px: 0 }} className="hover-text-primary">
               <Link to={profile.href}>
                 <Stack direction="row" spacing={2}>
                   <Box

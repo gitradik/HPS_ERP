@@ -9,7 +9,6 @@ import { useGetUserQuery } from 'src/services/api/user.api';
 import { useSelector } from 'src/store/Store';
 import { selectAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import Notifications from 'src/components/shared/Notifications';
 
 const BCrumb = [
   {
@@ -25,15 +24,14 @@ const UserProfileUsers = ({ userId }: any) => {
   const { data, refetch } = useGetUserQuery({ userId });
   const accountSetting = useSelector(selectAccountSetting);
 
-  const user = data?.user
+  const user = data?.user;
 
   useEffect(() => {
     refetch().then()
-  }, [accountSetting])
+  }, [accountSetting]);
   
   return (
     (<PageContainer title="Benutzer" description="Dies ist die Benutzerseite">
-      <Notifications/>
       <Breadcrumb title="Benutzer" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid

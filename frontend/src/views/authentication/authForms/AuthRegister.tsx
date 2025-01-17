@@ -21,13 +21,15 @@ import {
 } from 'src/store/apps/auth/RegisterSlice';
 import { useSelector } from 'react-redux';
 import { emailRegex, phoneRegex } from 'src/utils/regex';
-import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
+import { useSnackbar } from 'notistack';
 
 const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
   const { firstName, lastName, email, phoneNumber, password, confirmPassword } = useSelector(selectRegister);
 
   const [validationError, setValidationError] = useState<string | null>(null);
   const [register, { isLoading, error }] = useRegisterMutation();
+  
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -69,14 +71,11 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
       dispatch(registerSuccess());
 
       navigate('/');
-      
-      dispatch(addNotification({
-        message: 'Registration successful!\nYou can now log in.',
-        type: 'success',
-        autoHideDuration: 3000,
-      }));
+      enqueueSnackbar('Registrierung erfolgreich!', { variant: "success", autoHideDuration: 1500 });
+      enqueueSnackbar('Sie können sich jetzt einloggen.', { variant: "info", autoHideDuration: 3000 });
     } catch (err: any) {
       dispatch(registerFailure(err));
+      enqueueSnackbar(err?.data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
     }
   };
   

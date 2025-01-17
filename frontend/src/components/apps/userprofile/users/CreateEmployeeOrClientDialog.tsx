@@ -13,12 +13,12 @@ import {
     InputLabel,
   } from '@mui/material';
   import { useDispatch } from 'src/store/Store';
-  import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
   import { Formik } from 'formik';
   import * as Yup from 'yup';
   import { useCreateEmployeeMutation } from 'src/services/api/employee.api';
   import { User, UserRole } from 'src/types/auth/auth'; // Импортируем ваш enum
 import { registerFailure, registerRequest, registerSuccess } from 'src/store/apps/auth/RegisterSlice';
+import { useSnackbar } from 'notistack';
   
   interface CreateEmployeeOrClientDialogProps {
     open: boolean;
@@ -36,6 +36,7 @@ import { registerFailure, registerRequest, registerSuccess } from 'src/store/app
     user
   }: CreateEmployeeOrClientDialogProps) => {
     const dispatch = useDispatch();
+    const { enqueueSnackbar } = useSnackbar();
     const [createEmployee, { isLoading: isEmployeeLoading }] = useCreateEmployeeMutation();
   
     const initialValues = {
@@ -69,25 +70,13 @@ import { registerFailure, registerRequest, registerSuccess } from 'src/store/app
                 }
                 
                 dispatch(registerSuccess());
-                dispatch(
-                    addNotification({
-                        message: values.role === UserRole.EMPLOYEE
-                          ? 'Mitarbeiter erfolgreich erstellt!'
-                          : 'Kunde erfolgreich registriert!',
-                        type: 'success',
-                        autoHideDuration: 3000,
-                      })                      
-                );
+                enqueueSnackbar(values.role === UserRole.EMPLOYEE
+                  ? 'Mitarbeiter erfolgreich erstellt!'
+                  : 'Kunde erfolgreich registriert!', { variant: "success", autoHideDuration: 3000 });
                 onClose();
               } catch (err: any) {
                 dispatch(registerFailure(err));
-                dispatch(
-                  addNotification({
-                    message: err?.data?.friendlyMessage || 'An error occurred!',
-                    type: 'error',
-                    autoHideDuration: 3000,
-                  })
-                );
+                enqueueSnackbar(err?.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
               } finally {
                 actions.setSubmitting(false);
               }

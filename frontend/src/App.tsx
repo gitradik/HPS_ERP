@@ -13,16 +13,16 @@ function App() {
   const customizer = useSelector((state: RootState) => state.customizer); // Используем RootState
   return (
     <ThemeProvider theme={theme}>
-      <SnackbarProvider maxSnack={6}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left', 
-        }}>
         <RTL direction={customizer.activeDir}>
-          <CssBaseline />
-          <RouterProvider router={router} />
+          <SnackbarProvider maxSnack={3}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left', 
+            }}>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </SnackbarProvider>
         </RTL>
-      </SnackbarProvider>
     </ThemeProvider>
   );
 }

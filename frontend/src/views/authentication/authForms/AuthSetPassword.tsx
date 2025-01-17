@@ -8,11 +8,11 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
 
-interface SetPasswordProps {
+interface AuthSetPasswordProps {
   userId: string;
 }
 
-const SetPassword: React.FC<SetPasswordProps> = ({ userId }) => {
+const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [updateUser, { error: errorUpdateUser, isLoading }] = useUpdateUserMutation();
@@ -41,8 +41,8 @@ const SetPassword: React.FC<SetPasswordProps> = ({ userId }) => {
       }).unwrap();
 
       dispatch(refreshTokenFailure(""));
-      enqueueSnackbar('Passwort wurde erfolgreich geändert!', { variant: "success", autoHideDuration: 3000 });
-      enqueueSnackbar('Sie können sich jetzt mit Ihrer E-Mail und dem neuen Passwort anmelden.', { variant: "info", autoHideDuration: 5000 });
+      enqueueSnackbar('Passwort wurde erfolgreich geändert!', { variant: "success", autoHideDuration: 2500 });
+      enqueueSnackbar('Sie können sich jetzt mit Ihrer E-Mail und dem neuen Passwort anmelden.', { variant: "info", autoHideDuration: 4000 });
 
       navigate('/');
     } catch (err) {
@@ -109,4 +109,4 @@ const SetPassword: React.FC<SetPasswordProps> = ({ userId }) => {
   );
 };
 
-export default SetPassword;
+export default AuthSetPassword;

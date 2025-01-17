@@ -6,7 +6,6 @@ import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/accountSetting/AccountSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
 import userProfileReducer from './apps/userProfile/UserProfileSlice';
-import notificationsReducer from './apps/notifications/NotificationsSlice';
 import registerReducer from './apps/auth/RegisterSlice';
 
 export const store = configureStore({
@@ -17,7 +16,6 @@ export const store = configureStore({
     [employeeApi.reducerPath]: employeeApi.reducer,
     accountSetting: accountSettingReducer,
     register: registerReducer,
-    notifications: notificationsReducer,
     customizer: customizerReducer,
     userProfile: userProfileReducer,
   },

@@ -3,14 +3,14 @@ import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { emailVerifyFailure, emailVerifyRequest, emailVerifySuccess, selectUserId } from 'src/store/apps/auth/AuthSlice';
-import SetPassword from 'src/views/authentication/authForms/SetPassword';
-import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
+import AuthSetPassword from 'src/views/authentication/authForms/AuthSetPassword';
 import { useVerifyEmailMutation } from 'src/services/api/auth.api';
 import Spinner from 'src/views/spinner/Spinner';
-import Notifications from 'src/components/shared/Notifications';
+import { useSnackbar } from 'notistack';
 
 const EmailVerification = () => {
     const location = useLocation();
+      const { enqueueSnackbar } = useSnackbar();
     const queryParams = new URLSearchParams(location.search);
     const token = queryParams.get('token');
     const dispatch = useDispatch();
@@ -28,23 +28,11 @@ const EmailVerification = () => {
           // @ts-ignore
           const { verifyEmail } = result;
           dispatch(emailVerifySuccess(verifyEmail));
-          dispatch(
-            addNotification({
-              message: verifyEmail.message,
-              type: 'success',
-              autoHideDuration: 3000,
-            })
-          );
+          enqueueSnackbar(verifyEmail.message, { variant: "success", autoHideDuration: 3000 });
         })
         .catch((err) => {
           dispatch(emailVerifyFailure(err?.data?.friendlyMessage));
-          dispatch(
-            addNotification({
-              message: err?.data?.friendlyMessage,
-              type: 'error',
-              autoHideDuration: 3000,
-            })
-          );
+          enqueueSnackbar(err?.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
         });
     }
   }, []);
@@ -59,8 +47,7 @@ const EmailVerification = () => {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <Notifications />
-        {isSuccess && userId && <SetPassword userId={userId} />}
+        {isSuccess && userId && <AuthSetPassword userId={userId} />}
     </Box>
   );
 };

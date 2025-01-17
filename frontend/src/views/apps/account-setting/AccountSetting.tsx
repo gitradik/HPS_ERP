@@ -12,7 +12,6 @@ import { useSelector } from 'src/store/Store';
 import { selectUserId } from 'src/store/apps/auth/AuthSlice';
 import AccountTab from 'src/components/apps/account-setting/AccountTab';
 import NotificationTab from 'src/components/apps/account-setting/NotificationTab';
-import Notifications from 'src/components/shared/Notifications';
 import { useGetUserQuery } from 'src/services/api/user.api';
 
 const BCrumb = [
@@ -76,7 +75,6 @@ const AccountSetting = () => {
       {/* breadcrumb */}
       <Breadcrumb title="Kontoeinstellungen " items={BCrumb} />
       {/* end breadcrumb */}
-      <Notifications />
       <Grid container spacing={3}>
         <Grid size={12}>
           {user && <BlankCard>
@@ -86,7 +84,6 @@ const AccountSetting = () => {
                 onChange={handleChange}
                 variant="scrollable"
                 scrollButtons="auto"
-                aria-label="basic tabs example"
               >
                 <Tab
                   iconPosition="start"

@@ -3,8 +3,9 @@
 import React, { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
-import ProtectedRoute from './protectedRouteGuard';
-import PublicRouteGuard from './publicRouteGuard';
+import ProtectedRoute from './guards/protectedRouteGuard';
+import PublicRouteGuard from './guards/publicRouteGuard';
+import NonEmployeeRouteGuard from './guards/user-role-guards/nonEmployeeRouteGuard';
 
 
 /* ***Apps**** */
@@ -48,8 +49,8 @@ const Router = [
       { path: '/dashboards/modern', exact: true, element: <ProtectedRoute><ModernDash /></ProtectedRoute> },
       { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileContainer /></ProtectedRoute> },
       { path: '/account-setting', exact: true, element: <ProtectedRoute><AccountSetting /></ProtectedRoute> },
-      { path: '/employees', exact: true, element: <ProtectedRoute><Employees /></ProtectedRoute> },
-      { path: '/apps/users', element: <ProtectedRoute><UserProfileUsersContainer /></ProtectedRoute> },
+      { path: '/employees', exact: true, element: <ProtectedRoute><NonEmployeeRouteGuard><Employees /></NonEmployeeRouteGuard></ProtectedRoute> },
+      { path: '/apps/users', element: <ProtectedRoute><NonEmployeeRouteGuard><UserProfileUsersContainer /></NonEmployeeRouteGuard></ProtectedRoute> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

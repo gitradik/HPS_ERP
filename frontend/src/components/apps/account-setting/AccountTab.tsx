@@ -15,17 +15,18 @@ import { User, UserRole } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
 import { selectAccountSetting, setContactDetails, setEmail, setFirstName, setIsActive, setLastName, setPhoneNumber, setPosition, setRole, updateAccountSettings } from 'src/store/apps/accountSetting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { addNotification } from 'src/store/apps/notifications/NotificationsSlice';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { actives, roles, userAccessRules } from './AccountTabData';
 import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/user.api';
+import { useSnackbar } from 'notistack';
 
 
 
 const AccountTab = ({ user }: { user: User }) => {
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const data = useSelector(selectAccountSetting);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
@@ -39,18 +40,10 @@ const AccountTab = ({ user }: { user: User }) => {
     try {
       const result = await updateUser({ updateId: user.id, input: data }).unwrap();
       dispatch(updateUserSuccess(result.update));
-  
-      dispatch(addNotification({
-        message: 'User updated successfully!',
-        type: 'success',
-        autoHideDuration: 3000
-      }));
+      
+      enqueueSnackbar('Benutzer erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
     } catch ({ data }: any) {
-      dispatch(addNotification({
-        message: data.friendlyMessage,
-        type: 'error',
-        autoHideDuration: 3000
-      }));
+      enqueueSnackbar(data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
     }
   };
   const onCancel = async () => {

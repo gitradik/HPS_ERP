@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { selectIsAuthenticated, selectIsLoading } from '../store/apps/auth/AuthSlice';
+import { selectIsAuthenticated, selectIsLoading } from '../../store/apps/auth/AuthSlice';
 import { useSelector } from 'src/store/Store';
 import Spinner from 'src/views/spinner/Spinner';
 

@@ -5,11 +5,12 @@ import img1 from 'src/assets/images/profile/user-1.jpg';
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
 import { useLogoutMutation } from 'src/services/api/auth.api';
-import { logoutSuccess} from 'src/store/apps/auth/AuthSlice';
+import { logoutSuccess, selectUser} from 'src/store/apps/auth/AuthSlice';
 import { useDispatch } from 'react-redux';
 
 export const Profile = () => {
   const customizer = useSelector((state: RootState) => state.customizer);
+  const user = useSelector(selectUser);
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up('lg'));
   const hideMenu = lgUp ? customizer.isCollapse && !customizer.isSidebarHover : '';
   const [logout, { isLoading }] = useLogoutMutation();
@@ -35,10 +36,10 @@ export const Profile = () => {
         <>
           <Avatar alt="Remy Sharp" src={img1} />
 
-          <Box>
-            <Typography variant="h6">Hermann</Typography>
-            <Typography variant="caption">Geschäftsführung</Typography>
-          </Box>
+          {user && <Box>
+            <Typography variant="h6">{user.firstName}</Typography>
+            <Typography variant="caption">{user.position || "Position fehlt"}</Typography>
+          </Box>}
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
               <IconButton
