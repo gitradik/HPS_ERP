@@ -44,7 +44,6 @@ export default defineConfig({
     plugins: [svgr(), react()],
 
     build: {
-        outDir: 'build', // Change 'build' to whatever folder you want for output
-        assetsInlineLimit: 0
+        outDir: 'build',
     }
 });
