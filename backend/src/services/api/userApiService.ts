@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 import User from "../../models/User";
 import RefreshToken from "../../models/RefreshToken";
 import { UserRole } from "../../models/User";
+import { sendEmail } from "../mailService";
+import { LoginResponse } from "../../utils/types/auth";
 
 dotenv.config();
 
@@ -27,6 +29,20 @@ const SALT_ROUNDS = 10;
 const SECRET_KEY = process.env.JWT_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET!;
 const REFRESH_TOKEN_EXPIRATION = process.env.JWT_REFRESH_SECRET_EXPIRATION!;
+
+
+// Функция для генерации URL с токеном
+export const generateUrlWithToken = (userId: number) => {
+    const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
+    return `${process.env.FRONTEND_URL}/auth/verify?token=${token}`;
+};
+
+// Универсальная функция для отправки email с токеном
+export const sendVerificationEmail = (userId: number, email: string) => {
+    const tokenUrl = generateUrlWithToken(userId);
+    sendEmail(email, 'Bestätigen Sie Ihr Konto', `Klicken Sie auf den Link, um Ihr Konto zu bestätigen: ${tokenUrl}`);
+};
+
 
 const createTokens = (userId: number, role: UserRole) => {
     const accessToken = jwt.sign({ id: userId, role }, SECRET_KEY, {
@@ -84,6 +100,9 @@ const userService = {
     },
 
     async updateUser(id: number, input: UpdateUserInput) {
+        if (input.password) {
+            input.password = await bcrypt.hash(input.password, SALT_ROUNDS);
+        }
         await User.update(input, { where: { id } });
         return await User.findByPk(id);
     },
@@ -178,7 +197,7 @@ const userService = {
             phoneNumber,
             password: hashedPassword,
             role: role || UserRole.USER,
-            isActive: true,
+            isActive: false,
         });
 
         if (!newUser) {
@@ -234,7 +253,42 @@ const userService = {
             success: true,
             message: "User logged out successfully.",
         })
-    }
+    },
+    async verification(user: User): Promise<void> {
+        const { id, email } = user;
+        sendVerificationEmail(id, email!)
+    },
+    async verifyEmail(token: string): Promise<LoginResponse> {
+        const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload & {
+            userId: number;
+        };
+
+        if (!decoded.userId) {
+            throw new ApolloError("Invalid token");
+        }
+
+        const user = await User.findByPk(decoded.userId);
+        if (!user) {
+            throw new ApolloError("User not found");
+        }
+
+        if (user.isActive) {
+            throw new ApolloError("User already verified");
+        }
+
+        await user.update({ isActive: true });
+
+        
+        const { accessToken, refreshToken } = createTokens(user.id, user.role);
+        
+        return ({
+            success: true,
+            message: "Email verification successful.",
+            accessToken,
+            refreshToken,
+            user
+        })
+    },
 };
 
 export default userService;

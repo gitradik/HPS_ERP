@@ -40,6 +40,7 @@ const userSchema = gql`
         lastName: String
         email: String
         phoneNumber: String
+        password: String
         role: UserRole
         isActive: Boolean
         position: String
@@ -96,6 +97,7 @@ const userSchema = gql`
         ): LoginResponse!
         logout: LogoutResponse!
         refreshToken(refreshToken: String!): LoginResponse!
+        verifyEmail(token: String!): LoginResponse!
     }
 `;
 

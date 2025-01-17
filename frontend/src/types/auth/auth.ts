@@ -34,6 +34,7 @@ export interface UpdateUserInput {
   phoneNumber?: string;
   firstName?: string;
   lastName?: string;
+  password?: string;
   position?: string;
   contactDetails?: string;
   isActive?: boolean;

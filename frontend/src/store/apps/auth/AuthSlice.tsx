@@ -7,6 +7,7 @@ interface AuthState {
   accessToken: string | null;
   refreshToken: string | null;
   loading: boolean;
+  isAuth: boolean;
   error: string | null;
   user: User | null;
 }
@@ -16,7 +17,8 @@ const initialState: AuthState = {
   refreshToken: null,
   loading: false,
   error: null,
-  user: null
+  user: null,
+  isAuth: false,
 };
 
 const authSlice = createSlice({
@@ -29,6 +31,7 @@ const authSlice = createSlice({
     },
     loginSuccess: (state, action: PayloadAction<LoginResponse>) => {
       state.loading = false;
+      state.isAuth = true;
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
@@ -41,6 +44,7 @@ const authSlice = createSlice({
     },
     logoutSuccess: (state) => {
       state.user = null;
+      state.isAuth = false;
       state.accessToken = null;
       state.refreshToken = null;
       localStorage.removeItem(ACCESS_TOKEN);
@@ -53,6 +57,7 @@ const authSlice = createSlice({
     refreshTokenSuccess: (state, action: PayloadAction<RefreshTokenResponse>) => {
       state.loading = false;
       state.user = action.payload.user;
+      state.isAuth = true;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       localStorage.setItem(ACCESS_TOKEN, state.accessToken);
@@ -62,6 +67,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
       state.user = null;
+      state.isAuth = false;
       state.accessToken = null;
       state.refreshToken = null;
       localStorage.removeItem(ACCESS_TOKEN);
@@ -75,15 +81,34 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    emailVerifyRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    emailVerifySuccess: (state, action: PayloadAction<LoginResponse>) => {
+      state.loading = false;
+      state.user = action.payload.user;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      localStorage.setItem(ACCESS_TOKEN, state.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, state.refreshToken);
+    },
+    emailVerifyFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const selectIsAuthenticated = (state: { auth: AuthState }) => !!(state.auth.user && state.auth.accessToken);
+export const selectIsAuthenticated = (state: { auth: AuthState }) => !!(state.auth.user && state.auth.accessToken && state.auth.isAuth);
 export const selectUserId = (state: { auth: AuthState }) => state.auth.user?.id;
 export const selectIsLoading = (state: { auth: AuthState }) => state.auth.loading;
 
 export const { loginRequest, loginSuccess, loginFailure, logoutSuccess, refreshTokenRequest, refreshTokenFailure, refreshTokenSuccess,
   updateUserSuccess,
   updateUserFailure,
+  emailVerifyRequest,
+  emailVerifySuccess,
+  emailVerifyFailure,
  } = authSlice.actions;
 export default authSlice.reducer;

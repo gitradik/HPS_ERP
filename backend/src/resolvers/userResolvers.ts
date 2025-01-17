@@ -147,6 +147,7 @@ const resolvers = {
                 context,
                 info
             ),
+        verifyEmail: async (_: any, { token }: { token: string }): Promise<LoginResponse> => await userService.verifyEmail(token),
     },
 };
 

@@ -112,7 +112,34 @@ const authApi = createApi({
         `,
       }),
     }),
-    // ***USER CRUD*** >
+    verifyEmail: builder.mutation<RegisterResponse, { token: string }>({
+      query: ({ token }) => ({
+        document: gql`
+          mutation VerifyEmail($token: String!) {
+            verifyEmail(token: $token) {
+              success
+              message
+              accessToken
+              refreshToken
+              user {
+                id
+                role
+                email
+                phoneNumber
+                firstName
+                lastName
+                position
+                contactDetails
+                isActive
+                updatedAt
+                createdAt
+              }
+            }
+          }
+        `,
+        variables: { token },
+      }),
+    }),
   }),
 });
 
@@ -121,6 +148,7 @@ export const {
   useRegisterMutation,
   useRefreshTokenMutation,
   useLogoutMutation,
+  useVerifyEmailMutation,
 } = authApi;
 
 export default authApi;

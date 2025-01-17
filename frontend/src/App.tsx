@@ -6,16 +6,23 @@ import { RootState } from './store/Store';  // Используем RootState в
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { RouterProvider } from 'react-router';
 import router from './routes/Router';
+import { SnackbarProvider } from 'notistack';
 
 function App() {
   const theme = ThemeSettings();
   const customizer = useSelector((state: RootState) => state.customizer); // Используем RootState
   return (
     <ThemeProvider theme={theme}>
-      <RTL direction={customizer.activeDir}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </RTL>
+      <SnackbarProvider maxSnack={6}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left', 
+        }}>
+        <RTL direction={customizer.activeDir}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </RTL>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

@@ -29,7 +29,7 @@ const ProfileBanner = ({ user }: { user: User }) => {
 
   return (<>
     <BlankCard>
-      <CardMedia component="img" image={profilecover} alt={profilecover} width="100%" sx={{ maxHeight: '320px' }} />
+      <CardMedia component="img" image={profilecover} alt={profilecover} sx={{ height: 'auto', maxHeight: '320px', maxWidth: '100%' }} />
       <Grid container spacing={0} justifyContent="center" alignItems="center">
         {/* about profile */}
         <Grid
@@ -51,7 +51,7 @@ const ProfileBanner = ({ user }: { user: User }) => {
             textAlign="center"
             justifyContent="center"
             sx={{
-              mt: '-85px',
+              mt: '-115px',
             }}
           >
             <Box>

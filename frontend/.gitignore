@@ -23,9 +23,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-
-# Митарбайтер:
-
-# name role(select) email phone address
-
-# после создания карточки, письмо сотруднику на emai > сотрудник создает ааккаунт
