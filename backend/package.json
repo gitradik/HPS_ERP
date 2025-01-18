@@ -3,7 +3,6 @@
     "version": "1.0.0",
     "description": "",
     "main": "src/server.ts",
-    "type": "module",
     "scripts": {
         "build": "NODE_OPTIONS='--max-old-space-size=2048' tsc && npm run lint",
         "build:dev": "tsc && npm run lint",
