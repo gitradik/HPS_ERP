@@ -30,7 +30,6 @@ const SECRET_KEY = process.env.JWT_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.JWT_REFRESH_SECRET!;
 const REFRESH_TOKEN_EXPIRATION = process.env.JWT_REFRESH_SECRET_EXPIRATION!;
 
-
 // Функция для генерации URL с токеном
 export const generateUrlWithToken = (userId: number) => {
     const token = jwt.sign({ userId }, SECRET_KEY, { expiresIn: "1h" });
@@ -42,7 +41,6 @@ export const sendVerificationEmail = (userId: number, email: string) => {
     const tokenUrl = generateUrlWithToken(userId);
     sendEmail(email, 'Bestätigen Sie Ihr Konto', `Klicken Sie auf den Link, um Ihr Konto zu bestätigen: ${tokenUrl}`);
 };
-
 
 const createTokens = (userId: number, role: UserRole) => {
     const accessToken = jwt.sign({ id: userId, role }, SECRET_KEY, {
@@ -123,7 +121,7 @@ const userService = {
     }) {
         if (!email && !phoneNumber) {
             throw new ApolloError(
-                "Either email must be provided."
+                "Entweder eine E-Mail-Adresse muss angegeben werden."
             );
         }
 
@@ -137,12 +135,12 @@ const userService = {
         }
 
         if (!user) {
-            throw new ApolloError("User not found.");
+            throw new ApolloError("Benutzer nicht gefunden.");
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            throw new ApolloError("Invalid credentials.");
+            throw new ApolloError("Ungültige Anmeldedaten.");
         }
 
         const { accessToken, refreshToken } = createTokens(user.id, user.role);
@@ -154,7 +152,7 @@ const userService = {
 
         return {
             success: true,
-            message: "Login successful.",
+            message: "Anmeldung erfolgreich.",
             accessToken,
             refreshToken,
             user,
@@ -167,7 +165,7 @@ const userService = {
 
         if (!email && !phoneNumber) {
             throw new ApolloError(
-                "Either email must be provided."
+                "Entweder eine E-Mail-Adresse muss angegeben werden."
             );
         }
 
@@ -185,7 +183,7 @@ const userService = {
 
         if (existingUser) {
             throw new ApolloError(
-                "User with this email already exists."
+                "Ein Benutzer mit dieser E-Mail-Adresse existiert bereits."
             );
         }
 
@@ -201,12 +199,12 @@ const userService = {
         });
 
         if (!newUser) {
-            throw new ApolloError("Failed to create user.");
+            throw new ApolloError("Benutzer konnte nicht erstellt werden.");
         }
 
         return {
             success: true,
-            message: "User registered successfully.",
+            message: "Benutzer erfolgreich registriert.",
             user: newUser,
         };
     },
@@ -217,19 +215,19 @@ const userService = {
             REFRESH_TOKEN_SECRET
         ) as JwtPayload & { id: number };
         if (!decoded.id) {
-            throw new ApolloError("Invalid refresh token.");
+            throw new ApolloError("Ungültiges Refresh-Token.");
         }
 
         const storedToken = await RefreshToken.findOne({
             where: { userId: decoded.id, token: refreshToken },
         });
         if (!storedToken) {
-            throw new ApolloError("Invalid or expired refresh token.");
+            throw new ApolloError("Ungültiges oder abgelaufenes Refresh-Token.");
         }
 
         const user = await User.findByPk(decoded.id);
         if (!user) {
-            throw new ApolloError("User not found.");
+            throw new ApolloError("Benutzer nicht gefunden.");
         }
 
         const { accessToken, refreshToken: newRefreshToken } = createTokens(
@@ -241,7 +239,7 @@ const userService = {
 
         return {
             success: true,
-            message: "Tokens refreshed successfully.",
+            message: "Tokens erfolgreich aktualisiert.",
             accessToken,
             refreshToken: newRefreshToken,
             user,
@@ -249,14 +247,14 @@ const userService = {
     },
 
     async getLogoutResponse() {
-        return ({
+        return {
             success: true,
-            message: "User logged out successfully.",
-        })
+            message: "Benutzer erfolgreich abgemeldet.",
+        };
     },
     async verification(user: User): Promise<void> {
         const { id, email } = user;
-        sendVerificationEmail(id, email!)
+        sendVerificationEmail(id, email!);
     },
     async verifyEmail(token: string): Promise<LoginResponse> {
         const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload & {
@@ -264,30 +262,29 @@ const userService = {
         };
 
         if (!decoded.userId) {
-            throw new ApolloError("Invalid token");
+            throw new ApolloError("Ungültiges Token.");
         }
 
         const user = await User.findByPk(decoded.userId);
         if (!user) {
-            throw new ApolloError("User not found");
+            throw new ApolloError("Benutzer nicht gefunden.");
         }
 
         if (user.isActive) {
-            throw new ApolloError("User already verified");
+            throw new ApolloError("Benutzer wurde bereits verifiziert.");
         }
 
         await user.update({ isActive: true });
 
-        
         const { accessToken, refreshToken } = createTokens(user.id, user.role);
-        
-        return ({
+
+        return {
             success: true,
-            message: "Email verification successful.",
+            message: "E-Mail-Verifizierung erfolgreich.",
             accessToken,
             refreshToken,
-            user
-        })
+            user,
+        };
     },
 };
 

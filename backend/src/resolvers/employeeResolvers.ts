@@ -46,21 +46,6 @@ const employeeResolvers = {
                 info
             );
         },
-        activeEmployees: async (): Promise<Employee[]> =>
-            await Employee.findAll({
-                include: {
-                    model: User,
-                    where: { isActive: true },
-                    required: true,
-                    as: "user",
-                },
-            }),
-        employeeByUserId: async (
-            _: unknown,
-            { userId }: { userId: number }
-        ): Promise<Employee | null> => {
-            return await Employee.findOne({ where: { userId } });
-        },
     },
     Mutation: {
         createEmployee: async (

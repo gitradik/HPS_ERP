@@ -1,75 +1,73 @@
 import { UserRole } from "../models/User";
 import Client from "../models/Client";
-import User from "../models/User";
+import { authMiddleware } from "../middlewares/authMiddleware";
+import { roleMiddleware } from "../middlewares/roleMiddleware";
+import clientService from "../services/api/clientApiService";
 
 const clientResolvers = {
     Query: {
-        clients: async (): Promise<Client[]> => await Client.findAll(),
+        clients: async (parent: any, args: any, context: any, info: any): Promise<Client[]> => {
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) =>
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+                        () => clientService.getClients(),
+                        parent,
+                        args,
+                        context,
+                        info
+                    ),
+                parent,
+                args,
+                context,
+                info
+            );
+        },
         client: async (
-            _: unknown,
-            { id }: { id: number }
-        ): Promise<Client | null> => await Client.findByPk(id),
-        activeClients: async (): Promise<Client[]> =>
-            await Client.findAll({
-                include: {
-                    model: User,
-                    where: { isActive: true },
-                    required: true,
-                    as: "user",
-                },
-            }),
-        clientByUserId: async (
-            _: unknown,
-            { userId }: { userId: number }
-        ): Promise<Client | null> =>
-            await Client.findOne({ where: { userId } }),
+            parent: any,
+            { id }: { id: number },
+            context: any,
+            info: any
+        ): Promise<Client | null> => {
+            return await authMiddleware(
+                (parent: any, args: any, context: any, info: any) =>
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+                        () => clientService.getClientById(id),
+                        parent,
+                        { id },
+                        context,
+                        info
+                    ),
+                parent,
+                { id },
+                context,
+                info
+            );
+        },
     },
     Mutation: {
         createClient: async (
-            _: unknown,
-            { input }: { input: { userId: number } }
+            parent: any,
+            { input }: { input: { userId: number } },
+            context: any,
+            info: any
         ): Promise<Client> => {
-            const { userId } = input;
-
-            const user = await User.findByPk(userId);
-
-            if (!user) {
-                throw new Error(`User with id ${userId} not found`);
-            }
-
-            if (user.role !== UserRole.USER) {
-                throw new Error(
-                    `User with id ${userId} already has a different role`
-                );
-            }
-
-            const newClient = await Client.create({ userId });
-
-            await user.update({ role: UserRole.CLIENT });
-        
-            if (newClient) {
-                return await newClient.reload({ include: { model: User, as: 'user' } });
-            }
-            
-            throw new Error('Client creation failed');
-        },
-
-        deleteClient: async (
-            _: unknown,
-            { id }: { id: number }
-        ): Promise<boolean> => {
-            const client = await Client.findByPk(id);
-            if (!client) {
-                throw new Error(`Client with id ${id} not found`);
-            }
-
-            await client.destroy();
-            const user = await User.findByPk(client.userId);
-            if (user) {
-                await user.destroy();
-            }
-
-            return true;
+            return await authMiddleware(
+                (_parent: any, _args: any, _context: any, _info: any) =>
+                    roleMiddleware(
+                        [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+                        () => clientService.createClient(input.userId),
+                        _parent,
+                        { input },
+                        _context,
+                        _info
+                    ),
+                parent,
+                { input },
+                context,
+                info
+            );
         },
     },
 };
