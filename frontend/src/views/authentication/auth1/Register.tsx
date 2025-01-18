@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { Grid2 as Grid, Box, Typography, Stack } from '@mui/material';
 
 import PageContainer from 'src/components/container/PageContainer';
-import img1 from '../../../assets/images/backgrounds/login-bg.svg';
+import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 
 import AuthRegister from '../authForms/AuthRegister';

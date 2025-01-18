@@ -45,5 +45,6 @@ export default defineConfig({
 
     build: {
         outDir: 'build',
+        assetsInlineLimit: 100,
     }
 });
