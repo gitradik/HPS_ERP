@@ -13,13 +13,13 @@ const Maintenance = () => (
     <Container maxWidth="md">
       <img src={MaintenanceImg} alt="404" style={{ width: '100%', maxWidth: '500px' }} />
       <Typography align="center" variant="h1" mb={4}>
-        Maintenance Mode!!!
+        Wartungsmodus!!!
       </Typography>
       <Typography align="center" variant="h4" mb={4}>
-        Website is Under Construction. Check back later!
+        Website ist in Bearbeitung. Bitte später wiederkommen!
       </Typography>
       <Button color="primary" variant="contained" component={Link} to="/" disableElevation>
-        Go Back to Home
+        Zurück zur Startseite
       </Button>
     </Container>
   </Box>

@@ -5,13 +5,12 @@ import { Grid2 as Grid, Box, Typography } from '@mui/material';
 
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import PageContainer from 'src/components/container/PageContainer';
-
-import img1 from 'src/assets/images/backgrounds/login-bg.svg';
+import img1 from '../../../assets/images/backgrounds/login-bg.svg';
 
 import AuthForgotPassword from '../authForms/AuthForgotPassword';
 
 const ForgotPassword = () => (
-  <PageContainer title="Forgot Password" description="this is Forgot Password page">
+  <PageContainer title="Passwort vergessen" description="Dies ist die Passwort vergessen Seite">
     <Grid container justifyContent="center" spacing={0} sx={{ overflowX: 'hidden' }}>
       <Grid
         sx={{
@@ -40,7 +39,7 @@ const ForgotPassword = () => (
           <Box
             alignItems="center"
             justifyContent="center"
-            height={'calc(100vh - 75px)'}
+            height={'calc(100vh - 50px)'}
             sx={{
               display: {
                 xs: 'none',
@@ -53,7 +52,7 @@ const ForgotPassword = () => (
               alt="bg"
               style={{
                 width: '100%',
-                maxWidth: '500px',
+                maxWidth: '50%',
               }}
             />
           </Box>

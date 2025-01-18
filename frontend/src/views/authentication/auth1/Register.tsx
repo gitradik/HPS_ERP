@@ -5,13 +5,13 @@ import { Link } from 'react-router';
 import { Grid2 as Grid, Box, Typography, Stack } from '@mui/material';
 
 import PageContainer from 'src/components/container/PageContainer';
-import img1 from 'src/assets/images/backgrounds/login-bg.svg';
+import img1 from '../../../assets/images/backgrounds/login-bg.svg';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 
 import AuthRegister from '../authForms/AuthRegister';
 
 const Register = () => (
-  <PageContainer title="Register" description="this is Register page">
+  <PageContainer title="Registrierung" description="Dies ist die Registrierungsseite">
     <Grid container spacing={0} justifyContent="center" sx={{ overflowX: 'hidden' }}>
       <Grid
         sx={{
@@ -40,7 +40,7 @@ const Register = () => (
           <Box
             alignItems="center"
             justifyContent="center"
-            height={'calc(100vh - 75px)'}
+            height={'calc(100vh - 50px)'}
             sx={{
               display: {
                 xs: 'none',
@@ -53,7 +53,7 @@ const Register = () => (
               alt="bg"
               style={{
                 width: '100%',
-                maxWidth: '500px',
+                maxWidth: '50%',
               }}
             />
           </Box>

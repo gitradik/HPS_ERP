@@ -14,13 +14,13 @@ const Error: FC = () => (
     <Container maxWidth="md">
       <img src={ErrorImg} alt="404" style={{ width: '100%', maxWidth: '500px' }} />
       <Typography align="center" variant="h1" mb={4}>
-        Opps!!!
+        Ups!!!
       </Typography>
       <Typography align="center" variant="h4" mb={4}>
-        This page you are looking for could not be found.
+        Die Seite, die Sie suchen, konnte nicht gefunden werden.
       </Typography>
       <Button color="primary" variant="contained" component={Link} to="/" disableElevation>
-        Go Back to Home
+        Zurück zur Startseite
       </Button>
     </Container>
   </Box>

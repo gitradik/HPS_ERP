@@ -4,12 +4,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import { Grid2 as Grid, Box, Stack, Typography } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
-import img1 from 'src/assets/images/backgrounds/login-bg.svg';
+import img1 from '../../../assets/images/backgrounds/login-bg.svg';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from '../authForms/AuthLogin';
 
 const Login = () => (
-  <PageContainer title="Login" description="this is Login page">
+  <PageContainer title="Anmeldung" description="Dies ist die Anmeldeseite">
     <Grid container spacing={0} sx={{ overflowX: 'hidden' }}>
       <Grid
         sx={{
@@ -38,7 +38,7 @@ const Login = () => (
           <Box
             alignItems="center"
             justifyContent="center"
-            height={'calc(100vh - 75px)'}
+            height={'calc(100vh - 50px)'}
             sx={{
               display: {
                 xs: 'none',
@@ -51,7 +51,7 @@ const Login = () => (
               alt="bg"
               style={{
                 width: '100%',
-                maxWidth: '500px',
+                maxWidth: '50%',
               }}
             />
           </Box>

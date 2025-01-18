@@ -4,13 +4,13 @@ import React from 'react';
 import { Grid2 as Grid, Box, Typography } from '@mui/material';
 
 import PageContainer from 'src/components/container/PageContainer';
-import img1 from 'src/assets/images/backgrounds/login-bg.svg';
+import img1 from '../../../assets/images/backgrounds/login-bg.svg';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 
 import AuthTwoSteps from '../authForms/AuthTwoSteps';
 
 const TwoSteps = () => (
-  <PageContainer title="Two Steps" description="this is Two Steps page">
+  <PageContainer title="Zwei Schritte" description="Dies ist die Zwei-Schritte-Seite">
     <Grid container spacing={0} justifyContent="center" sx={{ overflowX: 'hidden' }}>
       <Grid
         sx={{
@@ -39,7 +39,7 @@ const TwoSteps = () => (
           <Box
             alignItems="center"
             justifyContent="center"
-            height={'calc(100vh - 75px)'}
+            height={'calc(100vh - 50px)'}
             sx={{
               display: {
                 xs: 'none',
@@ -52,7 +52,7 @@ const TwoSteps = () => (
               alt="bg"
               style={{
                 width: '100%',
-                maxWidth: '500px',
+                maxWidth: '50%',
               }}
             />
           </Box>
@@ -70,12 +70,11 @@ const TwoSteps = () => (
         }}>
         <Box p={4}>
           <Typography variant="h4" fontWeight="700">
-            Two Step Verification
+            Zwei-Faktor-Authentifizierung
           </Typography>
 
           <Typography variant="subtitle1" color="textSecondary" mt={2} mb={1}>
-            We sent a verification code to your mobile. Enter the code from the mobile in the field
-            below.
+            Wir haben einen Bestätigungscode an Ihr Mobiltelefon gesendet. Geben Sie den Code aus dem Mobiltelefon in das untenstehende Feld ein.
           </Typography>
           <Typography variant="subtitle1" fontWeight="700" mb={1}>
             ******1234
