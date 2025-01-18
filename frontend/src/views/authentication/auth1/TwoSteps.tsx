@@ -8,6 +8,7 @@ import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 
 import AuthTwoSteps from '../authForms/AuthTwoSteps';
+import { ReactSVG } from 'react-svg';
 
 const TwoSteps = () => (
   <PageContainer title="Zwei Schritte" description="Dies ist die Zwei-Schritte-Seite">
@@ -47,14 +48,7 @@ const TwoSteps = () => (
               },
             }}
           >
-            <img
-              src={img1}
-              alt="bg"
-              style={{
-                width: '100%',
-                maxWidth: '50%',
-              }}
-            />
+            <ReactSVG src={img1} style={{ width: '100%', maxWidth: '50%' }} />
           </Box>
         </Box>
       </Grid>

@@ -8,6 +8,7 @@ import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
 
 import AuthForgotPassword from '../authForms/AuthForgotPassword';
+import { ReactSVG } from 'react-svg';
 
 const ForgotPassword = () => (
   <PageContainer title="Passwort vergessen" description="Dies ist die Passwort vergessen Seite">
@@ -47,14 +48,7 @@ const ForgotPassword = () => (
               },
             }}
           >
-            <img
-              src={img1}
-              alt="bg"
-              style={{
-                width: '100%',
-                maxWidth: '50%',
-              }}
-            />
+            <ReactSVG src={img1} style={{ width: '100%', maxWidth: '50%' }} />
           </Box>
         </Box>
       </Grid>
