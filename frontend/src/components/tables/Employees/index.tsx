@@ -19,7 +19,7 @@ const columnHelper = createColumnHelper<Employee>();
 
 const columns = [
   columnHelper.accessor('user', {
-    header: () => 'User Details',
+    header: () => 'Benutzerdetails', // User Details
     cell: (info) => (
       <Box>
         <Typography variant="h6" fontWeight="600" mb={1}>
@@ -32,7 +32,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor('user', {
-    header: () => 'Position',
+    header: () => 'Position', // Position
     cell: (info) => (
       <Typography variant="body2" color="textSecondary">
         {info.getValue().position || 'N/A'}
@@ -40,7 +40,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor('user', {
-    header: () => 'Address',
+    header: () => 'Adresse', // Address
     cell: (info) => (
       <Typography variant="body2" color="textSecondary">
         {info.getValue().contactDetails || 'N/A'}
@@ -48,15 +48,15 @@ const columns = [
     ),
   }),
   columnHelper.accessor('user', {
-    header: () => 'Status',
+    header: () => 'Status', // Status
     cell: (info) => (
       <Typography color={info.getValue().isActive ? 'green' : 'red'} variant="body2">
-        {info.getValue().isActive ? 'Active' : 'Inactive'}
+        {info.getValue().isActive ? 'Aktiv' : 'Inaktiv'}
       </Typography>
     ),
   }),
   columnHelper.accessor('updatedAt', {
-    header: () => 'Last Updated',
+    header: () => 'Zuletzt aktualisiert', // Last Updated
     cell: (info) => (
       <Typography variant="body2" color="textSecondary">
         {moment(Number(info.getValue())).format('YYYY-MM-DD HH:mm:ss')}
@@ -75,12 +75,12 @@ const EmployeesTable = ({ employees }: { employees: Employee[] }) => {
   });
 
   const handleDownload = () => {
-    const headers = ['User Details', 'Position', 'Address', 'Status', 'Last Updated'];
+    const headers = ['Benutzerdetails', 'Position', 'Adresse', 'Status', 'Zuletzt aktualisiert'];
     const rows = data.map((item: Employee) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.position || 'N/A',
       item.user.contactDetails || 'N/A',
-      item.user.isActive ? 'Active' : 'Inactive',
+      item.user.isActive ? 'Aktiv' : 'Inaktiv',
       moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
@@ -94,7 +94,7 @@ const EmployeesTable = ({ employees }: { employees: Employee[] }) => {
 
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'Employees-data.csv');
+    link.setAttribute('download', 'Mitarbeiter-Daten.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -124,7 +124,7 @@ const EmployeesTable = ({ employees }: { employees: Employee[] }) => {
             {table.getRowModel().rows.map((row, idx) => (
               <TableRow key={`EmployeesTableRow-${row.original.user.id}-${idx}`}>
                 {row.getVisibleCells().map((cell, idxChild) => (
-                  <TableCell key={`EmployeesTableCell-${row.original.user.id}-${cell.column.id}-${idxChild}`}> {/* Комбинируем user.id и column.id */}
+                  <TableCell key={`EmployeesTableCell-${row.original.user.id}-${cell.column.id}-${idxChild}`}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

@@ -71,12 +71,11 @@ const ForgotPassword = () => (
         }}>
         <Box p={4}>
           <Typography variant="h4" fontWeight="700">
-            Forgot your password?
+            Passwort vergessen?
           </Typography>
 
           <Typography color="textSecondary" variant="subtitle2" fontWeight="400" mt={2}>
-            Please enter the email address associated with your account and We will email you a link
-            to reset your password.
+            Bitte geben Sie die E-Mail-Adresse ein, die mit Ihrem Konto verknüpft ist. Wir senden Ihnen einen Link, um Ihr Passwort zurückzusetzen.
           </Typography>
           <AuthForgotPassword />
         </Box>

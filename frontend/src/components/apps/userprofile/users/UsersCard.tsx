@@ -110,11 +110,10 @@ const UsersCard = () => {
             <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
               <TextField
                 id="outlined-search"
-                placeholder="Search Friends"
+                placeholder="Benutzer suchen"
                 size="small"
                 type="search"
                 variant="outlined"
-                inputProps={{ 'aria-label': 'Search Followers' }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -130,8 +129,7 @@ const UsersCard = () => {
       </Grid>
       
       
-      {getUsers().map((profile) => {
-        return (
+      {getUsers().map((profile) => ((
           (<Grid
             key={profile.id}
             size={{
@@ -173,8 +171,7 @@ const UsersCard = () => {
               </Box>
             </BlankCard>
           </Grid>)
-        );
-      })}
+        )))}
     </Grid>
   </>);
 };
