@@ -27,7 +27,7 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId }) => {
   };
 
   const validationSchema = Yup.object({
-    password: Yup.string().min(4, 'Das Passwort muss mindestens 4 Zeichen enthalten').required('Passwort ist erforderlich'),
+    password: Yup.string().min(5, 'Das Passwort muss mindestens 5 Zeichen enthalten').required('Passwort ist erforderlich'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Die Passwörter müssen übereinstimmen')
       .required('Passwortbestätigung ist erforderlich'),

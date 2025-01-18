@@ -21,7 +21,7 @@ import {
   IconPlus
 } from '@tabler/icons-react';
 import { useGetUsersQuery } from 'src/services/api/user.api';
-import img2 from 'src/assets/images/profile/user-2.jpg';
+import img3 from 'src/assets/images/profile/user-5.jpg';
 import { User, UserRole } from 'src/types/auth/auth';
 import CreateUserDialog from './CreateUserDialog';
 import { useSelector } from 'src/store/Store';
@@ -143,8 +143,8 @@ const UsersCard = () => {
               <CardContent>
                 <Stack direction={'column'} gap={1} alignItems="center">
                   <Avatar
-                    alt="Remy Sharp"
-                    src={img2}
+                    alt={`${profile.firstName} ${profile.lastName}`}
+                    src={img3}
                     sx={{ width: '80px', height: '80px' }}
                   />
                   <Box textAlign={'center'}>

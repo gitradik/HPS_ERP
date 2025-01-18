@@ -42,17 +42,17 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
     const [createClient, { isLoading: isClientLoading }] = useCreateClientMutation();
   
     const initialValues = {
-      role: '', // Без значения по умолчанию
+      role: '',
     };
   
     const validationSchema = Yup.object({
       role: Yup.string()
-        .oneOf(Object.values(UserRole), 'Invalid role') // Используем значения из UserRole
-        .required('Role is required'),
-    });
+        .oneOf(Object.values(UserRole), 'Ungültige Rolle')
+        .required('Rolle ist erforderlich'),
+    });    
   
     return (
-      <Dialog open={open} onClose={onClose} fullWidth>
+      <Dialog fullWidth maxWidth="xs" open={open} onClose={onClose}>
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           {subtext && <Typography variant="body2" mb={2}>{subtext}</Typography>}
@@ -114,28 +114,24 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
                   </Box>
   
                 </Stack>
-  
-                <Box sx={{ mt: 4 }}>
+                
+                <DialogActions sx={{ mt: 2 }}>
                   <Button
                     type="submit"
-                    color="primary"
                     variant="contained"
-                    size="large"
-                    fullWidth
+                    color="primary"
                     disabled={props.isSubmitting || isEmployeeLoading || isClientLoading}
                   >
                     {(isEmployeeLoading || isClientLoading) ? 'Wird verarbeitet...' : 'Absenden'}
                   </Button>
-                </Box>
+                  <Button onClick={onClose} color="error">
+                    Abbrechen
+                  </Button>
+                </DialogActions>
               </form>
             )}
           </Formik>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} color="secondary">
-            Abbrechen
-          </Button>
-        </DialogActions>
       </Dialog>
     );
   };
