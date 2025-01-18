@@ -19,6 +19,7 @@ import {
   import { User, UserRole } from 'src/types/auth/auth'; // Импортируем ваш enum
 import { registerFailure, registerRequest, registerSuccess } from 'src/store/apps/auth/RegisterSlice';
 import { useSnackbar } from 'notistack';
+import { useCreateClientMutation } from 'src/services/api/client.api';
   
   interface CreateEmployeeOrClientDialogProps {
     open: boolean;
@@ -38,6 +39,7 @@ import { useSnackbar } from 'notistack';
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const [createEmployee, { isLoading: isEmployeeLoading }] = useCreateEmployeeMutation();
+    const [createClient, { isLoading: isClientLoading }] = useCreateClientMutation();
   
     const initialValues = {
       role: '', // Без значения по умолчанию
@@ -66,7 +68,9 @@ import { useSnackbar } from 'notistack';
                     userId: Number(user.id), 
                   }).unwrap();
                 } else {
-                    console.log("emitation Client create request")
+                  await createClient({
+                    userId: Number(user.id), 
+                  }).unwrap();
                 }
                 
                 dispatch(registerSuccess());
@@ -118,9 +122,9 @@ import { useSnackbar } from 'notistack';
                     variant="contained"
                     size="large"
                     fullWidth
-                    disabled={props.isSubmitting || isEmployeeLoading}
+                    disabled={props.isSubmitting || isEmployeeLoading || isClientLoading}
                   >
-                    {isEmployeeLoading ? 'Wird verarbeitet...' : 'Absenden'}
+                    {(isEmployeeLoading || isClientLoading) ? 'Wird verarbeitet...' : 'Absenden'}
                   </Button>
                 </Box>
               </form>

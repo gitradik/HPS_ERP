@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector, TypedUseSelectorHook } from 'react-redux';
-import { authApi, employeeApi, userApi } from '../services/api';
+import { authApi, clientApi, employeeApi, userApi } from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/accountSetting/AccountSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
@@ -14,6 +14,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
+    [clientApi.reducerPath]: clientApi.reducer,
     accountSetting: accountSettingReducer,
     register: registerReducer,
     customizer: customizerReducer,
@@ -24,6 +25,7 @@ export const store = configureStore({
       authApi.middleware,
       userApi.middleware,
       employeeApi.middleware,
+      clientApi.middleware,
     ),
 });
 
