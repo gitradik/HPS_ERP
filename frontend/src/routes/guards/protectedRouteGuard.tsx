@@ -5,17 +5,19 @@ import { useSelector } from 'src/store/Store';
 import Spinner from 'src/views/spinner/Spinner';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  console.log("ProtectedRoute START")
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const isLoading = useSelector(selectIsLoading);
-
-  if (!isAuthenticated) {
-    return <Navigate to="/auth/login" replace />;
-  }
 
   if (isLoading) {
     return <Spinner />; 
   }
 
+  if (!isAuthenticated) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  console.log("ProtectedRoute END")
   return <>{children}</>;
 };
 

@@ -6,7 +6,7 @@ export type RolesWithAccess = {
 };
   
   // Функция для создания настроек доступа
-export const useRolesWithAccess = (rolesWithAccess: RolesWithAccess, userRole: UserRole) => {
+export const useRolesWithAccess = (rolesWithAccess: RolesWithAccess, userRole?: UserRole) => {
     // Метод для проверки, имеет ли роль доступ к конкретному полю
     const hasAccess = (field: string) => {
       const allowedRoles = rolesWithAccess[field];

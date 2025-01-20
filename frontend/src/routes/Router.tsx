@@ -17,6 +17,9 @@ const AccountSetting = Loadable(
 const Employees = Loadable(
   lazy(() => import('../views/employees/Employees')),
 );
+const EmployeeDetail = Loadable(
+  lazy(() => import('../views/employees/EmployeeDetail')),
+);
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -44,7 +47,16 @@ const Router = [
       { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileContainer /></ProtectedRoute> },
       { path: '/account-setting', exact: true, element: <ProtectedRoute><AccountSetting /></ProtectedRoute> },
       { path: '/employees', exact: true, element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><Employees /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
-      { path: '/users', element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><UserProfileUsersContainer /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
+      { 
+        path: '/employees/:id',
+        exact: true,
+        element: <ProtectedRoute>
+          <NonEmployeeClientStaffUserRouteGuard>
+            <EmployeeDetail />
+          </NonEmployeeClientStaffUserRouteGuard>
+        </ProtectedRoute> 
+      },
+      { path: '/users', exact: true, element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><UserProfileUsersContainer /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

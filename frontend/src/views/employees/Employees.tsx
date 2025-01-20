@@ -5,10 +5,13 @@ import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import EmployeesTable from 'src/components/tables/Employees';
+import EmployeeTable from 'src/components/tables/employee/EmployeeTable';
 import { useGetEmployeesQuery } from 'src/services/api/employee.api';
 import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
+import { useSelector } from 'src/store/Store';
+import { selectAccountSettingIsEmpty } from 'src/store/apps/accountSetting/AccountSettingSlice';
+import { usePrevious } from 'src/utils/previousValue';
 
 const BCrumb = [
   {
@@ -22,8 +25,10 @@ const BCrumb = [
 
 
 const Employees = () => {
-  const { data: employeesData, isLoading, error } = useGetEmployeesQuery();
+  const { data: employeesData, isLoading, error, refetch } = useGetEmployeesQuery();
   const { enqueueSnackbar } = useSnackbar();
+  const isEmpty = useSelector(selectAccountSettingIsEmpty);
+  const isEmptyPrev = usePrevious(isEmpty);
 
   const employees = employeesData?.employees as Employee[];
 
@@ -34,21 +39,27 @@ const Employees = () => {
     if (errorMessage) {
       enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
     }
-  }, [errorMessage])
+  }, [errorMessage]);
 
-  const renderEmployeesTable = useCallback(() => {
+  useEffect(() => {
+    if (isEmptyPrev !== isEmpty) {
+      refetch().then();
+    }
+  }, [isEmpty]);
+
+  const renderEmployeeTable = useCallback(() => {
     if (isLoading || !employees) {
       return;
     }
 
-    return <EmployeesTable employees={employees} />;
+    return <EmployeeTable employees={employees} />;
   }, [employees, isLoading]);
 
   return (
     (<PageContainer title="Mitarbeiter" description="this is Mitarbeiter page">
       <Breadcrumb title="Mitarbeiter" items={BCrumb} />
       <Grid container spacing={3}>
-        {renderEmployeesTable()}
+        {renderEmployeeTable()}
       </Grid>
     </PageContainer>)
   );

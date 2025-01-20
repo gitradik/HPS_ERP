@@ -10,41 +10,39 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 
 // images
 import user1 from 'src/assets/images/profile/user-1.jpg';
-import { User } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
 import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
-import { userAccessRules } from './AccountTabData';
-import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
+import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/user.api';
 import { useSnackbar } from 'notistack';
+import { Employee } from 'src/types/employee/employee';
+import { userAccessRules } from '../account-setting/AccountTabData';
 
-
-
-const AccountTab = ({ user }: { user: User }) => {
+const EmployeeSetting = ({ employee }: { employee: Employee }) => {
+  const { user } = employee;
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const data = useSelector(selectAccountSetting);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
-  const { hasAccess } = useRolesWithAccess(userAccessRules, user.role);
+  const userRole = useSelector(selectUserRole);
+  const { hasAccess } = useRolesWithAccess(userAccessRules, userRole);
 
   useEffect(() => {
     dispatch(updateAccountSetting(user));
 
     return () => {
       dispatch(resetAccountSetting());
-    }
+    };
   }, [user]);
 
   const onSave = async () => {
     try {
-      const result = await updateUser({ updateId: user.id, input: data }).unwrap();
-      dispatch(updateUserSuccess(result.update));
-      
-      enqueueSnackbar('Benutzer erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
+      await updateUser({ updateId: user.id, input: data }).unwrap();
+      enqueueSnackbar('Mitarbeiterdaten erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
     } catch ({ data }: any) {
       enqueueSnackbar(data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
     }
@@ -59,14 +57,13 @@ const AccountTab = ({ user }: { user: User }) => {
 
   return (
     (<Grid container spacing={3}>
-      {/* Change Profile */}
-        <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
+      <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Profil ändern
+              Profiländerung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Ändern Sie Ihr Profilbild hier</Typography>
+            <Typography color="textSecondary" mb={3}>Sie können das Profilbild des Mitarbeiters ändern</Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -84,46 +81,44 @@ const AccountTab = ({ user }: { user: User }) => {
                   </Button>
                 </Stack>
                 <Typography variant="subtitle1" color="textSecondary" mb={4}>
-                  Erlaubte Formate: JPG, GIF oder PNG. Maximalgröße: 800K
+                  Erlaubte Formate: JPG, GIF oder PNG. Maximale Größe: 800KB
                 </Typography>
               </Box>
             </Box>
           </CardContent>
         </BlankCard>
       </Grid>
-      {/* Change Password */}
+      {/* Passwortänderung */}
       <Grid size={{ xs: 12, lg: 6 }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Passwort ändern
+              Passwortänderung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Bestätigen Sie hier Ihr Passwort, um es zu ändern</Typography>
+            <Typography color="textSecondary" mb={3}>Bestätigen Sie das aktuelle Passwort des Mitarbeiters, um ein neues festzulegen</Typography>
             <form>
               <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
                 Aktuelles Passwort
               </CustomFormLabel>
               <CustomTextField
                 id="text-cpwd"
-                value="MathewAnderson"
+                value=""
                 variant="outlined"
                 fullWidth
                 type="password"
               />
-              {/* 2 */}
               <CustomFormLabel htmlFor="text-npwd">Neues Passwort</CustomFormLabel>
               <CustomTextField
                 id="text-npwd"
-                value="MathewAnderson"
+                value=""
                 variant="outlined"
                 fullWidth
                 type="password"
               />
-              {/* 3 */}
-              <CustomFormLabel htmlFor="text-conpwd">Bestätigen Sie das Passwort</CustomFormLabel>
+              <CustomFormLabel htmlFor="text-conpwd">Passwort bestätigen</CustomFormLabel>
               <CustomTextField
                 id="text-conpwd"
-                value="MathewAnderson"
+                value=""
                 variant="outlined"
                 fullWidth
                 type="password"
@@ -132,14 +127,14 @@ const AccountTab = ({ user }: { user: User }) => {
           </CardContent>
         </BlankCard>
       </Grid>
-      {/* Edit Details */}
+      {/* Datenbearbeitung */}
       <Grid size={12}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Persönliche Angaben
+              Datenbearbeitung des Mitarbeiters
             </Typography>
-            <Typography color="textSecondary" mb={3}>Um Ihre persönlichen Angaben zu ändern, bearbeiten und speichern Sie sie hier</Typography>
+            <Typography color="textSecondary" mb={3}>Hier können Sie persönliche Daten des Mitarbeiters ändern</Typography>
             <form>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -156,7 +151,6 @@ const AccountTab = ({ user }: { user: User }) => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 2 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-name">
                     Nachname
                   </CustomFormLabel>
@@ -169,9 +163,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
                   />
                 </Grid>
-                {/* email */}
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 5 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-email">
                     E-Mail
                   </CustomFormLabel>
@@ -184,49 +176,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setEmail(e.target.value))}
                   />
                 </Grid>
-                {/* role */}
-                {/* <Grid size={{ xs: 6, sm: 3 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-role">
-                    Rolle
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    id="text-role"
-                    variant="outlined"
-                    value={data.role}
-                    disabled={!hasAccess('role')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setRole(e.target.value as UserRole))}
-                  >
-                    {roles.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                </Grid> */}
-                {/* active */}
-                {/* <Grid size={{ xs: 6, sm: 3 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
-                    Aktiv
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    id="text-active"
-                    variant="outlined"
-                    value={data.isActive}
-                    disabled={!hasAccess('isActive')}
-                    onChange={(e: React.ChangeEvent<{ value: unknown }>) => dispatch(setIsActive(e.target.value === "true"))}
-                  >
-                    {actives.map((option) => (
-                      <MenuItem key={option.label} value={String(option.value)}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                </Grid> */}
-                {/* position */}
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 6 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-position">
                     Position
                   </CustomFormLabel>
@@ -239,9 +189,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPosition(e.target.value))}
                   />
                 </Grid>
-                {/* phone */}
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 6 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-phone">
                     Telefonnummer
                   </CustomFormLabel>
@@ -254,7 +202,6 @@ const AccountTab = ({ user }: { user: User }) => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 7 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-address">
                     Adresse
                   </CustomFormLabel>
@@ -279,10 +226,8 @@ const AccountTab = ({ user }: { user: User }) => {
           </Button>
         </Stack>
       </Grid>
-    </Grid>
-    )
+    </Grid>)
   );
 };
 
-export default AccountTab;
-
+export default EmployeeSetting;
