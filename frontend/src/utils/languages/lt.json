@@ -10,6 +10,9 @@
         "staff_management": "Personalas valdymas",
         "time_tracking": "Laiko sekimas",
         "employees": "Darbuotojai",
-        "clients": "Klientai"
+        "clients": "Klientai",
+        "documents_create": "Dokumentų kūrimas",
+        "documents_create_invoice": "Sąskaitos faktūros kūrimas",
+        "documents_create_offer": "Pasiūlymo kūrimas"
     }
 }

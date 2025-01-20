@@ -19,13 +19,16 @@ import {
   IconUsers,
   IconCalendar,
   IconUser,
-  IconUserCheck
+  IconUserCheck,
+  IconFileInvoice,
+  IconFilePlus,
+  IconFileCheck,
 } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 
 const Menuitems = () => {
   const { t } = useTranslation();
-
+  
   const items: MenuitemsType[] = [
     {
       navlabel: true,
@@ -33,31 +36,51 @@ const Menuitems = () => {
     },
     {
       id: uniqueId(),
-      title: t('MenuItems.schedule_management'), // "Tvarkaraščio valdymas"
+      title: t('MenuItems.schedule_management'),
       icon: IconCalendar,
       href: '/schedule-management',
     },
     {
       id: uniqueId(),
-      title: t('MenuItems.staff_management'), // "Personalas valdymas"
+      title: t('MenuItems.staff_management'),
       icon: IconUsers,
       href: '/staff-management',
     },
     {
       id: uniqueId(),
-      title: t('MenuItems.time_tracking'), // "Laiko sekimas"
+      title: t('MenuItems.time_tracking'),
       icon: IconClock,
       href: '/time-tracking',
     },
     {
       id: uniqueId(),
-      title: t('MenuItems.employees'), // "Darbuotojai"
+      title: t('MenuItems.documents_create'),
+      icon: IconFilePlus,
+      href: '/documents_create',
+      children: [
+        {
+          id: uniqueId(),
+          title: t('MenuItems.documents_create_invoice'),
+          icon: IconFileInvoice,
+          href: '/documents_create/invoice',
+        },
+        {
+          id: uniqueId(),
+          title: t('MenuItems.documents_create_offer'),
+          icon: IconFileCheck,
+          href: '/documents_create/offer',
+        },
+      ]
+    },
+    {
+      id: uniqueId(),
+      title: t('MenuItems.employees'),
       icon: IconUser,
       href: '/employees',
     },
     {
       id: uniqueId(),
-      title: t('MenuItems.clients'), // "Klientai"
+      title: t('MenuItems.clients'),
       icon: IconUserCheck,
       href: '/clients',
     },

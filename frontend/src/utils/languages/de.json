@@ -10,6 +10,9 @@
         "staff_management": "Personal verwalten",
         "time_tracking": "Zeiterfassung",
         "employees": "Mitarbeiter",
-        "clients": "Kunden"
+        "clients": "Kunden",
+        "documents_create": "Dokumente erstellen",
+        "documents_create_invoice": "Rechnung erstellen",
+        "documents_create_offer": "Angebot erstellen"
     }
 }
