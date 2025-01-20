@@ -8,6 +8,7 @@ import RefreshToken from "../../models/RefreshToken";
 import { UserRole } from "../../models/User";
 import { sendEmail } from "../mailService";
 import { LoginResponse } from "../../utils/types/auth";
+import { updateHasOwnProperty } from "../../utils/updateHasOwnProperty";
 
 dotenv.config();
 
@@ -98,11 +99,17 @@ const userService = {
     },
 
     async updateUser(id: number, input: UpdateUserInput) {
+        const user = await User.findOne({ where: { id } });
+
+        if (!user) {
+            throw new ApolloError(`User mit der ID ${id} wurde nicht gefunden`);
+        }
+
         if (input.password) {
             input.password = await bcrypt.hash(input.password, SALT_ROUNDS);
         }
-        await User.update(input, { where: { id } });
-        return await User.findByPk(id);
+
+        return await updateHasOwnProperty<User>(user!, input).save();
     },
 
     async deleteUser(id: number) {

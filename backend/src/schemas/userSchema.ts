@@ -5,6 +5,7 @@ const userSchema = gql`
         SUPER_ADMIN
         ADMIN
         MANAGER
+        STAFF
         EMPLOYEE
         CLIENT
         USER

@@ -5,7 +5,7 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './guards/protectedRouteGuard';
 import PublicRouteGuard from './guards/publicRouteGuard';
-import NonEmployeeRouteGuard from './guards/user-role-guards/nonEmployeeRouteGuard';
+import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonEmployeeClientStaffUserRouteGuard';
 
 
 /* ***Apps**** */
@@ -43,8 +43,8 @@ const Router = [
       { path: '/dashboards/modern', exact: true, element: <ProtectedRoute><ModernDash /></ProtectedRoute> },
       { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileContainer /></ProtectedRoute> },
       { path: '/account-setting', exact: true, element: <ProtectedRoute><AccountSetting /></ProtectedRoute> },
-      { path: '/employees', exact: true, element: <ProtectedRoute><NonEmployeeRouteGuard><Employees /></NonEmployeeRouteGuard></ProtectedRoute> },
-      { path: '/apps/users', element: <ProtectedRoute><NonEmployeeRouteGuard><UserProfileUsersContainer /></NonEmployeeRouteGuard></ProtectedRoute> },
+      { path: '/employees', exact: true, element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><Employees /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
+      { path: '/users', element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><UserProfileUsersContainer /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

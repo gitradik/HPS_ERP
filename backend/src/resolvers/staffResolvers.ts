@@ -1,21 +1,21 @@
 import { UserRole } from "../models/User";
-import Client from "../models/Client";
+import Staff from "../models/Staff";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import { roleMiddleware } from "../middlewares/roleMiddleware";
-import clientService, { CreateClientInput, UpdateClientInput } from "../services/api/clientApiService";
+import staffService, { CreateStaffInput, UpdateStaffInput } from "../services/api/staffApiService";
 
-const clientResolvers = {
+const staffResolvers = {
     Query: {
-        clients: async (
+        staffs: async (
             parent: any,
             args: any,
             context: any,
             info: any
-        ): Promise<Client[]> => await authMiddleware(
+        ): Promise<Staff[]> => await authMiddleware(
             (_parent: any, _args: any, _context: any, _info: any) =>
                 roleMiddleware(
                     [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-                    () => clientService.getClients(),
+                    () => staffService.getStaffs(),
                     _parent,
                     _args,
                     _context,
@@ -26,16 +26,16 @@ const clientResolvers = {
             context,
             info
         ),
-        client: async (
+        staff: async (
             parent: any,
             { id }: { id: number },
             context: any,
             info: any
-        ): Promise<Client | null> => await authMiddleware(
+        ): Promise<Staff | null> => await authMiddleware(
             (_parent: any, _args: any, _context: any, _info: any) =>
                 roleMiddleware(
                     [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-                    () => clientService.getClientById(id),
+                    () => staffService.getStaffById(id),
                     _parent,
                     _args,
                     _context,
@@ -48,16 +48,16 @@ const clientResolvers = {
         ),
     },
     Mutation: {
-        createClient: async (
+        createStaff: async (
             parent: any,
-            { input }: { input: CreateClientInput },
+            { input }: { input: CreateStaffInput },
             context: any,
             info: any
-        ): Promise<Client> => await authMiddleware(
+        ): Promise<Staff> => await authMiddleware(
             (_parent: any, _args: any, _context: any, _info: any) =>
                 roleMiddleware(
                     [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-                    () => clientService.createClient(input),
+                    () => staffService.createStaff(input),
                     _parent,
                     _args,
                     _context,
@@ -68,16 +68,16 @@ const clientResolvers = {
             context,
             info
         ),
-        updateClient: async (
+        updateStaff: async (
             parent: any,
-            { id, input }: { id: number, input: UpdateClientInput },
+            { id, input }: { id: number, input: UpdateStaffInput },
             context: any,
             info: any
-        ): Promise<Client> => await authMiddleware(
+        ): Promise<Staff> => await authMiddleware(
             (_parent: any, _args: any, _context: any, _info: any) =>
                 roleMiddleware(
                     [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-                    () => clientService.updateClient(id, input),
+                    () => staffService.updateStaff(id, input),
                     _parent,
                     _args,
                     _context,
@@ -91,4 +91,4 @@ const clientResolvers = {
     },
 };
 
-export default clientResolvers;
+export default staffResolvers;

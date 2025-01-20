@@ -1,22 +1,21 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useEffect, useState } from 'react';
-import { CardContent, Grid2 as Grid, Typography, MenuItem, Box, Avatar, Button, Stack } from '@mui/material';
+import { CardContent, Grid2 as Grid, Typography, Box, Avatar, Button, Stack } from '@mui/material';
 
 // components
 import BlankCard from '../../shared/BlankCard';
 import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
-import CustomSelect from '../../forms/theme-elements/CustomSelect';
 
 // images
 import user1 from 'src/assets/images/profile/user-1.jpg';
-import { User, UserRole } from 'src/types/auth/auth';
+import { User } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
-import { selectAccountSetting, setContactDetails, setEmail, setFirstName, setIsActive, setLastName, setPhoneNumber, setPosition, setRole, updateAccountSettings } from 'src/store/apps/accountSetting/AccountSettingSlice';
+import { selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSettings } from 'src/store/apps/accountSetting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
-import { actives, roles, userAccessRules } from './AccountTabData';
+import { userAccessRules } from './AccountTabData';
 import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/user.api';
@@ -148,6 +147,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     value={data.firstName}
                     variant="outlined"
                     fullWidth
+                    disabled={!hasAccess('firstName')}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFirstName(e.target.value))}
                   />
                 </Grid>
@@ -161,6 +161,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     value={data.lastName}
                     variant="outlined"
                     fullWidth
+                    disabled={!hasAccess('lastName')}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
                   />
                 </Grid>
@@ -179,24 +180,8 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setEmail(e.target.value))}
                   />
                 </Grid>
-                {/* phone */}
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 6 */}
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-phone">
-                    Telefonnummer
-                  </CustomFormLabel>
-                  <CustomTextField
-                    id="text-phone"
-                    value={data.phoneNumber || ""}
-                    variant="outlined"
-                    disabled={!hasAccess('phoneNumber')}
-                    fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPhoneNumber(e.target.value))}
-                  />
-                </Grid>
                 {/* role */}
-                <Grid size={{ xs: 6, sm: 3 }}>
-                  {/* 3 */}
+                {/* <Grid size={{ xs: 6, sm: 3 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-role">
                     Rolle
                   </CustomFormLabel>
@@ -214,9 +199,9 @@ const AccountTab = ({ user }: { user: User }) => {
                       </MenuItem>
                     ))}
                   </CustomSelect>
-                </Grid>
+                </Grid> */}
                 {/* active */}
-                <Grid size={{ xs: 6, sm: 3 }}>
+                {/* <Grid size={{ xs: 6, sm: 3 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
                     Aktiv
                   </CustomFormLabel>
@@ -234,7 +219,7 @@ const AccountTab = ({ user }: { user: User }) => {
                       </MenuItem>
                     ))}
                   </CustomSelect>
-                </Grid>
+                </Grid> */}
                 {/* position */}
                 <Grid size={{ xs: 12, sm: 6 }}>
                   {/* 6 */}
@@ -246,10 +231,25 @@ const AccountTab = ({ user }: { user: User }) => {
                     value={data.position || ""}
                     variant="outlined"
                     fullWidth
+                    disabled={!hasAccess('position')}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPosition(e.target.value))}
                   />
                 </Grid>
-                <Grid size={12}>
+                {/* phone */}
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  {/* 6 */}
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-phone">
+                    Telefonnummer
+                  </CustomFormLabel>
+                  <CustomTextField
+                    id="text-phone"
+                    value={data.phoneNumber || ""}
+                    variant="outlined"
+                    fullWidth
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPhoneNumber(e.target.value))}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   {/* 7 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-address">
                     Adresse

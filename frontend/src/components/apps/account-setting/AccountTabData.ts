@@ -27,6 +27,10 @@ export const roles: ListItem<UserRole>[] = [
       value: UserRole.USER,
       label: UserRole.USER,
     },
+    {
+      value: UserRole.STAFF,
+      label: UserRole.STAFF,
+    },
   ];
   // currency
 export const actives: ListItem<boolean>[] = [
@@ -41,8 +45,8 @@ export const actives: ListItem<boolean>[] = [
   ];
   
 export const userAccessRules = {
-    role: [UserRole.SUPER_ADMIN],
-    email: [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER],
-    phoneNumber: [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.USER],
-    isActive: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    firstName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    lastName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    email: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    position: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
   }

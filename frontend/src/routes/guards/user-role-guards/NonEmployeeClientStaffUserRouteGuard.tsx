@@ -5,13 +5,19 @@ import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { useSelector } from 'src/store/Store';
 import { UserRole } from 'src/types/auth/auth';
 
-const NonEmployeeRouteGuard = ({ children }: { children: React.ReactNode }) => {
+const NonEmployeeClientStaffUserRouteGuard = ({ children }: { children: React.ReactNode }) => {
   const userRole = useSelector(selectUserRole);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (userRole && [UserRole.EMPLOYEE, UserRole.USER].includes(userRole)) {
+    if (userRole && [
+        UserRole.EMPLOYEE,
+        UserRole.CLIENT,
+        UserRole.STAFF,
+        UserRole.USER
+      ].includes(userRole)) {
+
       navigate(-1);
       enqueueSnackbar("Sie haben keine Berechtigung, auf diese Ressource zuzugreifen.", { variant: "error", autoHideDuration: 3000 });
     }
@@ -20,4 +26,4 @@ const NonEmployeeRouteGuard = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-export default NonEmployeeRouteGuard;
+export default NonEmployeeClientStaffUserRouteGuard;

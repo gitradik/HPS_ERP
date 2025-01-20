@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector, TypedUseSelectorHook } from 'react-redux';
-import { authApi, clientApi, employeeApi, userApi } from '../services/api';
+import { authApi, clientApi, employeeApi, staffApi, userApi } from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/accountSetting/AccountSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
@@ -12,13 +12,14 @@ export const store = configureStore({
   reducer: {
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
-    [userApi.reducerPath]: userApi.reducer,
-    [employeeApi.reducerPath]: employeeApi.reducer,
-    [clientApi.reducerPath]: clientApi.reducer,
     accountSetting: accountSettingReducer,
     register: registerReducer,
     customizer: customizerReducer,
     userProfile: userProfileReducer,
+    [userApi.reducerPath]: userApi.reducer,
+    [employeeApi.reducerPath]: employeeApi.reducer,
+    [clientApi.reducerPath]: clientApi.reducer,
+    [staffApi.reducerPath]: staffApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -26,6 +27,7 @@ export const store = configureStore({
       userApi.middleware,
       employeeApi.middleware,
       clientApi.middleware,
+      staffApi.middleware,
     ),
 });
 

@@ -20,6 +20,7 @@ import {
 import { registerFailure, registerRequest, registerSuccess } from 'src/store/apps/auth/RegisterSlice';
 import { useSnackbar } from 'notistack';
 import { useCreateClientMutation } from 'src/services/api/client.api';
+import { useCreateStaffMutation } from 'src/services/api/staff.api';
   
   interface CreateEmployeeOrClientDialogProps {
     open: boolean;
@@ -29,7 +30,7 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
     user: User;
   }
   
-  const CreateEmployeeOrClientDialog = ({
+  const SetUserRoleDialog = ({
     open,
     onClose,
     title,
@@ -40,6 +41,7 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
     const { enqueueSnackbar } = useSnackbar();
     const [createEmployee, { isLoading: isEmployeeLoading }] = useCreateEmployeeMutation();
     const [createClient, { isLoading: isClientLoading }] = useCreateClientMutation();
+    const [createStaff, { isLoading: isStaffLoading }] = useCreateStaffMutation();
   
     const initialValues = {
       role: '',
@@ -63,14 +65,15 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
             onSubmit={async (values, actions) => {
               try {
                 dispatch(registerRequest());
+
+                const userId = Number(user.id);
+
                 if (values.role === UserRole.EMPLOYEE) {
-                  await createEmployee({
-                    userId: Number(user.id), 
-                  }).unwrap();
+                  await createEmployee({ userId }).unwrap();
+                } else if (values.role === UserRole.STAFF) {
+                  await createStaff({ userId }).unwrap();
                 } else {
-                  await createClient({
-                    userId: Number(user.id), 
-                  }).unwrap();
+                  await createClient({ userId }).unwrap();
                 }
                 
                 dispatch(registerSuccess());
@@ -104,6 +107,7 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
                       >
                         <MenuItem value={UserRole.EMPLOYEE}>Mitarbeiter</MenuItem>
                         <MenuItem value={UserRole.CLIENT}>Kunden</MenuItem>
+                        <MenuItem value={UserRole.STAFF}>Personale</MenuItem>
                       </Select>
                     </FormControl>
                     {props.touched.role && props.errors.role && (
@@ -120,9 +124,9 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
                     type="submit"
                     variant="contained"
                     color="primary"
-                    disabled={props.isSubmitting || isEmployeeLoading || isClientLoading}
+                    disabled={props.isSubmitting || isEmployeeLoading || isClientLoading || isStaffLoading}
                   >
-                    {(isEmployeeLoading || isClientLoading) ? 'Wird verarbeitet...' : 'Absenden'}
+                    {(isEmployeeLoading || isClientLoading || isStaffLoading) ? 'Wird verarbeitet...' : 'Absenden'}
                   </Button>
                   <Button onClick={onClose} color="error">
                     Abbrechen
@@ -136,5 +140,5 @@ import { useCreateClientMutation } from 'src/services/api/client.api';
     );
   };
   
-  export default CreateEmployeeOrClientDialog;
+  export default SetUserRoleDialog;
   

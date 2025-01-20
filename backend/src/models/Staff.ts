@@ -1,18 +1,17 @@
-// src/models/Client.ts
+// src/models/Staff.ts
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../services/databaseService";
 import User from "./User";
 
-class Client extends Model {
+class Staff extends Model {
     public id!: number;
     public userId!: number;
     public createdAt!: Date;
     public updatedAt!: Date;
-    public companyName!: string;
-    public isWorking!: boolean;
+    public isAssigned!: boolean;
 }
 
-Client.init(
+Staff.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -27,17 +26,7 @@ Client.init(
             },
             allowNull: false,
         },
-        companyName: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            validate: {
-                len: {
-                    args: [0, 100],
-                    msg: "Сompany name must be between 0 and 100 characters.",
-                },
-            },
-        },
-        isWorking: {
+        isAssigned: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
@@ -45,11 +34,11 @@ Client.init(
     },
     {
         sequelize,
-        tableName: "clients",
+        tableName: "staff",
         timestamps: true,
     }
 );
 
-Client.belongsTo(User, { foreignKey: "userId", as: "user" });
+Staff.belongsTo(User, { foreignKey: "userId", as: "user" });
 
-export default Client;
+export default Staff;

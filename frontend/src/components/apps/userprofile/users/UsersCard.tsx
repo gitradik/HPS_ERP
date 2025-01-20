@@ -26,7 +26,7 @@ import { User, UserRole } from 'src/types/auth/auth';
 import CreateUserDialog from './CreateUserDialog';
 import { useSelector } from 'src/store/Store';
 import { selectIsLoading } from 'src/store/apps/auth/RegisterSlice';
-import CreateEmployeeOrClientDialog from './CreateEmployeeOrClientDialog';
+import SetUserRoleDialog from './SetUserRoleDialog';
 
 const UsersCard = () => {
   const filterUsers = (cSearch: string, users?: User[]) => {
@@ -74,7 +74,7 @@ const UsersCard = () => {
     <Grid container spacing={3}>
       <CreateUserDialog title="Benutzer erstellen" open={open} onClose={() => setOpen(false)} />
       {selectedUser &&
-        <CreateEmployeeOrClientDialog user={selectedUser} title="Rolle zuweisen" open={openUserDialog} onClose={() => setOpenUserDialog(false)} />}
+        <SetUserRoleDialog user={selectedUser} title="Rolle zuweisen" open={openUserDialog} onClose={() => setOpenUserDialog(false)} />}
       <Grid
         size={{
           xs: 12

@@ -1,6 +1,5 @@
 import { UserRole } from "../models/User";
-import { UserResponse } from "../utils/types";
-import { LoginResponse } from "../utils/types/auth";
+import { LoginResponse, UserResponse } from "../utils/types/auth";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import userService, {
     CreateUserInput,
