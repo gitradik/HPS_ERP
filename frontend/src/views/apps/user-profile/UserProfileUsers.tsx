@@ -7,13 +7,13 @@ import UsersCard from 'src/components/apps/userprofile/users/UsersCard';
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
 import { useGetUserQuery } from 'src/services/api/user.api';
 import { useSelector } from 'src/store/Store';
-import { selectAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
+import { selectAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Startseite',
   },
   {
     title: 'Benutzer',

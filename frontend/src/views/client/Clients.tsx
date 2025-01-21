@@ -5,35 +5,34 @@ import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import EmployeeTable from 'src/components/tables/employee/EmployeeTable';
-import { useGetEmployeesQuery } from 'src/services/api/employee.api';
-import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'src/store/Store';
-import { selectAccountSettingIsEmpty } from 'src/store/apps/accountSetting/AccountSettingSlice';
+import { selectAccountSettingIsEmpty } from 'src/store/apps/setting/AccountSettingSlice';
 import { usePrevious } from 'src/utils/previousValue';
+import { useGetClientsQuery } from 'src/services/api/client.api';
+import { Client } from 'src/types/client/client';
+import ClientsTable from 'src/components/tables/client/ClientsTable';
 
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Startseite',
   },
   {
-    title: 'Mitarbeiter',
+    title: 'Kunden',
   },
 ];
 
-
-const Employees = () => {
-  const { data: employeesData, isLoading, error, refetch } = useGetEmployeesQuery();
+const Clients = () => {
+  const { data: clientsData, isLoading, error, refetch } = useGetClientsQuery();
   const { enqueueSnackbar } = useSnackbar();
   const isEmpty = useSelector(selectAccountSettingIsEmpty);
   const isEmptyPrev = usePrevious(isEmpty);
 
-  const employees = employeesData?.employees as Employee[];
+  const clients = clientsData?.clients as Client[];
 
   // @ts-ignore
-  const errorMessage = error?.data?.friendlyMessage
+  const errorMessage = error?.data?.friendlyMessage;
 
   useEffect(() => {
     if (errorMessage) {
@@ -47,22 +46,22 @@ const Employees = () => {
     }
   }, [isEmpty]);
 
-  const renderEmployeeTable = useCallback(() => {
-    if (isLoading || !employees) {
+  const renderClientsTable = useCallback(() => {
+    if (isLoading || !clients) {
       return;
     }
 
-    return <EmployeeTable employees={employees} />;
-  }, [employees, isLoading]);
+    return <ClientsTable clients={clients} />;
+  }, [clients, isLoading]);
 
   return (
-    (<PageContainer title="Mitarbeiter" description="this is Mitarbeiter page">
-      <Breadcrumb title="Mitarbeiter" items={BCrumb} />
+    (<PageContainer title="Kunden" description="Dies ist die Kundenseite">
+      <Breadcrumb title="Kunden" items={BCrumb} />
       <Grid container spacing={3}>
-        {renderEmployeeTable()}
+        {renderClientsTable()}
       </Grid>
     </PageContainer>)
   );
 };
 
-export default Employees;
+export default Clients;

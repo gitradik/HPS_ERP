@@ -9,7 +9,7 @@ import DashboardCard from '../../components/shared/DashboardCard';
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Startseite',
   },
   {
     title: 'Sample Page',

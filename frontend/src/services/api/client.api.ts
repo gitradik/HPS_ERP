@@ -1,7 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { gql } from 'graphql-request';
 import { enhancedBaseQuery } from './baseQueryMiddleware';
-import { ClientResponse } from 'src/types/client/client';
+import { ClientResponse, UpdateClientInput } from 'src/types/client/client';
 
 const clientApi = createApi({
   reducerPath: 'clientApi',
@@ -29,6 +29,8 @@ const clientApi = createApi({
                 updatedAt
                 createdAt
               }
+              companyName
+              isWorking
             }
           }
         `,
@@ -57,6 +59,8 @@ const clientApi = createApi({
                 updatedAt
                 createdAt
               }
+              companyName
+              isWorking
             }
           }
         `,
@@ -86,10 +90,42 @@ const clientApi = createApi({
                 updatedAt
                 createdAt
               }
+              companyName
+              isWorking
             }
           }
         `,
         variables: { userId },
+      }),
+    }),
+    updateClient: builder.mutation<{ updateClient: ClientResponse }, { updateId: string, input: UpdateClientInput }>({
+      query: ({ updateId, input }) => ({
+        document: gql`
+          mutation Mutation($updateId: ID!, $input: UpdateClientInput!) {
+            updateClient(id: $updateId, input: $input) {
+              id
+              userId
+              createdAt
+              updatedAt
+              user {
+                id
+                role
+                email
+                phoneNumber
+                firstName
+                lastName
+                position
+                contactDetails
+                isActive
+                updatedAt
+                createdAt
+              }
+              companyName
+              isWorking
+            }
+          }
+        `,
+        variables: { updateId, input },
       }),
     }),
   }),
@@ -99,6 +135,7 @@ export const {
   useGetClientsQuery,
   useGetClientQuery,
   useCreateClientMutation,
+  useUpdateClientMutation,
 } = clientApi;
 
 export default clientApi;

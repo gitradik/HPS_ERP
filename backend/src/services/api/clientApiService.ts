@@ -2,12 +2,12 @@ import { ApolloError } from "apollo-server-express";
 import Client from "../../models/Client";
 import User, { UserRole } from "../../models/User";
 import userApiService from "./userApiService";
-import { updateHasOwnProperty } from "../../utils/updateHasOwnProperty";
+import { updateExistingFields } from "../../utils/updateExistingFields";
 
 export interface CreateClientInput {
     userId: number;
 }
-export interface UpdateClientInput extends Partial<CreateClientInput> {
+export interface UpdateClientInput {
     companyName?: string;
     isWorking?: boolean;
 }
@@ -58,13 +58,21 @@ const clientService = {
     },
 
     async updateClient(id: number, input: UpdateClientInput): Promise<Client> {
-        const client = await Client.findOne({ where: { id } });
+        const client = await Client.findOne({
+            where: { id },
+            include: {
+                model: User,
+                where: { isActive: true },
+                required: true,
+                as: "user",
+            }
+        });
 
         if (!client) {
             throw new ApolloError(`Client mit der ID ${id} wurde nicht gefunden`);
         }
 
-        return await updateHasOwnProperty<Client>(client, input).save();
+        return await updateExistingFields<Client>(client, input).save();
     },
 };
 

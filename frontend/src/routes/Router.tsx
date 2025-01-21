@@ -6,6 +6,7 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './guards/protectedRouteGuard';
 import PublicRouteGuard from './guards/publicRouteGuard';
 import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonEmployeeClientStaffUserRouteGuard';
+import ClientDetail from 'src/views/client/ClientDetail';
 
 
 /* ***Apps**** */
@@ -14,11 +15,14 @@ const UserProfileUsersContainer = Loadable(lazy(() => import('../views/apps/user
 const AccountSetting = Loadable(
   lazy(() => import('../views/apps/account-setting/AccountSetting')),
 );
-const Employees = Loadable(
-  lazy(() => import('../views/employees/Employees')),
+const Employee = Loadable(
+  lazy(() => import('../views/employee/Employee')),
 );
 const EmployeeDetail = Loadable(
-  lazy(() => import('../views/employees/EmployeeDetail')),
+  lazy(() => import('../views/employee/EmployeeDetail')),
+);
+const Clients = Loadable(
+  lazy(() => import('../views/client/Clients')),
 );
 
 /* ***Layouts**** */
@@ -46,7 +50,12 @@ const Router = [
       { path: '/dashboards/modern', exact: true, element: <ProtectedRoute><ModernDash /></ProtectedRoute> },
       { path: '/user-profile', exact: true, element: <ProtectedRoute><UserProfileContainer /></ProtectedRoute> },
       { path: '/account-setting', exact: true, element: <ProtectedRoute><AccountSetting /></ProtectedRoute> },
-      { path: '/employees', exact: true, element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><Employees /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
+      {
+        path: '/employees', exact: true, element: <ProtectedRoute>
+          <NonEmployeeClientStaffUserRouteGuard>
+            <Employee />
+          </NonEmployeeClientStaffUserRouteGuard>
+        </ProtectedRoute> },
       { 
         path: '/employees/:id',
         exact: true,
@@ -56,7 +65,29 @@ const Router = [
           </NonEmployeeClientStaffUserRouteGuard>
         </ProtectedRoute> 
       },
-      { path: '/users', exact: true, element: <ProtectedRoute><NonEmployeeClientStaffUserRouteGuard><UserProfileUsersContainer /></NonEmployeeClientStaffUserRouteGuard></ProtectedRoute> },
+      {
+        path: '/users', exact: true, element: <ProtectedRoute>
+          <NonEmployeeClientStaffUserRouteGuard>
+            <UserProfileUsersContainer />
+          </NonEmployeeClientStaffUserRouteGuard>
+        </ProtectedRoute>
+      },
+      {
+        path: '/clients', exact: true, element: <ProtectedRoute>
+          <NonEmployeeClientStaffUserRouteGuard>
+            <Clients />
+          </NonEmployeeClientStaffUserRouteGuard>
+        </ProtectedRoute>
+      },
+      { 
+        path: '/clients/:id',
+        exact: true,
+        element: <ProtectedRoute>
+          <NonEmployeeClientStaffUserRouteGuard>
+            <ClientDetail />
+          </NonEmployeeClientStaffUserRouteGuard>
+        </ProtectedRoute> 
+      },
       { path: '*', element: <Navigate to="/auth/404" /> },
     ],
   },

@@ -1,7 +1,7 @@
 import { ApolloError } from "apollo-server-express";
 import Staff from "../../models/Staff";
 import User, { UserRole } from "../../models/User";
-import { updateHasOwnProperty } from "../../utils/updateHasOwnProperty";
+import { updateExistingFields } from "../../utils/updateExistingFields";
 import userApiService from "./userApiService";
 
 export interface CreateStaffInput {
@@ -62,13 +62,21 @@ const staffService = {
     },
 
     async updateStaff(id: number, input: UpdateStaffInput): Promise<Staff> {
-        const staff = await Staff.findOne({ where: { id } });
+        const staff = await Staff.findOne({
+            where: { id },
+            include: {
+                model: User,
+                where: { isActive: true },
+                required: true,
+                as: "user",
+            }
+        });
 
         if (!staff) {
             throw new ApolloError(`Staff mit der ID ${id} wurde nicht gefunden`);
         }
 
-        return await updateHasOwnProperty<Staff>(staff, input).save();
+        return await updateExistingFields<Staff>(staff, input).save();
     },
 };
 

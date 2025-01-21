@@ -6,7 +6,6 @@ import { useRefreshTokenMutation } from '../../services/api/auth.api';
 import Spinner from 'src/views/spinner/Spinner';
 
 const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {
-  console.log("PublicRouteGuard START")
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [refreshToken, { isLoading }] = useRefreshTokenMutation();
   const dispatch = useDispatch();
@@ -30,7 +29,6 @@ const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/" replace />;
   }
 
-  console.log("PublicRouteGuard END")
   return <>{children}</>;
 };
 

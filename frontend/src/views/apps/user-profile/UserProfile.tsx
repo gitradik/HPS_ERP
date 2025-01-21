@@ -8,13 +8,13 @@ import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner
 import IntroCard from 'src/components/apps/userprofile/profile/IntroCard';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useSelector } from 'src/store/Store';
-import { selectAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
+import { selectAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
 import { useGetUserQuery } from 'src/services/api/user.api';
 
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Startseite',
   },
   {
     title: 'Mein Profil',

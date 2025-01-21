@@ -6,7 +6,7 @@ const clientSchema = gql`
         userId: ID!
         createdAt: String!
         updatedAt: String!
-        user: User!
+        user: User
         companyName: String
         isWorking: Boolean!
     }
@@ -16,7 +16,6 @@ const clientSchema = gql`
     }
 
     input UpdateClientInput {
-        userId: ID!
         companyName: String
         isWorking: Boolean
     }
@@ -30,7 +29,7 @@ const clientSchema = gql`
     # Define the root Mutation type
     type Mutation {
         createClient(input: CreateClientInput!): Client! # Create a client
-        updateClient(input: UpdateClientInput!): Client! # Create a client
+        updateClient(id: ID!, input: UpdateClientInput!): Client! # Create a client
     }
 `;
 

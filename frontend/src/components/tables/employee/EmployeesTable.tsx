@@ -36,7 +36,7 @@ const columns: columnType[] = [
   { id: 'position', label: 'Position', minWidth: 100 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
-  { id: 'status', label: 'Status', minWidth: 100 },
+  // { id: 'status', label: 'Status', minWidth: 100 },
   { id: 'updatedAt', label: 'Zuletzt aktualisiert', minWidth: 170 },
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
@@ -52,9 +52,10 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
   }));
 
   const handleDownload = () => {
-    const headers = ['Benutzerdetails', 'Position', 'Telefonnummer', 'Adresse', 'Status', 'Zuletzt aktualisiert'];
+    const headers = ['Benutzerdetails', 'E-Mail', 'Position', 'Telefonnummer', 'Adresse', 'Status', 'Zuletzt aktualisiert'];
     const rows = employees.map((item: Employee) => [
       `${item.user.firstName} ${item.user.lastName}`,
+      item.user.email || 'N/A',
       item.user.position || 'N/A',
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
@@ -96,7 +97,7 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
               {rows.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
-                    <Typography variant="body2" color="textSecondary">
+                    <Typography variant="body1" color="textSecondary">
                       {row.user.firstName} {row.user.lastName}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
@@ -118,11 +119,21 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                       {row.user.contactDetails || 'N/A'}
                     </Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography color={row.user.isActive ? 'green' : 'red'} variant="body2">
+                  {/* <TableCell>
+                    <Stack spacing={1} direction="row" alignItems="center">
+                      <Badge
+                        color={
+                          row.user.isActive
+                            ? 'success'
+                            : 'error'
+                        }
+                        variant="dot"
+                      ></Badge>
+                      <Typography color="textSecondary" variant="body1">
                       {row.user.isActive ? 'Aktiv' : 'Inaktiv'}
-                    </Typography>
-                  </TableCell>
+                      </Typography>
+                    </Stack>
+                  </TableCell> */}
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
                       {moment(Number(row.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}

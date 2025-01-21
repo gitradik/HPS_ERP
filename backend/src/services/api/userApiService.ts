@@ -8,7 +8,7 @@ import RefreshToken from "../../models/RefreshToken";
 import { UserRole } from "../../models/User";
 import { sendEmail } from "../mailService";
 import { LoginResponse } from "../../utils/types/auth";
-import { updateHasOwnProperty } from "../../utils/updateHasOwnProperty";
+import { updateExistingFields } from "../../utils/updateExistingFields";
 
 dotenv.config();
 
@@ -109,7 +109,7 @@ const userService = {
             input.password = await bcrypt.hash(input.password, SALT_ROUNDS);
         }
 
-        return await updateHasOwnProperty<User>(user!, input).save();
+        return await updateExistingFields<User>(user!, input).save();
     },
 
     async deleteUser(id: number) {

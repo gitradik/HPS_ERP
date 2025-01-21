@@ -6,11 +6,10 @@ import { useSelector } from 'src/store/Store';
 import { UserRole } from 'src/types/auth/auth';
 
 const NonEmployeeClientStaffUserRouteGuard = ({ children }: { children: React.ReactNode }) => {
-  console.log("NonEmployeeClientStaffUserRouteGuard START")
   const userRole = useSelector(selectUserRole);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  console.log(userRole)
+ 
   if (userRole && [
     UserRole.EMPLOYEE,
     UserRole.CLIENT,
@@ -23,7 +22,6 @@ const NonEmployeeClientStaffUserRouteGuard = ({ children }: { children: React.Re
     return;
   }
 
-  console.log("NonEmployeeClientStaffUserRouteGuard END")
   return <>{children}</>;
 };
 

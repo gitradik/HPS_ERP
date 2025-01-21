@@ -1,9 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import React from 'react';
-import { NavLink } from 'react-router';
-
-// mui imports
+import { NavLink, matchPath } from 'react-router-dom';
 import {
   ListItemIcon,
   List,
@@ -58,7 +54,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
     borderRadius: `${customizer.borderRadius}px`,
     backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
     color:
-      level > 1 && pathDirect === item?.href
+      level > 1 && (item?.href && matchPath({ path: item?.href, end: false }, pathDirect))
         ? `${theme.palette.primary.main}!important`
         : theme.palette.text.secondary,
     paddingLeft: hideMenu ? '10px' : level > 2 ? `${level * 15}px` : '10px',
@@ -93,7 +89,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
       <ListItemStyled
         {...listItemProps}
         disabled={item?.disabled}
-        selected={pathDirect === item?.href}
+        selected={!!item?.href && (matchPath({ path: item?.href, end: false }, pathDirect) !== null)}
         onClick={onClick}
       >
         <ListItemIcon
@@ -101,7 +97,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
             minWidth: '36px',
             p: '3px 0',
             color:
-              level > 1 && pathDirect === item?.href
+              level > 1 && item?.href && matchPath({ path: item?.href, end: false }, pathDirect)
                 ? `${theme.palette.primary.main}!important`
                 : 'inherit',
           }}

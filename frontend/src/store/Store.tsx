@@ -3,7 +3,8 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { useDispatch as useReduxDispatch, useSelector as useReduxSelector, TypedUseSelectorHook } from 'react-redux';
 import { authApi, clientApi, employeeApi, staffApi, userApi } from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
-import accountSettingReducer from './apps/accountSetting/AccountSettingSlice';
+import accountSettingReducer from './apps/setting/AccountSettingSlice';
+import clientSettingReducer from './apps/setting/ClientSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
 import userProfileReducer from './apps/userProfile/UserProfileSlice';
 import registerReducer from './apps/auth/RegisterSlice';
@@ -13,6 +14,7 @@ export const store = configureStore({
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
     accountSetting: accountSettingReducer,
+    clientSetting: clientSettingReducer,
     register: registerReducer,
     customizer: customizerReducer,
     userProfile: userProfileReducer,

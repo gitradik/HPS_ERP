@@ -6,8 +6,15 @@ export interface ClientResponse {
   createdAt: string;
   updatedAt: string;
   user: UserResponse;
+  companyName?: string;
+  isWorking: boolean;
 }
 
 export interface Client extends ClientResponse {}
 
 export interface ClientTable {}
+
+export interface UpdateClientInput {
+  companyName?: string;
+  isWorking: boolean;
+}

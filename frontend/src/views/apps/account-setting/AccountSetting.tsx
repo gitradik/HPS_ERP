@@ -17,7 +17,7 @@ import { useGetUserQuery } from 'src/services/api/user.api';
 const BCrumb = [
   {
     to: '/',
-    title: 'Home',
+    title: 'Startseite',
   },
   {
     to: '/user-profile',

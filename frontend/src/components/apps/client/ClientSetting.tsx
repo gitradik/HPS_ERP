@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import React, { useEffect, useState } from 'react';
-import { CardContent, Grid2 as Grid, Typography, Box, Avatar, Button, Stack } from '@mui/material';
+import React, { useEffect, useState, useMemo } from 'react';
+import { CardContent, Grid2 as Grid, Typography, Box, Avatar, Button, Stack, MenuItem } from '@mui/material';
 
 // components
 import BlankCard from '../../shared/BlankCard';
@@ -9,64 +9,78 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 
 // images
-import user1 from 'src/assets/images/profile/user-1.jpg';
-import { User } from 'src/types/auth/auth';
+import user1 from 'src/assets/images/profile/user-8.jpg';
 import Spinner from 'src/views/spinner/Spinner';
-import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
+import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
-import { userAccessRules } from './AccountTabData';
-import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
+import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/user.api';
 import { useSnackbar } from 'notistack';
+import { userAccessRules } from '../account-setting/AccountTabData';
+import { Client } from 'src/types/client/client';
+import { resetClientSetting, selectClientSetting, setCompanyName, setIsWorking, updateClientSetting } from 'src/store/apps/setting/ClientSettingSlice';
+import { useUpdateClientMutation } from 'src/services/api/client.api';
+import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
+import { UserRole } from 'src/types/auth/auth';
 
-
-
-const AccountTab = ({ user }: { user: User }) => {
+const ClientSetting = ({ client }: { client: Client }) => {
+  const { user, companyName, isWorking } = client;
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const data = useSelector(selectAccountSetting);
+  // @ts-ignore
+  const clientData = useSelector(selectClientSetting);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
-  const { hasAccess } = useRolesWithAccess(userAccessRules, user.role);
+  const [updateClient, { isLoading: isLoadingClient }] = useUpdateClientMutation();
+  const userRole = useSelector(selectUserRole);
+  const { hasAccess } = useRolesWithAccess({
+    ...userAccessRules,
+    'companyName': [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    'isWorking': [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+  }, userRole);
 
   useEffect(() => {
     dispatch(updateAccountSetting(user));
+    dispatch(updateClientSetting({ companyName, isWorking }));
 
     return () => {
       dispatch(resetAccountSetting());
-    }
-  }, [user]);
+      dispatch(resetClientSetting());
+    };
+  }, [user, companyName, isWorking]);
 
   const onSave = async () => {
     try {
-      const result = await updateUser({ updateId: user.id, input: data }).unwrap();
-      dispatch(updateUserSuccess(result.update));
-      
-      enqueueSnackbar('Benutzer erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
-    } catch ({ data }: any) {
-      enqueueSnackbar(data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      await updateUser({ updateId: user.id, input: data }).unwrap();
+      await updateClient({ updateId: client.id, input: clientData }).unwrap();
+      enqueueSnackbar('Kundendaten erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
+    } catch (err: any) {
+      enqueueSnackbar(err?.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
     }
   };
   const onCancel = async () => {
     dispatch(updateAccountSetting(user));
+    dispatch(updateClientSetting({ companyName, isWorking }));
   };
 
-  if (!user || isEmpty(data) || isLoading) {
+  if (!user || isEmpty(data)
+    || isEmpty(clientData) || isLoading
+    || isLoadingClient) {
     return <Spinner />;
   }
 
   return (
     (<Grid container spacing={3}>
-      {/* Change Profile */}
-        <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
+      <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Profil ändern
+              Profiländerung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Ändern Sie Ihr Profilbild hier</Typography>
+            <Typography color="textSecondary" mb={3}>Sie können das Profilbild des Kunden ändern</Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -84,46 +98,44 @@ const AccountTab = ({ user }: { user: User }) => {
                   </Button>
                 </Stack>
                 <Typography variant="subtitle1" color="textSecondary" mb={4}>
-                  Erlaubte Formate: JPG, GIF oder PNG. Maximalgröße: 800K
+                  Erlaubte Formate: JPG, GIF oder PNG. Maximale Größe: 800KB
                 </Typography>
               </Box>
             </Box>
           </CardContent>
         </BlankCard>
       </Grid>
-      {/* Change Password */}
+      {/* Passwortänderung */}
       <Grid size={{ xs: 12, lg: 6 }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Passwort ändern
+              Passwortänderung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Bestätigen Sie hier Ihr Passwort, um es zu ändern</Typography>
+            <Typography color="textSecondary" mb={3}>Bestätigen Sie das aktuelle Passwort des Kunden, um ein neues festzulegen</Typography>
             <form>
               <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
                 Aktuelles Passwort
               </CustomFormLabel>
               <CustomTextField
                 id="text-cpwd"
-                value="MathewAnderson"
+                value=""
                 variant="outlined"
                 fullWidth
                 type="password"
               />
-              {/* 2 */}
               <CustomFormLabel htmlFor="text-npwd">Neues Passwort</CustomFormLabel>
               <CustomTextField
                 id="text-npwd"
-                value="MathewAnderson"
+                value=""
                 variant="outlined"
                 fullWidth
                 type="password"
               />
-              {/* 3 */}
-              <CustomFormLabel htmlFor="text-conpwd">Bestätigen Sie das Passwort</CustomFormLabel>
+              <CustomFormLabel htmlFor="text-conpwd">Passwort bestätigen</CustomFormLabel>
               <CustomTextField
                 id="text-conpwd"
-                value="MathewAnderson"
+                value=""
                 variant="outlined"
                 fullWidth
                 type="password"
@@ -132,14 +144,14 @@ const AccountTab = ({ user }: { user: User }) => {
           </CardContent>
         </BlankCard>
       </Grid>
-      {/* Edit Details */}
+      {/* Datenbearbeitung */}
       <Grid size={12}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Persönliche Angaben
+              Datenbearbeitung des Kunden
             </Typography>
-            <Typography color="textSecondary" mb={3}>Um Ihre persönlichen Angaben zu ändern, bearbeiten und speichern Sie sie hier</Typography>
+            <Typography color="textSecondary" mb={3}>Hier können Sie persönliche Daten des Kunden ändern</Typography>
             <form>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -156,7 +168,6 @@ const AccountTab = ({ user }: { user: User }) => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 2 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-name">
                     Nachname
                   </CustomFormLabel>
@@ -169,9 +180,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
                   />
                 </Grid>
-                {/* email */}
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 5 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-email">
                     E-Mail
                   </CustomFormLabel>
@@ -184,64 +193,7 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setEmail(e.target.value))}
                   />
                 </Grid>
-                {/* role */}
-                {/* <Grid size={{ xs: 6, sm: 3 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-role">
-                    Rolle
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    id="text-role"
-                    variant="outlined"
-                    value={data.role}
-                    disabled={!hasAccess('role')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setRole(e.target.value as UserRole))}
-                  >
-                    {roles.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                </Grid> */}
-                {/* active */}
-                {/* <Grid size={{ xs: 6, sm: 3 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
-                    Aktiv
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    id="text-active"
-                    variant="outlined"
-                    value={data.isActive}
-                    disabled={!hasAccess('isActive')}
-                    onChange={(e: React.ChangeEvent<{ value: unknown }>) => dispatch(setIsActive(e.target.value === "true"))}
-                  >
-                    {actives.map((option) => (
-                      <MenuItem key={option.label} value={String(option.value)}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                </Grid> */}
-                {/* position */}
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 6 */}
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-position">
-                    Position
-                  </CustomFormLabel>
-                  <CustomTextField
-                    id="text-position"
-                    value={data.position || ""}
-                    variant="outlined"
-                    fullWidth
-                    disabled={!hasAccess('position')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPosition(e.target.value))}
-                  />
-                </Grid>
-                {/* phone */}
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 6 */}
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-phone">
                     Telefonnummer
                   </CustomFormLabel>
@@ -253,8 +205,38 @@ const AccountTab = ({ user }: { user: User }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPhoneNumber(e.target.value))}
                   />
                 </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  {/* 7 */}
+                <Grid size={{ xs: 6, sm: 3 }}>
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
+                    Status
+                  </CustomFormLabel>
+                  <CustomSelect
+                    fullWidth
+                    id="text-active"
+                    variant="outlined"
+                    value={clientData.isWorking}
+                    disabled={!hasAccess('isWorking')}
+                    onChange={(e: React.ChangeEvent<{ value: unknown }>) => dispatch(setIsWorking(e.target.value as boolean))}
+                  >
+                    {/* @ts-ignore */}
+                     <MenuItem value={true}>Aktiv</MenuItem>
+                     {/* @ts-ignore */}
+                     <MenuItem value={false}>Inaktiv</MenuItem>
+                  </CustomSelect>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 9 }}>
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-companyName">
+                   Name der Firma
+                  </CustomFormLabel>
+                  <CustomTextField
+                    id="text-companyName"
+                    value={clientData.companyName || ""}
+                    variant="outlined"
+                    fullWidth
+                    disabled={!hasAccess('companyName')}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setCompanyName(e.target.value))}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-address">
                     Adresse
                   </CustomFormLabel>
@@ -279,10 +261,8 @@ const AccountTab = ({ user }: { user: User }) => {
           </Button>
         </Stack>
       </Grid>
-    </Grid>
-    )
+    </Grid>)
   );
 };
 
-export default AccountTab;
-
+export default ClientSetting;

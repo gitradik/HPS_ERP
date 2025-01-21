@@ -11,7 +11,7 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 // images
 import user1 from 'src/assets/images/profile/user-1.jpg';
 import Spinner from 'src/views/spinner/Spinner';
-import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSetting } from 'src/store/apps/accountSetting/AccountSettingSlice';
+import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
