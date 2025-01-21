@@ -20,6 +20,7 @@ import {
   IconSearch,
   IconPlus
 } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 import { useGetUsersQuery } from 'src/services/api/user.api';
 import img3 from 'src/assets/images/profile/user-5.jpg';
 import { User, UserRole } from 'src/types/auth/auth';
@@ -42,6 +43,7 @@ const UsersCard = () => {
   const [openUserDialog, setOpenUserDialog] = React.useState(false);
   const isLoadingRegisterUser = useSelector(selectIsLoading);
   const { data, refetch } = useGetUsersQuery();
+  const { t } = useTranslation();
   const users = data?.users || [];
 
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
@@ -80,11 +82,11 @@ const UsersCard = () => {
           xs: 12
         }}>
        <Stack
-            direction={{ xs: 'column', sm: 'row' }} // Меняем направление в зависимости от размера экрана
+            direction={{ xs: 'column', sm: 'row' }}
             alignItems="center"
             justifyContent="space-between"
             mt={2}
-            spacing={2} // Добавляем пространство между элементами
+            spacing={2}
           >
             <Box sx={{ flex: 1 }}>
               <Typography variant="h3">
@@ -106,7 +108,6 @@ const UsersCard = () => {
                 </Button>
               </Tooltip>
             </Box>
-            {/* Перемещаем поле поиска в Stack, чтобы оно было внизу на маленьких экранах */}
             <Box sx={{ width: { xs: '100%', sm: 'auto' } }}>
               <TextField
                 id="outlined-search"
@@ -161,12 +162,12 @@ const UsersCard = () => {
                 <Button
                   size="small"
                   variant="text"
-                  color={isRoleUser(profile) ? "warning" : "success"}
+                  color={isRoleUser(profile) ? "warning" : "info"}
                   disabled={!isRoleUser(profile)}
                   onClick={() => openUserDialogProcess(profile)}
                   sx={{ width: { xs: '100%', sm: 'auto' } }}
                 >
-                  {isRoleUser(profile) ? "Rolle zuweisen" : profile.role}
+                  {isRoleUser(profile) ? t('setRole') : t(`UserRole.${profile.role}`)}
                 </Button>
               </Box>
             </BlankCard>

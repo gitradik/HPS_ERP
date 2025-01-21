@@ -14,5 +14,15 @@
         "documents_create": "Dokumentų kūrimas",
         "documents_create_invoice": "Sąskaitos faktūros kūrimas",
         "documents_create_offer": "Pasiūlymo kūrimas"
-    }
+    },
+    "UserRole": {
+        "SUPER_ADMIN": "Super administratorius",
+        "ADMIN": "Administratorius",
+        "MANAGER": "Vadovas",
+        "STAFF": "Personalas",
+        "EMPLOYEE": "Darbuotojas",
+        "CLIENT": "Klientas",
+        "USER": "Vartotojas"
+    },
+    "setRole": "Priskirti vaidmenį"
 }

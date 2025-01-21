@@ -14,5 +14,15 @@
         "documents_create": "Dokumente erstellen",
         "documents_create_invoice": "Rechnung erstellen",
         "documents_create_offer": "Angebot erstellen"
-    }
+    },
+    "UserRole": {
+        "SUPER_ADMIN": "Super Administrator",
+        "ADMIN": "Administrator",
+        "MANAGER": "Manager",
+        "STAFF": "Personale",
+        "EMPLOYEE": "Mitarbeiter",
+        "CLIENT": "Kunde",
+        "USER": "Benutzer"
+    },
+    "setRole": "Rolle zuweisen"
 }
