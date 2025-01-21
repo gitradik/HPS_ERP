@@ -1,8 +1,8 @@
 // Для App используем RootState
-import { useSelector } from 'src/store/Store'; 
+import { useSelector } from 'src/store/Store';
 import { ThemeSettings } from './theme/Theme';
 import RTL from './layouts/full/shared/customizer/RTL';
-import { RootState } from './store/Store';  // Используем RootState вместо RootState
+import { RootState } from './store/Store'; // Используем RootState вместо RootState
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { RouterProvider } from 'react-router';
 import router from './routes/Router';
@@ -13,16 +13,18 @@ function App() {
   const customizer = useSelector((state: RootState) => state.customizer); // Используем RootState
   return (
     <ThemeProvider theme={theme}>
-        <RTL direction={customizer.activeDir}>
-          <SnackbarProvider maxSnack={3}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'left', 
-            }}>
-            <CssBaseline />
-            <RouterProvider router={router} />
-          </SnackbarProvider>
-        </RTL>
+      <RTL direction={customizer.activeDir}>
+        <SnackbarProvider
+          maxSnack={3}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </SnackbarProvider>
+      </RTL>
     </ThemeProvider>
   );
 }

@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { map } from 'lodash';
 import { AppDispatch } from 'src/store/Store';
 
-  // @ts-ignore
+// @ts-ignore
 const API_URL = '/api/data/postData';
 
 interface StateType {

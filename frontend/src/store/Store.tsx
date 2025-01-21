@@ -1,6 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { useDispatch as useReduxDispatch, useSelector as useReduxSelector, TypedUseSelectorHook } from 'react-redux';
+import {
+  useDispatch as useReduxDispatch,
+  useSelector as useReduxSelector,
+  TypedUseSelectorHook,
+} from 'react-redux';
 import { authApi, clientApi, employeeApi, staffApi, userApi } from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/setting/AccountSettingSlice';

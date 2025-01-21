@@ -6,25 +6,26 @@ import PageContainer from 'src/components/container/PageContainer';
 // import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
 // import GalleryCard from 'src/components/apps/userprofile/gallery/GalleryCard';
 
-
 const Gallery = () => {
   return (
-    (<PageContainer title="User Profile" description="this is User Profile page">
+    <PageContainer title="User Profile" description="this is User Profile page">
       <Grid container spacing={3}>
         <Grid
           size={{
-            sm: 12
-          }}>
+            sm: 12,
+          }}
+        >
           {/* <ProfileBanner /> */}
         </Grid>
         <Grid
           size={{
-            sm: 12
-          }}>
+            sm: 12,
+          }}
+        >
           {/* <GalleryCard /> */}
         </Grid>
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

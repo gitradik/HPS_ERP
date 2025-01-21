@@ -12,7 +12,17 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 import user1 from 'src/assets/images/profile/user-1.jpg';
 import { User } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
-import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
+import {
+  resetAccountSetting,
+  selectAccountSetting,
+  setContactDetails,
+  setEmail,
+  setFirstName,
+  setLastName,
+  setPhoneNumber,
+  setPosition,
+  updateAccountSetting,
+} from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { userAccessRules } from './AccountTabData';
@@ -20,8 +30,6 @@ import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/user.api';
 import { useSnackbar } from 'notistack';
-
-
 
 const AccountTab = ({ user }: { user: User }) => {
   const dispatch = useDispatch();
@@ -36,17 +44,20 @@ const AccountTab = ({ user }: { user: User }) => {
 
     return () => {
       dispatch(resetAccountSetting());
-    }
+    };
   }, [user]);
 
   const onSave = async () => {
     try {
       const result = await updateUser({ updateId: user.id, input: data }).unwrap();
       dispatch(updateUserSuccess(result.update));
-      
-      enqueueSnackbar('Benutzer erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
+
+      enqueueSnackbar('Benutzer erfolgreich aktualisiert!', {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
     } catch ({ data }: any) {
-      enqueueSnackbar(data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(data.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   };
   const onCancel = async () => {
@@ -58,15 +69,17 @@ const AccountTab = ({ user }: { user: User }) => {
   }
 
   return (
-    (<Grid container spacing={3}>
+    <Grid container spacing={3}>
       {/* Change Profile */}
-        <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
+      <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
               Profil ändern
             </Typography>
-            <Typography color="textSecondary" mb={3}>Ändern Sie Ihr Profilbild hier</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Ändern Sie Ihr Profilbild hier
+            </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -98,7 +111,9 @@ const AccountTab = ({ user }: { user: User }) => {
             <Typography variant="h5" mb={1}>
               Passwort ändern
             </Typography>
-            <Typography color="textSecondary" mb={3}>Bestätigen Sie hier Ihr Passwort, um es zu ändern</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Bestätigen Sie hier Ihr Passwort, um es zu ändern
+            </Typography>
             <form>
               <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
                 Aktuelles Passwort
@@ -139,7 +154,9 @@ const AccountTab = ({ user }: { user: User }) => {
             <Typography variant="h5" mb={1}>
               Persönliche Angaben
             </Typography>
-            <Typography color="textSecondary" mb={3}>Um Ihre persönlichen Angaben zu ändern, bearbeiten und speichern Sie sie hier</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Um Ihre persönlichen Angaben zu ändern, bearbeiten und speichern Sie sie hier
+            </Typography>
             <form>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -152,7 +169,9 @@ const AccountTab = ({ user }: { user: User }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('firstName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFirstName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setFirstName(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -166,7 +185,9 @@ const AccountTab = ({ user }: { user: User }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('lastName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setLastName(e.target.value))
+                    }
                   />
                 </Grid>
                 {/* email */}
@@ -181,7 +202,9 @@ const AccountTab = ({ user }: { user: User }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('email')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setEmail(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setEmail(e.target.value))
+                    }
                   />
                 </Grid>
                 {/* role */}
@@ -232,11 +255,13 @@ const AccountTab = ({ user }: { user: User }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-position"
-                    value={data.position || ""}
+                    value={data.position || ''}
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('position')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPosition(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setPosition(e.target.value))
+                    }
                   />
                 </Grid>
                 {/* phone */}
@@ -247,10 +272,12 @@ const AccountTab = ({ user }: { user: User }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-phone"
-                    value={data.phoneNumber || ""}
+                    value={data.phoneNumber || ''}
                     variant="outlined"
                     fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPhoneNumber(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setPhoneNumber(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -260,10 +287,12 @@ const AccountTab = ({ user }: { user: User }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-address"
-                    value={data.contactDetails || ""}
+                    value={data.contactDetails || ''}
                     variant="outlined"
                     fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setContactDetails(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setContactDetails(e.target.value))
+                    }
                   />
                 </Grid>
               </Grid>
@@ -280,9 +309,7 @@ const AccountTab = ({ user }: { user: User }) => {
         </Stack>
       </Grid>
     </Grid>
-    )
   );
 };
 
 export default AccountTab;
-

@@ -9,7 +9,7 @@ import {
   Typography,
   Divider,
   Button,
-  Stack
+  Stack,
 } from '@mui/material';
 import * as dropdownData from './data';
 

@@ -21,19 +21,20 @@ const extractDetailedError = (error: ExtendedFetchBaseQueryError | undefined): s
   return 'An unexpected error occurred.';
 };
 
-const baseQueryWithMiddleware: BaseQueryFn<any, unknown, FetchBaseQueryError> = graphqlRequestBaseQuery({
-  url: apiHost,
-  prepareHeaders: (headers) => {
-    const token = localStorage.getItem(ACCESS_TOKEN);
-    if (token) headers.set('Authorization', token);
-    return headers;
-  },
-});
+const baseQueryWithMiddleware: BaseQueryFn<any, unknown, FetchBaseQueryError> =
+  graphqlRequestBaseQuery({
+    url: apiHost,
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem(ACCESS_TOKEN);
+      if (token) headers.set('Authorization', token);
+      return headers;
+    },
+  });
 
 export const enhancedBaseQuery: BaseQueryFn<any, unknown, ExtendedFetchBaseQueryError> = async (
   args,
   api,
-  extraOptions
+  extraOptions,
 ) => {
   const result = await baseQueryWithMiddleware(args, api, extraOptions);
 

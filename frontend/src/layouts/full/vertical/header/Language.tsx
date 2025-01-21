@@ -4,7 +4,7 @@ import React from 'react';
 import { Avatar, IconButton, Menu, MenuItem, Typography, Stack } from '@mui/material';
 import { useSelector, useDispatch } from 'src/store/Store';
 import { setLanguage } from 'src/store/customizer/CustomizerSlice';
-import FlagDe from 'src/assets/images/flag/icon-flag-de.svg'; 
+import FlagDe from 'src/assets/images/flag/icon-flag-de.svg';
 import FlagLt from 'src/assets/images/flag/icon-flag-lt.svg';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';

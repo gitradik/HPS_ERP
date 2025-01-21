@@ -1,4 +1,3 @@
-
 import { styled } from '@mui/material/styles';
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
 import React from 'react';
@@ -66,6 +65,5 @@ const CustomCheckbox = React.forwardRef<HTMLButtonElement, CheckboxProps>((props
 
 // Set displayName to help with debugging
 CustomCheckbox.displayName = 'CustomCheckbox';
-
 
 export default CustomCheckbox;

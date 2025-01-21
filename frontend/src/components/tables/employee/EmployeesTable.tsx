@@ -9,9 +9,7 @@ import {
   Box,
   IconButton,
 } from '@mui/material';
-import {
-  IconEye,
-} from '@tabler/icons-react';
+import { IconEye } from '@tabler/icons-react';
 import DownloadCard from 'src/components/shared/DownloadCard';
 import { Employee } from 'src/types/employee/employee';
 import moment from 'moment';
@@ -52,7 +50,15 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
   }));
 
   const handleDownload = () => {
-    const headers = ['Benutzerdetails', 'E-Mail', 'Position', 'Telefonnummer', 'Adresse', 'Status', 'Zuletzt aktualisiert'];
+    const headers = [
+      'Benutzerdetails',
+      'E-Mail',
+      'Position',
+      'Telefonnummer',
+      'Adresse',
+      'Status',
+      'Zuletzt aktualisiert',
+    ];
     const rows = employees.map((item: Employee) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
@@ -63,10 +69,7 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
       moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
-    const csvContent = [
-      headers.join(','),
-      ...rows.map((e: any[]) => e.join(',')),
-    ].join('\n');
+    const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -141,7 +144,13 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      <IconButton onClick={() => navigate(`/employees/${row.employeeId}`)} size="small"> <IconEye/></IconButton>
+                      <IconButton
+                        onClick={() => navigate(`/employees/${row.employeeId}`)}
+                        size="small"
+                      >
+                        {' '}
+                        <IconEye />
+                      </IconButton>
                     </Typography>
                   </TableCell>
                 </TableRow>

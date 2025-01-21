@@ -1,4 +1,3 @@
-
 import { Button, Stack } from '@mui/material';
 import { IconTrash, IconSend } from '@tabler/icons-react';
 

@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { UpdateUserInput, User, UserRole } from 'src/types/auth/auth';
 
-
 // Начальное состояние
 const initialState: UpdateUserInput = {};
 

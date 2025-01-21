@@ -54,7 +54,15 @@ const PostComments = ({ comment, post }: CommentProps) => {
 
   return (
     <>
-      <Box mt={2} p={3} sx={{ borderColor: (theme: any) => theme.palette.divider, borderWidth: '1px', borderStyle: 'solid' }}>
+      <Box
+        mt={2}
+        p={3}
+        sx={{
+          borderColor: (theme: any) => theme.palette.divider,
+          borderWidth: '1px',
+          borderStyle: 'solid',
+        }}
+      >
         <Stack direction={'row'} gap={2} alignItems="center">
           <Avatar
             alt="Remy Sharp"
@@ -102,7 +110,11 @@ const PostComments = ({ comment, post }: CommentProps) => {
                 <Box
                   mt={2}
                   p={3}
-                  sx={{ borderColor: (theme: any) => theme.palette.grey[100], borderWidth: '1px', borderStyle: 'solid' }}
+                  sx={{
+                    borderColor: (theme: any) => theme.palette.grey[100],
+                    borderWidth: '1px',
+                    borderStyle: 'solid',
+                  }}
                 >
                   <Stack direction={'row'} gap={2} alignItems="center">
                     <Avatar alt="Remy Sharp" src={reply.profile.avatar} />

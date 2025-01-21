@@ -23,7 +23,6 @@ const BCrumb = [
   },
 ];
 
-
 const Employees = () => {
   const { data: employeesData, isLoading, error, refetch } = useGetEmployeesQuery();
   const { enqueueSnackbar } = useSnackbar();
@@ -33,11 +32,11 @@ const Employees = () => {
   const employees = employeesData?.employees as Employee[];
 
   // @ts-ignore
-  const errorMessage = error?.data?.friendlyMessage
+  const errorMessage = error?.data?.friendlyMessage;
 
   useEffect(() => {
     if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   }, [errorMessage]);
 
@@ -56,12 +55,12 @@ const Employees = () => {
   }, [employees, isLoading]);
 
   return (
-    (<PageContainer title="Mitarbeiter" description="this is Mitarbeiter page">
+    <PageContainer title="Mitarbeiter" description="this is Mitarbeiter page">
       <Breadcrumb title="Mitarbeiter" items={BCrumb} />
       <Grid container spacing={3}>
         {renderEmployeeTable()}
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

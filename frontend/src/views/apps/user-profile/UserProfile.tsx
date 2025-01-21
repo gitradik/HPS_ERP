@@ -21,27 +21,26 @@ const BCrumb = [
   },
 ];
 
-
 const UserProfile = ({ userId }: any) => {
   const { data, refetch } = useGetUserQuery({ userId });
   const accountSetting = useSelector(selectAccountSetting);
 
-  const user = data?.user
+  const user = data?.user;
 
   useEffect(() => {
-    refetch().then()
-  }, [accountSetting])
-
+    refetch().then();
+  }, [accountSetting]);
 
   return (
-    (<PageContainer title="Benutzerprofil" description="this is Benutzerprofil page">
+    <PageContainer title="Benutzerprofil" description="this is Benutzerprofil page">
       <Breadcrumb title="Benutzerprofil" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid
           size={{
-            sm: 12
-          }}>
-          {user && <ProfileBanner user={user}  />}
+            sm: 12,
+          }}
+        >
+          {user && <ProfileBanner user={user} />}
         </Grid>
 
         {/* intro and Photos Card */}
@@ -49,14 +48,16 @@ const UserProfile = ({ userId }: any) => {
           size={{
             sm: 12,
             lg: 4,
-            xs: 12
-          }}>
+            xs: 12,
+          }}
+        >
           <Grid container spacing={3}>
             <Grid
               size={{
-                sm: 12
-              }}>
-              {user && <IntroCard user={user}  />}
+                sm: 12,
+              }}
+            >
+              {user && <IntroCard user={user} />}
             </Grid>
           </Grid>
         </Grid>
@@ -64,12 +65,13 @@ const UserProfile = ({ userId }: any) => {
           size={{
             sm: 12,
             lg: 8,
-            xs: 12
-          }}>
+            xs: 12,
+          }}
+        >
           {/* <Post /> */}
         </Grid>
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

@@ -107,18 +107,18 @@ const TopPerformers = () => {
                         basic.status === 'High'
                           ? (theme) => theme.palette.error.light
                           : basic.status === 'Medium'
-                          ? (theme) => theme.palette.warning.light
-                          : basic.status === 'Low'
-                          ? (theme) => theme.palette.success.light
-                          : (theme) => theme.palette.secondary.light,
+                            ? (theme) => theme.palette.warning.light
+                            : basic.status === 'Low'
+                              ? (theme) => theme.palette.success.light
+                              : (theme) => theme.palette.secondary.light,
                       color:
                         basic.status === 'High'
                           ? (theme) => theme.palette.error.main
                           : basic.status === 'Medium'
-                          ? (theme) => theme.palette.warning.main
-                          : basic.status === 'Low'
-                          ? (theme) => theme.palette.success.main
-                          : (theme) => theme.palette.secondary.main,
+                            ? (theme) => theme.palette.warning.main
+                            : basic.status === 'Low'
+                              ? (theme) => theme.palette.success.main
+                              : (theme) => theme.palette.secondary.main,
                       borderRadius: '8px',
                     }}
                     size="small"

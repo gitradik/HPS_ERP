@@ -1,10 +1,14 @@
-
 import { Fab, Tooltip, Stack } from '@mui/material';
 import { IconSend } from '@tabler/icons-react';
 
 const FabColorButtons = () => (
   <>
-    <Stack spacing={1} direction={{ xs: 'column', sm: 'row' }} justifyContent="center" alignItems="center">
+    <Stack
+      spacing={1}
+      direction={{ xs: 'column', sm: 'row' }}
+      justifyContent="center"
+      alignItems="center"
+    >
       <Tooltip title="Send">
         <Fab color="primary" aria-label="send">
           <IconSend width={20} />

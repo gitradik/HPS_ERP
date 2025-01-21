@@ -1,4 +1,4 @@
-import CodeDialog from "src/components/shared/CodeDialog";
+import CodeDialog from 'src/components/shared/CodeDialog';
 
 const CustomSliderCode = () => {
   return (

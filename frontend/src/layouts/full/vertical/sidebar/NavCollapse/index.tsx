@@ -51,7 +51,7 @@ const NavCollapse = ({
   pathWithoutLastPart,
   pathDirect,
   hideMenu,
-  onClick
+  onClick,
 }: NavCollapseProps) => {
   const customizer = useSelector((state: RootState) => state.customizer);
   const Icon = menu?.icon;
@@ -83,9 +83,10 @@ const NavCollapse = ({
     backgroundColor: open && level < 2 ? theme.palette.primary.main : '',
     whiteSpace: 'nowrap',
     '&:hover': {
-      backgroundColor: pathname.includes(menu.href) || open
-        ? theme.palette.primary.main
-        : theme.palette.primary.light,
+      backgroundColor:
+        pathname.includes(menu.href) || open
+          ? theme.palette.primary.main
+          : theme.palette.primary.light,
       color: pathname.includes(menu.href) || open ? 'white' : theme.palette.primary.main,
     },
     color:

@@ -9,30 +9,32 @@ import RevenueUpdates from 'src/components/dashboards/modern/RevenueUpdates';
 
 const Modern = () => {
   return (
-    (<PageContainer title="Modern Dashboard" description="this is Modern Dashboard page">
+    <PageContainer title="Modern Dashboard" description="this is Modern Dashboard page">
       <Box>
         <Grid container spacing={3}>
           {/* column */}
           <Grid
             size={{
               xs: 12,
-              lg: 12
-            }}>
+              lg: 12,
+            }}
+          >
             <TopCards />
           </Grid>
           {/* column */}
           <Grid
             size={{
               xs: 12,
-              lg: 8
-            }}>
+              lg: 8,
+            }}
+          >
             <RevenueUpdates />
           </Grid>
         </Grid>
         {/* column */}
         {/* <Welcome /> */}
       </Box>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

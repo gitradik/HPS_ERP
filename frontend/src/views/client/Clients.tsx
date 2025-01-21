@@ -36,7 +36,7 @@ const Clients = () => {
 
   useEffect(() => {
     if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   }, [errorMessage]);
 
@@ -55,12 +55,12 @@ const Clients = () => {
   }, [clients, isLoading]);
 
   return (
-    (<PageContainer title="Kunden" description="Dies ist die Kundenseite">
+    <PageContainer title="Kunden" description="Dies ist die Kundenseite">
       <Breadcrumb title="Kunden" items={BCrumb} />
       <Grid container spacing={3}>
         {renderClientsTable()}
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

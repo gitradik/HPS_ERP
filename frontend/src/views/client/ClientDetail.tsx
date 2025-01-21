@@ -30,10 +30,15 @@ const BCrumb = [
 
 const ClientDetail = () => {
   const { id } = useParams();
-  const { data: clientData, isLoading, error, refetch } = useGetClientQuery({ clientId: id! }, { skip: !id });
+  const {
+    data: clientData,
+    isLoading,
+    error,
+    refetch,
+  } = useGetClientQuery({ clientId: id! }, { skip: !id });
   // @ts-ignore
   const isEmpty = useSelector(selectClientSettingIsEmpty);
-    const isEmptyPrev = usePrevious(isEmpty);
+  const isEmptyPrev = usePrevious(isEmpty);
   const { enqueueSnackbar } = useSnackbar();
 
   const client = clientData?.client as Client;
@@ -43,10 +48,10 @@ const ClientDetail = () => {
 
   useEffect(() => {
     if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   }, [errorMessage]);
-  
+
   useEffect(() => {
     if (isEmptyPrev !== isEmpty) {
       refetch().then();

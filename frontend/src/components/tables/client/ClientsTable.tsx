@@ -11,9 +11,7 @@ import {
   Badge,
   Stack,
 } from '@mui/material';
-import {
-  IconEye,
-} from '@tabler/icons-react';
+import { IconEye } from '@tabler/icons-react';
 import DownloadCard from 'src/components/shared/DownloadCard';
 import moment from 'moment';
 import { User } from 'src/types/auth/auth';
@@ -59,7 +57,15 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
   }));
 
   const handleDownload = () => {
-    const headers = ['Benutzerdetails', 'E-Mail', 'Name der Firma', 'Telefonnummer', 'Adresse', 'Status', 'Zuletzt aktualisiert'];
+    const headers = [
+      'Benutzerdetails',
+      'E-Mail',
+      'Name der Firma',
+      'Telefonnummer',
+      'Adresse',
+      'Status',
+      'Zuletzt aktualisiert',
+    ];
     const rows = clients.map((item: Client) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
@@ -70,10 +76,7 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
       moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
-    const csvContent = [
-      headers.join(','),
-      ...rows.map((e: any[]) => e.join(',')),
-    ].join('\n');
+    const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -128,14 +131,7 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   </TableCell>
                   <TableCell>
                     <Stack spacing={1} direction="row" alignItems="center">
-                      <Badge
-                        color={
-                          row.isWorking
-                            ? 'success'
-                            : 'error'
-                        }
-                        variant="dot"
-                      ></Badge>
+                      <Badge color={row.isWorking ? 'success' : 'error'} variant="dot"></Badge>
                       <Typography color="textSecondary" variant="body1">
                         {row.isWorking ? 'Aktiv' : 'Inaktiv'}
                       </Typography>
@@ -148,7 +144,10 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      <IconButton onClick={() => navigate(`/clients/${row.clientId}`)} size="small"> <IconEye/></IconButton>
+                      <IconButton onClick={() => navigate(`/clients/${row.clientId}`)} size="small">
+                        {' '}
+                        <IconEye />
+                      </IconButton>
                     </Typography>
                   </TableCell>
                 </TableRow>

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Button,
@@ -24,22 +24,21 @@ const FbRightIconForm = () => {
   };
 
   return (
-    <ParentCard title="Form with Right Icon" footer={
-      <>
-        <Stack direction="row" spacing={1}>
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Submit
-          </Button>
-          <Button variant="contained" color="error">
-            Cancel
-          </Button>
-        </Stack>
-
-      </>
-    }>
+    <ParentCard
+      title="Form with Right Icon"
+      footer={
+        <>
+          <Stack direction="row" spacing={1}>
+            <Button color="primary" variant="contained">
+              Submit
+            </Button>
+            <Button variant="contained" color="error">
+              Cancel
+            </Button>
+          </Stack>
+        </>
+      }
+    >
       <form>
         <FormControl fullWidth>
           <CustomFormLabel

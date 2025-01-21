@@ -6,8 +6,8 @@ import { Card, CardHeader, CardContent, Divider } from '@mui/material';
 
 type Props = {
   title?: string;
-  children: any | any[]
-  codeModel?: any | any[]
+  children: any | any[];
+  codeModel?: any | any[];
 };
 
 const ChildCard = ({ title, children, codeModel }: Props) => (

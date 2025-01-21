@@ -34,15 +34,16 @@ const topcards: cardType[] = [
 
 const TopCards = () => {
   return (
-    (<Grid container spacing={3}>
+    <Grid container spacing={3}>
       {topcards.map((topcard, i) => (
         <Grid
           key={i}
           size={{
             xs: 12,
             sm: 4,
-            lg: 2
-          }}>
+            lg: 2,
+          }}
+        >
           <Box bgcolor={topcard.bgcolor + '.light'} textAlign="center">
             <CardContent>
               <img src={topcard.icon} alt={topcard.icon} width="50" />
@@ -61,7 +62,7 @@ const TopCards = () => {
           </Box>
         </Grid>
       ))}
-    </Grid>)
+    </Grid>
   );
 };
 

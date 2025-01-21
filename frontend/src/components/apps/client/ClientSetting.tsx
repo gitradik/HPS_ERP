@@ -1,7 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useEffect, useState, useMemo } from 'react';
-import { CardContent, Grid2 as Grid, Typography, Box, Avatar, Button, Stack, MenuItem } from '@mui/material';
+import {
+  CardContent,
+  Grid2 as Grid,
+  Typography,
+  Box,
+  Avatar,
+  Button,
+  Stack,
+  MenuItem,
+} from '@mui/material';
 
 // components
 import BlankCard from '../../shared/BlankCard';
@@ -11,7 +20,16 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 // images
 import user1 from 'src/assets/images/profile/user-8.jpg';
 import Spinner from 'src/views/spinner/Spinner';
-import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
+import {
+  resetAccountSetting,
+  selectAccountSetting,
+  setContactDetails,
+  setEmail,
+  setFirstName,
+  setLastName,
+  setPhoneNumber,
+  updateAccountSetting,
+} from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
@@ -20,7 +38,13 @@ import { useUpdateUserMutation } from 'src/services/api/user.api';
 import { useSnackbar } from 'notistack';
 import { userAccessRules } from '../account-setting/AccountTabData';
 import { Client } from 'src/types/client/client';
-import { resetClientSetting, selectClientSetting, setCompanyName, setIsWorking, updateClientSetting } from 'src/store/apps/setting/ClientSettingSlice';
+import {
+  resetClientSetting,
+  selectClientSetting,
+  setCompanyName,
+  setIsWorking,
+  updateClientSetting,
+} from 'src/store/apps/setting/ClientSettingSlice';
 import { useUpdateClientMutation } from 'src/services/api/client.api';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { UserRole } from 'src/types/auth/auth';
@@ -36,11 +60,14 @@ const ClientSetting = ({ client }: { client: Client }) => {
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const [updateClient, { isLoading: isLoadingClient }] = useUpdateClientMutation();
   const userRole = useSelector(selectUserRole);
-  const { hasAccess } = useRolesWithAccess({
-    ...userAccessRules,
-    'companyName': [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-    'isWorking': [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-  }, userRole);
+  const { hasAccess } = useRolesWithAccess(
+    {
+      ...userAccessRules,
+      companyName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+      isWorking: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    },
+    userRole,
+  );
 
   useEffect(() => {
     dispatch(updateAccountSetting(user));
@@ -56,9 +83,12 @@ const ClientSetting = ({ client }: { client: Client }) => {
     try {
       await updateUser({ updateId: user.id, input: data }).unwrap();
       await updateClient({ updateId: client.id, input: clientData }).unwrap();
-      enqueueSnackbar('Kundendaten erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
+      enqueueSnackbar('Kundendaten erfolgreich aktualisiert!', {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
     } catch (err: any) {
-      enqueueSnackbar(err?.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(err?.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   };
   const onCancel = async () => {
@@ -66,21 +96,21 @@ const ClientSetting = ({ client }: { client: Client }) => {
     dispatch(updateClientSetting({ companyName, isWorking }));
   };
 
-  if (!user || isEmpty(data)
-    || isEmpty(clientData) || isLoading
-    || isLoadingClient) {
+  if (!user || isEmpty(data) || isEmpty(clientData) || isLoading || isLoadingClient) {
     return <Spinner />;
   }
 
   return (
-    (<Grid container spacing={3}>
+    <Grid container spacing={3}>
       <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
               Profiländerung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Sie können das Profilbild des Kunden ändern</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Sie können das Profilbild des Kunden ändern
+            </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -112,7 +142,9 @@ const ClientSetting = ({ client }: { client: Client }) => {
             <Typography variant="h5" mb={1}>
               Passwortänderung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Bestätigen Sie das aktuelle Passwort des Kunden, um ein neues festzulegen</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Bestätigen Sie das aktuelle Passwort des Kunden, um ein neues festzulegen
+            </Typography>
             <form>
               <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
                 Aktuelles Passwort
@@ -151,7 +183,9 @@ const ClientSetting = ({ client }: { client: Client }) => {
             <Typography variant="h5" mb={1}>
               Datenbearbeitung des Kunden
             </Typography>
-            <Typography color="textSecondary" mb={3}>Hier können Sie persönliche Daten des Kunden ändern</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Hier können Sie persönliche Daten des Kunden ändern
+            </Typography>
             <form>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -164,7 +198,9 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('firstName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFirstName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setFirstName(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -177,7 +213,9 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('lastName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setLastName(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -190,7 +228,9 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('email')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setEmail(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setEmail(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -199,10 +239,12 @@ const ClientSetting = ({ client }: { client: Client }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-phone"
-                    value={data.phoneNumber || ""}
+                    value={data.phoneNumber || ''}
                     variant="outlined"
                     fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPhoneNumber(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setPhoneNumber(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 6, sm: 3 }}>
@@ -215,25 +257,29 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     variant="outlined"
                     value={clientData.isWorking}
                     disabled={!hasAccess('isWorking')}
-                    onChange={(e: React.ChangeEvent<{ value: unknown }>) => dispatch(setIsWorking(e.target.value as boolean))}
+                    onChange={(e: React.ChangeEvent<{ value: unknown }>) =>
+                      dispatch(setIsWorking(e.target.value as boolean))
+                    }
                   >
                     {/* @ts-ignore */}
-                     <MenuItem value={true}>Aktiv</MenuItem>
-                     {/* @ts-ignore */}
-                     <MenuItem value={false}>Inaktiv</MenuItem>
+                    <MenuItem value={true}>Aktiv</MenuItem>
+                    {/* @ts-ignore */}
+                    <MenuItem value={false}>Inaktiv</MenuItem>
                   </CustomSelect>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 9 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-companyName">
-                   Name der Firma
+                    Name der Firma
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-companyName"
-                    value={clientData.companyName || ""}
+                    value={clientData.companyName || ''}
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('companyName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setCompanyName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setCompanyName(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -242,10 +288,12 @@ const ClientSetting = ({ client }: { client: Client }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-address"
-                    value={data.contactDetails || ""}
+                    value={data.contactDetails || ''}
                     variant="outlined"
                     fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setContactDetails(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setContactDetails(e.target.value))
+                    }
                   />
                 </Grid>
               </Grid>
@@ -261,7 +309,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
           </Button>
         </Stack>
       </Grid>
-    </Grid>)
+    </Grid>
   );
 };
 

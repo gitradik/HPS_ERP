@@ -57,9 +57,15 @@ const resolvers = {
   },
 
   Mutation: {
-    update: async (parent: any, { id, input }: { id: number; input: UpdateUserInput }, context: any, info: any) =>
+    update: async (
+      parent: any,
+      { id, input }: { id: number; input: UpdateUserInput },
+      context: any,
+      info: any,
+    ) =>
       await authMiddleware(
-        async (_parent: any, _args: any, _context: any, _info: any) => userService.updateUser(id, input),
+        async (_parent: any, _args: any, _context: any, _info: any) =>
+          userService.updateUser(id, input),
         parent,
         { id, input },
         context,
@@ -83,9 +89,15 @@ const resolvers = {
     ): Promise<LoginResponse> => await userService.loginUser(input),
     register: async (_: unknown, { input }: { input: CreateUserInput }): Promise<UserResponse> =>
       await userService.registerUser(input),
-    refreshToken: async (parent: any, { refreshToken }: { refreshToken: string }, context: any, info: any) =>
+    refreshToken: async (
+      parent: any,
+      { refreshToken }: { refreshToken: string },
+      context: any,
+      info: any,
+    ) =>
       await authMiddleware(
-        async (_parent: any, _args: any, _context: any, _info: any) => userService.refreshUserToken(refreshToken),
+        async (_parent: any, _args: any, _context: any, _info: any) =>
+          userService.refreshUserToken(refreshToken),
         parent,
         { refreshToken },
         context,
@@ -93,7 +105,8 @@ const resolvers = {
       ),
     logout: async (parent: any, args: any, context: any, info: any) =>
       await authMiddleware(
-        async (_parent: any, _args: any, _context: any, _info: any) => userService.getLogoutResponse(),
+        async (_parent: any, _args: any, _context: any, _info: any) =>
+          userService.getLogoutResponse(),
         parent,
         args,
         context,

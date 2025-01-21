@@ -11,7 +11,7 @@ const IntroCard = ({ user }: { user: User }) => {
 
   return (
     <ChildCard>
-       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
         <Typography fontWeight={600} variant="h4">
           Einführung
         </Typography>
@@ -19,7 +19,7 @@ const IntroCard = ({ user }: { user: User }) => {
           size="small"
           variant="outlined"
           color="primary"
-          onClick={() => navigate("/account-setting")}
+          onClick={() => navigate('/account-setting')}
         >
           Bearbeiten
         </Button>
@@ -38,9 +38,7 @@ const IntroCard = ({ user }: { user: User }) => {
       </Stack>
       <Stack direction="row" gap={2} alignItems="center" mb={1}>
         <IconMapPin size="21" />
-        <Typography variant="h6">
-          {user.contactDetails || 'Address is not provided'}
-        </Typography>
+        <Typography variant="h6">{user.contactDetails || 'Address is not provided'}</Typography>
       </Stack>
     </ChildCard>
   );

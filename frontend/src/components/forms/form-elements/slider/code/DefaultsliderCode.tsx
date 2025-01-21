@@ -1,20 +1,19 @@
-import CodeDialog from "src/components/shared/CodeDialog";
-
+import CodeDialog from 'src/components/shared/CodeDialog';
 
 const DefaultsliderCode = () => {
-    return (
-        <>
-            <CodeDialog>
-                {`
+  return (
+    <>
+      <CodeDialog>
+        {`
 "use client";
 import * as React from 'react';
 import { Slider } from '@mui/material';
 
 <Slider defaultValue={30}  />
 `}
-            </CodeDialog>
-        </>
-    );
+      </CodeDialog>
+    </>
+  );
 };
 
 export default DefaultsliderCode;

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import CustomTextField from '../../theme-elements/CustomTextField';
@@ -130,7 +130,6 @@ const top100Films = [
   { label: '3 Idiots', year: 2009 },
   { label: 'Monty Python and the Holy Grail', year: 1975 },
 ];
-
 
 const SizesAutocomplete = () => (
   <>

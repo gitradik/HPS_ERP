@@ -27,27 +27,29 @@ const UserProfileUsers = ({ userId }: any) => {
   const user = data?.user;
 
   useEffect(() => {
-    refetch().then()
+    refetch().then();
   }, [accountSetting]);
-  
+
   return (
-    (<PageContainer title="Benutzer" description="Dies ist die Benutzerseite">
+    <PageContainer title="Benutzer" description="Dies ist die Benutzerseite">
       <Breadcrumb title="Benutzer" items={BCrumb} />
       <Grid container spacing={3}>
         <Grid
           size={{
-            sm: 12
-          }}>
-          {user && <ProfileBanner user={user}  />}
+            sm: 12,
+          }}
+        >
+          {user && <ProfileBanner user={user} />}
         </Grid>
         <Grid
           size={{
-            sm: 12
-          }}>
+            sm: 12,
+          }}
+        >
           <UsersCard />
         </Grid>
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

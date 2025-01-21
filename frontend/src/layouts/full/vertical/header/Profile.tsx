@@ -2,16 +2,7 @@
 // @ts-ignore
 import React, { useState } from 'react';
 import { Link } from 'react-router';
-import {
-  Box,
-  Menu,
-  Avatar,
-  Typography,
-  Divider,
-  Button,
-  IconButton,
-  Stack
-} from '@mui/material';
+import { Box, Menu, Avatar, Typography, Divider, Button, IconButton, Stack } from '@mui/material';
 import * as dropdownData from './data';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -33,16 +24,15 @@ const Profile = () => {
     setAnchorEl2(null);
   };
 
-  
   const [logout, { isLoading }] = useLogoutMutation();
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
       await logout();
-      dispatch(logoutSuccess())
+      dispatch(logoutSuccess());
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -89,27 +79,29 @@ const Profile = () => {
         }}
       >
         <Typography variant="h5">Benutzerprofil</Typography>
-        {user && <Stack direction="row" py={3} spacing={2} alignItems="center">
-          <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
-          <Box>
-            <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
-              {`${user.firstName} ${user.lastName}`}
-            </Typography>
-            <Typography variant="subtitle2" color="textSecondary">
-            {user.position || "Position fehlt"}
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              color="textSecondary"
-              display="flex"
-              alignItems="center"
-              gap={1}
-            >
-              <IconMail width={15} height={15} />
-              {user.email}
-            </Typography>
-          </Box>
-        </Stack>}
+        {user && (
+          <Stack direction="row" py={3} spacing={2} alignItems="center">
+            <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
+            <Box>
+              <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
+                {`${user.firstName} ${user.lastName}`}
+              </Typography>
+              <Typography variant="subtitle2" color="textSecondary">
+                {user.position || 'Position fehlt'}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="textSecondary"
+                display="flex"
+                alignItems="center"
+                gap={1}
+              >
+                <IconMail width={15} height={15} />
+                {user.email}
+              </Typography>
+            </Box>
+          </Stack>
+        )}
         <Divider />
         {dropdownData.profile.map((profile) => (
           <Box key={profile.title}>
@@ -164,12 +156,13 @@ const Profile = () => {
           </Box>
         ))}
         <Box mt={2}>
-          <Button 
-                onClick={handleLogout}
-                disabled={isLoading}
-                 variant="outlined" 
-                 color="primary" 
-                 fullWidth>
+          <Button
+            onClick={handleLogout}
+            disabled={isLoading}
+            variant="outlined"
+            color="primary"
+            fullWidth
+          >
             Logout
           </Button>
         </Box>

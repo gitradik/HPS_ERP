@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const isLoading = useSelector(selectIsLoading);
 
   if (isLoading) {
-    return <Spinner />; 
+    return <Spinner />;
   }
 
   if (!isAuthenticated) {

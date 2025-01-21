@@ -1,7 +1,15 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { gql } from 'graphql-request';
 import { enhancedBaseQuery } from './baseQueryMiddleware';
-import { LoginResponse, RegisterInput, RegisterResponse, RefreshTokenResponse, RefreshTokenInput, LogoutResponse, LoginInput } from 'src/types/auth/auth';
+import {
+  LoginResponse,
+  RegisterInput,
+  RegisterResponse,
+  RefreshTokenResponse,
+  RefreshTokenInput,
+  LogoutResponse,
+  LoginInput,
+} from 'src/types/auth/auth';
 
 export const ACCESS_TOKEN = 'accessToken';
 export const REFRESH_TOKEN = 'refreshToken';
@@ -68,7 +76,7 @@ const authApi = createApi({
           }
         `,
         variables: {
-          input: newUser
+          input: newUser,
         },
       }),
     }),

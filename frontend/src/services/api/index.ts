@@ -4,10 +4,4 @@ import employeeApi from './employee.api';
 import staffApi from './staff.api';
 import userApi from './user.api';
 
-export {
-    authApi,
-    userApi,
-    employeeApi,
-    clientApi,
-    staffApi,
-};
+export { authApi, userApi, employeeApi, clientApi, staffApi };

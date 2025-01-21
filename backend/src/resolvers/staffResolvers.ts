@@ -22,7 +22,12 @@ const staffResolvers = {
         context,
         info,
       ),
-    staff: async (parent: any, { id }: { id: number }, context: any, info: any): Promise<Staff | null> =>
+    staff: async (
+      parent: any,
+      { id }: { id: number },
+      context: any,
+      info: any,
+    ): Promise<Staff | null> =>
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
@@ -40,7 +45,12 @@ const staffResolvers = {
       ),
   },
   Mutation: {
-    createStaff: async (parent: any, { input }: { input: CreateStaffInput }, context: any, info: any): Promise<Staff> =>
+    createStaff: async (
+      parent: any,
+      { input }: { input: CreateStaffInput },
+      context: any,
+      info: any,
+    ): Promise<Staff> =>
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(

@@ -9,16 +9,16 @@ const NonEmployeeClientStaffUserRouteGuard = ({ children }: { children: React.Re
   const userRole = useSelector(selectUserRole);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
- 
-  if (userRole && [
-    UserRole.EMPLOYEE,
-    UserRole.CLIENT,
-    UserRole.STAFF,
-    UserRole.USER
-  ].includes(userRole)) {
 
+  if (
+    userRole &&
+    [UserRole.EMPLOYEE, UserRole.CLIENT, UserRole.STAFF, UserRole.USER].includes(userRole)
+  ) {
     navigate(-1);
-    enqueueSnackbar("Sie haben keine Berechtigung, auf diese Ressource zuzugreifen.", { variant: "error", autoHideDuration: 3000 });
+    enqueueSnackbar('Sie haben keine Berechtigung, auf diese Ressource zuzugreifen.', {
+      variant: 'error',
+      autoHideDuration: 3000,
+    });
     return;
   }
 

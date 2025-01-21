@@ -24,11 +24,12 @@ import { emailRegex, phoneRegex } from 'src/utils/regex';
 import { useSnackbar } from 'notistack';
 
 const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
-  const { firstName, lastName, email, phoneNumber, password, confirmPassword } = useSelector(selectRegister);
+  const { firstName, lastName, email, phoneNumber, password, confirmPassword } =
+    useSelector(selectRegister);
 
   const [validationError, setValidationError] = useState<string | null>(null);
   const [register, { isLoading, error }] = useRegisterMutation();
-  
+
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,28 +39,28 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
 
   const handleRegister = async () => {
     setValidationError(null);
-  
+
     if (!firstName || !lastName || !(email || phoneNumber) || !password || !confirmPassword) {
       setValidationError('All fields are required.');
       return;
     }
-  
+
     if (password !== confirmPassword) {
       setValidationError('Passwords do not match.');
       return;
     }
-  
+
     const isEmail = email && email.match(emailRegex);
     const isPhone = phoneNumber && phoneNumber.match(phoneRegex);
-  
+
     if (!isEmail && !isPhone) {
       setValidationError('Please enter a valid email.');
       return;
     }
-  
+
     try {
       dispatch(registerRequest());
-  
+
       await register({
         firstName,
         lastName,
@@ -67,18 +68,20 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         phoneNumber: isPhone ? phoneNumber : undefined,
         password,
       }).unwrap();
-      
+
       dispatch(registerSuccess());
 
       navigate('/');
-      enqueueSnackbar('Registrierung erfolgreich!', { variant: "success", autoHideDuration: 1500 });
-      enqueueSnackbar('Sie können sich jetzt einloggen.', { variant: "info", autoHideDuration: 3000 });
+      enqueueSnackbar('Registrierung erfolgreich!', { variant: 'success', autoHideDuration: 1500 });
+      enqueueSnackbar('Sie können sich jetzt einloggen.', {
+        variant: 'info',
+        autoHideDuration: 3000,
+      });
     } catch (err: any) {
       dispatch(registerFailure(err));
-      enqueueSnackbar(err?.data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(err?.data.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   };
-  
 
   return (
     <>
@@ -176,7 +179,7 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
         </Box>
       </Stack>
 
-      <Box sx={{mt: 4}}>
+      <Box sx={{ mt: 4 }}>
         <Button
           color="primary"
           variant="contained"

@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { Client, UpdateClientInput } from 'src/types/client/client';
 
-
 const initialState: Partial<UpdateClientInput> = {};
 
 const clientSettingSlice = createSlice({
@@ -25,18 +24,12 @@ const clientSettingSlice = createSlice({
   },
 });
 
-
 export const selectClientSetting = (state: { clientSetting: UpdateClientInput }) =>
   state.clientSetting;
 export const selectClientSettingIsEmpty = (state: { clientSetting: UpdateClientInput }) =>
   isEmpty(state.clientSetting);
 
-
-export const {
-  setCompanyName,
-  setIsWorking,
-  resetClientSetting,
-  updateClientSetting,
-} = clientSettingSlice.actions;
+export const { setCompanyName, setIsWorking, resetClientSetting, updateClientSetting } =
+  clientSettingSlice.actions;
 
 export default clientSettingSlice.reducer;

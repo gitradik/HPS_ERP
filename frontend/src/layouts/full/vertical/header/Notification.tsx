@@ -11,7 +11,7 @@ import {
   Typography,
   Button,
   Chip,
-  Stack
+  Stack,
 } from '@mui/material';
 import * as dropdownData from './data';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';

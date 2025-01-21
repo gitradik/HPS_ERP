@@ -33,8 +33,9 @@ const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => (
       size={{
         xs: 12,
         sm: 6,
-        lg: 8
-      }}>
+        lg: 8,
+      }}
+    >
       <Typography variant="h4">{title}</Typography>
       <Typography color="textSecondary" variant="h6" fontWeight={400} mt={0.8} mb={0}>
         {subtitle}
@@ -53,16 +54,16 @@ const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => (
       >
         {items
           ? items.map((item) => (
-            <div key={item.title}>
-              {item.to ? (
-                <Link underline="none" color="inherit" component={NavLink} to={item.to}>
-                  {item.title}
-                </Link>
-              ) : (
-                <Typography color="textPrimary">{item.title}</Typography>
-              )}
-            </div>
-          ))
+              <div key={item.title}>
+                {item.to ? (
+                  <Link underline="none" color="inherit" component={NavLink} to={item.to}>
+                    {item.title}
+                  </Link>
+                ) : (
+                  <Typography color="textPrimary">{item.title}</Typography>
+                )}
+              </div>
+            ))
           : ''}
       </Breadcrumbs>
     </Grid>
@@ -72,8 +73,9 @@ const Breadcrumb = ({ subtitle, items, title, children }: BreadCrumbType) => (
       size={{
         xs: 12,
         sm: 6,
-        lg: 4
-      }}>
+        lg: 4,
+      }}
+    >
       <Box
         sx={{
           display: { xs: 'none', md: 'block', lg: 'flex' },

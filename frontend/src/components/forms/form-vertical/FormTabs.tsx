@@ -1,6 +1,15 @@
-'use client'
+'use client';
 
-import { Box, Button, Grid2 as Grid, IconButton, InputAdornment, MenuItem, Stack, Tab } from '@mui/material';
+import {
+  Box,
+  Button,
+  Grid2 as Grid,
+  IconButton,
+  InputAdornment,
+  MenuItem,
+  Stack,
+  Tab,
+} from '@mui/material';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
@@ -82,7 +91,7 @@ const FormTabs = () => {
   };
 
   return (
-    (<div>
+    <div>
       {/* ------------------------------------------------------------------------------------------------ */}
       {/* Basic Layout */}
       {/* ------------------------------------------------------------------------------------------------ */}
@@ -100,8 +109,9 @@ const FormTabs = () => {
               <Grid
                 size={{
                   xs: 12,
-                  lg: 6
-                }}>
+                  lg: 6,
+                }}
+              >
                 <Grid container>
                   <Grid size={12}>
                     <CustomFormLabel htmlFor="ft-fname" sx={{ mt: 0 }}>
@@ -143,8 +153,9 @@ const FormTabs = () => {
               <Grid
                 size={{
                   xs: 12,
-                  lg: 6
-                }}>
+                  lg: 6,
+                }}
+              >
                 <Grid container>
                   <Grid size={12}>
                     <CustomFormLabel htmlFor="ft-fname" sx={{ mt: { sm: 0 } }}>
@@ -198,8 +209,9 @@ const FormTabs = () => {
               <Grid
                 size={{
                   xs: 12,
-                  lg: 6
-                }}>
+                  lg: 6,
+                }}
+              >
                 <Grid container>
                   <Grid size={12}>
                     <CustomFormLabel htmlFor="ft-uname" sx={{ mt: 0 }}>
@@ -239,8 +251,9 @@ const FormTabs = () => {
               <Grid
                 size={{
                   xs: 12,
-                  lg: 6
-                }}>
+                  lg: 6,
+                }}
+              >
                 <Grid container>
                   <Grid size={12}>
                     <CustomFormLabel htmlFor="ft-email" sx={{ mt: { sm: 0 } }}>
@@ -298,8 +311,9 @@ const FormTabs = () => {
               <Grid
                 size={{
                   xs: 12,
-                  lg: 6
-                }}>
+                  lg: 6,
+                }}
+              >
                 <Grid container>
                   <Grid size={12}>
                     <CustomFormLabel htmlFor="ft-twitter" sx={{ mt: 0 }}>
@@ -338,8 +352,9 @@ const FormTabs = () => {
               <Grid
                 size={{
                   xs: 12,
-                  lg: 6
-                }}>
+                  lg: 6,
+                }}
+              >
                 <Grid container>
                   <Grid size={12}>
                     <CustomFormLabel htmlFor="ft-fb" sx={{ mt: { sm: 0 } }}>
@@ -381,7 +396,7 @@ const FormTabs = () => {
           </TabPanel>
         </TabContext>
       </BlankCard>
-    </div>)
+    </div>
   );
 };
 

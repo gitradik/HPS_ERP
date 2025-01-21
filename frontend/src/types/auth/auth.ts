@@ -40,7 +40,6 @@ export interface UpdateUserInput {
   isActive?: boolean;
 }
 
-
 export interface LoginInput {
   email?: string;
   phoneNumber?: string;
@@ -52,7 +51,7 @@ export interface LoginResponse {
   message: string;
   accessToken: string;
   refreshToken: string;
-  user?: any
+  user?: any;
 }
 
 export interface RegisterInput {
@@ -80,7 +79,7 @@ export interface RefreshTokenResponse {
   message: string;
   accessToken: string;
   refreshToken: string;
-  user?: any
+  user?: any;
 }
 
 export interface LogoutResponse {
@@ -90,12 +89,11 @@ export interface LogoutResponse {
 export interface User extends UserResponse {}
 
 export enum UserRole {
-  SUPER_ADMIN = "SUPER_ADMIN",
-  ADMIN = "ADMIN",
-  MANAGER = "MANAGER",
-  STAFF = "STAFF",
-  EMPLOYEE = "EMPLOYEE",
-  CLIENT = "CLIENT",
-  USER = "USER",
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  STAFF = 'STAFF',
+  EMPLOYEE = 'EMPLOYEE',
+  CLIENT = 'CLIENT',
+  USER = 'USER',
 }
-

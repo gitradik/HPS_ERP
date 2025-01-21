@@ -96,7 +96,7 @@ const Customizer: FC = () => {
   ];
 
   return (
-    (<div>
+    <div>
       {/* ------------------------------------------- */}
       {/* --Floating Button to open customizer ------ */}
       {/* ------------------------------------------- */}
@@ -309,7 +309,7 @@ const Customizer: FC = () => {
           </Box>
         </Scrollbar>
       </Drawer>
-    </div>)
+    </div>
   );
 };
 

@@ -5,7 +5,7 @@ import img1 from 'src/assets/images/profile/user-1.jpg';
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
 import { useLogoutMutation } from 'src/services/api/auth.api';
-import { logoutSuccess, selectUser} from 'src/store/apps/auth/AuthSlice';
+import { logoutSuccess, selectUser } from 'src/store/apps/auth/AuthSlice';
 import { useDispatch } from 'react-redux';
 
 export const Profile = () => {
@@ -19,9 +19,9 @@ export const Profile = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      dispatch(logoutSuccess())
+      dispatch(logoutSuccess());
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -36,10 +36,12 @@ export const Profile = () => {
         <>
           <Avatar alt="Remy Sharp" src={img1} />
 
-          {user && <Box>
-            <Typography variant="h6">{user.firstName}</Typography>
-            <Typography variant="caption">{user.position || "Position fehlt"}</Typography>
-          </Box>}
+          {user && (
+            <Box>
+              <Typography variant="h6">{user.firstName}</Typography>
+              <Typography variant="caption">{user.position || 'Position fehlt'}</Typography>
+            </Box>
+          )}
           <Box sx={{ ml: 'auto' }}>
             <Tooltip title="Logout" placement="top">
               <IconButton

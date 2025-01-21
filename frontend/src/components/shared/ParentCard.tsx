@@ -9,7 +9,7 @@ import { RootState } from 'src/store/Store';
 type Props = {
   title: string;
   footer?: string | any;
-  codeModel?: any | any[]
+  codeModel?: any | any[];
   children: any;
 };
 

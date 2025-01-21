@@ -9,7 +9,6 @@ import { IconArrowUpLeft } from '@tabler/icons-react';
 import DashboardCard from '../../shared/DashboardCard';
 import { Props } from 'react-apexcharts';
 
-
 const Projects = () => {
   // chart color
   const theme = useTheme();

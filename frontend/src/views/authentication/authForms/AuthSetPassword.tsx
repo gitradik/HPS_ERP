@@ -45,14 +45,20 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId, title, subtit
         input: { password: values.password },
       }).unwrap();
 
-      dispatch(refreshTokenFailure(""));
-      enqueueSnackbar('Passwort wurde erfolgreich geändert!', { variant: "success", autoHideDuration: 2500 });
-      enqueueSnackbar('Sie können sich jetzt mit Ihrer E-Mail und dem neuen Passwort anmelden.', { variant: "info", autoHideDuration: 4000 });
+      dispatch(refreshTokenFailure(''));
+      enqueueSnackbar('Passwort wurde erfolgreich geändert!', {
+        variant: 'success',
+        autoHideDuration: 2500,
+      });
+      enqueueSnackbar('Sie können sich jetzt mit Ihrer E-Mail und dem neuen Passwort anmelden.', {
+        variant: 'info',
+        autoHideDuration: 4000,
+      });
 
       navigate('/');
     } catch (err) {
       // @ts-ignore
-      enqueueSnackbar(err.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(err.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   };
 

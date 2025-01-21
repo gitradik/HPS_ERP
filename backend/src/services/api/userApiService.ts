@@ -40,7 +40,11 @@ export const generateUrlWithToken = (userId: number) => {
 // Универсальная функция для отправки email с токеном
 export const sendVerificationEmail = (userId: number, email: string) => {
   const tokenUrl = generateUrlWithToken(userId);
-  sendEmail(email, 'Bestätigen Sie Ihr Konto', `Klicken Sie auf den Link, um Ihr Konto zu bestätigen: ${tokenUrl}`);
+  sendEmail(
+    email,
+    'Bestätigen Sie Ihr Konto',
+    `Klicken Sie auf den Link, um Ihr Konto zu bestätigen: ${tokenUrl}`,
+  );
 };
 
 const createTokens = (userId: number, role: UserRole) => {
@@ -117,7 +121,15 @@ const userService = {
     return true;
   },
 
-  async loginUser({ email, phoneNumber, password }: { email?: string; phoneNumber?: string; password: string }) {
+  async loginUser({
+    email,
+    phoneNumber,
+    password,
+  }: {
+    email?: string;
+    phoneNumber?: string;
+    password: string;
+  }) {
     if (!email && !phoneNumber) {
       throw new ApolloError('Entweder eine E-Mail-Adresse muss angegeben werden.');
     }

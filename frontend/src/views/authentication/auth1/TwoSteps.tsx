@@ -31,8 +31,9 @@ const TwoSteps = () => (
           xs: 12,
           sm: 12,
           lg: 8,
-          xl: 9
-        }}>
+          xl: 9,
+        }}
+      >
         <Box position="relative">
           <Box px={3}>
             <Logo />
@@ -60,15 +61,17 @@ const TwoSteps = () => (
           xs: 12,
           sm: 12,
           lg: 4,
-          xl: 3
-        }}>
+          xl: 3,
+        }}
+      >
         <Box p={4}>
           <Typography variant="h4" fontWeight="700">
             Zwei-Faktor-Authentifizierung
           </Typography>
 
           <Typography variant="subtitle1" color="textSecondary" mt={2} mb={1}>
-            Wir haben einen Bestätigungscode an Ihr Mobiltelefon gesendet. Geben Sie den Code aus dem Mobiltelefon in das untenstehende Feld ein.
+            Wir haben einen Bestätigungscode an Ihr Mobiltelefon gesendet. Geben Sie den Code aus
+            dem Mobiltelefon in das untenstehende Feld ein.
           </Typography>
           <Typography variant="subtitle1" fontWeight="700" mb={1}>
             ******1234

@@ -1,4 +1,3 @@
-
 import { Button, ButtonGroup, Stack } from '@mui/material';
 
 const SizeButtonGroup = () => (

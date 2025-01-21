@@ -31,8 +31,9 @@ const ForgotPassword = () => (
           xs: 12,
           sm: 12,
           lg: 8,
-          xl: 9
-        }}>
+          xl: 9,
+        }}
+      >
         <Box position="relative">
           <Box px={3}>
             <Logo />
@@ -60,15 +61,17 @@ const ForgotPassword = () => (
           xs: 12,
           sm: 12,
           lg: 4,
-          xl: 3
-        }}>
+          xl: 3,
+        }}
+      >
         <Box p={4}>
           <Typography variant="h4" fontWeight="700">
             Passwort vergessen?
           </Typography>
 
           <Typography color="textSecondary" variant="subtitle2" fontWeight="400" mt={2}>
-            Bitte geben Sie die E-Mail-Adresse ein, die mit Ihrem Konto verknüpft ist. Wir senden Ihnen einen Link, um Ihr Passwort zurückzusetzen.
+            Bitte geben Sie die E-Mail-Adresse ein, die mit Ihrem Konto verknüpft ist. Wir senden
+            Ihnen einen Link, um Ihr Passwort zurückzusetzen.
           </Typography>
           <AuthForgotPassword />
         </Box>

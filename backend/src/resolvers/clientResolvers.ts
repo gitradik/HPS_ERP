@@ -2,7 +2,10 @@ import { UserRole } from '../models/User';
 import Client from '../models/Client';
 import { authMiddleware } from '../middlewares/authMiddleware';
 import { roleMiddleware } from '../middlewares/roleMiddleware';
-import clientService, { CreateClientInput, UpdateClientInput } from '../services/api/clientApiService';
+import clientService, {
+  CreateClientInput,
+  UpdateClientInput,
+} from '../services/api/clientApiService';
 
 const clientResolvers = {
   Query: {
@@ -22,7 +25,12 @@ const clientResolvers = {
         context,
         info,
       ),
-    client: async (parent: any, { id }: { id: number }, context: any, info: any): Promise<Client | null> =>
+    client: async (
+      parent: any,
+      { id }: { id: number },
+      context: any,
+      info: any,
+    ): Promise<Client | null> =>
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(

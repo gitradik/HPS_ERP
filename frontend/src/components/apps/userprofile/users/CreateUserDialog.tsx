@@ -48,7 +48,9 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
     firstName: Yup.string().required('Vorname ist erforderlich'),
     lastName: Yup.string().required('Nachname ist erforderlich'),
     email: Yup.string().email('Ungültiges E-Mail-Format').required('E-Mail ist erforderlich'),
-    password: Yup.string().min(5, 'Das Passwort muss mindestens 5 Zeichen lang sein').required('Passwort ist erforderlich'),
+    password: Yup.string()
+      .min(5, 'Das Passwort muss mindestens 5 Zeichen lang sein')
+      .required('Passwort ist erforderlich'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Passwörter müssen übereinstimmen')
       .required('Passwortbestätigung ist erforderlich'),
@@ -65,22 +67,26 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
       }).unwrap();
 
       dispatch(registerSuccess());
-      enqueueSnackbar('Benutzer registriert!', { variant: "success", autoHideDuration: 1500 });
-      enqueueSnackbar('Jetzt Rolle zuweisen.', { variant: "info", autoHideDuration: 3000 })
+      enqueueSnackbar('Benutzer registriert!', { variant: 'success', autoHideDuration: 1500 });
+      enqueueSnackbar('Jetzt Rolle zuweisen.', { variant: 'info', autoHideDuration: 3000 });
       onClose();
     } catch (err: any) {
       dispatch(registerFailure(err));
-      enqueueSnackbar(err?.data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(err?.data.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
     } finally {
       actions.setSubmitting(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        {subtext && <Typography variant="body2" mb={2}>{subtext}</Typography>}
+        {subtext && (
+          <Typography variant="body2" mb={2}>
+            {subtext}
+          </Typography>
+        )}
 
         <Formik
           initialValues={initialValues}
@@ -143,11 +149,13 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
                   />
                 </Box>
 
-                <Box sx={{
-                  visibility: 'hidden',
-                  overflow: 'hidden',
-                  position: 'absolute'
-                }}>
+                <Box
+                  sx={{
+                    visibility: 'hidden',
+                    overflow: 'hidden',
+                    position: 'absolute',
+                  }}
+                >
                   <CustomTextField
                     id="password"
                     name="password"
@@ -163,7 +171,6 @@ const CreateUserDialog = ({ open, onClose, title, subtext }: CreateUserDialogPro
                     onChange={props.handleChange}
                   />
                 </Box>
-
               </Stack>
 
               <DialogActions sx={{ mt: 2 }}>

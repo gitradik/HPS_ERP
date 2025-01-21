@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import {
   Grid2 as Grid,
   InputAdornment,
@@ -51,7 +51,7 @@ const FormSeparator = () => {
   };
 
   return (
-    (<div>
+    <div>
       <Typography variant="h6" mb={3}>
         Account Details
       </Typography>
@@ -65,8 +65,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-uname" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Username
           </CustomFormLabel>
@@ -74,8 +75,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomTextField id="fs-uname" placeholder="John Deo" fullWidth />
         </Grid>
         {/* 2 */}
@@ -84,8 +86,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-email" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Email
           </CustomFormLabel>
@@ -93,8 +96,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomOutlinedInput
             endAdornment={<InputAdornment position="end">@example.com</InputAdornment>}
             id="fs-email"
@@ -108,8 +112,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-pwd" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Password
           </CustomFormLabel>
@@ -117,8 +122,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomOutlinedInput
             type={showPassword ? 'text' : 'password'}
             endAdornment={
@@ -139,7 +145,7 @@ const FormSeparator = () => {
           />
         </Grid>
         <Grid size={12}>
-          <Divider sx={{ mx: "-24px" }} />
+          <Divider sx={{ mx: '-24px' }} />
           <Typography variant="h6" mt={2}>
             Personal Info
           </Typography>
@@ -151,8 +157,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-fname" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Full Name
           </CustomFormLabel>
@@ -160,8 +167,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomTextField id="fs-fname" placeholder="John Deo" fullWidth />
         </Grid>
         {/* 4 */}
@@ -170,8 +178,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-country" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Country
           </CustomFormLabel>
@@ -179,8 +188,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomSelect
             id="standard-select-currency"
             value={country}
@@ -201,8 +211,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-date" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Birth Date
           </CustomFormLabel>
@@ -210,8 +221,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomTextField type="date" id="fs-date" placeholder="John Deo" fullWidth />
         </Grid>
         {/* 4 */}
@@ -220,8 +232,9 @@ const FormSeparator = () => {
           alignItems="center"
           size={{
             xs: 12,
-            sm: 3
-          }}>
+            sm: 3,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-phone" sx={{ mt: 0, mb: { xs: '-10px', sm: 0 } }}>
             Phone no
           </CustomFormLabel>
@@ -229,20 +242,23 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <CustomTextField id="fs-phone" placeholder="123 4567 201" fullWidth />
         </Grid>
         <Grid
           size={{
             xs: 12,
-            sm: 3
-          }}></Grid>
+            sm: 3,
+          }}
+        ></Grid>
         <Grid
           size={{
             xs: 12,
-            sm: 9
-          }}>
+            sm: 9,
+          }}
+        >
           <Stack direction="row" spacing={2}>
             <Button variant="contained" color="primary">
               Submit
@@ -253,7 +269,7 @@ const FormSeparator = () => {
           </Stack>
         </Grid>
       </Grid>
-    </div>)
+    </div>
   );
 };
 

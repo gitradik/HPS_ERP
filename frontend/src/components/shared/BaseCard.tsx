@@ -8,7 +8,7 @@ import { RootState } from 'src/store/Store';
 
 type Props = {
   title: string;
-  children: any | any[]
+  children: any | any[];
 };
 
 const BaseCard = ({ title, children }: Props) => {

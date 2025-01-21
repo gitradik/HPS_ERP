@@ -6,7 +6,7 @@ export interface StaffResponse {
   createdAt: string;
   updatedAt: string;
   user: UserResponse;
-  isAssigned: boolean
+  isAssigned: boolean;
 }
 
 export interface Staff extends StaffResponse {}

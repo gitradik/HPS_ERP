@@ -80,7 +80,6 @@ const FullLayout: FC = () => {
         </PageWrapper>
       </MainWrapper>
     </>
-
   );
 };
 

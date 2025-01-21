@@ -13,7 +13,11 @@ dotenv.config();
 const app = express();
 
 // Настраиваем CORS
-const allowedOrigins = ['http://herba-solution.com', 'https://herba-solution.com', /^http:\/\/localhost:\d+$/];
+const allowedOrigins = [
+  'http://herba-solution.com',
+  'https://herba-solution.com',
+  /^http:\/\/localhost:\d+$/,
+];
 app.use(
   cors({
     origin: allowedOrigins, // Разрешённые домены

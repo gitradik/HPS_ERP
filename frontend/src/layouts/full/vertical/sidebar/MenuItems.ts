@@ -28,7 +28,7 @@ import { useTranslation } from 'react-i18next';
 
 const Menuitems = () => {
   const { t } = useTranslation();
-  
+
   const items: MenuitemsType[] = [
     {
       navlabel: true,
@@ -70,7 +70,7 @@ const Menuitems = () => {
           icon: IconFileCheck,
           href: '/documents_create/offer',
         },
-      ]
+      ],
     },
     {
       id: uniqueId(),
@@ -87,6 +87,6 @@ const Menuitems = () => {
   ];
 
   return items;
-}
+};
 
 export default Menuitems;

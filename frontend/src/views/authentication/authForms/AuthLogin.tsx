@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  FormGroup,
-  FormControlLabel,
-  Button,
-  Stack,
-} from '@mui/material';
+import { Box, Typography, FormGroup, FormControlLabel, Button, Stack } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom'; // Обратите внимание: 'react-router-dom', а не 'react-router'
 import { useLoginMutation } from 'src/services/api/auth.api';
 
@@ -28,7 +21,6 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
   // @ts-ignore
   const errorMessage = (error?.data as any)?.friendlyMessage;
-
 
   const handleLogin = async () => {
     setValidationError(null);
@@ -91,9 +83,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             variant="outlined"
             fullWidth
             value={emailOrPhone}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setEmailOrPhone(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailOrPhone(e.target.value)}
           />
         </Box>
         <Box>
@@ -104,9 +94,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
             variant="outlined"
             fullWidth
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
           />
         </Box>
         <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
@@ -139,7 +127,7 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
           onClick={handleLogin}
           disabled={isLoading}
         >
-         {isLoading ? 'Anmeldung läuft...' : 'Anmelden'}
+          {isLoading ? 'Anmeldung läuft...' : 'Anmelden'}
         </Button>
       </Box>
 

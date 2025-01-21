@@ -25,7 +25,7 @@ const NavGroup = ({ item, hideMenu }: ItemType) => {
       marginBottom: theme.spacing(0),
       color: 'text.Primary',
       lineHeight: '26px',
-      padding: '3px 12px'
+      padding: '3px 12px',
     }),
   );
 

@@ -19,25 +19,27 @@ const Post = () => {
   const getPosts: PostType[] = useSelector(() => []);
 
   return (
-    (<Grid container spacing={3}>
+    <Grid container spacing={3}>
       <Grid
         size={{
-          sm: 12
-        }}>
+          sm: 12,
+        }}
+      >
         <PostTextBox />
       </Grid>
       {getPosts.map((posts) => {
         return (
-          (<Grid
+          <Grid
             key={posts.id}
             size={{
-              sm: 12
-            }}>
+              sm: 12,
+            }}
+          >
             <PostItem post={posts} />
-          </Grid>)
+          </Grid>
         );
       })}
-    </Grid>)
+    </Grid>
   );
 };
 

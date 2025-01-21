@@ -95,10 +95,6 @@ const employeeApi = createApi({
   }),
 });
 
-export const {
-  useGetEmployeesQuery,
-  useGetEmployeeQuery,
-  useCreateEmployeeMutation,
-} = employeeApi;
+export const { useGetEmployeesQuery, useGetEmployeeQuery, useCreateEmployeeMutation } = employeeApi;
 
 export default employeeApi;

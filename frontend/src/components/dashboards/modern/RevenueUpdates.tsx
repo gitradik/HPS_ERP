@@ -91,7 +91,7 @@ const RevenueUpdates = () => {
   ];
 
   return (
-    (<DashboardCard
+    <DashboardCard
       title="Revenue Updates"
       subtitle="Overview of Profit"
       action={
@@ -113,8 +113,9 @@ const RevenueUpdates = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 8
-          }}>
+            sm: 8,
+          }}
+        >
           <Box className="rounded-bars">
             <Chart
               options={optionscolumnchart}
@@ -128,8 +129,9 @@ const RevenueUpdates = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 4
-          }}>
+            sm: 4,
+          }}
+        >
           <Stack spacing={3} mt={3}>
             <Stack direction="row" spacing={2} alignItems="center">
               <Box
@@ -183,7 +185,7 @@ const RevenueUpdates = () => {
           </Button>
         </Grid>
       </Grid>
-    </DashboardCard>)
+    </DashboardCard>
   );
 };
 

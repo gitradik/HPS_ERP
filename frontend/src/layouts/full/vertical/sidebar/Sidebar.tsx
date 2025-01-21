@@ -35,7 +35,7 @@ const Sidebar = () => {
           flexShrink: 0,
           ...(customizer.isCollapse && {
             position: 'absolute',
-          })
+          }),
         }}
       >
         {/* ------------------------------------------- */}
@@ -53,7 +53,7 @@ const Sidebar = () => {
                 duration: theme.transitions.duration.shortest,
               }),
               width: toggleWidth,
-              boxSizing: 'border-box'
+              boxSizing: 'border-box',
             },
           }}
         >
@@ -62,7 +62,7 @@ const Sidebar = () => {
           {/* ------------------------------------------- */}
           <Box
             sx={{
-              height: '100%'
+              height: '100%',
             }}
           >
             {/* ------------------------------------------- */}

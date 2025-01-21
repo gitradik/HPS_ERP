@@ -61,8 +61,8 @@ const AccountSetting = () => {
   const [value, setValue] = React.useState(0);
   const userId = useSelector(selectUserId);
   const { data } = useGetUserQuery({ userId: userId! }, { skip: !userId });
-  
-  const user = data?.user
+
+  const user = data?.user;
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -71,48 +71,50 @@ const AccountSetting = () => {
   };
 
   return (
-    (<PageContainer title="Kontoeinstellungen " description="this is Kontoeinstellungen  page">
+    <PageContainer title="Kontoeinstellungen " description="this is Kontoeinstellungen  page">
       {/* breadcrumb */}
       <Breadcrumb title="Kontoeinstellungen " items={BCrumb} />
       {/* end breadcrumb */}
       <Grid container spacing={3}>
         <Grid size={12}>
-          {user && <BlankCard>
-            <Box sx={{ maxWidth: { xs: 320, sm: 480 } }}>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                variant="scrollable"
-                scrollButtons="auto"
-              >
-                <Tab
-                  iconPosition="start"
-                  icon={<IconUserCircle size="22" />}
-                  label="Account"
-                  {...a11yProps(0)}
-                />
+          {user && (
+            <BlankCard>
+              <Box sx={{ maxWidth: { xs: 320, sm: 480 } }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  variant="scrollable"
+                  scrollButtons="auto"
+                >
+                  <Tab
+                    iconPosition="start"
+                    icon={<IconUserCircle size="22" />}
+                    label="Account"
+                    {...a11yProps(0)}
+                  />
 
-                <Tab
-                  iconPosition="start"
-                  icon={<IconBell size="22" />}
-                  label="Notifications"
-                  {...a11yProps(1)}
-                />
-              </Tabs>
-            </Box>
-            <Divider />
-            <CardContent>
-              <TabPanel value={value} index={0}>
-                <AccountTab user={user} />
-              </TabPanel>
-              <TabPanel value={value} index={1}>
-                <NotificationTab />
-              </TabPanel>
-            </CardContent>
-          </BlankCard>}
+                  <Tab
+                    iconPosition="start"
+                    icon={<IconBell size="22" />}
+                    label="Notifications"
+                    {...a11yProps(1)}
+                  />
+                </Tabs>
+              </Box>
+              <Divider />
+              <CardContent>
+                <TabPanel value={value} index={0}>
+                  <AccountTab user={user} />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <NotificationTab />
+                </TabPanel>
+              </CardContent>
+            </BlankCard>
+          )}
         </Grid>
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

@@ -30,7 +30,12 @@ const BCrumb = [
 
 const EmployeeDetail = () => {
   const { id } = useParams();
-  const { data: employeeData, isLoading, error, refetch } = useGetEmployeeQuery({ employeeId: id! });
+  const {
+    data: employeeData,
+    isLoading,
+    error,
+    refetch,
+  } = useGetEmployeeQuery({ employeeId: id! });
   const isEmpty = useSelector(selectAccountSettingIsEmpty);
   const isEmptyPrev = usePrevious(isEmpty);
   const { enqueueSnackbar } = useSnackbar();
@@ -42,10 +47,10 @@ const EmployeeDetail = () => {
 
   useEffect(() => {
     if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   }, [errorMessage]);
-  
+
   useEffect(() => {
     if (isEmptyPrev !== isEmpty) {
       refetch().then();
@@ -61,7 +66,10 @@ const EmployeeDetail = () => {
   }, [employee, isLoading]);
 
   return (
-    <PageContainer title="Mitarbeiter Detail" description="Detaillierte Informationen über den Mitarbeiter">
+    <PageContainer
+      title="Mitarbeiter Detail"
+      description="Detaillierte Informationen über den Mitarbeiter"
+    >
       <Breadcrumb title="Mitarbeiter Detail" items={BCrumb} />
       {renderEmployeeDetails()}
     </PageContainer>

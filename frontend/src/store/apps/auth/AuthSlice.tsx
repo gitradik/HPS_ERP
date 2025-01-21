@@ -100,14 +100,22 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.user && state.auth.accessToken && state.auth.isAuth;
+export const selectIsAuthenticated = (state: { auth: AuthState }) =>
+  state.auth.user && state.auth.accessToken && state.auth.isAuth;
 export const selectUserId = (state: { auth: AuthState }) => state.auth.user?.id;
 export const selectUser = (state: { auth: AuthState }) => state.auth.user;
 export const selectUserRole = (state: { auth: AuthState }) => state.auth.user?.role;
 
 export const selectIsLoading = (state: { auth: AuthState }) => state.auth.loading;
 
-export const { loginRequest, loginSuccess, loginFailure, logoutSuccess, refreshTokenRequest, refreshTokenFailure, refreshTokenSuccess,
+export const {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  logoutSuccess,
+  refreshTokenRequest,
+  refreshTokenFailure,
+  refreshTokenSuccess,
   updateUserSuccess,
   updateUserFailure,
   emailVerifyRequest,

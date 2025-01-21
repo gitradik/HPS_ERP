@@ -1,28 +1,28 @@
 {
-    "Sample Page": "Pavyzdinė puslapis",
-    "Menu Level": "Meniu lygis",
-    "Sub Caption": "Poantraštė",
-    "Chip": "Žetonas",
-    "Outlined": "Apibūdinta",
-    "External Link": "Išorinis nuoroda",
-    "MenuItems": {
-        "schedule_management": "Tvarkaraščio valdymas",
-        "staff_management": "Personalas valdymas",
-        "time_tracking": "Laiko sekimas",
-        "employees": "Darbuotojai",
-        "clients": "Klientai",
-        "documents_create": "Dokumentų kūrimas",
-        "documents_create_invoice": "Sąskaitos faktūros kūrimas",
-        "documents_create_offer": "Pasiūlymo kūrimas"
-    },
-    "UserRole": {
-        "SUPER_ADMIN": "Super administratorius",
-        "ADMIN": "Administratorius",
-        "MANAGER": "Vadovas",
-        "STAFF": "Personalas",
-        "EMPLOYEE": "Darbuotojas",
-        "CLIENT": "Klientas",
-        "USER": "Vartotojas"
-    },
-    "setRole": "Priskirti vaidmenį"
+  "Sample Page": "Pavyzdinė puslapis",
+  "Menu Level": "Meniu lygis",
+  "Sub Caption": "Poantraštė",
+  "Chip": "Žetonas",
+  "Outlined": "Apibūdinta",
+  "External Link": "Išorinis nuoroda",
+  "MenuItems": {
+    "schedule_management": "Tvarkaraščio valdymas",
+    "staff_management": "Personalas valdymas",
+    "time_tracking": "Laiko sekimas",
+    "employees": "Darbuotojai",
+    "clients": "Klientai",
+    "documents_create": "Dokumentų kūrimas",
+    "documents_create_invoice": "Sąskaitos faktūros kūrimas",
+    "documents_create_offer": "Pasiūlymo kūrimas"
+  },
+  "UserRole": {
+    "SUPER_ADMIN": "Super administratorius",
+    "ADMIN": "Administratorius",
+    "MANAGER": "Vadovas",
+    "STAFF": "Personalas",
+    "EMPLOYEE": "Darbuotojas",
+    "CLIENT": "Klientas",
+    "USER": "Vartotojas"
+  },
+  "setRole": "Priskirti vaidmenį"
 }

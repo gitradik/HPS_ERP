@@ -3,8 +3,8 @@ import { UserRole } from 'src/types/auth/auth';
 
 // Define the initial state for registration
 interface RegisterState {
-    loading: boolean,
-    error: string | null,
+  loading: boolean;
+  error: string | null;
   firstName: string;
   lastName: string;
   email: string;
@@ -16,8 +16,8 @@ interface RegisterState {
 }
 
 const initialState: RegisterState = {
-    loading: false,
-    error: null,
+  loading: false,
+  error: null,
   firstName: '',
   lastName: '',
   email: '',
@@ -25,24 +25,24 @@ const initialState: RegisterState = {
   password: '',
   confirmPassword: '',
   position: '',
-  role: UserRole.USER
+  role: UserRole.USER,
 };
 
 const registerSlice = createSlice({
   name: 'register',
   initialState,
   reducers: {
-      registerRequest: (state) => {
-        state.loading = true;
-        state.error = null;
-      },
-      registerSuccess: (state) => {
-        state.loading = false;
-      },
-      registerFailure: (state, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.error = action.payload;
-      },
+    registerRequest: (state) => {
+      state.loading = true;
+      state.error = null;
+    },
+    registerSuccess: (state) => {
+      state.loading = false;
+    },
+    registerFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     setFirstName: (state, action: PayloadAction<string>) => {
       state.firstName = action.payload;
     },
@@ -66,9 +66,9 @@ const registerSlice = createSlice({
 });
 
 export const {
-    registerRequest,
-    registerSuccess,
-    registerFailure,
+  registerRequest,
+  registerSuccess,
+  registerFailure,
   setFirstName,
   setLastName,
   setEmail,
@@ -77,7 +77,6 @@ export const {
   setConfirmPassword,
   resetRegister,
 } = registerSlice.actions;
-
 
 export const selectIsLoading = (state: { register: RegisterState }) => state.register.loading;
 export const selectRegister = (state: { register: RegisterState }) => state.register;

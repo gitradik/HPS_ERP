@@ -30,8 +30,9 @@ const Login = () => (
           xs: 12,
           sm: 12,
           lg: 7,
-          xl: 8
-        }}>
+          xl: 8,
+        }}
+      >
         <Box position="relative">
           <Box px={3}>
             <Logo />
@@ -59,8 +60,9 @@ const Login = () => (
           xs: 12,
           sm: 12,
           lg: 5,
-          xl: 4
-        }}>
+          xl: 4,
+        }}
+      >
         <Box p={4}>
           <AuthLogin
             title="Herzlich Willkommen bei HPS ERP"
@@ -70,7 +72,7 @@ const Login = () => (
               </Typography>
             }
             subtitle={
-              <Stack direction="row" justifyContent={"center"} spacing={1} mt={3}>
+              <Stack direction="row" justifyContent={'center'} spacing={1} mt={3}>
                 <Typography color="textSecondary" variant="h6" fontWeight="500">
                   Neu bei HPS ERP?
                 </Typography>
@@ -95,4 +97,3 @@ const Login = () => (
 );
 
 export default Login;
-

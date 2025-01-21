@@ -22,7 +22,12 @@ const employeeResolvers = {
         context,
         info,
       ),
-    employee: async (parent: any, { id }: { id: number }, context: any, info: any): Promise<Employee | null> =>
+    employee: async (
+      parent: any,
+      { id }: { id: number },
+      context: any,
+      info: any,
+    ): Promise<Employee | null> =>
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(

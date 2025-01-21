@@ -8,22 +8,24 @@ import PageContainer from 'src/components/container/PageContainer';
 
 const Friends = () => {
   return (
-    (<PageContainer title="User Profile" description="this is User Profile page">
+    <PageContainer title="User Profile" description="this is User Profile page">
       <Grid container spacing={3}>
         <Grid
           size={{
-            sm: 12
-          }}>
+            sm: 12,
+          }}
+        >
           {/* <ProfileBanner /> */}
         </Grid>
         <Grid
           size={{
-            sm: 12
-          }}>
+            sm: 12,
+          }}
+        >
           {/* <FriendsCard /> */}
         </Grid>
       </Grid>
-    </PageContainer>)
+    </PageContainer>
   );
 };
 

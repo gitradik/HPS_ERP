@@ -98,7 +98,10 @@ const clientApi = createApi({
         variables: { userId },
       }),
     }),
-    updateClient: builder.mutation<{ updateClient: ClientResponse }, { updateId: string, input: UpdateClientInput }>({
+    updateClient: builder.mutation<
+      { updateClient: ClientResponse },
+      { updateId: string; input: UpdateClientInput }
+    >({
       query: ({ updateId, input }) => ({
         document: gql`
           mutation Mutation($updateId: ID!, $input: UpdateClientInput!) {

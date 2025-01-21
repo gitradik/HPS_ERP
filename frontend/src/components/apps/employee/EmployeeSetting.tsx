@@ -11,7 +11,17 @@ import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 // images
 import user1 from 'src/assets/images/profile/user-1.jpg';
 import Spinner from 'src/views/spinner/Spinner';
-import { resetAccountSetting, selectAccountSetting, setContactDetails, setEmail, setFirstName, setLastName, setPhoneNumber, setPosition, updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
+import {
+  resetAccountSetting,
+  selectAccountSetting,
+  setContactDetails,
+  setEmail,
+  setFirstName,
+  setLastName,
+  setPhoneNumber,
+  setPosition,
+  updateAccountSetting,
+} from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
@@ -42,9 +52,12 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
   const onSave = async () => {
     try {
       await updateUser({ updateId: user.id, input: data }).unwrap();
-      enqueueSnackbar('Mitarbeiterdaten erfolgreich aktualisiert!', { variant: "success", autoHideDuration: 3000 });
+      enqueueSnackbar('Mitarbeiterdaten erfolgreich aktualisiert!', {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
     } catch ({ data }: any) {
-      enqueueSnackbar(data.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(data.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
     }
   };
   const onCancel = async () => {
@@ -56,14 +69,16 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
   }
 
   return (
-    (<Grid container spacing={3}>
+    <Grid container spacing={3}>
       <Grid size={{ xs: 12, lg: 6 }} sx={{ '.MuiPaper-root': { height: '100%' } }}>
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
               Profiländerung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Sie können das Profilbild des Mitarbeiters ändern</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Sie können das Profilbild des Mitarbeiters ändern
+            </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
                 <Avatar
@@ -95,7 +110,9 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
             <Typography variant="h5" mb={1}>
               Passwortänderung
             </Typography>
-            <Typography color="textSecondary" mb={3}>Bestätigen Sie das aktuelle Passwort des Mitarbeiters, um ein neues festzulegen</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Bestätigen Sie das aktuelle Passwort des Mitarbeiters, um ein neues festzulegen
+            </Typography>
             <form>
               <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
                 Aktuelles Passwort
@@ -134,7 +151,9 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
             <Typography variant="h5" mb={1}>
               Datenbearbeitung des Mitarbeiters
             </Typography>
-            <Typography color="textSecondary" mb={3}>Hier können Sie persönliche Daten des Mitarbeiters ändern</Typography>
+            <Typography color="textSecondary" mb={3}>
+              Hier können Sie persönliche Daten des Mitarbeiters ändern
+            </Typography>
             <form>
               <Grid container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -147,7 +166,9 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('firstName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setFirstName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setFirstName(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -160,7 +181,9 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('lastName')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setLastName(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setLastName(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -173,7 +196,9 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('email')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setEmail(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setEmail(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -182,11 +207,13 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-position"
-                    value={data.position || ""}
+                    value={data.position || ''}
                     variant="outlined"
                     fullWidth
                     disabled={!hasAccess('position')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPosition(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setPosition(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -195,10 +222,12 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-phone"
-                    value={data.phoneNumber || ""}
+                    value={data.phoneNumber || ''}
                     variant="outlined"
                     fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setPhoneNumber(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setPhoneNumber(e.target.value))
+                    }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -207,10 +236,12 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
                   </CustomFormLabel>
                   <CustomTextField
                     id="text-address"
-                    value={data.contactDetails || ""}
+                    value={data.contactDetails || ''}
                     variant="outlined"
                     fullWidth
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => dispatch(setContactDetails(e.target.value))}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setContactDetails(e.target.value))
+                    }
                   />
                 </Grid>
               </Grid>
@@ -226,7 +257,7 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
           </Button>
         </Stack>
       </Grid>
-    </Grid>)
+    </Grid>
   );
 };
 

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import {
   Grid2 as Grid,
   InputAdornment,
@@ -79,7 +79,7 @@ const FormSeparator = () => {
   };
 
   return (
-    (<div>
+    <div>
       <Typography variant="h6" mb={3}>
         Account Details
       </Typography>
@@ -90,8 +90,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 6
-          }}>
+            sm: 6,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-uname" sx={{ mt: 0 }}>
             Username
           </CustomFormLabel>
@@ -120,8 +121,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 6
-          }}>
+            sm: 6,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-email" sx={{ mt: { sm: 0 } }}>
             Email
           </CustomFormLabel>
@@ -162,8 +164,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 6
-          }}>
+            sm: 6,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-fname" sx={{ mt: 0 }}>
             First Name
           </CustomFormLabel>
@@ -189,8 +192,9 @@ const FormSeparator = () => {
         <Grid
           size={{
             xs: 12,
-            sm: 6
-          }}>
+            sm: 6,
+          }}
+        >
           <CustomFormLabel htmlFor="fs-lname" sx={{ mt: { sm: 0 } }}>
             Last Name
           </CustomFormLabel>
@@ -219,7 +223,7 @@ const FormSeparator = () => {
           </Stack>
         </Grid>
       </Grid>
-    </div>)
+    </div>
   );
 };
 

@@ -1,8 +1,7 @@
-
 import { Button, ButtonGroup, Stack } from '@mui/material';
 
 const DefaultButtonGroup = () => (
-  <Stack spacing={1} >
+  <Stack spacing={1}>
     <ButtonGroup variant="outlined" aria-label="outlined button group">
       <Button>One</Button>
       <Button>Two</Button>

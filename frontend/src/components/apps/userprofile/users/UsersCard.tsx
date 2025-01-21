@@ -16,10 +16,7 @@ import {
 // @ts-ignore
 import React, { useCallback, useEffect } from 'react';
 import BlankCard from 'src/components/shared/BlankCard';
-import {
-  IconSearch,
-  IconPlus
-} from '@tabler/icons-react';
+import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useGetUsersQuery } from 'src/services/api/user.api';
 import img3 from 'src/assets/images/profile/user-5.jpg';
@@ -33,7 +30,7 @@ const UsersCard = () => {
   const filterUsers = (cSearch: string, users?: User[]) => {
     if (users)
       return users.filter((t) =>
-        (t.firstName + " " + t.lastName).toLocaleLowerCase().includes(cSearch.toLocaleLowerCase()),
+        (t.firstName + ' ' + t.lastName).toLocaleLowerCase().includes(cSearch.toLocaleLowerCase()),
       );
 
     return [];
@@ -51,37 +48,46 @@ const UsersCard = () => {
   const openUserDialogProcess = (u: User) => {
     setSelectedUser(u);
     setOpenUserDialog(true);
-  }
+  };
 
   useEffect(() => {
-    if (!isLoadingRegisterUser) refetch().then()
+    if (!isLoadingRegisterUser) refetch().then();
   }, [isLoadingRegisterUser]);
 
   const getUsers = useCallback(() => filterUsers(search, users), [users, search, filterUsers]);
 
   const isRoleUser = (u: User) => u.role === UserRole.USER;
-  const showActiveStatus =(u: User) => {
+  const showActiveStatus = (u: User) => {
     if (isRoleUser(u)) return <></>;
 
-    return <Chip
-      label={u.isActive ? 'Aktiv' : 'Inaktiv'}
-      color={u.isActive ? 'success' : 'default'}
-      size="small"
-      sx={{ position: 'absolute', top: 8, right: 8 }}
-    />
-  }
+    return (
+      <Chip
+        label={u.isActive ? 'Aktiv' : 'Inaktiv'}
+        color={u.isActive ? 'success' : 'default'}
+        size="small"
+        sx={{ position: 'absolute', top: 8, right: 8 }}
+      />
+    );
+  };
 
-
-  return (<>
-    <Grid container spacing={3}>
-      <CreateUserDialog title="Benutzer erstellen" open={open} onClose={() => setOpen(false)} />
-      {selectedUser &&
-        <SetUserRoleDialog user={selectedUser} title="Rolle zuweisen" open={openUserDialog} onClose={() => setOpenUserDialog(false)} />}
-      <Grid
-        size={{
-          xs: 12
-        }}>
-       <Stack
+  return (
+    <>
+      <Grid container spacing={3}>
+        <CreateUserDialog title="Benutzer erstellen" open={open} onClose={() => setOpen(false)} />
+        {selectedUser && (
+          <SetUserRoleDialog
+            user={selectedUser}
+            title="Rolle zuweisen"
+            open={openUserDialog}
+            onClose={() => setOpenUserDialog(false)}
+          />
+        )}
+        <Grid
+          size={{
+            xs: 12,
+          }}
+        >
+          <Stack
             direction={{ xs: 'column', sm: 'row' }}
             alignItems="center"
             justifyContent="space-between"
@@ -127,16 +133,16 @@ const UsersCard = () => {
               />
             </Box>
           </Stack>
-      </Grid>
-      
-      
-      {getUsers().map((profile) => ((
-          (<Grid
+        </Grid>
+
+        {getUsers().map((profile) => (
+          <Grid
             key={profile.id}
             size={{
               xs: 12,
-              lg: 4
-            }}>
+              lg: 4,
+            }}
+          >
             <BlankCard className="hoverCard">
               <Box display="flex" justifyContent="flex-end">
                 {showActiveStatus(profile)}
@@ -149,7 +155,9 @@ const UsersCard = () => {
                     sx={{ width: '80px', height: '80px' }}
                   />
                   <Box textAlign={'center'}>
-                    <Typography variant="h5">{profile.firstName} {profile.lastName}</Typography>
+                    <Typography variant="h5">
+                      {profile.firstName} {profile.lastName}
+                    </Typography>
                     <Typography variant="caption">{profile.position}</Typography>
                   </Box>
                   <Box textAlign={'center'}>
@@ -162,7 +170,7 @@ const UsersCard = () => {
                 <Button
                   size="small"
                   variant="text"
-                  color={isRoleUser(profile) ? "warning" : "info"}
+                  color={isRoleUser(profile) ? 'warning' : 'info'}
                   disabled={!isRoleUser(profile)}
                   onClick={() => openUserDialogProcess(profile)}
                   sx={{ width: { xs: '100%', sm: 'auto' } }}
@@ -171,10 +179,11 @@ const UsersCard = () => {
                 </Button>
               </Box>
             </BlankCard>
-          </Grid>)
-        )))}
-    </Grid>
-  </>);
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
 };
 
 export default UsersCard;

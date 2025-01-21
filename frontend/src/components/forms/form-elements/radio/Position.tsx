@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
 import { Box, RadioGroup, FormControlLabel } from '@mui/material';
 
-import CustomRadio from "../../theme-elements/CustomRadio"
+import CustomRadio from '../../theme-elements/CustomRadio';
 
 const PositionRadio = () => {
   return (
@@ -23,7 +23,6 @@ const PositionRadio = () => {
         />
         <FormControlLabel value="end" control={<CustomRadio />} label="End" />
       </RadioGroup>
-
     </Box>
   );
 };

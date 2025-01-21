@@ -1,9 +1,4 @@
-
-import {
-  IconAperture,
-  IconBoxMultiple,
-  IconPoint
-} from '@tabler/icons-react';
+import { IconAperture, IconBoxMultiple, IconPoint } from '@tabler/icons-react';
 import { uniqueId } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
@@ -66,7 +61,7 @@ const Menuitems = () => {
       ],
     },
   ];
-}
+};
 
 // const Menuitems = [
 //   {

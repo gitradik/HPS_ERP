@@ -64,14 +64,15 @@ const YearlyBreakup = () => {
   const seriescolumnchart = [38, 40, 25];
 
   return (
-    (<DashboardCard title="Yearly Breakup">
+    <DashboardCard title="Yearly Breakup">
       <Grid container spacing={3}>
         {/* column */}
         <Grid
           size={{
             xs: 7,
-            sm: 7
-          }}>
+            sm: 7,
+          }}
+        >
           <Typography variant="h3" fontWeight="700">
             $36,358
           </Typography>
@@ -109,8 +110,9 @@ const YearlyBreakup = () => {
         <Grid
           size={{
             xs: 5,
-            sm: 5
-          }}>
+            sm: 5,
+          }}
+        >
           <Chart
             options={optionscolumnchart}
             series={seriescolumnchart}
@@ -119,7 +121,7 @@ const YearlyBreakup = () => {
           />
         </Grid>
       </Grid>
-    </DashboardCard>)
+    </DashboardCard>
   );
 };
 

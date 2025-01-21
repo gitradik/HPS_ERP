@@ -43,30 +43,33 @@ const Logo: FC = () => {
 
   return (
     <ParentWrapper>
-      <LinkStyled to="/" sx={{ position: 'relative', alignItems: 'center', justifyContent: 'left' }}>
+      <LinkStyled
+        to="/"
+        sx={{ position: 'relative', alignItems: 'center', justifyContent: 'left' }}
+      >
         {/* <Box >  */}
-          <img
-            src={herbaImage}
-            alt="Herba Logo"
-            style={{
-              height: '100%',
-              maxHeight: '30px',
-              width: 'auto',
-              // Применяем абсолютное позиционирование, только когда текст скрыт
-              position: isTextHidden ? 'absolute' : 'relative',
-              left: isTextHidden ? '50%' : 'initial',
-              top: isTextHidden ? '8px' : 'initial',
-              transform: isTextHidden ? 'translateX(-50%)' : 'initial',
-            }}
-          />
-          <StyledTypography
-            style={{
-              opacity: !customizer.isCollapse || customizer.isSidebarHover ? 1 : 0,
-              visibility: !customizer.isCollapse || customizer.isSidebarHover ? 'visible' : 'hidden',
-            }}
-          >
-            HPS ERP
-          </StyledTypography>
+        <img
+          src={herbaImage}
+          alt="Herba Logo"
+          style={{
+            height: '100%',
+            maxHeight: '30px',
+            width: 'auto',
+            // Применяем абсолютное позиционирование, только когда текст скрыт
+            position: isTextHidden ? 'absolute' : 'relative',
+            left: isTextHidden ? '50%' : 'initial',
+            top: isTextHidden ? '8px' : 'initial',
+            transform: isTextHidden ? 'translateX(-50%)' : 'initial',
+          }}
+        />
+        <StyledTypography
+          style={{
+            opacity: !customizer.isCollapse || customizer.isSidebarHover ? 1 : 0,
+            visibility: !customizer.isCollapse || customizer.isSidebarHover ? 'visible' : 'hidden',
+          }}
+        >
+          HPS ERP
+        </StyledTypography>
         {/* </Box> */}
       </LinkStyled>
     </ParentWrapper>

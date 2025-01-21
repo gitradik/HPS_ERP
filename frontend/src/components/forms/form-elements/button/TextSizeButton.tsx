@@ -1,4 +1,3 @@
-
 import { Button, Stack } from '@mui/material';
 
 const TextSizeButton = () => (

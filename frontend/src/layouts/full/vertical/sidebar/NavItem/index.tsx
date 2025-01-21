@@ -54,7 +54,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
     borderRadius: `${customizer.borderRadius}px`,
     backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
     color:
-      level > 1 && (item?.href && matchPath({ path: item?.href, end: false }, pathDirect))
+      level > 1 && item?.href && matchPath({ path: item?.href, end: false }, pathDirect)
         ? `${theme.palette.primary.main}!important`
         : theme.palette.text.secondary,
     paddingLeft: hideMenu ? '10px' : level > 2 ? `${level * 15}px` : '10px',
@@ -89,7 +89,7 @@ const NavItem = ({ item, level, pathDirect, hideMenu, onClick }: ItemType) => {
       <ListItemStyled
         {...listItemProps}
         disabled={item?.disabled}
-        selected={!!item?.href && (matchPath({ path: item?.href, end: false }, pathDirect) !== null)}
+        selected={!!item?.href && matchPath({ path: item?.href, end: false }, pathDirect) !== null}
         onClick={onClick}
       >
         <ListItemIcon

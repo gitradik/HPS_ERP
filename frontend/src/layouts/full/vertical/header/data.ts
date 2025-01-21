@@ -142,101 +142,100 @@ const profile: ProfileType[] = [
 
 interface appsLinkType {
   href: string;
-  title : string;
+  title: string;
   subtext: string;
   avatar: string;
 }
 
-const appsLink:appsLinkType[] = [
+const appsLink: appsLinkType[] = [
   {
     href: '/',
     title: 'Chat Application',
     subtext: 'New messages arrived',
-    avatar: ddIcon1
+    avatar: ddIcon1,
   },
   {
     href: '/',
     title: 'eCommerce App',
     subtext: 'New stock available',
-    avatar: ddIcon2
+    avatar: ddIcon2,
   },
   {
     href: '/',
     title: 'Notes App',
     subtext: 'To-do and Daily tasks',
-    avatar: ddIcon3
+    avatar: ddIcon3,
   },
   {
     href: '/',
     title: 'Calendar App',
     subtext: 'Get dates',
-    avatar: ddIcon4
+    avatar: ddIcon4,
   },
   {
     href: '/',
     title: 'Contact Application',
     subtext: '2 Unsaved Contacts',
-    avatar: ddIcon5
+    avatar: ddIcon5,
   },
   {
     href: '/',
     title: 'Tickets App',
     subtext: 'Submit tickets',
-    avatar: ddIcon6
+    avatar: ddIcon6,
   },
   {
     href: '/',
     title: 'Email App',
     subtext: 'Get new emails',
-    avatar: ddIcon7
+    avatar: ddIcon7,
   },
   {
     href: '/',
     title: 'Blog App',
     subtext: 'added new blog',
-    avatar: ddIcon8
+    avatar: ddIcon8,
   },
-]
-
+];
 
 interface LinkType {
   href: string;
   title: string;
 }
 
-const pageLinks:LinkType[] = [
+const pageLinks: LinkType[] = [
   {
     href: '/',
-    title: 'Pricing Page'
+    title: 'Pricing Page',
   },
   {
     href: '/',
-    title: 'Authentication Design'
+    title: 'Authentication Design',
   },
   {
     href: '/',
-    title: 'Register Now'
+    title: 'Register Now',
   },
   {
     href: '/',
-    title: '404 Error Page'
+    title: '404 Error Page',
   },
   {
     href: '/',
-    title: 'Login Page'
+    title: 'Login Page',
   },
   {
     href: '/',
-    title: 'User Application'
+    title: 'User Application',
   },
   {
     href: '/',
-    title: 'Blog Design'
+    title: 'Blog Design',
   },
   {
     href: '/',
-    title: 'Shopping Cart'
+    title: 'Shopping Cart',
   },
-]
+];
 
 export { notifications, messages, profile, pageLinks, appsLink };

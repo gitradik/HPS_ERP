@@ -50,7 +50,10 @@ const userApi = createApi({
         variables: { userId },
       }),
     }),
-    updateUser: builder.mutation<{ update: UserResponse }, { updateId: string; input: UpdateUserInput }>({
+    updateUser: builder.mutation<
+      { update: UserResponse },
+      { updateId: string; input: UpdateUserInput }
+    >({
       query: ({ updateId, input }) => ({
         document: gql`
           mutation Mutation($updateId: ID!, $input: UpdateUserInput!) {
@@ -78,10 +81,6 @@ const userApi = createApi({
   }),
 });
 
-export const {
-  useGetUsersQuery,
-  useGetUserQuery,
-  useUpdateUserMutation,
-} = userApi;
+export const { useGetUsersQuery, useGetUserQuery, useUpdateUserMutation } = userApi;
 
 export default userApi;

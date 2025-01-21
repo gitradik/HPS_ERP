@@ -1,6 +1,12 @@
-
 import { Button, ButtonGroup, Stack } from '@mui/material';
-import { IconAlignCenter, IconAlignLeft, IconAlignRight, IconPlayerPlay, IconPlayerSkipBack, IconPlayerSkipForward } from '@tabler/icons-react';
+import {
+  IconAlignCenter,
+  IconAlignLeft,
+  IconAlignRight,
+  IconPlayerPlay,
+  IconPlayerSkipBack,
+  IconPlayerSkipForward,
+} from '@tabler/icons-react';
 
 const ColorButtonGroup = () => (
   <Stack spacing={2} direction={{ xs: 'column', sm: 'row', lg: 'column' }} justifyContent="center">
@@ -12,16 +18,11 @@ const ColorButtonGroup = () => (
         <Button>Three</Button>
       </ButtonGroup>
 
-      <ButtonGroup
-        variant="contained"
-        color="secondary"
-        aria-label="outlined primary button group"
-      >
+      <ButtonGroup variant="contained" color="secondary" aria-label="outlined primary button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>
       </ButtonGroup>
-
 
       <ButtonGroup variant="contained" color="error" aria-label="outlined primary button group">
         <Button>One</Button>
@@ -29,11 +30,7 @@ const ColorButtonGroup = () => (
         <Button>Three</Button>
       </ButtonGroup>
 
-      <ButtonGroup
-        color="success"
-        variant="contained"
-        aria-label="outlined primary button group"
-      >
+      <ButtonGroup color="success" variant="contained" aria-label="outlined primary button group">
         <Button>One</Button>
         <Button>Two</Button>
         <Button>Three</Button>

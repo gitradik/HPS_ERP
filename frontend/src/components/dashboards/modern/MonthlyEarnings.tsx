@@ -9,7 +9,6 @@ import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons-react';
 import DashboardCard from '../../shared/DashboardCard';
 import { Props } from 'react-apexcharts';
 
-
 const MonthlyEarnings = () => {
   // chart color
   const theme = useTheme();
@@ -47,8 +46,8 @@ const MonthlyEarnings = () => {
     tooltip: {
       theme: theme.palette.mode === 'dark' ? 'dark' : 'light',
       x: {
-        show: false
-      }
+        show: false,
+      },
     },
   };
   const seriescolumnchart = [
