@@ -42,8 +42,8 @@ export const sendVerificationEmail = (userId: number, email: string) => {
   const tokenUrl = generateUrlWithToken(userId);
   sendEmail(
     email,
-    'Bestätigen Sie Ihr Konto',
-    `Klicken Sie auf den Link, um Ihr Konto zu bestätigen: ${tokenUrl}`,
+    'HSP ERP – Bestätigung Ihres Kontos',
+    `Willkommen bei HSP ERP!\n\nBitte bestätigen Sie Ihr Konto, indem Sie auf den folgenden Link klicken: ${tokenUrl}\n\nVielen Dank, dass Sie HSP ERP verwenden.`,
   );
 };
 
