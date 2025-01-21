@@ -67,7 +67,7 @@ const Router = [
       { path: '/auth/404', element: <PublicRouteGuard><Error /></PublicRouteGuard> },
       { path: '/auth/login', element: <PublicRouteGuard><Login /></PublicRouteGuard> },
       { path: '/auth/register', element: <PublicRouteGuard><Register /></PublicRouteGuard> },
-      { path: '/auth/verify', exact: true, element: <EmailVerification/> },
+      { path: '/auth/verify', element: <EmailVerification/> },
       { path: '/auth/forgot-password', element: <PublicRouteGuard><ForgotPassword /></PublicRouteGuard> },
       { path: '/auth/two-steps', element: <PublicRouteGuard><TwoSteps /></PublicRouteGuard> },
       { path: '/auth/maintenance', element: <PublicRouteGuard><Maintenance /></PublicRouteGuard> },

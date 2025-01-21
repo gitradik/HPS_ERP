@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TextField, Box, Typography, CircularProgress } from '@mui/material';
+import { Button, Box, Typography, CircularProgress, Stack } from '@mui/material';
 import { useUpdateUserMutation } from 'src/services/api/user.api';
 import { useDispatch } from 'react-redux';
 import { refreshTokenFailure } from 'src/store/apps/auth/AuthSlice';
@@ -7,12 +7,15 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';
 import { useSnackbar } from 'notistack';
+import { registerType } from 'src/types/auth/auth';
+import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
+import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 
-interface AuthSetPasswordProps {
+interface AuthSetPasswordProps extends registerType {
   userId: string;
 }
 
-const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId }) => {
+const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId, title, subtitle, subtext }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [updateUser, { error: errorUpdateUser, isLoading }] = useUpdateUserMutation();
@@ -27,7 +30,9 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId }) => {
   };
 
   const validationSchema = Yup.object({
-    password: Yup.string().min(5, 'Das Passwort muss mindestens 5 Zeichen enthalten').required('Passwort ist erforderlich'),
+    password: Yup.string()
+      .min(5, 'Das Passwort muss mindestens 5 Zeichen enthalten')
+      .required('Passwort ist erforderlich'),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], 'Die Passwörter müssen übereinstimmen')
       .required('Passwortbestätigung ist erforderlich'),
@@ -47,56 +52,68 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId }) => {
       navigate('/');
     } catch (err) {
       // @ts-ignore
-      enqueueSnackbar(err?.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
+      enqueueSnackbar(err.data?.friendlyMessage, { variant: "error", autoHideDuration: 3000 });
     }
   };
 
   return (
-    <Box maxWidth="400px" mx="auto" p={2} boxShadow={3}>
-      <Typography variant="h5" mb={2} align="center">
-        Neues Passwort festlegen
-      </Typography>
+    <>
+      {title && (
+        <Typography fontWeight="700" variant="h3" mb={1}>
+          {title}
+        </Typography>
+      )}
+
+      {subtext}
+
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, handleChange, handleBlur, touched, errors }) => (
+        {({ errors, touched }) => (
           <Form>
-            {errorMessage && <Typography color="error">{errorMessage}</Typography>}
-            <Field
-              name="password"
-              as={TextField}
-              label="Neues Passwort"
-              type="password"
-              fullWidth
-              margin="normal"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.password && Boolean(errors.password)}
-              helperText={touched.password && errors.password}
-              required
-            />
-            <Field
-              name="confirmPassword"
-              as={TextField}
-              label="Passwort bestätigen"
-              type="password"
-              fullWidth
-              margin="normal"
-              value={values.confirmPassword}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-              helperText={touched.confirmPassword && errors.confirmPassword}
-              required
-            />
-            <Box mt={2} display="flex" justifyContent="center">
+            {errorMessage && (
+              <Typography color="error" variant="body2" mt={2} align="center">
+                {errorMessage}
+              </Typography>
+            )}
+
+            <Stack spacing={2}>
+              <Box>
+                <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
+                <Field
+                  name="password"
+                  as={CustomTextField}
+                  id="password"
+                  type="password"
+                  fullWidth
+                  error={touched.password && Boolean(errors.password)}
+                  helperText={touched.password && errors.password}
+                />
+              </Box>
+
+              <Box>
+                <CustomFormLabel htmlFor="confirmPassword">Passwort bestätigen</CustomFormLabel>
+                <Field
+                  name="confirmPassword"
+                  as={CustomTextField}
+                  id="confirmPassword"
+                  type="password"
+                  fullWidth
+                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                  helperText={touched.confirmPassword && errors.confirmPassword}
+                />
+              </Box>
+            </Stack>
+
+            <Box mt={4} display="flex" justifyContent="center">
               <Button
                 type="submit"
-                variant="contained"
                 color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
                 disabled={isLoading}
               >
                 {isLoading ? <CircularProgress size={24} /> : 'Speichern'}
@@ -105,7 +122,13 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId }) => {
           </Form>
         )}
       </Formik>
-    </Box>
+
+      {subtitle && (
+        <Typography variant="body2" mt={2} align="center">
+          {subtitle}
+        </Typography>
+      )}
+    </>
   );
 };
 
