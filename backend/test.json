@@ -1,11 +1,11 @@
 {
-    "input": {
-        "firstName": "Hermann",
-        "lastName": "Baun",
-        "email": "info@info.com",
-        "password": "admin",
-        "role": "SUPER_ADMIN",
-        "position": "Geschäftsführung",
-        "contactDetails": "Berlin, Deutschland - 10115"
-    }
+  "input": {
+    "firstName": "Hermann",
+    "lastName": "Baun",
+    "email": "info@info.com",
+    "password": "admin",
+    "role": "SUPER_ADMIN",
+    "position": "Geschäftsführung",
+    "contactDetails": "Berlin, Deutschland - 10115"
+  }
 }
