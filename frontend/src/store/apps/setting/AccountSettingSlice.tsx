@@ -2,8 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
 import { UpdateUserInput, User, UserRole } from 'src/types/auth/auth';
 
+export interface AccountSettingState extends UpdateUserInput {
+  confirmPassword?: string;
+}
+
 // Начальное состояние
-const initialState: UpdateUserInput = {};
+const initialState: AccountSettingState = {};
 
 // Создание slice
 const accountSettingSlice = createSlice({
@@ -34,6 +38,12 @@ const accountSettingSlice = createSlice({
     setIsActive: (state, action: PayloadAction<boolean>) => {
       state.isActive = action.payload;
     },
+    setPassword: (state, action: PayloadAction<string>) => {
+      state.password = action.payload;
+    },
+    setConfirmPassword: (state, action: PayloadAction<string>) => {
+      state.confirmPassword = action.payload;
+    },
     resetAccountSetting: () => initialState, // Reset state from initial
 
     updateAccountSetting: (state, action: PayloadAction<User>) => {
@@ -44,9 +54,9 @@ const accountSettingSlice = createSlice({
 });
 
 // Селекторы (пример)
-export const selectAccountSetting = (state: { accountSetting: UpdateUserInput }) =>
+export const selectAccountSetting = (state: { accountSetting: AccountSettingState }) =>
   state.accountSetting;
-export const selectAccountSettingIsEmpty = (state: { accountSetting: UpdateUserInput }) =>
+export const selectAccountSettingIsEmpty = (state: { accountSetting: AccountSettingState }) =>
   isEmpty(state.accountSetting);
 
 // Экспорт действий
@@ -59,6 +69,8 @@ export const {
   setPosition,
   setContactDetails,
   setIsActive,
+  setPassword,
+  setConfirmPassword,
   resetAccountSetting,
   updateAccountSetting,
 } = accountSettingSlice.actions;

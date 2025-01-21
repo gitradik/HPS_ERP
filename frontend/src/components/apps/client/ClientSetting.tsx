@@ -11,6 +11,8 @@ import {
   Stack,
   MenuItem,
 } from '@mui/material';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 // components
 import BlankCard from '../../shared/BlankCard';
@@ -69,6 +71,20 @@ const ClientSetting = ({ client }: { client: Client }) => {
     userRole,
   );
 
+  const initialValues = {
+    password: '',
+    confirmPassword: '',
+  };
+
+  const validationSchema = Yup.object({
+    password: Yup.string()
+      .min(5, 'Das Passwort muss mindestens 5 Zeichen lang sein')
+      .required('Passwort ist erforderlich'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwörter müssen übereinstimmen')
+      .required('Passwortbestätigung ist erforderlich'),
+  });
+
   useEffect(() => {
     dispatch(updateAccountSetting(user));
     dispatch(updateClientSetting({ companyName, isWorking }));
@@ -95,8 +111,26 @@ const ClientSetting = ({ client }: { client: Client }) => {
     dispatch(updateAccountSetting(user));
     dispatch(updateClientSetting({ companyName, isWorking }));
   };
+  const onSubmitPwdForm = async (values: any, actions: any) => {
+    try {
+      await updateUser({
+        updateId: user.id,
+        input: { password: values.password },
+      }).unwrap();
 
-  if (!user || isEmpty(data) || isEmpty(clientData) || isLoading || isLoadingClient) {
+      enqueueSnackbar('Das Passwort wurde erfolgreich geändert!', {
+        variant: 'success',
+        autoHideDuration: 3000,
+      });
+      actions.resetForm();
+    } catch (err: any) {
+      enqueueSnackbar(err?.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  if (!user || isEmpty(data) || isEmpty(clientData)) {
     return <Spinner />;
   }
 
@@ -145,34 +179,64 @@ const ClientSetting = ({ client }: { client: Client }) => {
             <Typography color="textSecondary" mb={3}>
               Bestätigen Sie das aktuelle Passwort des Kunden, um ein neues festzulegen
             </Typography>
-            <form>
-              <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-cpwd">
-                Aktuelles Passwort
-              </CustomFormLabel>
-              <CustomTextField
-                id="text-cpwd"
-                value=""
-                variant="outlined"
-                fullWidth
-                type="password"
-              />
-              <CustomFormLabel htmlFor="text-npwd">Neues Passwort</CustomFormLabel>
-              <CustomTextField
-                id="text-npwd"
-                value=""
-                variant="outlined"
-                fullWidth
-                type="password"
-              />
-              <CustomFormLabel htmlFor="text-conpwd">Passwort bestätigen</CustomFormLabel>
-              <CustomTextField
-                id="text-conpwd"
-                value=""
-                variant="outlined"
-                fullWidth
-                type="password"
-              />
-            </form>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={onSubmitPwdForm}
+            >
+              {(props) => (
+                <form onSubmit={props.handleSubmit}>
+                  <Stack>
+                    <Box>
+                      <CustomFormLabel htmlFor="text-npwd">Neues Passwort</CustomFormLabel>
+                      <CustomTextField
+                        id="text-npwd"
+                        variant="outlined"
+                        name="password"
+                        fullWidth
+                        value={props.values.password}
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        error={props.touched.password && Boolean(props.errors.password)}
+                        helperText={props.touched.password && props.errors.password}
+                        type="password"
+                      />
+                    </Box>
+
+                    <Box>
+                      <CustomFormLabel htmlFor="text-confirmPassword">
+                        Bestätigen Sie das Passwort
+                      </CustomFormLabel>
+                      <CustomTextField
+                        id="text-confirmPassword"
+                        variant="outlined"
+                        fullWidth
+                        name="confirmPassword"
+                        value={props.values.confirmPassword}
+                        onChange={props.handleChange}
+                        onBlur={props.handleBlur}
+                        error={
+                          props.touched.confirmPassword && Boolean(props.errors.confirmPassword)
+                        }
+                        helperText={props.touched.confirmPassword && props.errors.confirmPassword}
+                        type="password"
+                      />
+                    </Box>
+                    <Box pt={3}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        loading={isLoading || isLoadingClient}
+                        disabled={props.isSubmitting || isLoading || isLoadingClient}
+                      >
+                        Einreichen
+                      </Button>
+                    </Box>
+                  </Stack>
+                </form>
+              )}
+            </Formik>
           </CardContent>
         </BlankCard>
       </Grid>
@@ -304,7 +368,13 @@ const ClientSetting = ({ client }: { client: Client }) => {
           <Button onClick={() => onSave()} size="large" variant="contained" color="primary">
             Speichern
           </Button>
-          <Button onClick={() => onCancel()} size="large" variant="text" color="error">
+          <Button
+            loading={isLoading || isLoadingClient}
+            onClick={() => onCancel()}
+            size="large"
+            variant="text"
+            color="error"
+          >
             Abbrechen
           </Button>
         </Stack>
