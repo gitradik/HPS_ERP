@@ -8,6 +8,8 @@ import {
   TableHead,
   Box,
   IconButton,
+  Stack,
+  Avatar,
 } from '@mui/material';
 import { IconEye } from '@tabler/icons-react';
 import DownloadCard from 'src/components/shared/DownloadCard';
@@ -15,6 +17,7 @@ import { Employee } from 'src/types/employee/employee';
 import moment from 'moment';
 import { User } from 'src/types/auth/auth';
 import { useNavigate } from 'react-router';
+import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 interface columnType {
   id: string;
@@ -100,12 +103,17 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
               {rows.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                        <Avatar src={`${getUploadsImagesProfilePath()}/${row.user.photo}`} alt={row.user.photo} sx={{ width: 30, height: 30 }} />
+                    <Stack direction="column" spacing={1}>
                     <Typography variant="body1" color="textSecondary">
                       {row.user.firstName} {row.user.lastName}
                     </Typography>
                     <Typography variant="body2" color="textSecondary">
                       {row.user.email}
                     </Typography>
+                    </Stack>
+                    </Stack>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">

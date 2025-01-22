@@ -26,6 +26,7 @@ export interface UserResponse {
   isActive: boolean;
   updatedAt: string;
   createdAt: string;
+  photo?: string;
 }
 
 export interface UpdateUserInput {
@@ -38,6 +39,7 @@ export interface UpdateUserInput {
   position?: string;
   contactDetails?: string;
   isActive?: boolean;
+  photo?: string;
 }
 
 export interface LoginInput {

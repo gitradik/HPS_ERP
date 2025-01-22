@@ -1,18 +1,19 @@
-// server.ts
-import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+import path from 'path';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import { ApolloServer } from 'apollo-server-express';
 import combinedSchema from './schemas';
 import resolvers from './resolvers';
 import { sequelize } from './models';
-import dotenv from 'dotenv';
 import { normalizeEmailMiddleware } from './middlewares/normalizeEmailMiddleware';
+import * as uploadUserRoutes from './routes/uploadUserRoutes';
 
 dotenv.config();
 
 const app = express();
 
-// Настраиваем CORS
+// CORS
 const allowedOrigins = [
   'http://herba-solution.com',
   'https://herba-solution.com',
@@ -20,40 +21,47 @@ const allowedOrigins = [
 ];
 app.use(
   cors({
-    origin: allowedOrigins, // Разрешённые домены
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Разрешённые методы
-    credentials: true, // Разрешить использование cookies
-  }),
+    origin: allowedOrigins,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  })
 );
 
+// Apollo Server
 const server = new ApolloServer({
   typeDefs: combinedSchema,
   resolvers,
   context: ({ req }: any) => ({
-    req, // Pass the express `req` object to the context for access in resolvers and middlewares
-    user: req.user, // You can also add other things to context, like `user` if it's authenticated
+    req,
+    user: req.user,
   }),
   plugins: [normalizeEmailMiddleware],
+  formatError: (error) => {
+    console.error(error);
+    return error;
+  },
 });
 
-const PORT = process.env.PORT;
+// Статические файлы
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// For loading User.photo
+app.use('/user', uploadUserRoutes.default); 
+
+// Запуск сервера
+const PORT = process.env.PORT;
 async function startServer() {
   try {
-    // Подключение к базе данных
     await sequelize.authenticate();
     console.log('Connection to the database has been established successfully.');
 
-    // Синхронизация моделей с базой данных
     await sequelize.sync({ alter: true });
     console.log('All models were synchronized successfully.');
 
-    // Запуск Apollo сервера
     await server.start();
     // @ts-ignore
     server.applyMiddleware({ app });
 
-    // Запуск приложения
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}/graphql`);
     });

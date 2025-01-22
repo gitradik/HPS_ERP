@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Box, Typography, CircularProgress, Stack } from '@mui/material';
-import { useUpdateUserMutation } from 'src/services/api/user.api';
+import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useDispatch } from 'react-redux';
 import { refreshTokenFailure } from 'src/store/apps/auth/AuthSlice';
 import { Formik, Field, Form } from 'formik';

@@ -18,7 +18,7 @@ import React, { useCallback, useEffect } from 'react';
 import BlankCard from 'src/components/shared/BlankCard';
 import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
-import { useGetUsersQuery } from 'src/services/api/user.api';
+import { useGetUsersQuery } from 'src/services/api/userApi';
 import img3 from 'src/assets/images/profile/user-5.jpg';
 import { User, UserRole } from 'src/types/auth/auth';
 import CreateUserDialog from './CreateUserDialog';

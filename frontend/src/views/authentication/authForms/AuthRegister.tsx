@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'src/store/Store';
-import { useRegisterMutation } from 'src/services/api/auth.api';
+import { useRegisterMutation } from 'src/services/api/authApi';
 
 import { registerType } from 'src/types/auth/auth';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';

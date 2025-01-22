@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useEffect, useState } from 'react';
-import { CardContent, Grid2 as Grid, Typography, Box, Avatar, Button, Stack } from '@mui/material';
+import { CardContent, Grid2 as Grid, Typography, Box, Button, Stack } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 // components
@@ -10,7 +10,6 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 
 // images
-import user1 from 'src/assets/images/profile/user-1.jpg';
 import { User } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
 import {
@@ -29,8 +28,9 @@ import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { userAccessRules } from './AccountTabData';
 import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
-import { useUpdateUserMutation } from 'src/services/api/user.api';
+import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
+import AvatarUploader from 'src/components/shared/AvatarUploader';
 
 const AccountTab = ({ user }: { user: User }) => {
   const dispatch = useDispatch();
@@ -44,27 +44,11 @@ const AccountTab = ({ user }: { user: User }) => {
   const errorMessage = error?.data?.friendlyMessage;
 
   const initialValues = {
-    // firstName: '',
-    // lastName: '',
-    // email: '',
-    // position: '',
-    // phoneNumber: '',
-    // contactDetails: '',
     password: '',
     confirmPassword: '',
   };
 
   const validationSchema = Yup.object({
-    // firstName: Yup.string().required('Vorname ist erforderlich'),
-    // lastName: Yup.string().required('Nachname ist erforderlich'),
-    // email: Yup.string().email('Ungültiges E-Mail-Format').required('E-Mail ist erforderlich'),
-    // position: Yup.string()
-    //   .max(100, 'Die Position darf maximal 100 Zeichen lang sein')
-    //   .nullable(),
-    // phoneNumber: Yup.string()
-    //   .matches(/^\+\d{10,15}$/, 'Ungültige Telefonnummer. Format: +<Ländervorwahl><Nummer>')
-    //   .nullable(),
-    // contactDetails: Yup.string().nullable(),
     password: Yup.string()
       .min(5, 'Das Passwort muss mindestens 5 Zeichen lang sein')
       .required('Passwort ist erforderlich'),
@@ -135,23 +119,7 @@ const AccountTab = ({ user }: { user: User }) => {
             </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
-                <Avatar
-                  src={user1}
-                  alt={user1}
-                  sx={{ width: 120, height: 120, margin: '0 auto' }}
-                />
-                <Stack direction="row" justifyContent="center" spacing={2} my={3}>
-                  <Button variant="contained" color="primary" component="label">
-                    Hochladen
-                    <input hidden accept="image/*" multiple type="file" />
-                  </Button>
-                  <Button variant="outlined" color="error">
-                    Zurücksetzen
-                  </Button>
-                </Stack>
-                <Typography variant="subtitle1" color="textSecondary" mb={4}>
-                  Erlaubte Formate: JPG, GIF oder PNG. Maximalgröße: 800K
-                </Typography>
+                <AvatarUploader user={user}/>
               </Box>
             </Box>
           </CardContent>

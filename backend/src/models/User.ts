@@ -25,6 +25,7 @@ class User extends Model {
   public updatedAt!: Date;
   public position?: string;
   public contactDetails?: string;
+  public photo?: string;
 }
 
 User.init(
@@ -105,6 +106,10 @@ User.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,
+    },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

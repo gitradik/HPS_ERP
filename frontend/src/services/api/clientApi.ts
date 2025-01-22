@@ -1,17 +1,17 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { gql } from 'graphql-request';
 import { enhancedBaseQuery } from './baseQueryMiddleware';
-import { StaffResponse } from 'src/types/staff/staff';
+import { ClientResponse, UpdateClientInput } from 'src/types/client/client';
 
-const staffApi = createApi({
-  reducerPath: 'staffApi',
+const clientApi = createApi({
+  reducerPath: 'clientApi',
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
-    getStaffs: builder.query<{ staffs: StaffResponse[] }, void>({
+    getClients: builder.query<{ clients: ClientResponse[] }, void>({
       query: () => ({
         document: gql`
-          query GetStaffs {
-            staffs {
+          query GetClients {
+            clients {
               id
               userId
               createdAt
@@ -28,19 +28,21 @@ const staffApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
-              isAssigned
+              companyName
+              isWorking
             }
           }
         `,
       }),
     }),
 
-    getStaff: builder.query<{ staff: StaffResponse }, { staffId: string }>({
-      query: ({ staffId }) => ({
+    getClient: builder.query<{ client: ClientResponse }, { clientId: string }>({
+      query: ({ clientId }) => ({
         document: gql`
-          query GetStaff($staffId: ID!) {
-            staff(id: $staffId) {
+          query GetClient($clientId: ID!) {
+            client(id: $clientId) {
               id
               userId
               createdAt
@@ -57,20 +59,22 @@ const staffApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
-              isAssigned
+              companyName
+              isWorking
             }
           }
         `,
-        variables: { staffId },
+        variables: { clientId },
       }),
     }),
 
-    createStaff: builder.mutation<StaffResponse, { userId: number }>({
+    createClient: builder.mutation<ClientResponse, { userId: number }>({
       query: ({ userId }) => ({
         document: gql`
-          mutation CreateStaff($userId: ID!) {
-            createStaff(input: { userId: $userId }) {
+          mutation CreateClient($userId: ID!) {
+            createClient(input: { userId: $userId }) {
               id
               userId
               createdAt
@@ -87,20 +91,24 @@ const staffApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
-              isAssigned
+              companyName
+              isWorking
             }
           }
         `,
         variables: { userId },
       }),
     }),
-
-    updateStaff: builder.mutation<StaffResponse, { id: number; input: { isAssigned: boolean } }>({
-      query: ({ id, input }) => ({
+    updateClient: builder.mutation<
+      { updateClient: ClientResponse },
+      { updateId: string; input: UpdateClientInput }
+    >({
+      query: ({ updateId, input }) => ({
         document: gql`
-          mutation UpdateStaff($id: ID!, $input: UpdateStaffInput!) {
-            updateStaff(input: $input) {
+          mutation Mutation($updateId: ID!, $input: UpdateClientInput!) {
+            updateClient(id: $updateId, input: $input) {
               id
               userId
               createdAt
@@ -117,22 +125,24 @@ const staffApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
-              isAssigned
+              companyName
+              isWorking
             }
           }
         `,
-        variables: { id, input },
+        variables: { updateId, input },
       }),
     }),
   }),
 });
 
 export const {
-  useGetStaffsQuery,
-  useGetStaffQuery,
-  useCreateStaffMutation,
-  useUpdateStaffMutation,
-} = staffApi;
+  useGetClientsQuery,
+  useGetClientQuery,
+  useCreateClientMutation,
+  useUpdateClientMutation,
+} = clientApi;
 
-export default staffApi;
+export default clientApi;

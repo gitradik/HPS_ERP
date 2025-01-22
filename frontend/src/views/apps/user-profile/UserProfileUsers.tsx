@@ -5,10 +5,9 @@ import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
 import UsersCard from 'src/components/apps/userprofile/users/UsersCard';
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
-import { useGetUserQuery } from 'src/services/api/user.api';
 import { useSelector } from 'src/store/Store';
-import { selectAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
+import { selectUser } from 'src/store/apps/auth/AuthSlice';
 
 const BCrumb = [
   {
@@ -20,15 +19,8 @@ const BCrumb = [
   },
 ];
 
-const UserProfileUsers = ({ userId }: any) => {
-  const { data, refetch } = useGetUserQuery({ userId });
-  const accountSetting = useSelector(selectAccountSetting);
-
-  const user = data?.user;
-
-  useEffect(() => {
-    refetch().then();
-  }, [accountSetting]);
+const UserProfileUsers = () => {
+  const user = useSelector(selectUser);
 
   return (
     <PageContainer title="Benutzer" description="Dies ist die Benutzerseite">

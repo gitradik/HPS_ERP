@@ -9,11 +9,11 @@ import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonE
 import ClientDetail from 'src/views/client/ClientDetail';
 
 /* ***Apps**** */
-const UserProfileContainer = Loadable(
-  lazy(() => import('../views/apps/user-profile/UserProfileContainer')),
+const UserProfile = Loadable(
+  lazy(() => import('../views/apps/user-profile/UserProfile')),
 );
-const UserProfileUsersContainer = Loadable(
-  lazy(() => import('../views/apps/user-profile/UserProfileUsersContainer')),
+const UserProfileUsers = Loadable(
+  lazy(() => import('../views/apps/user-profile/UserProfileUsers')),
 );
 const AccountSetting = Loadable(lazy(() => import('../views/apps/account-setting/AccountSetting')));
 const Employee = Loadable(lazy(() => import('../views/employee/Employee')));
@@ -58,7 +58,7 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <UserProfileContainer />
+            <UserProfile />
           </ProtectedRoute>
         ),
       },
@@ -99,7 +99,7 @@ const Router = [
         element: (
           <ProtectedRoute>
             <NonEmployeeClientStaffUserRouteGuard>
-              <UserProfileUsersContainer />
+              <UserProfileUsers />
             </NonEmployeeClientStaffUserRouteGuard>
           </ProtectedRoute>
         ),

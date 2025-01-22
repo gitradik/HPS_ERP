@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Typography, FormGroup, FormControlLabel, Button, Stack } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom'; // Обратите внимание: 'react-router-dom', а не 'react-router'
-import { useLoginMutation } from 'src/services/api/auth.api';
+import { useLoginMutation } from 'src/services/api/authApi';
 
 import { loginType } from 'src/types/auth/auth';
 import CustomCheckbox from '../../../components/forms/theme-elements/CustomCheckbox';

@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { useDispatch } from 'src/store/Store';
-import { useRegisterMutation } from 'src/services/api/auth.api';
+import { useRegisterMutation } from 'src/services/api/authApi';
 import {
   registerFailure,
   registerSuccess,

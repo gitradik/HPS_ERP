@@ -10,7 +10,7 @@ import {
 } from 'src/store/apps/auth/AuthSlice';
 import AuthSetPassword from 'src/views/authentication/authForms/AuthSetPassword';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
-import { useVerifyEmailMutation } from 'src/services/api/auth.api';
+import { useVerifyEmailMutation } from 'src/services/api/authApi';
 import Spinner from 'src/views/spinner/Spinner';
 import { useSnackbar } from 'notistack';
 import PageContainer from 'src/components/container/PageContainer';

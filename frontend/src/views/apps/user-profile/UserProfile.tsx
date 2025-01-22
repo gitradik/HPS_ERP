@@ -8,8 +8,7 @@ import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner
 import IntroCard from 'src/components/apps/userprofile/profile/IntroCard';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useSelector } from 'src/store/Store';
-import { selectAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
-import { useGetUserQuery } from 'src/services/api/user.api';
+import { selectUser } from 'src/store/apps/auth/AuthSlice';
 
 const BCrumb = [
   {
@@ -21,15 +20,8 @@ const BCrumb = [
   },
 ];
 
-const UserProfile = ({ userId }: any) => {
-  const { data, refetch } = useGetUserQuery({ userId });
-  const accountSetting = useSelector(selectAccountSetting);
-
-  const user = data?.user;
-
-  useEffect(() => {
-    refetch().then();
-  }, [accountSetting]);
+const UserProfile = () => {
+  const user = useSelector(selectUser);
 
   return (
     <PageContainer title="Benutzerprofil" description="this is Benutzerprofil page">

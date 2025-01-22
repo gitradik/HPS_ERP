@@ -22,6 +22,7 @@ export interface CreateUserInput {
   isActive?: boolean;
   position?: string;
   contactDetails?: string;
+  photo?: string;
 }
 
 export interface UpdateUserInput extends Partial<CreateUserInput> {}

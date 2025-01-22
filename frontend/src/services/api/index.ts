@@ -1,7 +1,8 @@
-import authApi from './auth.api';
-import clientApi from './client.api';
-import employeeApi from './employee.api';
-import staffApi from './staff.api';
-import userApi from './user.api';
+import authApi from './authApi';
+import clientApi from './clientApi';
+import employeeApi from './employeeApi';
+import staffApi from './staffApi';
+import { uploadApi } from './uploadApi';
+import userApi from './userApi';
 
-export { authApi, userApi, employeeApi, clientApi, staffApi };
+export { authApi, userApi, employeeApi, clientApi, staffApi, uploadApi };

@@ -1,8 +1,22 @@
+import express from 'express';
 import { ApolloError } from 'apollo-server-express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+function decodToken(token: string) {
+  const decoded = jwt.verify(token, JWT_SECRET!) as {
+    id: number;
+    role: string;
+  };
+
+  if (!decoded) throw new ApolloError('Invalid or expired token.');
+
+  return decoded
+}
 
 // Authentication and permission checking middleware
 const authMiddleware = async (
@@ -22,16 +36,8 @@ const authMiddleware = async (
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      id: number;
-      role: string;
-    };
-    if (!decoded) {
-      throw new ApolloError('Invalid or expired token.');
-    }
-
     // Attach user information to the context (e.g., user id and role)
-    context.user = decoded;
+    context.user = decodToken(token);
   } catch (error) {
     throw new ApolloError('Invalid or expired token.');
   }
@@ -40,4 +46,23 @@ const authMiddleware = async (
   return resolve(parent, args, context, info);
 };
 
-export { authMiddleware };
+const authMiddlewareExpress = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const token = req.headers.authorization || '';
+  if (!token) {
+    return res.status(401).json({ error: 'Authentication token is required.' });
+  }
+
+  try {
+    // @ts-ignore
+    req.user = decodToken(token);
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid or expired token.' });
+  }
+};
+
+export { authMiddleware, authMiddlewareExpress };

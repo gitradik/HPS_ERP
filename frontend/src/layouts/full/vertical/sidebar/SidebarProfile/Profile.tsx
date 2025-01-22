@@ -4,9 +4,10 @@ import img1 from 'src/assets/images/profile/user-1.jpg';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
-import { useLogoutMutation } from 'src/services/api/auth.api';
+import { useLogoutMutation } from 'src/services/api/authApi';
 import { logoutSuccess, selectUser } from 'src/store/apps/auth/AuthSlice';
 import { useDispatch } from 'react-redux';
+import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 export const Profile = () => {
   const customizer = useSelector((state: RootState) => state.customizer);
@@ -34,7 +35,7 @@ export const Profile = () => {
     >
       {!hideMenu ? (
         <>
-          <Avatar alt="Remy Sharp" src={img1} />
+          {user && <Avatar alt="Remy Sharp" src={`${getUploadsImagesProfilePath()}/${user.photo}`} />}
 
           {user && (
             <Box>

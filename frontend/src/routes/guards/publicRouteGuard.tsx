@@ -7,7 +7,7 @@ import {
   refreshTokenSuccess,
   selectIsAuthenticated,
 } from '../../store/apps/auth/AuthSlice';
-import { useRefreshTokenMutation } from '../../services/api/auth.api';
+import { useRefreshTokenMutation } from '../../services/api/authApi';
 import Spinner from 'src/views/spinner/Spinner';
 
 const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {

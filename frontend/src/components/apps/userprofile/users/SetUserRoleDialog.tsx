@@ -15,7 +15,7 @@ import {
 import { useDispatch } from 'src/store/Store';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useCreateEmployeeMutation } from 'src/services/api/employee.api';
+import { useCreateEmployeeMutation } from 'src/services/api/employeeApi';
 import { User, UserRole } from 'src/types/auth/auth'; // Импортируем ваш enum
 import {
   registerFailure,
@@ -23,8 +23,8 @@ import {
   registerSuccess,
 } from 'src/store/apps/auth/RegisterSlice';
 import { useSnackbar } from 'notistack';
-import { useCreateClientMutation } from 'src/services/api/client.api';
-import { useCreateStaffMutation } from 'src/services/api/staff.api';
+import { useCreateClientMutation } from 'src/services/api/clientApi';
+import { useCreateStaffMutation } from 'src/services/api/staffApi';
 
 interface CreateEmployeeOrClientDialogProps {
   open: boolean;

@@ -7,12 +7,9 @@ import PageContainer from 'src/components/container/PageContainer';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useSnackbar } from 'notistack';
 import Spinner from '../spinner/Spinner';
-import { useGetClientQuery } from 'src/services/api/client.api';
+import { useGetClientQuery } from 'src/services/api/clientApi';
 import { Client } from 'src/types/client/client';
 import ClientSetting from 'src/components/apps/client/ClientSetting';
-import { useSelector } from 'src/store/Store';
-import { selectClientSettingIsEmpty } from 'src/store/apps/setting/ClientSettingSlice';
-import { usePrevious } from 'src/utils/previousValue';
 
 const BCrumb = [
   {
@@ -35,10 +32,7 @@ const ClientDetail = () => {
     isLoading,
     error,
     refetch,
-  } = useGetClientQuery({ clientId: id! }, { skip: !id });
-  // @ts-ignore
-  const isEmpty = useSelector(selectClientSettingIsEmpty);
-  const isEmptyPrev = usePrevious(isEmpty);
+  } = useGetClientQuery({ clientId: id! });
   const { enqueueSnackbar } = useSnackbar();
 
   const client = clientData?.client as Client;
@@ -53,10 +47,8 @@ const ClientDetail = () => {
   }, [errorMessage]);
 
   useEffect(() => {
-    if (isEmptyPrev !== isEmpty) {
-      refetch().then();
-    }
-  }, [isEmpty]);
+    refetch().then();
+  }, []);
 
   const renderClientDetails = useCallback(() => {
     if (isLoading || !client) {

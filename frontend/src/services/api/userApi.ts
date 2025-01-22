@@ -23,6 +23,7 @@ const userApi = createApi({
               isActive
               updatedAt
               createdAt
+              photo
             }
           }
         `,
@@ -44,6 +45,7 @@ const userApi = createApi({
               isActive
               updatedAt
               createdAt
+              photo
             }
           }
         `,
@@ -69,6 +71,7 @@ const userApi = createApi({
               isActive
               updatedAt
               createdAt
+              photo
             }
           }
         `,
@@ -78,9 +81,25 @@ const userApi = createApi({
         },
       }),
     }),
+
+    
+    uploadPhoto: builder.mutation({
+      query: ({ file }: { file: File }) => ({
+        document: gql`
+          mutation Mutation($file: Upload!) {
+            uploadPhoto(file: $file) {
+              filename
+              mimetype
+              encoding
+            }
+          }
+        `,
+        variables: { file },
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery, useGetUserQuery, useUpdateUserMutation } = userApi;
+export const { useGetUsersQuery, useGetUserQuery, useUpdateUserMutation, useUploadPhotoMutation } = userApi;
 
 export default userApi;

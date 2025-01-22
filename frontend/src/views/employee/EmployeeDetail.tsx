@@ -5,14 +5,11 @@ import { useParams } from 'react-router-dom';
 import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import { useGetEmployeeQuery } from 'src/services/api/employee.api';
+import { useGetEmployeeQuery } from 'src/services/api/employeeApi';
 import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
 import Spinner from '../spinner/Spinner';
 import EmployeeSetting from 'src/components/apps/employee/EmployeeSetting';
-import { selectAccountSettingIsEmpty } from 'src/store/apps/setting/AccountSettingSlice';
-import { useSelector } from 'src/store/Store';
-import { usePrevious } from 'src/utils/previousValue';
 
 const BCrumb = [
   {
@@ -36,8 +33,6 @@ const EmployeeDetail = () => {
     error,
     refetch,
   } = useGetEmployeeQuery({ employeeId: id! });
-  const isEmpty = useSelector(selectAccountSettingIsEmpty);
-  const isEmptyPrev = usePrevious(isEmpty);
   const { enqueueSnackbar } = useSnackbar();
 
   const employee = employeeData?.employee as Employee;
@@ -52,10 +47,8 @@ const EmployeeDetail = () => {
   }, [errorMessage]);
 
   useEffect(() => {
-    if (isEmptyPrev !== isEmpty) {
-      refetch().then();
-    }
-  }, [isEmpty]);
+    refetch().then();
+  }, []);
 
   const renderEmployeeDetails = useCallback(() => {
     if (isLoading || !employee) {

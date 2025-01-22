@@ -23,6 +23,7 @@ const userSchema = gql`
     role: UserRole
     position: String
     contactDetails: String
+    photo: String
   }
 
   input CreateUserInput {
@@ -46,6 +47,7 @@ const userSchema = gql`
     isActive: Boolean
     position: String
     contactDetails: String
+    photo: String
   }
 
   input RegisterInput {

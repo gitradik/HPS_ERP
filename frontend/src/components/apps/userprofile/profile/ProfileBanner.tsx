@@ -7,6 +7,7 @@ import userimg from 'src/assets/images/profile/user-1.jpg';
 import ProfileTab from './ProfileTab';
 import BlankCard from '../../../shared/BlankCard';
 import { User } from 'src/types/auth/auth';
+import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 const ProfileBanner = ({ user }: { user: User }) => {
   const ProfileImage = styled(Box)(() => ({
@@ -57,8 +58,8 @@ const ProfileBanner = ({ user }: { user: User }) => {
               <Box>
                 <ProfileImage>
                   <Avatar
-                    src={userimg}
-                    alt={userimg}
+                    src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+                    alt={user.photo}
                     sx={{
                       borderRadius: '50%',
                       width: '100px',

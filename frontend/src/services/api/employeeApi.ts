@@ -28,6 +28,7 @@ const employeeApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
             }
           }
@@ -56,6 +57,7 @@ const employeeApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
             }
           }
@@ -85,6 +87,7 @@ const employeeApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
             }
           }

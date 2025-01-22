@@ -9,10 +9,10 @@ import * as dropdownData from './data';
 // @ts-ignore
 import { IconMail } from '@tabler/icons-react';
 
-import ProfileImg from 'src/assets/images/profile/user-1.jpg';
-import { useLogoutMutation } from 'src/services/api/auth.api';
+import { useLogoutMutation } from 'src/services/api/authApi';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { logoutSuccess, selectUser } from 'src/store/apps/auth/AuthSlice';
+import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 const Profile = () => {
   const user = useSelector(selectUser);
@@ -51,14 +51,14 @@ const Profile = () => {
         }}
         onClick={handleClick2}
       >
-        <Avatar
-          src={ProfileImg}
-          alt={ProfileImg}
+        {user && <Avatar
+          src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+          alt={user.photo}
           sx={{
             width: 35,
             height: 35,
           }}
-        />
+        />}
       </IconButton>
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
@@ -81,7 +81,7 @@ const Profile = () => {
         <Typography variant="h5">Benutzerprofil</Typography>
         {user && (
           <Stack direction="row" py={3} spacing={2} alignItems="center">
-            <Avatar src={ProfileImg} alt={ProfileImg} sx={{ width: 95, height: 95 }} />
+            <Avatar src={`${getUploadsImagesProfilePath()}/${user.photo}`} sx={{ width: 95, height: 95 }} />
             <Box>
               <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
                 {`${user.firstName} ${user.lastName}`}

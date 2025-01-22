@@ -40,6 +40,7 @@ const authApi = createApi({
                   isActive
                   updatedAt
                   createdAt
+                  photo
                 }
               }
             }
@@ -71,6 +72,7 @@ const authApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
             }
           }
@@ -101,6 +103,7 @@ const authApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
             }
           }
@@ -141,6 +144,7 @@ const authApi = createApi({
                 isActive
                 updatedAt
                 createdAt
+                photo
               }
             }
           }

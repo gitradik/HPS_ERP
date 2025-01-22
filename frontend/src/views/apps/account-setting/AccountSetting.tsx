@@ -9,10 +9,9 @@ import { Grid2 as Grid, Tabs, Tab, Box, CardContent, Divider } from '@mui/materi
 import { IconBell, IconUserCircle } from '@tabler/icons-react';
 import BlankCard from '../../../components/shared/BlankCard';
 import { useSelector } from 'src/store/Store';
-import { selectUserId } from 'src/store/apps/auth/AuthSlice';
+import { selectUser } from 'src/store/apps/auth/AuthSlice';
 import AccountTab from 'src/components/apps/account-setting/AccountTab';
 import NotificationTab from 'src/components/apps/account-setting/NotificationTab';
-import { useGetUserQuery } from 'src/services/api/user.api';
 
 const BCrumb = [
   {
@@ -59,10 +58,7 @@ function a11yProps(index: number) {
 
 const AccountSetting = () => {
   const [value, setValue] = React.useState(0);
-  const userId = useSelector(selectUserId);
-  const { data } = useGetUserQuery({ userId: userId! }, { skip: !userId });
-
-  const user = data?.user;
+  const user = useSelector(selectUser);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore

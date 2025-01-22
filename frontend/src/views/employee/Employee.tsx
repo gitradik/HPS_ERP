@@ -6,12 +6,9 @@ import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import EmployeesTable from 'src/components/tables/employee/EmployeesTable';
-import { useGetEmployeesQuery } from 'src/services/api/employee.api';
+import { useGetEmployeesQuery } from 'src/services/api/employeeApi';
 import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
-import { useSelector } from 'src/store/Store';
-import { selectAccountSettingIsEmpty } from 'src/store/apps/setting/AccountSettingSlice';
-import { usePrevious } from 'src/utils/previousValue';
 
 const BCrumb = [
   {
@@ -26,8 +23,6 @@ const BCrumb = [
 const Employees = () => {
   const { data: employeesData, isLoading, error, refetch } = useGetEmployeesQuery();
   const { enqueueSnackbar } = useSnackbar();
-  const isEmpty = useSelector(selectAccountSettingIsEmpty);
-  const isEmptyPrev = usePrevious(isEmpty);
 
   const employees = employeesData?.employees as Employee[];
 
@@ -41,10 +36,8 @@ const Employees = () => {
   }, [errorMessage]);
 
   useEffect(() => {
-    if (isEmptyPrev !== isEmpty) {
-      refetch().then();
-    }
-  }, [isEmpty]);
+    refetch().then();
+  }, []);
 
   const renderEmployeeTable = useCallback(() => {
     if (isLoading || !employees) {

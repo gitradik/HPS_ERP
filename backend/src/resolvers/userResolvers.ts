@@ -12,10 +12,10 @@ const resolvers = {
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Роли, которым разрешен доступ
             () => userService.getUsersExcludingId(context.user.id), // Запрос на получение пользователей, исключая текущего
-            parent,
-            args,
-            context,
-            info,
+            _parent,
+            _args,
+            _context,
+            _info,
           ),
         parent,
         args,

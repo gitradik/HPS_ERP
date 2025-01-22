@@ -6,7 +6,6 @@ import {
   Grid2 as Grid,
   Typography,
   Box,
-  Avatar,
   Button,
   Stack,
   MenuItem,
@@ -20,7 +19,6 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 
 // images
-import user1 from 'src/assets/images/profile/user-8.jpg';
 import Spinner from 'src/views/spinner/Spinner';
 import {
   resetAccountSetting,
@@ -36,7 +34,7 @@ import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
-import { useUpdateUserMutation } from 'src/services/api/user.api';
+import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
 import { userAccessRules } from '../account-setting/AccountTabData';
 import { Client } from 'src/types/client/client';
@@ -47,9 +45,10 @@ import {
   setIsWorking,
   updateClientSetting,
 } from 'src/store/apps/setting/ClientSettingSlice';
-import { useUpdateClientMutation } from 'src/services/api/client.api';
+import { useUpdateClientMutation } from 'src/services/api/clientApi';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { UserRole } from 'src/types/auth/auth';
+import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 
 const ClientSetting = ({ client }: { client: Client }) => {
   const { user, companyName, isWorking } = client;
@@ -147,23 +146,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
             </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
-                <Avatar
-                  src={user1}
-                  alt={user1}
-                  sx={{ width: 120, height: 120, margin: '0 auto' }}
-                />
-                <Stack direction="row" justifyContent="center" spacing={2} my={3}>
-                  <Button variant="contained" color="primary" component="label">
-                    Hochladen
-                    <input hidden accept="image/*" multiple type="file" />
-                  </Button>
-                  <Button variant="outlined" color="error">
-                    Zurücksetzen
-                  </Button>
-                </Stack>
-                <Typography variant="subtitle1" color="textSecondary" mb={4}>
-                  Erlaubte Formate: JPG, GIF oder PNG. Maximale Größe: 800KB
-                </Typography>
+                <AvatarUploaderById user={user} />
               </Box>
             </Box>
           </CardContent>

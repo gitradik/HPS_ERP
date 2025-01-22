@@ -5,7 +5,7 @@ import {
   useSelector as useReduxSelector,
   TypedUseSelectorHook,
 } from 'react-redux';
-import { authApi, clientApi, employeeApi, staffApi, userApi } from '../services/api';
+import { authApi, clientApi, employeeApi, staffApi, uploadApi, userApi } from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/setting/AccountSettingSlice';
 import clientSettingReducer from './apps/setting/ClientSettingSlice';
@@ -26,14 +26,18 @@ export const store = configureStore({
     [employeeApi.reducerPath]: employeeApi.reducer,
     [clientApi.reducerPath]: clientApi.reducer,
     [staffApi.reducerPath]: staffApi.reducer,
+    [uploadApi.reducerPath]: uploadApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(
       authApi.middleware,
       userApi.middleware,
       employeeApi.middleware,
       clientApi.middleware,
       staffApi.middleware,
+      uploadApi.middleware,
     ),
 });
 

@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useEffect, useState } from 'react';
-import { CardContent, Grid2 as Grid, Typography, Box, Avatar, Button, Stack } from '@mui/material';
+import { CardContent, Grid2 as Grid, Typography, Box, Button, Stack } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
@@ -11,7 +11,6 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 
 // images
-import user1 from 'src/assets/images/profile/user-1.jpg';
 import Spinner from 'src/views/spinner/Spinner';
 import {
   resetAccountSetting,
@@ -26,12 +25,14 @@ import {
 } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
-import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
+import { selectUserId, selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
-import { useUpdateUserMutation } from 'src/services/api/user.api';
+import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
 import { Employee } from 'src/types/employee/employee';
 import { userAccessRules } from '../account-setting/AccountTabData';
+import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
+import AvatarUploader from 'src/components/shared/AvatarUploader';
 
 const EmployeeSetting = ({ employee }: { employee: Employee }) => {
   const { user } = employee;
@@ -40,6 +41,7 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
 
   const data = useSelector(selectAccountSetting);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const userId = useSelector(selectUserId);
   const userRole = useSelector(selectUserRole);
   const { hasAccess } = useRolesWithAccess(userAccessRules, userRole);
 
@@ -115,23 +117,7 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
             </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
-                <Avatar
-                  src={user1}
-                  alt={user1}
-                  sx={{ width: 120, height: 120, margin: '0 auto' }}
-                />
-                <Stack direction="row" justifyContent="center" spacing={2} my={3}>
-                  <Button variant="contained" color="primary" component="label">
-                    Hochladen
-                    <input hidden accept="image/*" multiple type="file" />
-                  </Button>
-                  <Button variant="outlined" color="error">
-                    Zurücksetzen
-                  </Button>
-                </Stack>
-                <Typography variant="subtitle1" color="textSecondary" mb={4}>
-                  Erlaubte Formate: JPG, GIF oder PNG. Maximale Größe: 800KB
-                </Typography>
+                {userId === user.id ? <AvatarUploader user={user} /> : <AvatarUploaderById user={user} />}
               </Box>
             </Box>
           </CardContent>
