@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -14,7 +13,7 @@ import { authMiddlewareExpress } from './middlewares/authMiddleware';
 dotenv.config();
 
 const app = express();
-app.use(bodyParser.json());
+
 // CORS
 const allowedOrigins = [
   'http://herba-solution.com',
@@ -27,6 +26,7 @@ app.use(cors({
   credentials: true,
   allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ],
 }));
+// CORS END
 
 // Apollo Server
 const server = new ApolloServer({
@@ -45,12 +45,8 @@ const server = new ApolloServer({
 
 // Статические файлы
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-const corsOptions = {
-  origin: 'http://herba-solution.com',
-  optionsSuccessStatus: 200
-};
 // For loading User.photo
-app.use('/user', cors(corsOptions), authMiddlewareExpress, uploadUserRoutes.default);
+app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
 
 // Запуск сервера
 const PORT = process.env.PORT;
