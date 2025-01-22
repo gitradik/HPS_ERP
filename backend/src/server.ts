@@ -45,9 +45,12 @@ const server = new ApolloServer({
 
 // Статические файлы
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
+const corsOptions = {
+  origin: 'http://herba-solution.com',
+  optionsSuccessStatus: 200
+};
 // For loading User.photo
-app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
+app.use('/user', cors(corsOptions), authMiddlewareExpress, uploadUserRoutes.default);
 
 // Запуск сервера
 const PORT = process.env.PORT;
