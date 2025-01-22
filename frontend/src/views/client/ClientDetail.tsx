@@ -27,12 +27,7 @@ const BCrumb = [
 
 const ClientDetail = () => {
   const { id } = useParams();
-  const {
-    data: clientData,
-    isLoading,
-    error,
-    refetch,
-  } = useGetClientQuery({ clientId: id! });
+  const { data: clientData, isLoading, error, refetch } = useGetClientQuery({ clientId: id! });
   const { enqueueSnackbar } = useSnackbar();
 
   const client = clientData?.client as Client;

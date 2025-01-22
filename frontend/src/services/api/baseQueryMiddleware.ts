@@ -31,30 +31,29 @@ const baseQueryWithMiddleware: BaseQueryFn<any, unknown, FetchBaseQueryError> =
     },
   });
 
-  export const enhancedBaseQuery: BaseQueryFn<any, unknown, ExtendedFetchBaseQueryError> = async (
-    args,
-    api,
-    extraOptions
-  ) => {  
-    // Если файл не передается, продолжаем обычную работу
-    const result = await baseQueryWithMiddleware(args, api, extraOptions);
+export const enhancedBaseQuery: BaseQueryFn<any, unknown, ExtendedFetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions,
+) => {
+  // Если файл не передается, продолжаем обычную работу
+  const result = await baseQueryWithMiddleware(args, api, extraOptions);
 
-    if (result.error) {
-      // Проверяем, является ли ошибка FetchBaseQueryError
-      const extendedError = result.error as ExtendedFetchBaseQueryError;
-  
-      // Добавляем friendlyMessage только если это FetchBaseQueryError
-      if ('message' in extendedError) {
-        extendedError.data = {
-          ...(extendedError.data || {}),
-          friendlyMessage: extractDetailedError(extendedError),
-        };
-      }
-  
-      // Возвращаем результат с расширенной ошибкой
-      return { ...result, error: extendedError };
+  if (result.error) {
+    // Проверяем, является ли ошибка FetchBaseQueryError
+    const extendedError = result.error as ExtendedFetchBaseQueryError;
+
+    // Добавляем friendlyMessage только если это FetchBaseQueryError
+    if ('message' in extendedError) {
+      extendedError.data = {
+        ...(extendedError.data || {}),
+        friendlyMessage: extractDetailedError(extendedError),
+      };
     }
-    
-    return result;
-  };
-  
+
+    // Возвращаем результат с расширенной ошибкой
+    return { ...result, error: extendedError };
+  }
+
+  return result;
+};

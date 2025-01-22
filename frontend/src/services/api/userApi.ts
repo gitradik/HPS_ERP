@@ -82,7 +82,6 @@ const userApi = createApi({
       }),
     }),
 
-    
     uploadPhoto: builder.mutation({
       query: ({ file }: { file: File }) => ({
         document: gql`
@@ -100,6 +99,7 @@ const userApi = createApi({
   }),
 });
 
-export const { useGetUsersQuery, useGetUserQuery, useUpdateUserMutation, useUploadPhotoMutation } = userApi;
+export const { useGetUsersQuery, useGetUserQuery, useUpdateUserMutation, useUploadPhotoMutation } =
+  userApi;
 
 export default userApi;

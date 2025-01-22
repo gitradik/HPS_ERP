@@ -1,6 +1,6 @@
-import { fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { UploadPhotoResponse } from "src/types/uploads/uploads";
+import { UploadPhotoResponse } from 'src/types/uploads/uploads';
 
 const apiHost = import.meta.env.VITE_API_HOST;
 

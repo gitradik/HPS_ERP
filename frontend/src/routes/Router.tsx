@@ -9,9 +9,7 @@ import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonE
 import ClientDetail from 'src/views/client/ClientDetail';
 
 /* ***Apps**** */
-const UserProfile = Loadable(
-  lazy(() => import('../views/apps/user-profile/UserProfile')),
-);
+const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
 const UserProfileUsers = Loadable(
   lazy(() => import('../views/apps/user-profile/UserProfileUsers')),
 );

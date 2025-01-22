@@ -117,7 +117,11 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
             </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
-                {userId === user.id ? <AvatarUploader user={user} /> : <AvatarUploaderById user={user} />}
+                {userId === user.id ? (
+                  <AvatarUploader user={user} />
+                ) : (
+                  <AvatarUploaderById user={user} />
+                )}
               </Box>
             </Box>
           </CardContent>

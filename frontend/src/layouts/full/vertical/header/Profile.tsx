@@ -51,14 +51,16 @@ const Profile = () => {
         }}
         onClick={handleClick2}
       >
-        {user && <Avatar
-          src={`${getUploadsImagesProfilePath()}/${user.photo}`}
-          alt={user.photo}
-          sx={{
-            width: 35,
-            height: 35,
-          }}
-        />}
+        {user && (
+          <Avatar
+            src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+            alt={user.photo}
+            sx={{
+              width: 35,
+              height: 35,
+            }}
+          />
+        )}
       </IconButton>
       {/* ------------------------------------------- */}
       {/* Message Dropdown */}
@@ -81,7 +83,10 @@ const Profile = () => {
         <Typography variant="h5">Benutzerprofil</Typography>
         {user && (
           <Stack direction="row" py={3} spacing={2} alignItems="center">
-            <Avatar src={`${getUploadsImagesProfilePath()}/${user.photo}`} sx={{ width: 95, height: 95 }} />
+            <Avatar
+              src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+              sx={{ width: 95, height: 95 }}
+            />
             <Box>
               <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
                 {`${user.firstName} ${user.lastName}`}

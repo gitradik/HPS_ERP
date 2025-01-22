@@ -16,7 +16,7 @@ const AvatarUploader = ({ user }: { user: User }) => {
   const [uploadAvatar, { isLoading }] = useUploadPhotoMutation();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
-  
+
   useEffect(() => {
     setAvatarPreview(`${getUploadsImagesProfilePath()}/${user.photo}`);
   }, [user.photo]);
@@ -53,34 +53,24 @@ const AvatarUploader = ({ user }: { user: User }) => {
 
   return (
     <>
-        <Avatar
-          src={avatarPreview}
-          alt="Benutzeravatar"
-          sx={{ width: 120, height: 120, margin: '0 auto' }}
-        />
-        <Stack direction="row" justifyContent="center" spacing={2} my={3}>
-          <Button
-            variant="contained"
-            color="primary"
-            component="label"
-            disabled={isLoading}
-          >
-            Hochladen
-            <input
-              hidden
-              accept="image/*"
-              type="file"
-              onChange={handleFileChange}
-            />
-          </Button>
-          <Button variant="outlined" color="error" onClick={handleResetAvatar}>
-            Zurücksetzen
-          </Button>
-        </Stack>
-        <Typography variant="subtitle1" color="textSecondary" mb={4}>
-          Erlaubte Formate: JPG, GIF oder PNG. Maximalgröße: 800K
-        </Typography>
-      </>
+      <Avatar
+        src={avatarPreview}
+        alt="Benutzeravatar"
+        sx={{ width: 120, height: 120, margin: '0 auto' }}
+      />
+      <Stack direction="row" justifyContent="center" spacing={2} my={3}>
+        <Button variant="contained" color="primary" component="label" disabled={isLoading}>
+          Hochladen
+          <input hidden accept="image/*" type="file" onChange={handleFileChange} />
+        </Button>
+        <Button variant="outlined" color="error" onClick={handleResetAvatar}>
+          Zurücksetzen
+        </Button>
+      </Stack>
+      <Typography variant="subtitle1" color="textSecondary" mb={4}>
+        Erlaubte Formate: JPG, GIF oder PNG. Maximalgröße: 800K
+      </Typography>
+    </>
   );
 };
 

@@ -103,16 +103,20 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
               {rows.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                        <Avatar src={`${getUploadsImagesProfilePath()}/${row.user.photo}`} alt={row.user.photo} sx={{ width: 30, height: 30 }} />
-                    <Stack direction="column" spacing={1}>
-                    <Typography variant="body1" color="textSecondary">
-                      {row.user.firstName} {row.user.lastName}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {row.user.email}
-                    </Typography>
-                    </Stack>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Avatar
+                        src={`${getUploadsImagesProfilePath()}/${row.user.photo}`}
+                        alt={row.user.photo}
+                        sx={{ width: 30, height: 30 }}
+                      />
+                      <Stack direction="column" spacing={1}>
+                        <Typography variant="body1" color="textSecondary">
+                          {row.user.firstName} {row.user.lastName}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {row.user.email}
+                        </Typography>
+                      </Stack>
                     </Stack>
                   </TableCell>
                   <TableCell>

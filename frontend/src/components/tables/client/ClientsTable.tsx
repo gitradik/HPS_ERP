@@ -110,15 +110,19 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                 <TableRow key={row.id}>
                   <TableCell>
                     <Stack direction="row" spacing={2} alignItems="center">
-                      <Avatar src={`${getUploadsImagesProfilePath()}/${row.user.photo}`} alt={row.user.photo} sx={{ width: 30, height: 30 }} />
+                      <Avatar
+                        src={`${getUploadsImagesProfilePath()}/${row.user.photo}`}
+                        alt={row.user.photo}
+                        sx={{ width: 30, height: 30 }}
+                      />
                       <Stack direction="column" spacing={1}>
-                    <Typography variant="subtitle1" color="textSecondary">
-                      {row.user.firstName} {row.user.lastName}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {row.user.email}
-                    </Typography>
-                    </Stack>
+                        <Typography variant="subtitle1" color="textSecondary">
+                          {row.user.firstName} {row.user.lastName}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                          {row.user.email}
+                        </Typography>
+                      </Stack>
                     </Stack>
                   </TableCell>
                   <TableCell>

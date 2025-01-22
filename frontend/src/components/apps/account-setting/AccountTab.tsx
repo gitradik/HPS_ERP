@@ -119,7 +119,7 @@ const AccountTab = ({ user }: { user: User }) => {
             </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
-                <AvatarUploader user={user}/>
+                <AvatarUploader user={user} />
               </Box>
             </Box>
           </CardContent>
