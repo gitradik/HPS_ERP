@@ -8,8 +8,17 @@ import resolvers from './resolvers';
 import { sequelize } from './models';
 import { normalizeEmailMiddleware } from './middlewares/normalizeEmailMiddleware';
 import * as uploadUserRoutes from './routes/uploadUserRoutes';
+import { authMiddlewareExpress } from './middlewares/authMiddleware';
 
 dotenv.config();
+
+// @ts-ignore
+const allowCORS = function(req, res, next) {
+  var origin = req.get('origin');
+  res.header("Access-Control-Allow-Origin", origin);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+};
 
 const app = express();
 
@@ -26,11 +35,6 @@ app.use(
     credentials: true,
   }),
 );
-app.options('*', cors({
-  origin: allowedOrigins,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-}));
 
 // Apollo Server
 const server = new ApolloServer({
@@ -51,7 +55,7 @@ const server = new ApolloServer({
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // For loading User.photo
-app.use('/user', uploadUserRoutes.default);
+app.use('/user', authMiddlewareExpress, allowCORS, uploadUserRoutes.default);
 
 // Запуск сервера
 const PORT = process.env.PORT;

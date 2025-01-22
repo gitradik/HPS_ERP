@@ -4,7 +4,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 import userService from '../services/api/userApiService';
-import { authMiddlewareExpress } from '../middlewares/authMiddleware';
 
 // Настройка директории загрузки файлов
 const uploadDir = path.join(__dirname, '../../uploads/images/profile');
@@ -29,7 +28,6 @@ const uploadRouter = express.Router();
 uploadRouter.post(
   '/upload-photo',
   upload.single('recfile'),
-  authMiddlewareExpress,
   async (req, res) => {
     const file = req.file;
     // @ts-ignore
@@ -63,7 +61,6 @@ uploadRouter.post(
 uploadRouter.post(
   '/upload-photo/:id',
   upload.single('recfile'),
-  authMiddlewareExpress,
   async (req, res) => {
     const file = req.file;
     const userId = Number(req.params.id); // Извлекаем ID из параметров маршрута
