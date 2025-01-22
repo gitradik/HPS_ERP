@@ -15,7 +15,7 @@ function decodToken(token: string) {
 
   if (!decoded) throw new ApolloError('Invalid or expired token.');
 
-  return decoded
+  return decoded;
 }
 
 // Authentication and permission checking middleware

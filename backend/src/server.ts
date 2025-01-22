@@ -24,7 +24,7 @@ app.use(
     origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-  })
+  }),
 );
 
 // Apollo Server
@@ -46,7 +46,7 @@ const server = new ApolloServer({
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // For loading User.photo
-app.use('/user', uploadUserRoutes.default); 
+app.use('/user', uploadUserRoutes.default);
 
 // Запуск сервера
 const PORT = process.env.PORT;

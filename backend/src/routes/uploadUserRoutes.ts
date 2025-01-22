@@ -26,59 +26,28 @@ const upload = multer({ storage });
 const uploadRouter = express.Router();
 
 // Новый маршрут для загрузки фото
-uploadRouter.post('/upload-photo', upload.single('recfile'), authMiddlewareExpress, async (req, res) => {
-  const file = req.file;
-  // @ts-ignore
-  const userId = req.user.id;
+uploadRouter.post(
+  '/upload-photo',
+  upload.single('recfile'),
+  authMiddlewareExpress,
+  async (req, res) => {
+    const file = req.file;
+    // @ts-ignore
+    const userId = req.user.id;
 
-  if (!file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-
-  // Логика сохранения файла и возврата пути
-  const { filename, mimetype } = file;
-
-  // Проверки на валидность данных
-  if (!filename || !mimetype) {
-    return res.status(400).json({ error: 'File upload failed: invalid file data' });
-  }
-
-  const user = await userService.updateUser(userId, { photo: filename });
-  // Возвращаем путь к файлу
-  res.json({
-    success: true,
-    filePath: `/uploads/images/profile/${filename}`,
-    filename,
-    mimetype,
-    user
-  });
-});
-
-// Новый маршрут для загрузки фото конкретного пользователя
-uploadRouter.post('/upload-photo/:id', upload.single('recfile'), authMiddlewareExpress, async (req, res) => {
-  const file = req.file;
-  const userId = Number(req.params.id); // Извлекаем ID из параметров маршрута
-
-  if (!file) {
-    return res.status(400).json({ error: 'No file uploaded' });
-  }
-
-  // Логика сохранения файла и возврата пути
-  const { filename, mimetype } = file;
-
-  // Проверки на валидность данных
-  if (!filename || !mimetype) {
-    return res.status(400).json({ error: 'File upload failed: invalid file data' });
-  }
-
-  try {
-    // Обновляем данные пользователя
-    const user = await userService.updateUser(userId, { photo: filename });
-
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+    if (!file) {
+      return res.status(400).json({ error: 'No file uploaded' });
     }
 
+    // Логика сохранения файла и возврата пути
+    const { filename, mimetype } = file;
+
+    // Проверки на валидность данных
+    if (!filename || !mimetype) {
+      return res.status(400).json({ error: 'File upload failed: invalid file data' });
+    }
+
+    const user = await userService.updateUser(userId, { photo: filename });
     // Возвращаем путь к файлу
     res.json({
       success: true,
@@ -87,10 +56,51 @@ uploadRouter.post('/upload-photo/:id', upload.single('recfile'), authMiddlewareE
       mimetype,
       user,
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while updating the user photo' });
-  }
-});
+  },
+);
+
+// Новый маршрут для загрузки фото конкретного пользователя
+uploadRouter.post(
+  '/upload-photo/:id',
+  upload.single('recfile'),
+  authMiddlewareExpress,
+  async (req, res) => {
+    const file = req.file;
+    const userId = Number(req.params.id); // Извлекаем ID из параметров маршрута
+
+    if (!file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Логика сохранения файла и возврата пути
+    const { filename, mimetype } = file;
+
+    // Проверки на валидность данных
+    if (!filename || !mimetype) {
+      return res.status(400).json({ error: 'File upload failed: invalid file data' });
+    }
+
+    try {
+      // Обновляем данные пользователя
+      const user = await userService.updateUser(userId, { photo: filename });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Возвращаем путь к файлу
+      res.json({
+        success: true,
+        filePath: `/uploads/images/profile/${filename}`,
+        filename,
+        mimetype,
+        user,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'An error occurred while updating the user photo' });
+    }
+  },
+);
 
 export default uploadRouter;
