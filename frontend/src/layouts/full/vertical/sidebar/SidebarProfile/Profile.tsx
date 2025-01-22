@@ -1,6 +1,5 @@
 import { Box, Avatar, Typography, IconButton, Tooltip, useMediaQuery } from '@mui/material';
 import { RootState, useSelector } from 'src/store/Store';
-import img1 from 'src/assets/images/profile/user-1.jpg';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
