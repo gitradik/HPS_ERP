@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -13,7 +14,7 @@ import { authMiddlewareExpress } from './middlewares/authMiddleware';
 dotenv.config();
 
 const app = express();
-
+app.use(bodyParser.json());
 // CORS
 const allowedOrigins = [
   'http://herba-solution.com',
@@ -24,6 +25,7 @@ app.use(cors({
   origin: allowedOrigins,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
+  allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ],
 }));
 
 // Apollo Server
