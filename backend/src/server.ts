@@ -16,9 +16,9 @@ const app = express();
 
 // CORS
 const allowedOrigins = [
-  'http://herba-solution.com',
-  'https://herba-solution.com',
   'http://localhost:5173',
+  'https://herba-solution.com',
+  'http://herba-solution.com',
 ];
 app.use(cors({
   origin: allowedOrigins,

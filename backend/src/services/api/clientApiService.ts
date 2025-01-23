@@ -17,7 +17,6 @@ const clientService = {
     return await Client.findAll({
       include: {
         model: User,
-        where: { isActive: true },
         required: true,
         as: 'user',
       },
@@ -28,7 +27,6 @@ const clientService = {
     return await Client.findByPk(id, {
       include: {
         model: User,
-        where: { isActive: true },
         required: true,
         as: 'user',
       },
@@ -62,7 +60,6 @@ const clientService = {
       where: { id },
       include: {
         model: User,
-        where: { isActive: true },
         required: true,
         as: 'user',
       },

@@ -12,7 +12,6 @@ const employeeService = {
     return await Employee.findAll({
       include: {
         model: User,
-        where: { isActive: true },
         required: true,
         as: 'user',
       },
@@ -22,7 +21,6 @@ const employeeService = {
     return await Employee.findByPk(id, {
       include: {
         model: User,
-        where: { isActive: true },
         required: true,
         as: 'user',
       },
