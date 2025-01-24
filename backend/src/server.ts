@@ -21,7 +21,8 @@ const allowedOrigins = [
   'http://herba-solution.com',
 ];
 app.use(cors({
-  origin: allowedOrigins,
+  // origin: allowedOrigins,
+  origin: 'http://herba-solution.com',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ],
