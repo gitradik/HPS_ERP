@@ -42,6 +42,7 @@ const corsOptions = {
   origin: 'http://herba-solution.com', // Укажите точное значение для разрешенного домена
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
