@@ -24,8 +24,9 @@ const corsOptions = {
   origin: allowedOrigins,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
-  allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ],
+  allowedHeaders: ['Accept-Version', 'Authorization', 'Credentials', 'Content-Type', 'X-Requested-With'],
 };
+
 app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
@@ -44,7 +45,7 @@ const server = new ApolloServer({
   },
 });
 
-app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
+app.use('/user', cors(corsOptions), authMiddlewareExpress, uploadUserRoutes.default);
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Запуск сервера
