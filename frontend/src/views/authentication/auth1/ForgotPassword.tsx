@@ -3,12 +3,12 @@
 import React from 'react';
 import { Grid2 as Grid, Box, Typography } from '@mui/material';
 
-import Logo from 'src/layouts/full/shared/logo/Logo';
 import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
 
 import AuthForgotPassword from '../authForms/AuthForgotPassword';
 import { ReactSVG } from 'react-svg';
+import AuthLogo from 'src/layouts/full/shared/logo/AuthLogo';
 
 const ForgotPassword = () => (
   <PageContainer title="Passwort vergessen" description="Dies ist die Passwort vergessen Seite">
@@ -36,7 +36,7 @@ const ForgotPassword = () => (
       >
         <Box position="relative">
           <Box px={3}>
-            <Logo />
+            <AuthLogo />
           </Box>
           <Box
             alignItems="center"

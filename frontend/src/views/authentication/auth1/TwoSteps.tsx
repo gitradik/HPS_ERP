@@ -5,10 +5,10 @@ import { Grid2 as Grid, Box, Typography } from '@mui/material';
 
 import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 
 import AuthTwoSteps from '../authForms/AuthTwoSteps';
 import { ReactSVG } from 'react-svg';
+import AuthLogo from 'src/layouts/full/shared/logo/AuthLogo';
 
 const TwoSteps = () => (
   <PageContainer title="Zwei Schritte" description="Dies ist die Zwei-Schritte-Seite">
@@ -36,7 +36,7 @@ const TwoSteps = () => (
       >
         <Box position="relative">
           <Box px={3}>
-            <Logo />
+            <AuthLogo />
           </Box>
           <Box
             alignItems="center"

@@ -105,7 +105,7 @@ const AppDD = () => {
         to="/"
         component={Link}
       >
-        Chat
+        Startseite
       </Button>
       <Button
         color="inherit"

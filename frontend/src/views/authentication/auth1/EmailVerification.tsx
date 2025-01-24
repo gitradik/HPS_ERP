@@ -14,8 +14,8 @@ import { useVerifyEmailMutation } from 'src/services/api/authApi';
 import Spinner from 'src/views/spinner/Spinner';
 import { useSnackbar } from 'notistack';
 import PageContainer from 'src/components/container/PageContainer';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 import { ReactSVG } from 'react-svg';
+import AuthLogo from 'src/layouts/full/shared/logo/AuthLogo';
 
 const EmailVerification = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -80,7 +80,7 @@ const EmailVerification = () => {
         >
           <Box position="relative">
             <Box px={3}>
-              <Logo />
+              <AuthLogo />
             </Box>
             <Box
               alignItems="center"

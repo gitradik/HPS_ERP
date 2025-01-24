@@ -32,7 +32,7 @@ const Menuitems = () => {
   const items: MenuitemsType[] = [
     {
       navlabel: true,
-      subheader: 'Startseite',
+      subheader: 'Bereichsmenü',
     },
     {
       id: uniqueId(),

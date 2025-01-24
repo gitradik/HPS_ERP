@@ -6,8 +6,8 @@ import { Grid2 as Grid, Box, Stack, Typography } from '@mui/material';
 import { ReactSVG } from 'react-svg';
 import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from '../authForms/AuthLogin';
+import AuthLogo from 'src/layouts/full/shared/logo/AuthLogo';
 
 const Login = () => (
   <PageContainer title="Anmeldung" description="Dies ist die Anmeldeseite">
@@ -35,7 +35,7 @@ const Login = () => (
       >
         <Box position="relative">
           <Box px={3}>
-            <Logo />
+            <AuthLogo />
           </Box>
           <Box
             alignItems="center"

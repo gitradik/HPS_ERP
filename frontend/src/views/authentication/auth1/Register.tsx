@@ -6,10 +6,10 @@ import { Grid2 as Grid, Box, Typography, Stack } from '@mui/material';
 
 import PageContainer from 'src/components/container/PageContainer';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
-import Logo from 'src/layouts/full/shared/logo/Logo';
 
 import AuthRegister from '../authForms/AuthRegister';
 import { ReactSVG } from 'react-svg';
+import AuthLogo from 'src/layouts/full/shared/logo/AuthLogo';
 
 const Register = () => (
   <PageContainer title="Registrierung" description="Dies ist die Registrierungsseite">
@@ -37,7 +37,7 @@ const Register = () => (
       >
         <Box position="relative">
           <Box px={3}>
-            <Logo />
+            <AuthLogo />
           </Box>
           <Box
             alignItems="center"
