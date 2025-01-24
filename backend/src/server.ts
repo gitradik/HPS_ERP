@@ -20,14 +20,14 @@ const allowedOrigins = [
   'https://herba-solution.com',
   'http://herba-solution.com',
 ];
-app.use(cors({
-  // origin: allowedOrigins,
-  origin: 'http://herba-solution.com',
+const corsOptions = {
+  origin: allowedOrigins,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: [ 'Accept-Version', 'Authorization', 'Credentials', 'Content-Type' ],
-}));
-// CORS END
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Apollo Server
 const server = new ApolloServer({
@@ -44,10 +44,8 @@ const server = new ApolloServer({
   },
 });
 
-// Статические файлы
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-// For loading User.photo
 app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Запуск сервера
 const PORT = process.env.PORT;
