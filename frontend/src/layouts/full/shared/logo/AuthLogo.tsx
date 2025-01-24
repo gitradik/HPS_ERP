@@ -37,9 +37,7 @@ const AuthLogo: FC = () => {
         to="/"
         sx={{ position: 'relative', alignItems: 'center', justifyContent: 'left' }}
       >
-        <StyledTypography>
-          HPS ERP
-        </StyledTypography>
+        <StyledTypography>HPS ERP</StyledTypography>
         {/* </Box> */}
       </LinkStyled>
     </ParentWrapper>

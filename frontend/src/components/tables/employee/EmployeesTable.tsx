@@ -53,22 +53,13 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
   }));
 
   const handleDownload = () => {
-    const headers = [
-      'Benutzerdetails',
-      'E-Mail',
-      'Position',
-      'Telefonnummer',
-      'Adresse',
-      'Status',
-      'Zuletzt aktualisiert',
-    ];
+    const headers = ['Benutzerdetails', 'E-Mail', 'Position', 'Telefonnummer', 'Adresse'];
     const rows = employees.map((item: Employee) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
       item.user.position || 'N/A',
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
-      item.user.isActive ? 'Aktiv' : 'Inaktiv',
       moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
@@ -134,21 +125,6 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                       {row.user.contactDetails || 'N/A'}
                     </Typography>
                   </TableCell>
-                  {/* <TableCell>
-                    <Stack spacing={1} direction="row" alignItems="center">
-                      <Badge
-                        color={
-                          row.user.isActive
-                            ? 'success'
-                            : 'error'
-                        }
-                        variant="dot"
-                      ></Badge>
-                      <Typography color="textSecondary" variant="body1">
-                      {row.user.isActive ? 'Aktiv' : 'Inaktiv'}
-                      </Typography>
-                    </Stack>
-                  </TableCell> */}
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
                       {moment(Number(row.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}
@@ -160,7 +136,6 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                         onClick={() => navigate(`/employees/${row.employeeId}`)}
                         size="small"
                       >
-                        {' '}
                         <IconEye />
                       </IconButton>
                     </Typography>

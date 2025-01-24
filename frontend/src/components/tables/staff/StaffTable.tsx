@@ -17,7 +17,7 @@ import DownloadCard from 'src/components/shared/DownloadCard';
 import moment from 'moment';
 import { User } from 'src/types/auth/auth';
 import { useNavigate } from 'react-router';
-import { Client } from 'src/types/client/client';
+import { Staff } from 'src/types/staff/staff';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 interface columnType {
@@ -28,17 +28,15 @@ interface columnType {
 
 interface rowType {
   id: number;
-  clientId: string;
+  staffId: string;
   user: User;
   updatedAt: string;
-  companyName?: string;
-  isWorking: boolean;
+  isAssigned: boolean;
 }
 
-// Kunden → FirstName LastName Email PhoneNumber Address Status(работаем с клиентом или на паузе)
+// Personal → FirstName LastName Email PhoneNumber Address Status (работаем с персоналом или на паузе)
 const columns: columnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
-  { id: 'companyName', label: 'Name der Firma', minWidth: 170 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
   { id: 'status', label: 'Status', minWidth: 100 },
@@ -46,35 +44,32 @@ const columns: columnType[] = [
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
-const ClientsTable = ({ clients }: { clients: Client[] }) => {
+const StaffTable = ({ staff }: { staff: Staff[] }) => {
   const navigate = useNavigate();
 
-  const rows: rowType[] = clients.map((client, idx) => ({
+  const rows: rowType[] = staff.map((staffMember, idx) => ({
     id: idx + 1,
-    clientId: client.id,
-    user: client.user,
-    companyName: client.companyName,
-    isWorking: client.isWorking,
-    updatedAt: client.updatedAt,
+    staffId: staffMember.id,
+    user: staffMember.user,
+    isAssigned: staffMember.isAssigned,
+    updatedAt: staffMember.updatedAt,
   }));
 
   const handleDownload = () => {
     const headers = [
       'Benutzerdetails',
       'E-Mail',
-      'Name der Firma',
       'Telefonnummer',
       'Adresse',
       'Status',
       'Zuletzt aktualisiert',
     ];
-    const rows = clients.map((item: Client) => [
+    const rows = staff.map((item: Staff) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
-      item.companyName || 'N/A',
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
-      item.isWorking ? 'Aktiv' : 'Inaktiv',
+      item.isAssigned ? 'Aktiv' : 'Inaktiv',
       moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
@@ -85,14 +80,14 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
 
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'Kunden-Daten.csv');
+    link.setAttribute('download', 'Personal-Daten.csv');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
   return (
-    <DownloadCard title="Kunden Tabelle" onDownload={handleDownload}>
+    <DownloadCard title="Personal Tabelle" onDownload={handleDownload}>
       <Box>
         <TableContainer>
           <Table sx={{ whiteSpace: 'nowrap' }}>
@@ -127,11 +122,6 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {row.companyName || 'N/A'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" color="textSecondary">
                       {row.user.phoneNumber || 'N/A'}
                     </Typography>
                   </TableCell>
@@ -142,14 +132,14 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   </TableCell>
                   <TableCell>
                     <Chip
-                      label={row.isWorking ? 'Aktiv' : 'Inaktiv'}
+                      label={row.isAssigned ? 'Aktiv' : 'Inaktiv'}
                       size="small"
-                      icon={row.isWorking ? <IconCircle width={14} /> : <IconClock width={14} />}
+                      icon={row.isAssigned ? <IconCircle width={14} /> : <IconClock width={14} />}
                       sx={{
-                        backgroundColor: row.isWorking
+                        backgroundColor: row.isAssigned
                           ? (theme) => theme.palette.success.light
                           : (theme) => theme.palette.grey[100],
-                        color: row.isWorking
+                        color: row.isAssigned
                           ? (theme) => theme.palette.success.main
                           : (theme) => theme.palette.grey[500],
                         '.MuiChip-icon': {
@@ -165,7 +155,7 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      <IconButton onClick={() => navigate(`/clients/${row.clientId}`)} size="small">
+                      <IconButton onClick={() => navigate(`/staff/${row.staffId}`)} size="small">
                         <IconEye />
                       </IconButton>
                     </Typography>
@@ -180,4 +170,4 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
   );
 };
 
-export default ClientsTable;
+export default StaffTable;

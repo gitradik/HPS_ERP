@@ -44,7 +44,7 @@ const Menuitems = () => {
       id: uniqueId(),
       title: t('MenuItems.staff_management'),
       icon: IconUsers,
-      href: '/staff-management',
+      href: '/staff',
     },
     {
       id: uniqueId(),

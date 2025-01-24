@@ -83,10 +83,7 @@ const Profile = () => {
         <Typography variant="h5">Benutzerprofil</Typography>
         {user && (
           <Stack direction="row" py={3} spacing={2} alignItems="center">
-            <Avatar
-              src={getUploadsImagesProfilePath(user.photo)}
-              sx={{ width: 95, height: 95 }}
-            />
+            <Avatar src={getUploadsImagesProfilePath(user.photo)} sx={{ width: 95, height: 95 }} />
             <Box>
               <Typography variant="subtitle2" color="textPrimary" fontWeight={600}>
                 {`${user.firstName} ${user.lastName}`}

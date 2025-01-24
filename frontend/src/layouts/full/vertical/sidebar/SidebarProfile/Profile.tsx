@@ -34,9 +34,7 @@ export const Profile = () => {
     >
       {!hideMenu ? (
         <>
-          {user && (
-            <Avatar alt="Remy Sharp" src={getUploadsImagesProfilePath(user.photo)} />
-          )}
+          {user && <Avatar alt="Remy Sharp" src={getUploadsImagesProfilePath(user.photo)} />}
 
           {user && (
             <Box>

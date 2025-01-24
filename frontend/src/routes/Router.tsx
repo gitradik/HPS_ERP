@@ -6,7 +6,6 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './guards/protectedRouteGuard';
 import PublicRouteGuard from './guards/publicRouteGuard';
 import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonEmployeeClientStaffUserRouteGuard';
-import ClientDetail from 'src/views/client/ClientDetail';
 
 /* ***Apps**** */
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
@@ -17,6 +16,9 @@ const AccountSetting = Loadable(lazy(() => import('../views/apps/account-setting
 const Employee = Loadable(lazy(() => import('../views/employee/Employee')));
 const EmployeeDetail = Loadable(lazy(() => import('../views/employee/EmployeeDetail')));
 const Clients = Loadable(lazy(() => import('../views/client/Clients')));
+const ClientDetail = Loadable(lazy(() => import('../views/client/ClientDetail')));
+const StaffPage = Loadable(lazy(() => import('../views/staff/Staff')));
+const StaffDetail = Loadable(lazy(() => import('../views/staff/StaffDetail')));
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -66,6 +68,28 @@ const Router = [
         element: (
           <ProtectedRoute>
             <AccountSetting />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/staff',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <NonEmployeeClientStaffUserRouteGuard>
+              <StaffPage />
+            </NonEmployeeClientStaffUserRouteGuard>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/staff/:id',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <NonEmployeeClientStaffUserRouteGuard>
+              <StaffDetail />
+            </NonEmployeeClientStaffUserRouteGuard>
           </ProtectedRoute>
         ),
       },
