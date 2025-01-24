@@ -14,16 +14,14 @@ dotenv.config();
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
-  const corsOptions = {
-    origin: 'http://herba-solution.com',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
-  };
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' ? 'http://herba-solution.com' : 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
 
-  app.use(cors(corsOptions));
-}
+app.use(cors(corsOptions));
 
 
 // Apollo Server
