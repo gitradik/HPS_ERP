@@ -17,7 +17,7 @@ const app = express();
 if (process.env.NODE_ENV === 'production') {
   const corsOptions = {
     origin: 'http://herba-solution.com',
-    methods: ['GET', 'POST', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   };
