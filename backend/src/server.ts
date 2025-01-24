@@ -78,7 +78,7 @@ async function startServer() {
 
     await server.start();
     // @ts-ignore
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, cors: corsOptions });
 
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}/graphql`);
