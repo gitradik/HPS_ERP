@@ -38,6 +38,13 @@ const app = express();
 //   app.use(cors(corsOptions));
 //   app.options('*', cors(corsOptions));
 // }
+const corsOptions = {
+  origin: 'http://herba-solution.com', // Укажите точное значение для разрешенного домена
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 
 
 // Apollo Server
