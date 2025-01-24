@@ -14,38 +14,16 @@ dotenv.config();
 
 const app = express();
 
-// if (process.env.NODE_ENV === 'development') {
-//   // CORS
-//   const allowedOrigins = [
-//     'https://herba-solution.com',
-//     'http://herba-solution.com',
-//     'http://localhost:5173',
-//   ];
-  
-//   const corsOptions = {
-//     origin: allowedOrigins,
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     credentials: true,
-//     allowedHeaders: [
-//       'Accept-Version',
-//       'Authorization',
-//       'Credentials',
-//       'Content-Type',
-//       'X-Requested-With',
-//     ],
-//   };
-  
-//   app.use(cors(corsOptions));
-//   app.options('*', cors(corsOptions));
-// }
-const corsOptions = {
-  origin: 'http://herba-solution.com', // Укажите точное значение для разрешенного домена
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-};
+if (process.env.NODE_ENV === 'production') {
+  const corsOptions = {
+    origin: 'http://herba-solution.com',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  };
 
-app.use(cors(corsOptions));
+  app.use(cors(corsOptions));
+}
 
 
 // Apollo Server
@@ -63,8 +41,8 @@ const server = new ApolloServer({
   },
 });
 
-app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
 
 // Запуск сервера
 const PORT = process.env.PORT;
@@ -78,7 +56,7 @@ async function startServer() {
 
     await server.start();
     // @ts-ignore
-    server.applyMiddleware({ app, cors: corsOptions });
+    server.applyMiddleware({ app });
 
     app.listen(PORT, () => {
       console.log(`Server running at http://localhost:${PORT}/graphql`);
