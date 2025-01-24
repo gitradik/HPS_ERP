@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import {
   TableContainer,
   Table,
@@ -7,32 +9,22 @@ import {
   Typography,
   TableHead,
   Box,
-  IconButton,
+  Chip,
   Stack,
   Avatar,
-  Chip,
+  IconButton,
 } from '@mui/material';
 import { IconCircle, IconClock, IconEye } from '@tabler/icons-react';
-import DownloadCard from 'src/components/shared/DownloadCard';
 import moment from 'moment';
-import { User } from 'src/types/auth/auth';
-import { useNavigate } from 'react-router';
+import TableCard from 'src/components/shared/TableCard';
 import { Client } from 'src/types/client/client';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
+import { FilterFormValues, FilterStatusType } from 'src/types/table/filter/filter';
 
 interface columnType {
   id: string;
   label: string;
   minWidth: number;
-}
-
-interface rowType {
-  id: number;
-  clientId: string;
-  user: User;
-  updatedAt: string;
-  companyName?: string;
-  isWorking: boolean;
 }
 
 // Kunden → FirstName LastName Email PhoneNumber Address Status(работаем с клиентом или на паузе)
@@ -48,15 +40,12 @@ const columns: columnType[] = [
 
 const ClientsTable = ({ clients }: { clients: Client[] }) => {
   const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<FilterStatusType>('all'); // Состояние фильтра
 
-  const rows: rowType[] = clients.map((client, idx) => ({
-    id: idx + 1,
-    clientId: client.id,
-    user: client.user,
-    companyName: client.companyName,
-    isWorking: client.isWorking,
-    updatedAt: client.updatedAt,
-  }));
+  const filteredRows = clients.filter((client) => {
+    if (statusFilter === 'all') return true;
+    return statusFilter === 'active' ? client.isWorking : !client.isWorking;
+  });
 
   const handleDownload = () => {
     const headers = [
@@ -66,7 +55,6 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
       'Telefonnummer',
       'Adresse',
       'Status',
-      'Zuletzt aktualisiert',
     ];
     const rows = clients.map((item: Client) => [
       `${item.user.firstName} ${item.user.lastName}`,
@@ -91,8 +79,19 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
     document.body.removeChild(link);
   };
 
+  const handleFilter = ({ status }: FilterFormValues) => {
+    setStatusFilter(status || 'all');
+  };
+
   return (
-    <DownloadCard title="Kunden Tabelle" onDownload={handleDownload}>
+    <TableCard
+      title="Kunden Tabelle"
+      onDownload={handleDownload}
+      defaultValues={{
+        status: statusFilter,
+      }}
+      onFilterSubmit={handleFilter}
+    >
       <Box>
         <TableContainer>
           <Table sx={{ whiteSpace: 'nowrap' }}>
@@ -106,50 +105,50 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <TableRow key={row.id}>
+              {filteredRows.map((client, idx) => (
+                <TableRow key={client.id + idx}>
                   <TableCell>
                     <Stack direction="row" spacing={2} alignItems="center">
                       <Avatar
-                        src={getUploadsImagesProfilePath(row.user.photo)}
-                        alt={row.user.photo}
+                        src={getUploadsImagesProfilePath(client.user.photo)}
+                        alt={client.user.photo}
                         sx={{ width: 30, height: 30 }}
                       />
                       <Stack direction="column" spacing={1}>
                         <Typography variant="subtitle1" color="textSecondary">
-                          {row.user.firstName} {row.user.lastName}
+                          {client.user.firstName} {client.user.lastName}
                         </Typography>
                         <Typography variant="body2" color="textSecondary">
-                          {row.user.email}
+                          {client.user.email}
                         </Typography>
                       </Stack>
                     </Stack>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {row.companyName || 'N/A'}
+                      {client.companyName || 'N/A'}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {row.user.phoneNumber || 'N/A'}
+                      {client.user.phoneNumber || 'N/A'}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {row.user.contactDetails || 'N/A'}
+                      {client.user.contactDetails || 'N/A'}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Chip
-                      label={row.isWorking ? 'Aktiv' : 'Inaktiv'}
+                      label={client.isWorking ? 'Aktiv' : 'Inaktiv'}
                       size="small"
-                      icon={row.isWorking ? <IconCircle width={14} /> : <IconClock width={14} />}
+                      icon={client.isWorking ? <IconCircle width={14} /> : <IconClock width={14} />}
                       sx={{
-                        backgroundColor: row.isWorking
+                        backgroundColor: client.isWorking
                           ? (theme) => theme.palette.success.light
                           : (theme) => theme.palette.grey[100],
-                        color: row.isWorking
+                        color: client.isWorking
                           ? (theme) => theme.palette.success.main
                           : (theme) => theme.palette.grey[500],
                         '.MuiChip-icon': {
@@ -160,12 +159,12 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {moment(Number(row.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(Number(client.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      <IconButton onClick={() => navigate(`/clients/${row.clientId}`)} size="small">
+                      <IconButton onClick={() => navigate(`/clients/${client.id}`)} size="small">
                         <IconEye />
                       </IconButton>
                     </Typography>
@@ -176,7 +175,7 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
           </Table>
         </TableContainer>
       </Box>
-    </DownloadCard>
+    </TableCard>
   );
 };
 

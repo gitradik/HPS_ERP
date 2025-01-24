@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Grid from '@mui/material/Grid2';
 import PageContainer from 'src/components/container/PageContainer';
-import UsersCard from 'src/components/apps/userprofile/users/UsersCard';
+import UsersCards from 'src/components/apps/userprofile/users/UsersCards';
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
 import { useSelector } from 'src/store/Store';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
@@ -38,7 +38,7 @@ const UserProfileUsers = () => {
             sm: 12,
           }}
         >
-          <UsersCard />
+          <UsersCards />
         </Grid>
       </Grid>
     </PageContainer>

@@ -21,7 +21,7 @@ const DownloadCard = ({ title, children, onDownload }: any) => {
         }}
         title={title}
         action={
-          <Tooltip title="Download" placement="left">
+          <Tooltip title="Herunterladen" placement="left">
             <IconButton onClick={onDownload}>
               <IconDownload />
             </IconButton>

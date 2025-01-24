@@ -13,12 +13,14 @@ import {
   Chip,
 } from '@mui/material';
 import { IconCircle, IconClock, IconEye } from '@tabler/icons-react';
-import DownloadCard from 'src/components/shared/DownloadCard';
 import moment from 'moment';
 import { User } from 'src/types/auth/auth';
 import { useNavigate } from 'react-router';
 import { Staff } from 'src/types/staff/staff';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
+import { useState } from 'react';
+import { FilterFormValues, FilterStatusType } from 'src/types/table/filter/filter';
+import TableCard from 'src/components/shared/TableCard';
 
 interface columnType {
   id: string;
@@ -34,7 +36,6 @@ interface rowType {
   isAssigned: boolean;
 }
 
-// Personal → FirstName LastName Email PhoneNumber Address Status (работаем с персоналом или на паузе)
 const columns: columnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
@@ -46,24 +47,23 @@ const columns: columnType[] = [
 
 const StaffTable = ({ staff }: { staff: Staff[] }) => {
   const navigate = useNavigate();
+  const [statusFilter, setStatusFilter] = useState<FilterStatusType>('all');
 
-  const rows: rowType[] = staff.map((staffMember, idx) => ({
-    id: idx + 1,
-    staffId: staffMember.id,
-    user: staffMember.user,
-    isAssigned: staffMember.isAssigned,
-    updatedAt: staffMember.updatedAt,
-  }));
+  const rows: rowType[] = staff
+    .filter((client) => {
+      if (statusFilter === 'all') return true;
+      return statusFilter === 'active' ? client.isAssigned : !client.isAssigned;
+    })
+    .map((staffMember, idx) => ({
+      id: idx + 1,
+      staffId: staffMember.id,
+      user: staffMember.user,
+      isAssigned: staffMember.isAssigned,
+      updatedAt: staffMember.updatedAt,
+    }));
 
   const handleDownload = () => {
-    const headers = [
-      'Benutzerdetails',
-      'E-Mail',
-      'Telefonnummer',
-      'Adresse',
-      'Status',
-      'Zuletzt aktualisiert',
-    ];
+    const headers = ['Benutzerdetails', 'E-Mail', 'Telefonnummer', 'Adresse', 'Status'];
     const rows = staff.map((item: Staff) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
@@ -86,8 +86,19 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
     document.body.removeChild(link);
   };
 
+  const handleFilter = ({ status }: FilterFormValues) => {
+    setStatusFilter(status || 'all');
+  };
+
   return (
-    <DownloadCard title="Personal Tabelle" onDownload={handleDownload}>
+    <TableCard
+      title="Personal Tabelle"
+      onDownload={handleDownload}
+      defaultValues={{
+        status: statusFilter,
+      }}
+      onFilterSubmit={handleFilter}
+    >
       <Box>
         <TableContainer>
           <Table sx={{ whiteSpace: 'nowrap' }}>
@@ -166,7 +177,7 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
           </Table>
         </TableContainer>
       </Box>
-    </DownloadCard>
+    </TableCard>
   );
 };
 
