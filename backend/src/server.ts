@@ -15,20 +15,22 @@ dotenv.config();
 const app = express();
 
 // CORS
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://herba-solution.com',
-  'http://herba-solution.com',
-];
-const corsOptions = {
-  origin: allowedOrigins,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  allowedHeaders: ['Accept-Version', 'Authorization', 'Credentials', 'Content-Type', 'X-Requested-With'],
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+if (process.env.NODE_ENV === 'development') {
+  const corsOptions = {
+    origin: 'http://localhost:5173',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: [
+      'Accept-Version',
+      'Authorization',
+      'Credentials',
+      'Content-Type',
+      'X-Requested-With',
+    ],
+  };
+  app.use(cors(corsOptions));
+  app.options('*', cors(corsOptions));
+}
 
 // Apollo Server
 const server = new ApolloServer({
