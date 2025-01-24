@@ -9,14 +9,14 @@ import { updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice
 import { User } from 'src/types/auth/auth';
 
 const AvatarUploaderById = ({ user }: { user: User }) => {
-  const initialAvatar = `${getUploadsImagesProfilePath()}/${user.photo}`;
+  const initialAvatar = getUploadsImagesProfilePath(user.photo);
   const [avatarPreview, setAvatarPreview] = useState(initialAvatar);
   const [uploadAvatarById, { isLoading }] = useUploadPhotoByIdMutation();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    setAvatarPreview(`${getUploadsImagesProfilePath()}/${user.photo}`);
+    setAvatarPreview(getUploadsImagesProfilePath(user.photo));
   }, [user.photo]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const AvatarUploaderById = ({ user }: { user: User }) => {
       const updatedUser = { ...user, photo: filename };
 
       dispatch(updateAccountSetting(updatedUser));
-      setAvatarPreview(`${getUploadsImagesProfilePath()}/${filename}`);
+      setAvatarPreview(getUploadsImagesProfilePath(filename));
 
       enqueueSnackbar('Avatar erfolgreich aktualisiert!', {
         variant: 'success',

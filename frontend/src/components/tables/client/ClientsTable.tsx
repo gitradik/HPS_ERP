@@ -111,7 +111,7 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                   <TableCell>
                     <Stack direction="row" spacing={2} alignItems="center">
                       <Avatar
-                        src={`${getUploadsImagesProfilePath()}/${row.user.photo}`}
+                        src={getUploadsImagesProfilePath(row.user.photo)}
                         alt={row.user.photo}
                         sx={{ width: 30, height: 30 }}
                       />

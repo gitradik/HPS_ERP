@@ -10,7 +10,7 @@ import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
 
 const AvatarUploader = ({ user }: { user: User }) => {
-  const initialAvatar = `${getUploadsImagesProfilePath()}/${user.photo}`;
+  const initialAvatar = getUploadsImagesProfilePath(user.photo);
   const [avatarPreview, setAvatarPreview] = useState(initialAvatar);
 
   const [uploadAvatar, { isLoading }] = useUploadPhotoMutation();
@@ -18,7 +18,7 @@ const AvatarUploader = ({ user }: { user: User }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    setAvatarPreview(`${getUploadsImagesProfilePath()}/${user.photo}`);
+    setAvatarPreview(getUploadsImagesProfilePath(user.photo));
   }, [user.photo]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +31,7 @@ const AvatarUploader = ({ user }: { user: User }) => {
       const { filename } = response;
       const updatedUser = { ...user, photo: filename };
 
-      setAvatarPreview(`${getUploadsImagesProfilePath()}/${filename}`);
+      setAvatarPreview(getUploadsImagesProfilePath(filename));
       dispatch(updateAccountSetting(updatedUser));
       dispatch(updateUserSuccess(updatedUser));
 

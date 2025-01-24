@@ -53,7 +53,7 @@ const Profile = () => {
       >
         {user && (
           <Avatar
-            src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+            src={getUploadsImagesProfilePath(user.photo)}
             alt={user.photo}
             sx={{
               width: 35,
@@ -84,7 +84,7 @@ const Profile = () => {
         {user && (
           <Stack direction="row" py={3} spacing={2} alignItems="center">
             <Avatar
-              src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+              src={getUploadsImagesProfilePath(user.photo)}
               sx={{ width: 95, height: 95 }}
             />
             <Box>

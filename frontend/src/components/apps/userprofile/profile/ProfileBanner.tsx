@@ -57,7 +57,7 @@ const ProfileBanner = ({ user }: { user: User }) => {
               <Box>
                 <ProfileImage>
                   <Avatar
-                    src={`${getUploadsImagesProfilePath()}/${user.photo}`}
+                    src={getUploadsImagesProfilePath(user.photo)}
                     alt={user.photo}
                     sx={{
                       borderRadius: '50%',

@@ -24,6 +24,7 @@ import CreateUserDialog from './CreateUserDialog';
 import { useSelector } from 'src/store/Store';
 import { selectIsLoading } from 'src/store/apps/auth/RegisterSlice';
 import SetUserRoleDialog from './SetUserRoleDialog';
+import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 const UsersCard = () => {
   const filterUsers = (cSearch: string, users?: User[]) => {
@@ -150,7 +151,7 @@ const UsersCard = () => {
                 <Stack direction={'column'} gap={1} alignItems="center">
                   <Avatar
                     alt={`${profile.firstName} ${profile.lastName}`}
-                    src={profile.photo}
+                    src={getUploadsImagesProfilePath(profile.photo)}
                     sx={{ width: '80px', height: '80px' }}
                   />
                   <Box textAlign={'center'}>
