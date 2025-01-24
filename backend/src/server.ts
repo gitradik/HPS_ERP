@@ -15,22 +15,20 @@ dotenv.config();
 const app = express();
 
 // CORS
-if (process.env.NODE_ENV === 'development') {
-  const corsOptions = {
-    origin: 'http://localhost:5173',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    allowedHeaders: [
-      'Accept-Version',
-      'Authorization',
-      'Credentials',
-      'Content-Type',
-      'X-Requested-With',
-    ],
-  };
-  app.use(cors(corsOptions));
-  app.options('*', cors(corsOptions));
-}
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  allowedHeaders: [
+    'Accept-Version',
+    'Authorization',
+    'Credentials',
+    'Content-Type',
+    'X-Requested-With',
+  ],
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 // Apollo Server
 const server = new ApolloServer({
