@@ -19,7 +19,6 @@ import BlankCard from 'src/components/shared/BlankCard';
 import { IconSearch, IconPlus } from '@tabler/icons-react';
 import { useTranslation } from 'react-i18next';
 import { useGetUsersQuery } from 'src/services/api/userApi';
-import img3 from 'src/assets/images/profile/user-5.jpg';
 import { User, UserRole } from 'src/types/auth/auth';
 import CreateUserDialog from './CreateUserDialog';
 import { useSelector } from 'src/store/Store';
@@ -151,7 +150,7 @@ const UsersCard = () => {
                 <Stack direction={'column'} gap={1} alignItems="center">
                   <Avatar
                     alt={`${profile.firstName} ${profile.lastName}`}
-                    src={img3}
+                    src={profile.photo}
                     sx={{ width: '80px', height: '80px' }}
                   />
                   <Box textAlign={'center'}>
