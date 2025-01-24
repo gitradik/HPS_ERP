@@ -45,7 +45,7 @@ const server = new ApolloServer({
   },
 });
 
-app.use('/user', cors(corsOptions), authMiddlewareExpress, uploadUserRoutes.default);
+app.use('/user', authMiddlewareExpress, uploadUserRoutes.default);
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Запуск сервера
