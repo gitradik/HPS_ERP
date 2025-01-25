@@ -6,7 +6,7 @@
   "Outlined": "Umrandet",
   "External Link": "Externer Link",
   "MenuItems": {
-    "schedule_management": "Einsatzplan verwalten",
+    "schedule": "Einsatzplan verwalten",
     "staff_management": "Personal verwalten",
     "time_tracking": "Zeiterfassung",
     "employees": "Mitarbeiter",

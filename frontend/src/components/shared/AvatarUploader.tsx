@@ -59,7 +59,13 @@ const AvatarUploader = ({ user }: { user: User }) => {
         sx={{ width: 120, height: 120, margin: '0 auto' }}
       />
       <Stack direction="row" justifyContent="center" spacing={2} my={3}>
-        <Button variant="contained" color="primary" component="label" disabled={isLoading}>
+        <Button
+          variant="contained"
+          color="primary"
+          component="label"
+          loading={isLoading}
+          disabled={isLoading}
+        >
           Hochladen
           <input hidden accept="image/*" type="file" onChange={handleFileChange} />
         </Button>

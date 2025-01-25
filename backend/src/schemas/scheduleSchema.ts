@@ -1,0 +1,48 @@
+import { gql } from 'apollo-server-express';
+
+const scheduleSchema = gql`
+  type Schedule {
+    id: ID!
+    title: String!
+    allDay: Boolean!
+    start: String!
+    end: String!
+    color: String!
+    staff: Staff! # Relation with staff
+    client: Client! # Relation with client
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  input CreateScheduleInput {
+    title: String!
+    allDay: Boolean!
+    start: String!
+    end: String!
+    color: String
+    staffId: ID!
+    clientId: ID!
+  }
+
+  input UpdateScheduleInput {
+    id: ID!
+    title: String
+    allDay: Boolean
+    start: String
+    end: String
+    color: String
+  }
+
+  type Query {
+    schedules: [Schedule!]!
+    schedule(id: ID!): Schedule
+  }
+
+  type Mutation {
+    createSchedule(input: CreateScheduleInput!): Schedule!
+    updateSchedule(input: UpdateScheduleInput!): Schedule!
+    deleteSchedule(id: ID!): Boolean!
+  }
+`;
+
+export default scheduleSchema;

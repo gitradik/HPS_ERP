@@ -82,7 +82,7 @@ const UsersCard = ({
               flexItem
               sx={{ borderRightWidth: '1px', borderColor: 'default' }}
             />
-            <Tooltip title="Benutzer erstellen">
+            <Tooltip title="Benutzer erstellen" placement="top">
               <IconButton color="inherit" size="medium" onClick={onOpenAddUserDialog}>
                 <IconUserPlus />
               </IconButton>
@@ -130,11 +130,15 @@ const UsersCard = ({
                             onBlur={props.handleBlur}
                           >
                             <MenuItem value={'all'}>Alle</MenuItem>
-                            {Object.values(UserRole).filter(role => role !== UserRole.SUPER_ADMIN && role !== UserRole.USER).map((role, idx) => (
-                              <MenuItem key={`${role}${idx}`} value={role}>
-                                {t(`UserRole.${role}`)}
-                              </MenuItem>
-                            ))}
+                            {Object.values(UserRole)
+                              .filter(
+                                (role) => role !== UserRole.SUPER_ADMIN && role !== UserRole.USER,
+                              )
+                              .map((role, idx) => (
+                                <MenuItem key={`${role}${idx}`} value={role}>
+                                  {t(`UserRole.${role}`)}
+                                </MenuItem>
+                              ))}
                           </Select>
                         </FormControl>
                       </Stack>
@@ -160,7 +164,6 @@ const UsersCard = ({
               </ParentCard>
             </Menu>
 
-            
             <TextField
               id="outlined-search"
               placeholder="Benutzer suchen"

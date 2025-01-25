@@ -5,7 +5,15 @@ import {
   useSelector as useReduxSelector,
   TypedUseSelectorHook,
 } from 'react-redux';
-import { authApi, clientApi, employeeApi, staffApi, uploadApi, userApi } from '../services/api';
+import {
+  authApi,
+  clientApi,
+  employeeApi,
+  scheduleApi,
+  staffApi,
+  uploadApi,
+  userApi,
+} from '../services/api';
 import authReducer from './apps/auth/AuthSlice';
 import accountSettingReducer from './apps/setting/AccountSettingSlice';
 import clientSettingReducer from './apps/setting/ClientSettingSlice';
@@ -27,6 +35,7 @@ export const store = configureStore({
     [clientApi.reducerPath]: clientApi.reducer,
     [staffApi.reducerPath]: staffApi.reducer,
     [uploadApi.reducerPath]: uploadApi.reducer,
+    [scheduleApi.reducerPath]: scheduleApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -38,6 +47,7 @@ export const store = configureStore({
       clientApi.middleware,
       staffApi.middleware,
       uploadApi.middleware,
+      scheduleApi.middleware,
     ),
 });
 

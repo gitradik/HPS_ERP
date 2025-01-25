@@ -19,6 +19,7 @@ const Clients = Loadable(lazy(() => import('../views/client/Clients')));
 const ClientDetail = Loadable(lazy(() => import('../views/client/ClientDetail')));
 const StaffPage = Loadable(lazy(() => import('../views/staff/Staff')));
 const StaffDetail = Loadable(lazy(() => import('../views/staff/StaffDetail')));
+const Schedule = Loadable(lazy(() => import('../views/schedule/Schedule')));
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -68,6 +69,17 @@ const Router = [
         element: (
           <ProtectedRoute>
             <AccountSetting />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/schedule',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <NonEmployeeClientStaffUserRouteGuard>
+              <Schedule />
+            </NonEmployeeClientStaffUserRouteGuard>
           </ProtectedRoute>
         ),
       },
