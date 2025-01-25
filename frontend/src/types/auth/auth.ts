@@ -28,6 +28,7 @@ export interface UserResponse {
   createdAt: string;
   photo?: string;
 }
+export interface User extends UserResponse {}
 
 export interface UpdateUserInput {
   role?: string;
@@ -87,8 +88,6 @@ export interface RefreshTokenResponse {
 export interface LogoutResponse {
   success: boolean;
 }
-
-export interface User extends UserResponse {}
 
 export enum UserRole {
   SUPER_ADMIN = 'SUPER_ADMIN',

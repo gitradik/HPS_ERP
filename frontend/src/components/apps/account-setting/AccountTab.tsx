@@ -311,6 +311,7 @@ const AccountTab = ({ user }: { user: User }) => {
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'end' }} mt={3}>
           <Button
             loading={isLoading}
+            disabled={isLoading}
             onClick={() => onSave()}
             size="large"
             variant="contained"

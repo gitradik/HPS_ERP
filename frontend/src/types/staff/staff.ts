@@ -1,11 +1,11 @@
-import { UserResponse } from 'src/types/auth/auth';
+import { User } from 'src/types/auth/auth';
 
 export interface StaffResponse {
   id: string;
   userId: string;
   createdAt: string;
   updatedAt: string;
-  user: UserResponse;
+  user: User;
   isAssigned: boolean;
 }
 

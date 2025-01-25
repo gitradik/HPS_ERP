@@ -6,7 +6,7 @@
   "Outlined": "Apibūdinta",
   "External Link": "Išorinis nuoroda",
   "MenuItems": {
-    "schedule_management": "Tvarkaraščio valdymas",
+    "schedule": "Tvarkaraščio valdymas",
     "staff_management": "Personalas valdymas",
     "time_tracking": "Laiko sekimas",
     "employees": "Darbuotojai",

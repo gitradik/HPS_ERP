@@ -25,14 +25,14 @@ import { FilterFormValues } from 'src/types/table/filter/filter';
 const UsersCards = () => {
   const filterUsers = (cSearch: string, role: defaultUserRoleType, users?: User[]) => {
     if (!users) return [];
-  
+
     return users.filter((user) => {
       const matchesSearch = (user.firstName + ' ' + user.lastName + ' ' + user.email)
         .toLocaleLowerCase()
         .includes(cSearch.toLocaleLowerCase());
-  
+
       const matchesRole = role === 'all' || user.role === role;
-  
+
       return matchesSearch && matchesRole;
     });
   };
@@ -56,7 +56,10 @@ const UsersCards = () => {
     if (!isLoadingRegisterUser) refetch().then();
   }, [isLoadingRegisterUser]);
 
-  const getUsers = useCallback(() => filterUsers(search, role, users), [users, search, filterUsers]);
+  const getUsers = useCallback(
+    () => filterUsers(search, role, users),
+    [users, search, filterUsers],
+  );
 
   const isRoleUser = (u: User) => u.role === UserRole.USER;
   const showActiveStatus = (u: User) => {
