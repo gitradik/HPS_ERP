@@ -8,8 +8,8 @@ import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useGetEmployeeQuery } from 'src/services/api/employeeApi';
 import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
-import Spinner from '../spinner/Spinner';
-import EmployeeSetting from 'src/components/apps/employee/EmployeeSetting';
+import Spinner from '../../spinner/Spinner';
+import EmployeeSetting from 'src/components/dashboards/employee/EmployeeSetting';
 
 const BCrumb = [
   {

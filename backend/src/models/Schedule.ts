@@ -14,6 +14,8 @@ class Schedule extends Model {
   public clientId!: number;
   public createdAt!: Date;
   public updatedAt!: Date;
+  public staff?: Staff;
+  public client?: Staff;
 }
 
 Schedule.init(

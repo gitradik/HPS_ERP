@@ -21,7 +21,7 @@ import {
 } from 'src/services/api/scheduleApi';
 import { EvType, Schedule } from 'src/types/schedule/schedule';
 import { useSnackbar } from 'notistack';
-import AddCalendarEventDialog from 'src/components/apps/schedule/AddCalendarEventDialog';
+import AddCalendarEventDialog from 'src/components/dashboards/schedule/AddCalendarEventDialog';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

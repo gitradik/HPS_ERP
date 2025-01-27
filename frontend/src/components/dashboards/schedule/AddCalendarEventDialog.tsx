@@ -2,6 +2,7 @@
 // @ts-ignore
 import React, { useEffect } from 'react';
 import {
+  Avatar,
   Box,
   Button,
   Dialog,
@@ -31,6 +32,7 @@ import { useGetScheduleQuery } from 'src/services/api/scheduleApi';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { useGetClientsQuery } from 'src/services/api/clientApi';
 import { useGetStaffsQuery } from 'src/services/api/staffApi';
+import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -252,8 +254,24 @@ const AddCalendarEventDialog = ({
                       onChange={(e: any) => props.setFieldValue('clientId', e.target.value)}
                     >
                       {clients.map((c, idx) => (
-                        <MenuItem key={`${c.id}${idx}`} value={c.id}>
-                          {c.user.firstName} {c.user.lastName}
+                        <MenuItem key={`addCalendarEventDialog-Client-${c.id}${idx}`} value={c.id}>
+                          <Stack direction="row" spacing={1} alignItems="center">
+                            <Avatar
+                              src={getUploadsImagesProfilePath(c.user.photo)}
+                              alt={c.user.photo}
+                              sx={{ width: 30, height: 30 }}
+                            />
+                            <Stack>
+                              <Typography variant="subtitle1" color="textSecondary">
+                                {c.user.firstName} {c.user.lastName}
+                              </Typography>
+                              {c.companyName && (
+                                <Typography variant="caption" color="info">
+                                  {c.companyName}
+                                </Typography>
+                              )}
+                            </Stack>
+                          </Stack>
                         </MenuItem>
                       ))}
                     </CustomSelect>
@@ -275,8 +293,19 @@ const AddCalendarEventDialog = ({
                       onChange={(e: any) => props.setFieldValue('staffId', e.target.value)}
                     >
                       {staffs.map((s, idx) => (
-                        <MenuItem key={`${s.id}${idx}`} value={s.id}>
-                          {s.user.firstName} {s.user.lastName}
+                        <MenuItem key={`addCalendarEventDialog-Staff-${s.id}${idx}`} value={s.id}>
+                          <Stack direction="row" spacing={1} alignItems="center">
+                            <Avatar
+                              src={getUploadsImagesProfilePath(s.user.photo)}
+                              alt={s.user.photo}
+                              sx={{ width: 30, height: 30 }}
+                            />
+                            <Stack>
+                              <Typography variant="subtitle1" color="textSecondary">
+                                {s.user.firstName} {s.user.lastName}
+                              </Typography>
+                            </Stack>
+                          </Stack>
                         </MenuItem>
                       ))}
                     </CustomSelect>

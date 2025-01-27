@@ -184,13 +184,37 @@ const scheduleService = {
   },
 
   async deleteSchedule(id: number): Promise<boolean> {
-    const schedule = await Schedule.findByPk(id);
+    const schedule = await Schedule.findByPk(id, {
+      include: [
+        {
+          model: Staff,
+          required: true,
+          as: 'staff',
+        },
+        {
+          model: Client,
+          required: true,
+          as: 'client',
+        },
+      ],
+    });
 
     if (!schedule) {
       throw new ApolloError(`Schedule mit der ID ${id} wurde nicht gefunden`);
     }
 
+    const { staff, client } = schedule;
+
     await schedule.destroy();
+
+    if (staff) {
+      await staff.update({ isAssigned: false });
+    }
+
+    if (client) {
+      await client.update({ isWorking: false });
+    }
+
     return true;
   },
 };

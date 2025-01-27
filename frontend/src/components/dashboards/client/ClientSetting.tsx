@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { CardContent, Grid2 as Grid, Typography, Box, Button, Stack } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -20,7 +20,6 @@ import {
   setFirstName,
   setLastName,
   setPhoneNumber,
-  setPosition,
   updateAccountSetting,
 } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
@@ -29,19 +28,37 @@ import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
-import { Staff } from 'src/types/staff/staff';
-import { userAccessRules } from '../account-setting/AccountTabData';
+import { userAccessRules } from '../../apps/account-setting/AccountTabData';
+import { Client } from 'src/types/client/client';
+import {
+  resetClientSetting,
+  selectClientSetting,
+  setCompanyName,
+  updateClientSetting,
+} from 'src/store/apps/setting/ClientSettingSlice';
+import { useUpdateClientMutation } from 'src/services/api/clientApi';
+import { UserRole } from 'src/types/auth/auth';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 
-const StaffSetting = ({ staff }: { staff: Staff }) => {
-  const { user } = staff;
+const ClientSetting = ({ client }: { client: Client }) => {
+  const { user, companyName, isWorking } = client;
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const data = useSelector(selectAccountSetting);
+  // @ts-ignore
+  const clientData = useSelector(selectClientSetting);
   const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [updateClient, { isLoading: isLoadingClient }] = useUpdateClientMutation();
   const userRole = useSelector(selectUserRole);
-  const { hasAccess } = useRolesWithAccess(userAccessRules, userRole);
+  const { hasAccess } = useRolesWithAccess(
+    {
+      ...userAccessRules,
+      companyName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+      isWorking: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+    },
+    userRole,
+  );
 
   const initialValues = {
     password: '',
@@ -59,16 +76,19 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
 
   useEffect(() => {
     dispatch(updateAccountSetting(user));
+    dispatch(updateClientSetting({ companyName, isWorking }));
 
     return () => {
       dispatch(resetAccountSetting());
+      dispatch(resetClientSetting());
     };
-  }, [user]);
+  }, [user, companyName, isWorking]);
 
   const onSave = async () => {
     try {
       await updateUser({ updateId: user.id, input: data }).unwrap();
-      enqueueSnackbar('Personalien erfolgreich aktualisiert!', {
+      await updateClient({ updateId: client.id, input: clientData }).unwrap();
+      enqueueSnackbar('Kundendaten erfolgreich aktualisiert!', {
         variant: 'success',
         autoHideDuration: 3000,
       });
@@ -78,6 +98,7 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
   };
   const onCancel = async () => {
     dispatch(updateAccountSetting(user));
+    dispatch(updateClientSetting({ companyName, isWorking }));
   };
   const onSubmitPwdForm = async (values: any, actions: any) => {
     try {
@@ -98,7 +119,7 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
     }
   };
 
-  if (!user || isEmpty(data)) {
+  if (!user || isEmpty(data) || isEmpty(clientData)) {
     return <Spinner />;
   }
 
@@ -111,7 +132,7 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
               Profiländerung
             </Typography>
             <Typography color="textSecondary" mb={3}>
-              Sie können das Profilbild des Personals ändern
+              Sie können das Profilbild des Kunden ändern
             </Typography>
             <Box textAlign="center" display="flex" justifyContent="center">
               <Box>
@@ -129,7 +150,7 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
               Passwortänderung
             </Typography>
             <Typography color="textSecondary" mb={3}>
-              Bestätigen Sie das aktuelle Passwort des Personals, um ein neues festzulegen
+              Bestätigen Sie das aktuelle Passwort des Kunden, um ein neues festzulegen
             </Typography>
             <Formik
               initialValues={initialValues}
@@ -179,8 +200,8 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
                         type="submit"
                         variant="contained"
                         color="primary"
-                        loading={isLoading}
-                        disabled={props.isSubmitting || isLoading}
+                        loading={isLoading || isLoadingClient}
+                        disabled={props.isSubmitting || isLoading || isLoadingClient}
                       >
                         Einreichen
                       </Button>
@@ -197,10 +218,10 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
         <BlankCard>
           <CardContent>
             <Typography variant="h5" mb={1}>
-              Datenbearbeitung des Personals
+              Datenbearbeitung des Kunden
             </Typography>
             <Typography color="textSecondary" mb={3}>
-              Hier können Sie persönliche Daten des Personals ändern
+              Hier können Sie persönliche Daten des Kunden ändern
             </Typography>
             <form>
               <Grid container spacing={3}>
@@ -250,21 +271,6 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-position">
-                    Position
-                  </CustomFormLabel>
-                  <CustomTextField
-                    id="text-position"
-                    value={data.position || ''}
-                    variant="outlined"
-                    fullWidth
-                    disabled={!hasAccess('position')}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch(setPosition(e.target.value))
-                    }
-                  />
-                </Grid>
-                <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-phone">
                     Telefonnummer
                   </CustomFormLabel>
@@ -275,6 +281,21 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
                     fullWidth
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                       dispatch(setPhoneNumber(e.target.value))
+                    }
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-companyName">
+                    Name der Firma
+                  </CustomFormLabel>
+                  <CustomTextField
+                    id="text-companyName"
+                    value={clientData.companyName || ''}
+                    variant="outlined"
+                    fullWidth
+                    disabled={!hasAccess('companyName')}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      dispatch(setCompanyName(e.target.value))
                     }
                   />
                 </Grid>
@@ -298,7 +319,7 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
         </BlankCard>
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'end' }} mt={3}>
           <Button
-            loading={isLoading}
+            loading={isLoading || isLoadingClient}
             onClick={() => onSave()}
             size="large"
             variant="contained"
@@ -315,4 +336,4 @@ const StaffSetting = ({ staff }: { staff: Staff }) => {
   );
 };
 
-export default StaffSetting;
+export default ClientSetting;

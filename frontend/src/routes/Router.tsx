@@ -11,13 +11,13 @@ import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonE
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
 const Users = Loadable(lazy(() => import('../views/apps/user-profile/Users')));
 const AccountSetting = Loadable(lazy(() => import('../views/apps/account-setting/AccountSetting')));
-const Employee = Loadable(lazy(() => import('../views/employee/Employee')));
-const EmployeeDetail = Loadable(lazy(() => import('../views/employee/EmployeeDetail')));
-const Clients = Loadable(lazy(() => import('../views/client/Clients')));
-const ClientDetail = Loadable(lazy(() => import('../views/client/ClientDetail')));
-const StaffPage = Loadable(lazy(() => import('../views/staff/Staff')));
-const StaffDetail = Loadable(lazy(() => import('../views/staff/StaffDetail')));
-const Schedule = Loadable(lazy(() => import('../views/schedule/Schedule')));
+const Employee = Loadable(lazy(() => import('../views/dashboards/employee/Employee')));
+const EmployeeDetail = Loadable(lazy(() => import('../views/dashboards/employee/EmployeeDetail')));
+const Clients = Loadable(lazy(() => import('../views/dashboards/client/Clients')));
+const ClientDetail = Loadable(lazy(() => import('../views/dashboards/client/ClientDetail')));
+const StaffPage = Loadable(lazy(() => import('../views/dashboards/staff/Staff')));
+const StaffDetail = Loadable(lazy(() => import('../views/dashboards/staff/StaffDetail')));
+const Schedule = Loadable(lazy(() => import('../views/dashboards/schedule/Schedule')));
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));

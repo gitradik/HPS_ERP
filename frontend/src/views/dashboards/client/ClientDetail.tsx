@@ -6,10 +6,10 @@ import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useSnackbar } from 'notistack';
-import Spinner from '../spinner/Spinner';
+import Spinner from '../../spinner/Spinner';
 import { useGetClientQuery } from 'src/services/api/clientApi';
 import { Client } from 'src/types/client/client';
-import ClientSetting from 'src/components/apps/client/ClientSetting';
+import ClientSetting from 'src/components/dashboards/client/ClientSetting';
 
 const BCrumb = [
   {

@@ -30,7 +30,7 @@ import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
 import { Employee } from 'src/types/employee/employee';
-import { userAccessRules } from '../account-setting/AccountTabData';
+import { userAccessRules } from '../../apps/account-setting/AccountTabData';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 import AvatarUploader from 'src/components/shared/AvatarUploader';
 
