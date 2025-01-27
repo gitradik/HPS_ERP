@@ -19,7 +19,7 @@ const BCrumb = [
   },
 ];
 
-const UserProfileUsers = () => {
+const Users = () => {
   const user = useSelector(selectUser);
 
   return (
@@ -45,4 +45,4 @@ const UserProfileUsers = () => {
   );
 };
 
-export default UserProfileUsers;
+export default Users;

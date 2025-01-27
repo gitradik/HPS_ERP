@@ -131,9 +131,7 @@ const UsersCard = ({
                           >
                             <MenuItem value={'all'}>Alle</MenuItem>
                             {Object.values(UserRole)
-                              .filter(
-                                (role) => role !== UserRole.SUPER_ADMIN && role !== UserRole.USER,
-                              )
+                              .filter((role) => role !== UserRole.SUPER_ADMIN)
                               .map((role, idx) => (
                                 <MenuItem key={`${role}${idx}`} value={role}>
                                   {t(`UserRole.${role}`)}

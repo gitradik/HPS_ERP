@@ -133,199 +133,199 @@ const AddCalendarEventDialog = ({
   });
 
   return (
-  <Dialog open={open} onClose={onClose} fullWidth>
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(values, actions) =>
-        scheduleId ? onUpdate(values, actions) : onCreate(values, actions)
-      }
-      enableReinitialize={true}
-    >
-      {(props) => (
-        <form onSubmit={props.handleSubmit}>
-          <DialogContent>
-            {/* ------------------------------------------- */}
-            {/* Add/Edit Title */}
-            {/* ------------------------------------------- */}
-            <Typography variant="h4" sx={{ mb: 2 }}>
-              {scheduleId ? 'Ereignis aktualisieren' : 'Ereignis hinzufügen'}
-            </Typography>
-            <Typography mb={3} variant="subtitle2">
-              {!scheduleId
-                ? 'Um ein Ereignis hinzuzufügen, füllen Sie bitte den Titel aus, wählen Sie die Ereignisfarbe und klicken Sie auf den Hinzufügen-Button'
-                : 'Um ein Ereignis zu bearbeiten/aktualisieren, ändern Sie bitte den Titel, wählen Sie die Ereignisfarbe und klicken Sie auf den Aktualisieren-Button'}
-              {evt?.title}
-            </Typography>
-  
-            <Stack direction="row" spacing={2}>
-              <Stack spacing={3} width="100%">
-                <Box>
-                  <CustomFormLabel htmlFor="title">Titel</CustomFormLabel>
-                  <CustomTextField
-                    name="title"
-                    variant="outlined"
-                    fullWidth
-                    value={props.values.title}
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    error={props.touched.title && Boolean(props.errors.title)}
-                    helperText={props.touched.title && props.errors.title}
-                  />
-                </Box>
-  
-                {/* ------------------------------------------- */}
-                {/* Start and End Date */}
-                {/* ------------------------------------------- */}
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    name="start"
-                    value={dayjs(props.values.start)}
-                    onChange={(value) => props.setFieldValue('start', dayjs(value).toDate())}
-                    slotProps={{
-                      textField: {
-                        label: 'Startdatum',
-                        fullWidth: true,
-                        sx: { mb: 3 },
-                        error: props.touched.start && Boolean(props.errors.start),
-                        helperText:
-                          props.touched.start && props.errors.start
-                            ? String(props.errors.start)
-                            : undefined,
-                      },
-                    }}
-                  />
-                  <DatePicker
-                    name="end"
-                    value={dayjs(props.values.end)}
-                    onChange={(value) => props.setFieldValue('end', dayjs(value).toDate())}
-                    slotProps={{
-                      textField: {
-                        label: 'Enddatum',
-                        fullWidth: true,
-                        sx: { mb: 3 },
-                        error: props.touched.end && Boolean(props.errors.end),
-                        helperText:
-                          props.touched.end && props.errors.end
-                            ? String(props.errors.end)
-                            : undefined,
-                      },
-                    }}
-                  />
-                </LocalizationProvider>
-  
-                {/* ------------------------------------------- */}
-                {/* Event Color */}
-                {/* ------------------------------------------- */}
-                <Typography variant="h6" fontWeight={600} my={2}>
-                  Wählen Sie die Ereignisfarbe
-                </Typography>
-                <Stack direction="row" spacing={1}>
-                  {ColorVariation.map((mcolor) => (
-                    <Fab
-                      color="primary"
-                      style={{ backgroundColor: mcolor.eColor }}
-                      sx={{
-                        transition: '0.1s ease-in',
-                        scale: mcolor.value === props.values.color ? '0.9' : '0.7',
+    <Dialog open={open} onClose={onClose} fullWidth>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={(values, actions) =>
+          scheduleId ? onUpdate(values, actions) : onCreate(values, actions)
+        }
+        enableReinitialize={true}
+      >
+        {(props) => (
+          <form onSubmit={props.handleSubmit}>
+            <DialogContent>
+              {/* ------------------------------------------- */}
+              {/* Add/Edit Title */}
+              {/* ------------------------------------------- */}
+              <Typography variant="h4" sx={{ mb: 2 }}>
+                {scheduleId ? 'Ereignis aktualisieren' : 'Ereignis hinzufügen'}
+              </Typography>
+              <Typography mb={3} variant="subtitle2">
+                {!scheduleId
+                  ? 'Um ein Ereignis hinzuzufügen, füllen Sie bitte den Titel aus, wählen Sie die Ereignisfarbe und klicken Sie auf den Hinzufügen-Button'
+                  : 'Um ein Ereignis zu bearbeiten/aktualisieren, ändern Sie bitte den Titel, wählen Sie die Ereignisfarbe und klicken Sie auf den Aktualisieren-Button'}
+                {evt?.title}
+              </Typography>
+
+              <Stack direction="row" spacing={2}>
+                <Stack spacing={3} width="100%">
+                  <Box>
+                    <CustomFormLabel htmlFor="title">Titel</CustomFormLabel>
+                    <CustomTextField
+                      name="title"
+                      variant="outlined"
+                      fullWidth
+                      value={props.values.title}
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      error={props.touched.title && Boolean(props.errors.title)}
+                      helperText={props.touched.title && props.errors.title}
+                    />
+                  </Box>
+
+                  {/* ------------------------------------------- */}
+                  {/* Start and End Date */}
+                  {/* ------------------------------------------- */}
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      name="start"
+                      value={dayjs(props.values.start)}
+                      onChange={(value) => props.setFieldValue('start', dayjs(value).toDate())}
+                      slotProps={{
+                        textField: {
+                          label: 'Startdatum',
+                          fullWidth: true,
+                          sx: { mb: 3 },
+                          error: props.touched.start && Boolean(props.errors.start),
+                          helperText:
+                            props.touched.start && props.errors.start
+                              ? String(props.errors.start)
+                              : undefined,
+                        },
                       }}
-                      size="small"
-                      key={mcolor.value}
-                      onClick={() => props.setFieldValue('color', mcolor.value)}
-                    >
-                      {mcolor.value === props.values.color && <IconCheck width={16} />}
-                    </Fab>
-                  ))}
+                    />
+                    <DatePicker
+                      name="end"
+                      value={dayjs(props.values.end)}
+                      onChange={(value) => props.setFieldValue('end', dayjs(value).toDate())}
+                      slotProps={{
+                        textField: {
+                          label: 'Enddatum',
+                          fullWidth: true,
+                          sx: { mb: 3 },
+                          error: props.touched.end && Boolean(props.errors.end),
+                          helperText:
+                            props.touched.end && props.errors.end
+                              ? String(props.errors.end)
+                              : undefined,
+                        },
+                      }}
+                    />
+                  </LocalizationProvider>
+
+                  {/* ------------------------------------------- */}
+                  {/* Event Color */}
+                  {/* ------------------------------------------- */}
+                  <Typography variant="h6" fontWeight={600} my={2}>
+                    Wählen Sie die Ereignisfarbe
+                  </Typography>
+                  <Stack direction="row" spacing={1}>
+                    {ColorVariation.map((mcolor) => (
+                      <Fab
+                        color="primary"
+                        style={{ backgroundColor: mcolor.eColor }}
+                        sx={{
+                          transition: '0.1s ease-in',
+                          scale: mcolor.value === props.values.color ? '0.9' : '0.7',
+                        }}
+                        size="small"
+                        key={mcolor.value}
+                        onClick={() => props.setFieldValue('color', mcolor.value)}
+                      >
+                        {mcolor.value === props.values.color && <IconCheck width={16} />}
+                      </Fab>
+                    ))}
+                  </Stack>
                 </Stack>
-              </Stack>
-  
-              <Stack spacing={3} width="100%">
-                <Box pt={3}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="clientId">
-                    Kunde
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    variant="outlined"
-                    disabled={isLoadingClients || !!scheduleId}
-                    value={props.values.clientId}
-                    onChange={(e: any) => props.setFieldValue('clientId', e.target.value)}
-                  >
-                    {clients.map((c, idx) => (
-                      <MenuItem key={`${c.id}${idx}`} value={c.id}>
-                        {c.user.firstName} {c.user.lastName}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                  {props.touched.clientId && props.errors.clientId && (
-                    <Typography color="error" variant="caption">
-                      {props.errors.clientId}
-                    </Typography>
-                  )}
-                </Box>
-                <Box>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="staffId">
-                    Personale
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    variant="outlined"
-                    disabled={isLoadingStaff || !!scheduleId}
-                    value={props.values.staffId}
-                    onChange={(e: any) => props.setFieldValue('staffId', e.target.value)}
-                  >
-                    {staffs.map((s, idx) => (
-                      <MenuItem key={`${s.id}${idx}`} value={s.id}>
-                        {s.user.firstName} {s.user.lastName}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                  {props.touched.staffId &&
-                    props.errors.staffId && (<Typography color="error" variant="caption">
+
+                <Stack spacing={3} width="100%">
+                  <Box pt={3}>
+                    <CustomFormLabel sx={{ mt: 0 }} htmlFor="clientId">
+                      Kunde
+                    </CustomFormLabel>
+                    <CustomSelect
+                      fullWidth
+                      variant="outlined"
+                      disabled={isLoadingClients || !!scheduleId}
+                      value={props.values.clientId}
+                      onChange={(e: any) => props.setFieldValue('clientId', e.target.value)}
+                    >
+                      {clients.map((c, idx) => (
+                        <MenuItem key={`${c.id}${idx}`} value={c.id}>
+                          {c.user.firstName} {c.user.lastName}
+                        </MenuItem>
+                      ))}
+                    </CustomSelect>
+                    {props.touched.clientId && props.errors.clientId && (
+                      <Typography color="error" variant="caption">
+                        {props.errors.clientId}
+                      </Typography>
+                    )}
+                  </Box>
+                  <Box>
+                    <CustomFormLabel sx={{ mt: 0 }} htmlFor="staffId">
+                      Personale
+                    </CustomFormLabel>
+                    <CustomSelect
+                      fullWidth
+                      variant="outlined"
+                      disabled={isLoadingStaff || !!scheduleId}
+                      value={props.values.staffId}
+                      onChange={(e: any) => props.setFieldValue('staffId', e.target.value)}
+                    >
+                      {staffs.map((s, idx) => (
+                        <MenuItem key={`${s.id}${idx}`} value={s.id}>
+                          {s.user.firstName} {s.user.lastName}
+                        </MenuItem>
+                      ))}
+                    </CustomSelect>
+                    {props.touched.staffId && props.errors.staffId && (
+                      <Typography color="error" variant="caption">
                         {props.errors.staffId}
                       </Typography>
                     )}
-                </Box>
+                  </Box>
+                </Stack>
               </Stack>
-            </Stack>
-          </DialogContent>
-  
-          <DialogActions sx={{ p: 3 }}>
-            {scheduleId && evt && (
-              <IconButton
+            </DialogContent>
+
+            <DialogActions sx={{ p: 3 }}>
+              {scheduleId && evt && (
+                <IconButton
+                  color="error"
+                  loading={loadingDelete}
+                  sx={{ mr: 'auto' }}
+                  onClick={() => onDelete(evt)}
+                  disabled={loadingDelete}
+                >
+                  <IconTrash />
+                </IconButton>
+              )}
+              <Button
                 color="error"
-                loading={loadingDelete}
-                sx={{ mr: 'auto' }}
-                onClick={() => onDelete(evt)}
-                disabled={loadingDelete}
+                variant="outlined"
+                onClick={() => {
+                  props.resetForm();
+                  onClose();
+                }}
               >
-                <IconTrash />
-              </IconButton>
-            )}
-            <Button
-              color="error"
-              variant="outlined"
-              onClick={() => {
-                props.resetForm();
-                onClose();
-              }}
-            >
-              Abbrechen
-            </Button>
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              loading={loading}
-              disabled={props.isSubmitting || loading}
-            >
-              {scheduleId ? 'Ereignis aktualisieren' : 'Ereignis hinzufügen'}
-            </Button>
-          </DialogActions>
-        </form>
-      )}
-    </Formik>
-  </Dialog>
+                Abbrechen
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                loading={loading}
+                disabled={props.isSubmitting || loading}
+              >
+                {scheduleId ? 'Ereignis aktualisieren' : 'Ereignis hinzufügen'}
+              </Button>
+            </DialogActions>
+          </form>
+        )}
+      </Formik>
+    </Dialog>
   );
 };
 
