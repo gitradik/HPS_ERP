@@ -8,7 +8,6 @@ import {
   Box,
   Button,
   Stack,
-  MenuItem,
 } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -42,11 +41,9 @@ import {
   resetClientSetting,
   selectClientSetting,
   setCompanyName,
-  setIsWorking,
   updateClientSetting,
 } from 'src/store/apps/setting/ClientSettingSlice';
 import { useUpdateClientMutation } from 'src/services/api/clientApi';
-import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { UserRole } from 'src/types/auth/auth';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 
@@ -294,27 +291,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     }
                   />
                 </Grid>
-                <Grid size={{ xs: 6, sm: 3 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
-                    Status
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    id="text-active"
-                    variant="outlined"
-                    value={clientData.isWorking}
-                    disabled={!hasAccess('isWorking')}
-                    onChange={(e: React.ChangeEvent<{ value: unknown }>) =>
-                      dispatch(setIsWorking(e.target.value as boolean))
-                    }
-                  >
-                    {/* @ts-ignore */}
-                    <MenuItem value={true}>Aktiv</MenuItem>
-                    {/* @ts-ignore */}
-                    <MenuItem value={false}>Inaktiv</MenuItem>
-                  </CustomSelect>
-                </Grid>
-                <Grid size={{ xs: 12, sm: 9 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-companyName">
                     Name der Firma
                   </CustomFormLabel>
@@ -329,7 +306,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     }
                   />
                 </Grid>
-                <Grid size={{ xs: 12 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-address">
                     Adresse
                   </CustomFormLabel>

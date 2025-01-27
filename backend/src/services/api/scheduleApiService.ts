@@ -110,6 +110,10 @@ const scheduleService = {
       staffId,
       clientId,
     });
+
+    await staff.update({ isAssigned: true });
+    await client.update({ isWorking: true });
+
     await newSchedule.reload({
       include: [
         {
