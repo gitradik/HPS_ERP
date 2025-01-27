@@ -303,16 +303,6 @@ const AddCalendarEventDialog = ({
                 </IconButton>
               )}
               <Button
-                color="error"
-                variant="outlined"
-                onClick={() => {
-                  props.resetForm();
-                  onClose();
-                }}
-              >
-                Abbrechen
-              </Button>
-              <Button
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -320,6 +310,16 @@ const AddCalendarEventDialog = ({
                 disabled={props.isSubmitting || loading}
               >
                 {scheduleId ? 'Ereignis aktualisieren' : 'Ereignis hinzufügen'}
+              </Button>
+              <Button
+                color="error"
+                variant="text"
+                onClick={() => {
+                  props.resetForm();
+                  onClose();
+                }}
+              >
+                Abbrechen
               </Button>
             </DialogActions>
           </form>
