@@ -318,16 +318,16 @@ const ClientSetting = ({ client }: { client: Client }) => {
           </CardContent>
         </BlankCard>
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'end' }} mt={3}>
-          <Button onClick={() => onSave()} size="large" variant="contained" color="primary">
-            Speichern
-          </Button>
           <Button
             loading={isLoading || isLoadingClient}
-            onClick={() => onCancel()}
+            onClick={() => onSave()}
             size="large"
-            variant="text"
-            color="error"
+            variant="contained"
+            color="primary"
           >
+            Speichern
+          </Button>
+          <Button onClick={() => onCancel()} size="large" variant="text" color="error">
             Abbrechen
           </Button>
         </Stack>
