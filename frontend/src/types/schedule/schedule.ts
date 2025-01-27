@@ -33,8 +33,6 @@ export interface UpdateScheduleInput {
   start?: string;
   end?: string;
   color?: string;
-  clientId?: string;
-  staffId?: string;
 }
 
 export type EvType = {

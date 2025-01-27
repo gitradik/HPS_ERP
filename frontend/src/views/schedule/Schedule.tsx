@@ -96,8 +96,6 @@ const SchedulePage = () => {
         start: values.start.toISOString(),
         end: values.end.toISOString(),
         color: values.color,
-        clientId: values.clientId,
-        staffId: values.staffId,
       }).unwrap();
       enqueueSnackbar('Die Veranstaltung wurde erfolgreich aktualisiert!', {
         variant: 'success',
