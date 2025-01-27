@@ -247,7 +247,7 @@ const AddCalendarEventDialog = ({
                   <CustomSelect
                     fullWidth
                     variant="outlined"
-                    disabled={isLoadingClients}
+                    disabled={isLoadingClients || !!scheduleId}
                     value={props.values.clientId}
                     onChange={(e: any) => props.setFieldValue('clientId', e.target.value)}
                   >
@@ -270,7 +270,7 @@ const AddCalendarEventDialog = ({
                   <CustomSelect
                     fullWidth
                     variant="outlined"
-                    disabled={isLoadingStaff}
+                    disabled={isLoadingStaff || !!scheduleId}
                     value={props.values.staffId}
                     onChange={(e: any) => props.setFieldValue('staffId', e.target.value)}
                   >
