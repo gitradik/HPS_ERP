@@ -17,20 +17,33 @@ export interface ScheduleResponse {
 export interface Schedule extends ScheduleResponse {}
 
 export interface CreateScheduleInput {
-  staffId: number;
-  clientId: number;
   title: string;
   allDay: boolean;
   start: string;
   end: string;
-  color?: string;
+  color: string;
+  staffId: string;
+  clientId: string;
 }
 
 export interface UpdateScheduleInput {
-  id: number;
+  id: string;
   title?: string;
   allDay?: boolean;
   start?: string;
   end?: string;
   color?: string;
+  clientId?: string;
+  staffId?: string;
 }
+
+export type EvType = {
+  id: string;
+  title: string;
+  allDay: boolean;
+  start: Date;
+  end: Date;
+  color: string;
+  clientId?: string;
+  staffId?: string;
+};

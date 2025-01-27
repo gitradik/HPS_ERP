@@ -287,7 +287,7 @@ const scheduleApi = createApi({
       invalidatesTags: (_result, _error, { id }) => [{ type: 'Schedule', id }, 'Schedules'],
     }),
 
-    deleteSchedule: builder.mutation<boolean, { id: number }>({
+    deleteSchedule: builder.mutation<boolean, { id: string }>({
       query: ({ id }) => ({
         document: gql`
           mutation DeleteSchedule($id: ID!) {
