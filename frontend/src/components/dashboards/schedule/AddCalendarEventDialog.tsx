@@ -9,6 +9,7 @@ import {
   IconButton,
   MenuItem,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -197,6 +198,7 @@ const AddCalendarEventDialog = ({
                     <DatePicker
                       name="start"
                       value={dayjs(props.values.start)}
+                      format="DD.MM.YYYY"
                       onChange={(value) =>
                         props.setFieldValue('start', dayjs(value).startOf('day').toDate())
                       }
@@ -220,6 +222,7 @@ const AddCalendarEventDialog = ({
                     <DatePicker
                       name="end"
                       value={dayjs(props.values.end)}
+                      format="DD.MM.YYYY"
                       onChange={(value) =>
                         props.setFieldValue('end', dayjs(value).endOf('day').toDate())
                       }
@@ -346,15 +349,17 @@ const AddCalendarEventDialog = ({
 
             <DialogActions sx={{ p: 3 }}>
               {scheduleId && evt && (
-                <IconButton
-                  color="error"
-                  loading={loadingDelete}
-                  sx={{ mr: 'auto' }}
-                  onClick={() => onDelete(evt)}
-                  disabled={loadingDelete}
-                >
-                  <IconTrash />
-                </IconButton>
+                <Tooltip title="Löschen Sie dieses Ereignis" arrow>
+                  <IconButton
+                    color="error"
+                    loading={loadingDelete}
+                    sx={{ mr: 'auto' }}
+                    onClick={() => onDelete(evt)}
+                    disabled={loadingDelete}
+                  >
+                    <IconTrash />
+                  </IconButton>
+                </Tooltip>
               )}
               <Button
                 type="submit"
