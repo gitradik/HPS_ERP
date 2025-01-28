@@ -332,6 +332,11 @@ const AddCalendarEventDialog = ({
                               <Typography variant="subtitle1" color="textSecondary">
                                 {s.user.firstName} {s.user.lastName}
                               </Typography>
+                              {s.user.position && (
+                                <Typography variant="caption" color="info">
+                                  {s.user.position}
+                                </Typography>
+                              )}
                             </Stack>
                           </Stack>
                         </MenuItem>

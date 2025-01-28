@@ -5,6 +5,7 @@ import { UpdateUserInput, UserResponse } from 'src/types/auth/auth';
 
 const userApi = createApi({
   reducerPath: 'userApi',
+  tagTypes: ['Users', 'User'],
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
     getUsers: builder.query<{ users: UserResponse[] }, void>({
@@ -28,6 +29,7 @@ const userApi = createApi({
           }
         `,
       }),
+      providesTags: ['Users'],
     }),
     getUser: builder.query<{ user: UserResponse }, { userId: string }>({
       query: ({ userId }) => ({
@@ -51,6 +53,7 @@ const userApi = createApi({
         `,
         variables: { userId },
       }),
+      providesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }],
     }),
     updateUser: builder.mutation<
       { update: UserResponse },
@@ -80,6 +83,7 @@ const userApi = createApi({
           input,
         },
       }),
+      invalidatesTags: (_result, _error, { updateId }) => [{ type: 'User', id: updateId }],
     }),
 
     uploadPhoto: builder.mutation({
@@ -95,6 +99,7 @@ const userApi = createApi({
         `,
         variables: { file },
       }),
+      invalidatesTags: ['Users'],
     }),
   }),
 });
