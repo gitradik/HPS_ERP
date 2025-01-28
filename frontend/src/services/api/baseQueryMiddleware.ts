@@ -5,9 +5,17 @@ import { ACCESS_TOKEN } from './authApi';
 
 const apiHost = import.meta.env.VITE_API_HOST_GQL;
 
-// Расширенный тип ошибки
 type ExtendedFetchBaseQueryError = FetchBaseQueryError & {
   message?: string;
+  data?: any;
+};
+
+type MetaResponse = {
+  response?: {
+    errors: Array<{
+      extensions: any;
+    }>;
+  };
 };
 
 const extractDetailedError = (error: ExtendedFetchBaseQueryError | undefined): string => {
@@ -18,7 +26,25 @@ const extractDetailedError = (error: ExtendedFetchBaseQueryError | undefined): s
       return match[1];
     }
   }
-  return 'An unexpected error occurred.';
+  return 'Ein unerwarteter Fehler ist aufgetreten.';
+};
+
+const addFriendlyMessage = (extendedError: ExtendedFetchBaseQueryError) => {
+  if ('message' in extendedError) {
+    extendedError.data = {
+      ...(extendedError.data || {}),
+      friendlyMessage: extractDetailedError(extendedError),
+    };
+  }
+};
+
+const addExtensionDetails = (extendedError: ExtendedFetchBaseQueryError, meta: MetaResponse) => {
+  if (meta?.response?.errors?.[0]?.extensions) {
+    extendedError.data = {
+      ...(extendedError.data || {}),
+      extensionDetails: meta.response.errors[0].extensions,
+    };
+  }
 };
 
 const baseQueryWithMiddleware: BaseQueryFn<any, unknown, FetchBaseQueryError> =
@@ -40,15 +66,15 @@ export const enhancedBaseQuery: BaseQueryFn<any, unknown, ExtendedFetchBaseQuery
   const result = await baseQueryWithMiddleware(args, api, extraOptions);
 
   if (result.error) {
-    // Проверяем, является ли ошибка FetchBaseQueryError
     const extendedError = result.error as ExtendedFetchBaseQueryError;
 
-    // Добавляем friendlyMessage только если это FetchBaseQueryError
-    if ('message' in extendedError) {
-      extendedError.data = {
-        ...(extendedError.data || {}),
-        friendlyMessage: extractDetailedError(extendedError),
-      };
+    // Добавляем friendlyMessage
+    addFriendlyMessage(extendedError);
+
+    // Обрабатываем информацию из extensions
+    const meta = result.meta as MetaResponse; // Уточняем тип
+    if (meta && meta.response) {
+      addExtensionDetails(extendedError, meta);
     }
 
     // Возвращаем результат с расширенной ошибкой

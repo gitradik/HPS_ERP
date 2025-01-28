@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import React from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { CardContent } from '@mui/material';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -48,13 +48,20 @@ const SchedulePage = () => {
     end: dayjs(Number(s.end)).toDate(),
   }));
 
-  const [createSchedule, { isLoading: createIsLoading }] = useCreateScheduleMutation();
-  const [updateSchedule, { isLoading: updateIsLoading }] = useUpdateScheduleMutation();
+  const [createSchedule, { isLoading: createIsLoading, error: createError, reset: resetCreate }] =
+    useCreateScheduleMutation();
+  const [updateSchedule, { isLoading: updateIsLoading, error: updateError, reset: resetUpdate }] =
+    useUpdateScheduleMutation();
   const [deleteSchedule, { isLoading: deleteIsLoading }] = useDeleteScheduleMutation();
 
   const [open, setOpen] = React.useState<boolean>(false);
   const [evtId, setEvtId] = React.useState<string | undefined>();
   const [slotInfo, setSlotInfo] = React.useState<EvType | undefined>();
+
+  useEffect(() => {
+    resetCreate();
+    resetUpdate();
+  }, [open]);
 
   const addEvent = (event: EvType) => {
     setOpen(true);
@@ -63,6 +70,18 @@ const SchedulePage = () => {
   const editEvent = (event: EvType) => {
     setEvtId(event.id);
     setOpen(true);
+  };
+
+  const notifyConflictingSchedules = (conflictingObjects: Array<Schedule> | undefined) => {
+    if (Array.isArray(conflictingObjects)) {
+      conflictingObjects.forEach((s: Schedule) => {
+        const conflictMessage = `Einsatz-Konflikt: ${s.title} (${dayjs(s.start).format('DD.MM.YYYY HH:mm')} - ${dayjs(s.end).format('DD.MM.YYYY HH:mm')})`;
+        enqueueSnackbar(`Konflikt mit ${conflictMessage}`, {
+          variant: 'warning',
+          autoHideDuration: 10000,
+        });
+      });
+    }
   };
 
   const handleCreate = async (values: any, actions: any) => {
@@ -84,13 +103,14 @@ const SchedulePage = () => {
       handleClose();
     } catch (err: any) {
       enqueueSnackbar(err?.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
+      notifyConflictingSchedules(err?.data?.extensionDetails?.conflictingObjects);
       actions.setSubmitting(false);
     }
   };
   const handleUpdate = async (values: any, actions: any) => {
     try {
       await updateSchedule({
-        id: evtId!, // Используйте ID выбранного события
+        id: evtId!,
         allDay: values.allDay,
         title: values.title,
         start: values.start.toISOString(),
@@ -105,6 +125,7 @@ const SchedulePage = () => {
       handleClose();
     } catch (err: any) {
       enqueueSnackbar(err?.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
+      notifyConflictingSchedules(err?.data?.extensionDetails?.conflictingObjects);
       actions.setSubmitting(false);
     }
   };
@@ -149,6 +170,8 @@ const SchedulePage = () => {
             selectable
             events={calevents}
             defaultView="month"
+            startAccessor="start"
+            endAccessor="end"
             scrollToTime={new Date(1970, 1, 1, 6)}
             defaultDate={new Date()}
             localizer={localizer}
@@ -168,6 +191,7 @@ const SchedulePage = () => {
         slotInfo={slotInfo}
         loading={createIsLoading || updateIsLoading}
         loadingDelete={deleteIsLoading}
+        error={createError || updateError}
         onClose={handleClose}
         onUpdate={handleUpdate}
         onCreate={handleCreate}
