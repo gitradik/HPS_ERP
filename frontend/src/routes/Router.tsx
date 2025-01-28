@@ -5,7 +5,7 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './guards/protectedRouteGuard';
 import PublicRouteGuard from './guards/publicRouteGuard';
-import NonEmployeeClientStaffUserRouteGuard from './guards/user-role-guards/NonEmployeeClientStaffUserRouteGuard';
+import RestrictedRouteGuard from './guards/user-role-guards/RestrictedRouteGuard';
 
 /* ***Apps**** */
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
@@ -75,9 +75,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <Schedule />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -86,9 +86,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <StaffPage />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -97,9 +97,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <StaffDetail />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -108,9 +108,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <Employee />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -119,9 +119,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <EmployeeDetail />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -130,9 +130,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <Users />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -141,9 +141,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <Clients />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
@@ -152,9 +152,9 @@ const Router = [
         exact: true,
         element: (
           <ProtectedRoute>
-            <NonEmployeeClientStaffUserRouteGuard>
+            <RestrictedRouteGuard>
               <ClientDetail />
-            </NonEmployeeClientStaffUserRouteGuard>
+            </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
       },
