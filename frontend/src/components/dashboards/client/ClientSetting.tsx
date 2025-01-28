@@ -1,15 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useEffect, useState, useMemo } from 'react';
-import {
-  CardContent,
-  Grid2 as Grid,
-  Typography,
-  Box,
-  Button,
-  Stack,
-  MenuItem,
-} from '@mui/material';
+import { CardContent, Grid2 as Grid, Typography, Box, Button, Stack } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
@@ -36,17 +28,15 @@ import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
-import { userAccessRules } from '../account-setting/AccountTabData';
+import { userAccessRules } from '../../apps/account-setting/AccountTabData';
 import { Client } from 'src/types/client/client';
 import {
   resetClientSetting,
   selectClientSetting,
   setCompanyName,
-  setIsWorking,
   updateClientSetting,
 } from 'src/store/apps/setting/ClientSettingSlice';
 import { useUpdateClientMutation } from 'src/services/api/clientApi';
-import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { UserRole } from 'src/types/auth/auth';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 
@@ -294,27 +284,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     }
                   />
                 </Grid>
-                <Grid size={{ xs: 6, sm: 3 }}>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-active">
-                    Status
-                  </CustomFormLabel>
-                  <CustomSelect
-                    fullWidth
-                    id="text-active"
-                    variant="outlined"
-                    value={clientData.isWorking}
-                    disabled={!hasAccess('isWorking')}
-                    onChange={(e: React.ChangeEvent<{ value: unknown }>) =>
-                      dispatch(setIsWorking(e.target.value as boolean))
-                    }
-                  >
-                    {/* @ts-ignore */}
-                    <MenuItem value={true}>Aktiv</MenuItem>
-                    {/* @ts-ignore */}
-                    <MenuItem value={false}>Inaktiv</MenuItem>
-                  </CustomSelect>
-                </Grid>
-                <Grid size={{ xs: 12, sm: 9 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-companyName">
                     Name der Firma
                   </CustomFormLabel>
@@ -329,7 +299,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     }
                   />
                 </Grid>
-                <Grid size={{ xs: 12 }}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="text-address">
                     Adresse
                   </CustomFormLabel>
@@ -348,16 +318,16 @@ const ClientSetting = ({ client }: { client: Client }) => {
           </CardContent>
         </BlankCard>
         <Stack direction="row" spacing={2} sx={{ justifyContent: 'end' }} mt={3}>
-          <Button onClick={() => onSave()} size="large" variant="contained" color="primary">
-            Speichern
-          </Button>
           <Button
             loading={isLoading || isLoadingClient}
-            onClick={() => onCancel()}
+            onClick={() => onSave()}
             size="large"
-            variant="text"
-            color="error"
+            variant="contained"
+            color="primary"
           >
+            Speichern
+          </Button>
+          <Button onClick={() => onCancel()} size="large" variant="text" color="error">
             Abbrechen
           </Button>
         </Stack>

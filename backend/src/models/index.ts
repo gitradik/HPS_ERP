@@ -4,6 +4,7 @@ import Client from './Client';
 import Employee from './Employee';
 import RefreshToken from './RefreshToken';
 import Staff from './Staff';
+import Schedule from './Schedule';
 
 const models = {
   User,
@@ -11,6 +12,7 @@ const models = {
   Employee,
   RefreshToken,
   Staff,
+  Schedule,
 };
 
 export { sequelize, models };

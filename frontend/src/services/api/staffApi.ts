@@ -5,6 +5,7 @@ import { StaffResponse } from 'src/types/staff/staff';
 
 const staffApi = createApi({
   reducerPath: 'staffApi',
+  tagTypes: ['Staffs', 'Staff'],
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
     getStaffs: builder.query<{ staffs: StaffResponse[] }, void>({
@@ -35,6 +36,7 @@ const staffApi = createApi({
           }
         `,
       }),
+      providesTags: ['Staffs'],
     }),
 
     getStaff: builder.query<{ staff: StaffResponse }, { staffId: string }>({
@@ -66,6 +68,7 @@ const staffApi = createApi({
         `,
         variables: { staffId },
       }),
+      providesTags: (_result, _error, { staffId }) => [{ type: 'Staff', id: staffId }],
     }),
 
     createStaff: builder.mutation<StaffResponse, { userId: number }>({
@@ -97,6 +100,7 @@ const staffApi = createApi({
         `,
         variables: { userId },
       }),
+      invalidatesTags: ['Staffs'], // Update list of Staffs
     }),
 
     updateStaff: builder.mutation<StaffResponse, { id: number; input: { isAssigned: boolean } }>({
@@ -128,6 +132,7 @@ const staffApi = createApi({
         `,
         variables: { id, input },
       }),
+      invalidatesTags: (_result, _error, { id }) => [{ type: 'Staff', id }],
     }),
   }),
 });

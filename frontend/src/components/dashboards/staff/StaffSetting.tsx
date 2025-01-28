@@ -30,7 +30,7 @@ import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
 import { Staff } from 'src/types/staff/staff';
-import { userAccessRules } from '../account-setting/AccountTabData';
+import { userAccessRules } from '../../apps/account-setting/AccountTabData';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 
 const StaffSetting = ({ staff }: { staff: Staff }) => {

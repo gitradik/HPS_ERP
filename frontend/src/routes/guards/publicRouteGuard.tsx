@@ -12,11 +12,13 @@ import Spinner from 'src/views/spinner/Spinner';
 
 const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const [refreshToken, { isLoading }] = useRefreshTokenMutation();
+  const [refreshToken, { isLoading, isSuccess }] = useRefreshTokenMutation();
   const dispatch = useDispatch();
+  const previousPath = window.sessionStorage.getItem('previousPath');
 
   useEffect(() => {
     const token = localStorage.getItem('refreshToken');
+
     if (!isAuthenticated && token) {
       dispatch(refreshTokenRequest());
       refreshToken({ refreshToken: token })
@@ -30,8 +32,8 @@ const PublicRouteGuard = ({ children }: { children: React.ReactNode }) => {
     return <Spinner />;
   }
 
-  if (isAuthenticated) {
-    return <Navigate to="/" replace />;
+  if (isAuthenticated && isSuccess) {
+    return <Navigate to={previousPath || '/'} replace />;
   }
 
   return <>{children}</>;

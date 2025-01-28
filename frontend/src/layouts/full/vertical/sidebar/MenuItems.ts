@@ -36,9 +36,9 @@ const Menuitems = () => {
     },
     {
       id: uniqueId(),
-      title: t('MenuItems.schedule_management'),
+      title: t('MenuItems.schedule'),
       icon: IconCalendar,
-      href: '/schedule-management',
+      href: '/schedule',
     },
     {
       id: uniqueId(),

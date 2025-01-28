@@ -6,10 +6,10 @@ import PageContainer from 'src/components/container/PageContainer';
 
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useSnackbar } from 'notistack';
-import Spinner from '../spinner/Spinner';
+import Spinner from '../../spinner/Spinner';
 import { useGetStaffQuery } from 'src/services/api/staffApi';
 import { Staff } from 'src/types/staff/staff';
-import StaffSetting from 'src/components/apps/staff/StaffSetting';
+import StaffSetting from 'src/components/dashboards/staff/StaffSetting';
 
 const BCrumb = [
   {
