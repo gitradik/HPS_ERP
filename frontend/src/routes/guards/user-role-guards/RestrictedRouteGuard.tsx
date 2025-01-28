@@ -13,10 +13,7 @@ const RestrictedRouteGuard = ({ children }: { children: React.ReactNode }) => {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (
-      userRole &&
-      roles.includes(userRole)
-    ) {
+    if (userRole && roles.includes(userRole)) {
       enqueueSnackbar('Sie haben keine Berechtigung, auf diese Ressource zuzugreifen.', {
         variant: 'error',
         autoHideDuration: 3000,
