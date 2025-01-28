@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import React, { useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -33,6 +30,7 @@ import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { useGetClientsQuery } from 'src/services/api/clientApi';
 import { useGetStaffsQuery } from 'src/services/api/staffApi';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
+import { isConflictingField } from 'src/utils/error';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -44,6 +42,7 @@ interface CreateCalendarEventDialogProps {
   loadingDelete: boolean;
   scheduleId?: string;
   slotInfo?: EvType;
+  error?: any;
   onClose: () => void;
   onUpdate: (values: any, actions: any) => Promise<void>;
   onCreate: (values: any, actions: any) => Promise<void>;
@@ -84,14 +83,19 @@ const AddCalendarEventDialog = ({
   loading,
   loadingDelete,
   slotInfo,
+  error,
   onClose,
   onUpdate,
   onCreate,
   onDelete,
 }: CreateCalendarEventDialogProps) => {
+  const conflictingFields = error?.data?.extensionDetails?.conflictingFields || [];
+  const isConflictingStart = isConflictingField(conflictingFields, 'start');
+  const isConflictingEnd = isConflictingField(conflictingFields, 'end');
+
   const { data: schedulesData } = useGetScheduleQuery(
     { scheduleId: scheduleId! },
-    { skip: !scheduleId, refetchOnMountOrArgChange: true },
+    { skip: !scheduleId },
   );
   const s = scheduleId ? schedulesData?.schedule : undefined;
   const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery();
@@ -113,8 +117,16 @@ const AddCalendarEventDialog = ({
   const initialValues = {
     title: evt?.title || '',
     allDay: evt?.allDay || false,
-    start: evt?.start ? new Date(evt.start) : slotInfo ? slotInfo.start : dayjs().toDate(),
-    end: evt?.end ? new Date(evt.end) : slotInfo ? slotInfo.end : dayjs().add(1, 'day').toDate(),
+    start: evt?.start
+      ? dayjs(evt.start).toDate()
+      : slotInfo
+        ? dayjs(slotInfo.start).startOf('day').toDate()
+        : dayjs().startOf('day').toDate(),
+    end: evt?.end
+      ? dayjs(evt.end).toDate()
+      : slotInfo
+        ? dayjs(slotInfo.end).add(-1, 'day').endOf('day').toDate()
+        : dayjs().endOf('day').toDate(),
     color: evt?.color || ColorVariation[0].value,
     clientId: evt?.clientId || '',
     staffId: evt?.staffId || '',
@@ -122,16 +134,18 @@ const AddCalendarEventDialog = ({
 
   const validationSchema = Yup.object({
     title: Yup.string()
-      .required('Title is required')
-      .max(255, 'Title must not exceed 255 characters'),
-    allDay: Yup.boolean().required('All Day is required'),
-    start: Yup.date().required('Start date is required').typeError('Start must be a valid date'),
+      .required('Titel ist erforderlich')
+      .max(255, 'Titel darf 255 Zeichen nicht überschreiten'),
+    allDay: Yup.boolean().required('Ganztägig ist erforderlich'),
+    start: Yup.date()
+      .required('Startdatum ist erforderlich')
+      .typeError('Start muss ein gültiges Datum sein'),
     end: Yup.date()
-      .required('End date is required')
-      .typeError('End must be a valid date')
-      .min(Yup.ref('start'), 'End date cannot be before start date'),
-    clientId: Yup.string().required('Client is required'), // Валидация для clientId
-    staffId: Yup.string().required('Staff is required'), // Валидация для staffId
+      .required('Enddatum ist erforderlich')
+      .typeError('Ende muss ein gültiges Datum sein')
+      .min(Yup.ref('start'), 'Enddatum darf nicht vor dem Startdatum liegen'),
+    clientId: Yup.string().required('Kunde ist erforderlich'),
+    staffId: Yup.string().required('Mitarbeiter ist erforderlich'),
   });
 
   return (
@@ -183,34 +197,45 @@ const AddCalendarEventDialog = ({
                     <DatePicker
                       name="start"
                       value={dayjs(props.values.start)}
-                      onChange={(value) => props.setFieldValue('start', dayjs(value).toDate())}
+                      onChange={(value) =>
+                        props.setFieldValue('start', dayjs(value).startOf('day').toDate())
+                      }
                       slotProps={{
                         textField: {
                           label: 'Startdatum',
                           fullWidth: true,
                           sx: { mb: 3 },
-                          error: props.touched.start && Boolean(props.errors.start),
+                          error:
+                            (props.touched.start && Boolean(props.errors.start)) ||
+                            isConflictingStart,
                           helperText:
                             props.touched.start && props.errors.start
                               ? String(props.errors.start)
-                              : undefined,
+                              : isConflictingStart
+                                ? 'Konflikt mit diesem Startdatum.'
+                                : undefined,
                         },
                       }}
                     />
                     <DatePicker
                       name="end"
                       value={dayjs(props.values.end)}
-                      onChange={(value) => props.setFieldValue('end', dayjs(value).toDate())}
+                      onChange={(value) =>
+                        props.setFieldValue('end', dayjs(value).endOf('day').toDate())
+                      }
                       slotProps={{
                         textField: {
                           label: 'Enddatum',
                           fullWidth: true,
                           sx: { mb: 3 },
-                          error: props.touched.end && Boolean(props.errors.end),
+                          error:
+                            (props.touched.end && Boolean(props.errors.end)) || isConflictingEnd,
                           helperText:
                             props.touched.end && props.errors.end
                               ? String(props.errors.end)
-                              : undefined,
+                              : isConflictingEnd
+                                ? 'Konflikt mit diesem Enddatum.'
+                                : undefined,
                         },
                       }}
                     />

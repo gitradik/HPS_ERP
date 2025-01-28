@@ -1,9 +1,11 @@
 import { ApolloError } from 'apollo-server-express';
+import { Op } from 'sequelize';
 import Schedule from '../../models/Schedule';
 import Staff from '../../models/Staff';
 import Client from '../../models/Client';
 import { updateExistingFields } from '../../utils/updateExistingFields';
 import User from '../../models/User';
+import { ConflictingScheduleStartEndError } from '../../errors/schedule/ConflictingScheduleError';
 
 export interface CreateScheduleInput {
   title: string;
@@ -55,6 +57,7 @@ const scheduleService = {
       ],
     });
   },
+
   async getScheduleById(id: number): Promise<Schedule | null> {
     const schedule = await Schedule.findByPk(id, {
       include: [
@@ -93,16 +96,32 @@ const scheduleService = {
   },
 
   async createSchedule(input: CreateScheduleInput): Promise<Schedule> {
-    const { staffId, clientId } = input;
+    const { staffId, clientId, start, end } = input;
 
     const staff = await Staff.findByPk(staffId);
     if (!staff) {
-      throw new ApolloError(`Staff mit der ID ${staffId} wurde nicht gefunden`);
+      throw new ApolloError(`Personal mit der ID ${staffId} wurde nicht gefunden`);
     }
 
     const client = await Client.findByPk(clientId);
     if (!client) {
-      throw new ApolloError(`Client mit der ID ${clientId} wurde nicht gefunden`);
+      throw new ApolloError(`Kunden mit der ID ${clientId} wurde nicht gefunden`);
+    }
+
+    const conflictingSchedules = await Schedule.findAll({
+      where: {
+        staffId,
+        [Op.or]: [
+          {
+            start: { [Op.lt]: new Date(end) },
+            end: { [Op.gt]: new Date(start) },
+          },
+        ],
+      },
+    });
+
+    if (conflictingSchedules.length) {
+      throw ConflictingScheduleStartEndError(conflictingSchedules, start, end);
     }
 
     const newSchedule = await Schedule.create({
@@ -147,7 +166,9 @@ const scheduleService = {
   },
 
   async updateSchedule(input: UpdateScheduleInput): Promise<Schedule> {
-    const schedule = await Schedule.findByPk(input.id, {
+    const { id, start, end } = input;
+
+    const schedule = await Schedule.findByPk(id, {
       include: [
         {
           model: Staff,
@@ -177,7 +198,26 @@ const scheduleService = {
     });
 
     if (!schedule) {
-      throw new ApolloError(`Schedule mit der ID ${input.id} wurde nicht gefunden`);
+      throw new ApolloError(`Schedule mit der ID ${id} wurde nicht gefunden`);
+    }
+
+    if (start && end) {
+      const conflictingSchedules = await Schedule.findAll({
+        where: {
+          staffId: schedule.staffId,
+          id: { [Op.ne]: id },
+          [Op.or]: [
+            {
+              start: { [Op.lt]: new Date(end) },
+              end: { [Op.gt]: new Date(start) },
+            },
+          ],
+        },
+      });
+
+      if (conflictingSchedules.length) {
+        throw ConflictingScheduleStartEndError(conflictingSchedules, start, end);
+      }
     }
 
     return await updateExistingFields<Schedule>(schedule, input).save();
@@ -207,13 +247,13 @@ const scheduleService = {
 
     await schedule.destroy();
 
-    if (staff) {
-      await staff.update({ isAssigned: false });
-    }
+    if (staff)
+      if ((await Schedule.count({ where: { staffId: staff.id } })) === 0)
+        await staff.update({ isAssigned: false });
 
-    if (client) {
-      await client.update({ isWorking: false });
-    }
+    if (client)
+      if ((await Schedule.count({ where: { clientId: client.id } })) === 0)
+        await client.update({ isWorking: false });
 
     return true;
   },
