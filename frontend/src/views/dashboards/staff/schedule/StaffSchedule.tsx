@@ -38,6 +38,10 @@ const StaffSchedule = () => {
     if (data && Array.isArray(data.schedulesByStaffId)) {
       dispatch(setSchedules(data.schedulesByStaffId));
     }
+
+    return () => {
+      dispatch(setSchedules([]));
+    };
   }, [dispatch, data]);
 
   return (
