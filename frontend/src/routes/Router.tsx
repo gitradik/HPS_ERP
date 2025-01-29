@@ -11,13 +11,6 @@ import RestrictedRouteGuard from './guards/user-role-guards/RestrictedRouteGuard
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
 const Users = Loadable(lazy(() => import('../views/apps/user-profile/Users')));
 const AccountSetting = Loadable(lazy(() => import('../views/apps/account-setting/AccountSetting')));
-const Employee = Loadable(lazy(() => import('../views/dashboards/employee/Employee')));
-const EmployeeDetail = Loadable(lazy(() => import('../views/dashboards/employee/EmployeeDetail')));
-const Clients = Loadable(lazy(() => import('../views/dashboards/client/Clients')));
-const ClientDetail = Loadable(lazy(() => import('../views/dashboards/client/ClientDetail')));
-const StaffPage = Loadable(lazy(() => import('../views/dashboards/staff/Staff')));
-const StaffDetail = Loadable(lazy(() => import('../views/dashboards/staff/StaffDetail')));
-const Schedule = Loadable(lazy(() => import('../views/dashboards/schedule/Schedule')));
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -25,6 +18,22 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const ModernDash = Loadable(lazy(() => import('../views/dashboard/Modern')));
+const Employee = Loadable(lazy(() => import('../views/dashboards/employee/Employee')));
+const EmployeeDetail = Loadable(lazy(() => import('../views/dashboards/employee/EmployeeDetail')));
+const Clients = Loadable(lazy(() => import('../views/dashboards/client/Clients')));
+const ClientDetail = Loadable(lazy(() => import('../views/dashboards/client/ClientDetail')));
+const StaffPage = Loadable(lazy(() => import('../views/dashboards/staff/Staff')));
+const StaffDetail = Loadable(lazy(() => import('../views/dashboards/staff/StaffDetail')));
+const Schedule = Loadable(lazy(() => import('../views/dashboards/schedule/Schedule')));
+const StaffSchedule = Loadable(
+  lazy(() => import('../views/dashboards/staff/schedule/StaffSchedule')),
+);
+const StaffScheduleEdit = Loadable(
+  lazy(() => import('../views/dashboards/staff/schedule/StaffScheduleEdit')),
+);
+const StaffScheduleDetail = Loadable(
+  lazy(() => import('../views/dashboards/staff/schedule/StaffScheduleDetail')),
+);
 
 // authentication
 const Login = Loadable(lazy(() => import('../views/authentication/auth1/Login')));
@@ -93,12 +102,45 @@ const Router = [
         ),
       },
       {
-        path: '/staff/:id',
+        path: '/staff/:id/edit',
         exact: true,
         element: (
           <ProtectedRoute>
             <RestrictedRouteGuard>
               <StaffDetail />
+            </RestrictedRouteGuard>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/staff/:id/schedule',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <RestrictedRouteGuard>
+              <StaffSchedule />
+            </RestrictedRouteGuard>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/staff/:id/schedule/:scheduleId',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <RestrictedRouteGuard>
+              <StaffScheduleDetail />
+            </RestrictedRouteGuard>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/staff/:id/schedule/:scheduleId/edit',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <RestrictedRouteGuard>
+              <StaffScheduleEdit />
             </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
@@ -115,7 +157,7 @@ const Router = [
         ),
       },
       {
-        path: '/employees/:id',
+        path: '/employees/:id/edit',
         exact: true,
         element: (
           <ProtectedRoute>
@@ -148,7 +190,7 @@ const Router = [
         ),
       },
       {
-        path: '/clients/:id',
+        path: '/clients/:id/edit',
         exact: true,
         element: (
           <ProtectedRoute>

@@ -16,7 +16,6 @@ const normalizeEmailMiddleware: ApolloServerPlugin = {
           }
         };
 
-        // Обрабатываем переменные запроса
         if (request.variables) {
           normalizeEmail(request.variables);
         }

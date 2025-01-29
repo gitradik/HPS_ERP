@@ -5,7 +5,6 @@ import {
   Avatar,
   Grid2 as Grid,
   Typography,
-  Chip,
   Divider,
   Button,
 } from '@mui/material';
@@ -16,11 +15,12 @@ import { useGetUsersQuery } from 'src/services/api/userApi';
 import { User, UserRole } from 'src/types/auth/auth';
 import CreateUserDialog from './CreateUserDialog';
 import { useSelector } from 'src/store/Store';
-import { selectIsLoading } from 'src/store/apps/auth/RegisterSlice';
+import { selectIsLoading } from 'src/store/auth/RegisterSlice';
 import SetUserRoleDialog from './SetUserRoleDialog';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import UsersCard, { defaultUserRoleType } from 'src/components/shared/UsersCard';
 import { FilterFormValues } from 'src/types/table/filter/filter';
+import { IconCircle, IconClock } from '@tabler/icons-react';
 
 const UsersCards = () => {
   const filterUsers = (cSearch: string, role: defaultUserRoleType, users?: User[]) => {
@@ -65,13 +65,31 @@ const UsersCards = () => {
   const showActiveStatus = (u: User) => {
     if (isRoleUser(u)) return <></>;
 
+    const sizePx = 16;
+
     return (
-      <Chip
-        label={u.isActive ? 'Aktiv' : 'Inaktiv'}
-        color={u.isActive ? 'success' : 'default'}
-        size="small"
-        sx={{ position: 'absolute', top: 8, right: 8 }}
-      />
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 8,
+          right: 8,
+          color: u.isActive
+            ? (theme) => theme.palette.success.main
+            : (theme) => theme.palette.grey[500],
+          borderRadius: '50%',
+          height: sizePx,
+          width: sizePx,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {u.isActive ? (
+          <IconCircle height={sizePx} width={sizePx} />
+        ) : (
+          <IconClock height={sizePx} width={sizePx} />
+        )}
+      </Box>
     );
   };
 

@@ -8,7 +8,7 @@ import BlankCard from '../../../shared/BlankCard';
 import { User } from 'src/types/auth/auth';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
-const ProfileBanner = ({ user }: { user: User }) => {
+const ProfileBanner = ({ user, isProfile }: { user: User; isProfile?: boolean }) => {
   const ProfileImage = styled(Box)(() => ({
     backgroundImage: 'linear-gradient(#50b2fc,#f44c66)',
     borderRadius: '50%',
@@ -67,7 +67,7 @@ const ProfileBanner = ({ user }: { user: User }) => {
                     }}
                   />
                 </ProfileImage>
-                <Box mt={1}>
+                <Box my={1}>
                   <Typography fontWeight={600} variant="h5">
                     {user.firstName} {user.lastName}
                   </Typography>
@@ -80,7 +80,7 @@ const ProfileBanner = ({ user }: { user: User }) => {
           </Grid>
         </Grid>
         {/**TabbingPart**/}
-        <ProfileTab />
+        {isProfile ?? <ProfileTab />}
       </BlankCard>
     </>
   );

@@ -11,7 +11,7 @@ import { IconMail } from '@tabler/icons-react';
 
 import { useLogoutMutation } from 'src/services/api/authApi';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { logoutSuccess, selectUser } from 'src/store/apps/auth/AuthSlice';
+import { logoutSuccess, selectUser } from 'src/store/auth/AuthSlice';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 const Profile = () => {

@@ -3,6 +3,12 @@ import sequelize from '../services/databaseService';
 import Staff from './Staff';
 import Client from './Client';
 
+enum ScheduleStatus {
+  CLOSED = 'CLOSED',
+  OPEN = 'OPEN',
+  PENDING = 'PENDING',
+}
+
 class Schedule extends Model {
   public id!: number;
   public title!: string;
@@ -10,6 +16,7 @@ class Schedule extends Model {
   public start!: Date;
   public end!: Date;
   public color!: string;
+  public status!: ScheduleStatus;
   public staffId!: number;
   public clientId!: number;
   public createdAt!: Date;
@@ -45,6 +52,11 @@ Schedule.init(
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'default',
+    },
+    status: {
+      type: DataTypes.ENUM(...Object.values(ScheduleStatus)),
+      allowNull: false,
+      defaultValue: ScheduleStatus.PENDING,
     },
     staffId: {
       type: DataTypes.INTEGER,

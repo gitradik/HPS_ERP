@@ -7,7 +7,7 @@ import UsersCards from 'src/components/apps/userprofile/users/UsersCards';
 import ProfileBanner from 'src/components/apps/userprofile/profile/ProfileBanner';
 import { useSelector } from 'src/store/Store';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
-import { selectUser } from 'src/store/apps/auth/AuthSlice';
+import { selectUser } from 'src/store/auth/AuthSlice';
 
 const BCrumb = [
   {
