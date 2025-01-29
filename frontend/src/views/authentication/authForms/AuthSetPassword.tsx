@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Box, Typography, CircularProgress, Stack } from '@mui/material';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useDispatch } from 'react-redux';
-import { refreshTokenFailure } from 'src/store/apps/auth/AuthSlice';
+import { refreshTokenFailure } from 'src/store/auth/AuthSlice';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router';

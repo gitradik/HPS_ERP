@@ -18,7 +18,7 @@ import {
   registerFailure,
   registerSuccess,
   registerRequest,
-} from 'src/store/apps/auth/RegisterSlice';
+} from 'src/store/auth/RegisterSlice';
 import { useSelector } from 'react-redux';
 import { emailRegex, phoneRegex } from 'src/utils/regex';
 import { useSnackbar } from 'notistack';

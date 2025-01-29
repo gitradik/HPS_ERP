@@ -10,11 +10,7 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'src/store/Store';
 import { useRegisterMutation } from 'src/services/api/authApi';
-import {
-  registerFailure,
-  registerSuccess,
-  registerRequest,
-} from 'src/store/apps/auth/RegisterSlice';
+import { registerFailure, registerSuccess, registerRequest } from 'src/store/auth/RegisterSlice';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';

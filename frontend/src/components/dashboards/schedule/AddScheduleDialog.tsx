@@ -23,7 +23,7 @@ import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 
-import { EvType } from 'src/types/schedule/schedule';
+import { EvType, ScheduleStatus } from 'src/types/schedule/schedule';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import { useGetScheduleQuery } from 'src/services/api/scheduleApi';
@@ -37,7 +37,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(advancedFormat);
 
-interface CreateCalendarEventDialogProps {
+interface AddScheduleDialogProps {
   open: boolean;
   loading: boolean;
   loadingDelete: boolean;
@@ -78,7 +78,7 @@ const ColorVariation = [
   },
 ];
 
-const AddCalendarEventDialog = ({
+const AddScheduleDialog = ({
   open,
   scheduleId,
   loading,
@@ -89,7 +89,7 @@ const AddCalendarEventDialog = ({
   onUpdate,
   onCreate,
   onDelete,
-}: CreateCalendarEventDialogProps) => {
+}: AddScheduleDialogProps) => {
   const conflictingFields = error?.data?.extensionDetails?.conflictingFields || [];
   const isConflictingStart = isConflictingField(conflictingFields, 'start');
   const isConflictingEnd = isConflictingField(conflictingFields, 'end');
@@ -113,6 +113,7 @@ const AddCalendarEventDialog = ({
     end: dayjs(Number(s.end)).toDate(),
     clientId: s.client.id,
     staffId: s.staff.id,
+    status: s.status,
   };
 
   const initialValues = {
@@ -131,6 +132,7 @@ const AddCalendarEventDialog = ({
     color: evt?.color || ColorVariation[0].value,
     clientId: evt?.clientId || '',
     staffId: evt?.staffId || '',
+    status: evt?.status || ScheduleStatus.PENDING,
   };
 
   const validationSchema = Yup.object({
@@ -282,7 +284,7 @@ const AddCalendarEventDialog = ({
                       onChange={(e: any) => props.setFieldValue('clientId', e.target.value)}
                     >
                       {clients.map((c, idx) => (
-                        <MenuItem key={`addCalendarEventDialog-Client-${c.id}${idx}`} value={c.id}>
+                        <MenuItem key={`AddScheduleDialog-Client-${c.id}${idx}`} value={c.id}>
                           <Stack direction="row" spacing={1} alignItems="center">
                             <Avatar
                               src={getUploadsImagesProfilePath(c.user.photo)}
@@ -321,7 +323,7 @@ const AddCalendarEventDialog = ({
                       onChange={(e: any) => props.setFieldValue('staffId', e.target.value)}
                     >
                       {staffs.map((s, idx) => (
-                        <MenuItem key={`addCalendarEventDialog-Staff-${s.id}${idx}`} value={s.id}>
+                        <MenuItem key={`AddScheduleDialog-Staff-${s.id}${idx}`} value={s.id}>
                           <Stack direction="row" spacing={1} alignItems="center">
                             <Avatar
                               src={getUploadsImagesProfilePath(s.user.photo)}
@@ -393,4 +395,4 @@ const AddCalendarEventDialog = ({
   );
 };
 
-export default AddCalendarEventDialog;
+export default AddScheduleDialog;

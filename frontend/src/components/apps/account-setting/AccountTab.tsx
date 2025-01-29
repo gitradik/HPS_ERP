@@ -26,7 +26,7 @@ import {
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
 import { userAccessRules } from './AccountTabData';
-import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
+import { updateUserSuccess } from 'src/store/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';

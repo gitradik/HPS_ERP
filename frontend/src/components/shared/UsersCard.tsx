@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React from 'react';
-import { IconFilter, IconSearch, IconUserPlus } from '@tabler/icons-react';
+import { IconFilter, IconSearch } from '@tabler/icons-react';
 import {
   Tooltip,
   IconButton,
@@ -82,11 +82,9 @@ const UsersCard = ({
               flexItem
               sx={{ borderRightWidth: '1px', borderColor: 'default' }}
             />
-            <Tooltip title="Benutzer erstellen" placement="top">
-              <IconButton color="inherit" size="medium" onClick={onOpenAddUserDialog}>
-                <IconUserPlus />
-              </IconButton>
-            </Tooltip>
+            <Button variant="contained" color="primary" size="small" onClick={onOpenAddUserDialog}>
+              Benutzer erstellen
+            </Button>
           </Stack>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Tooltip title="Filter" placement="top">

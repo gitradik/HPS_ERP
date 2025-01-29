@@ -23,6 +23,7 @@ const scheduleApi = createApi({
               start
               end
               color
+              status
               createdAt
               updatedAt
               staff {
@@ -86,6 +87,7 @@ const scheduleApi = createApi({
               start
               end
               color
+              status
               createdAt
               updatedAt
               staff {
@@ -139,35 +141,65 @@ const scheduleApi = createApi({
       providesTags: (_result, _error, { scheduleId }) => [{ type: 'Schedule', id: scheduleId }],
     }),
 
-    createSchedule: builder.mutation<ScheduleResponse, CreateScheduleInput>({
-      query: ({ staffId, clientId, title, allDay, start, end, color }) => ({
+    getSchedulesByStaffId: builder.query<
+      { schedulesByStaffId: ScheduleResponse[] },
+      { staffId: string }
+    >({
+      query: ({ staffId }) => ({
         document: gql`
-          mutation CreateSchedule(
-            $staffId: ID!
-            $clientId: ID!
-            $title: String!
-            $allDay: Boolean!
-            $start: String!
-            $end: String!
-            $color: String
-          ) {
-            createSchedule(
-              input: {
-                staffId: $staffId
-                clientId: $clientId
-                title: $title
-                allDay: $allDay
-                start: $start
-                end: $end
-                color: $color
-              }
-            ) {
+          query GetSchedulesByStaffId($staffId: ID!) {
+            schedulesByStaffId(staffId: $staffId) {
               id
               title
               allDay
               start
               end
               color
+              status
+              createdAt
+              updatedAt
+              client {
+                id
+                userId
+                createdAt
+                updatedAt
+                user {
+                  id
+                  role
+                  email
+                  phoneNumber
+                  firstName
+                  lastName
+                  position
+                  contactDetails
+                  isActive
+                  updatedAt
+                  createdAt
+                  photo
+                }
+                companyName
+                isWorking
+              }
+            }
+          }
+        `,
+        variables: { staffId },
+      }),
+      providesTags: (_result, _error, { staffId }) => [{ type: 'Schedules', id: staffId }],
+    }),
+
+    createSchedule: builder.mutation<ScheduleResponse, CreateScheduleInput>({
+      query: (input) => ({
+        document: gql`
+          mutation CreateSchedule($input: CreateScheduleInput!) {
+            createSchedule(input: $input) {
+              id
+              title
+              allDay
+              start
+              end
+              color
+              status
               createdAt
               updatedAt
               staff {
@@ -216,7 +248,7 @@ const scheduleApi = createApi({
             }
           }
         `,
-        variables: { staffId, clientId, title, allDay, start, end, color },
+        variables: { input },
       }),
       // Invalidates the 'Schedules' tag to refetch the list of schedules after creating a new one
       invalidatesTags: ['Schedules'],
@@ -233,6 +265,7 @@ const scheduleApi = createApi({
               start
               end
               color
+              status
               createdAt
               updatedAt
               staff {
@@ -305,6 +338,7 @@ const scheduleApi = createApi({
 export const {
   useGetSchedulesQuery,
   useGetScheduleQuery,
+  useGetSchedulesByStaffIdQuery,
   useCreateScheduleMutation,
   useUpdateScheduleMutation,
   useDeleteScheduleMutation,

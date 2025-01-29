@@ -58,7 +58,7 @@ const StaffDetail = () => {
       title="Personal Details"
       description="Detaillierte Informationen über das Personal"
     >
-      <Breadcrumb title="Personal Detail" items={BCrumb} />
+      <Breadcrumb title="Personal Details" items={BCrumb} />
       {renderStaffDetails()}
     </PageContainer>
   );
