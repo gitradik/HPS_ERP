@@ -3,7 +3,7 @@ import { Avatar, Button, Stack, Typography } from '@mui/material';
 import { useSnackbar } from 'notistack';
 
 import { useDispatch } from 'src/store/Store';
-import { updateUserSuccess } from 'src/store/apps/auth/AuthSlice';
+import { updateUserSuccess } from 'src/store/auth/AuthSlice';
 import { User } from 'src/types/auth/auth';
 import { useUploadPhotoMutation } from 'src/services/api/uploadApi';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';

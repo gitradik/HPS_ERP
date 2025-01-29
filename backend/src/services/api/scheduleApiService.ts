@@ -3,8 +3,8 @@ import { Op } from 'sequelize';
 import Schedule from '../../models/Schedule';
 import Staff from '../../models/Staff';
 import Client from '../../models/Client';
-import { updateExistingFields } from '../../utils/updateExistingFields';
 import User from '../../models/User';
+import { updateExistingFields } from '../../utils/updateExistingFields';
 import { ConflictingScheduleStartEndError } from '../../errors/schedule/ConflictingScheduleError';
 
 export interface CreateScheduleInput {
@@ -93,6 +93,44 @@ const scheduleService = {
     }
 
     return schedule;
+  },
+
+  async getSchedulesByStaffId(staffId: number): Promise<Schedule[]> {
+    const schedules = await Schedule.findAll({
+      where: { staffId },
+      include: [
+        {
+          model: Staff,
+          required: true,
+          as: 'staff',
+          include: [
+            {
+              model: User,
+              required: true,
+              as: 'user',
+            },
+          ],
+        },
+        {
+          model: Client,
+          required: true,
+          as: 'client',
+          include: [
+            {
+              model: User,
+              required: true,
+              as: 'user',
+            },
+          ],
+        },
+      ],
+    });
+
+    if (!schedules.length) {
+      throw new ApolloError(`Keine Schedules für Staff mit der ID ${staffId} gefunden`);
+    }
+
+    return schedules;
   },
 
   async createSchedule(input: CreateScheduleInput): Promise<Schedule> {

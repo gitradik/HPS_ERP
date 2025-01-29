@@ -10,13 +10,14 @@ import {
   IconButton,
   Stack,
   Avatar,
+  Tooltip,
 } from '@mui/material';
-import { IconEye } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 import DownloadCard from 'src/components/shared/DownloadCard';
 import { Employee } from 'src/types/employee/employee';
 import moment from 'moment';
 import { User } from 'src/types/auth/auth';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 interface columnType {
@@ -43,8 +44,6 @@ const columns: columnType[] = [
 ];
 
 const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
-  const navigate = useNavigate();
-
   const rows: rowType[] = employees.map((employee, idx) => ({
     id: idx + 1,
     employeeId: employee.id,
@@ -131,14 +130,16 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" color="textSecondary">
+                    <Tooltip title="Bearbeiten" placement="left">
                       <IconButton
-                        onClick={() => navigate(`/employees/${row.employeeId}`)}
+                        color="success"
                         size="small"
+                        component={Link}
+                        to={`/employees/${row.employeeId}/edit`}
                       >
-                        <IconEye />
+                        <IconEdit width={22} />
                       </IconButton>
-                    </Typography>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}

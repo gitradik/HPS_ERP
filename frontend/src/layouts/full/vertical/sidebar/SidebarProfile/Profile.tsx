@@ -4,7 +4,7 @@ import { RootState, useSelector } from 'src/store/Store';
 // @ts-ignore
 import { IconPower } from '@tabler/icons-react';
 import { useLogoutMutation } from 'src/services/api/authApi';
-import { logoutSuccess, selectUser } from 'src/store/apps/auth/AuthSlice';
+import { logoutSuccess, selectUser } from 'src/store/auth/AuthSlice';
 import { useDispatch } from 'react-redux';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 

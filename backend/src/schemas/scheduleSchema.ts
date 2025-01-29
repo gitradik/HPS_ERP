@@ -1,6 +1,12 @@
 import { gql } from 'apollo-server-express';
 
 const scheduleSchema = gql`
+  enum ScheduleStatus {
+    CLOSED
+    OPEN
+    PENDING
+  }
+
   type Schedule {
     id: ID!
     title: String!
@@ -8,6 +14,7 @@ const scheduleSchema = gql`
     start: String!
     end: String!
     color: String!
+    status: ScheduleStatus!
     staff: Staff! # Relation with staff
     client: Client! # Relation with client
     createdAt: String!
@@ -20,6 +27,7 @@ const scheduleSchema = gql`
     start: String!
     end: String!
     color: String
+    status: ScheduleStatus!
     staffId: ID!
     clientId: ID!
   }
@@ -31,11 +39,13 @@ const scheduleSchema = gql`
     start: String
     end: String
     color: String
+    status: ScheduleStatus
   }
 
   type Query {
     schedules: [Schedule!]!
     schedule(id: ID!): Schedule
+    schedulesByStaffId(staffId: ID!): [Schedule!]!
   }
 
   type Mutation {

@@ -14,12 +14,13 @@ import {
   uploadApi,
   userApi,
 } from '../services/api';
-import authReducer from './apps/auth/AuthSlice';
+import authReducer from './auth/AuthSlice';
 import accountSettingReducer from './apps/setting/AccountSettingSlice';
 import clientSettingReducer from './apps/setting/ClientSettingSlice';
 import customizerReducer from './customizer/CustomizerSlice';
 import userProfileReducer from './apps/userProfile/UserProfileSlice';
-import registerReducer from './apps/auth/RegisterSlice';
+import registerReducer from './auth/RegisterSlice';
+import staffScheduleReducer from './staffSchedule/StaffScheduleSlice';
 
 export const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ export const store = configureStore({
     register: registerReducer,
     customizer: customizerReducer,
     userProfile: userProfileReducer,
+    staffSchedule: staffScheduleReducer,
     [userApi.reducerPath]: userApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     [clientApi.reducerPath]: clientApi.reducer,

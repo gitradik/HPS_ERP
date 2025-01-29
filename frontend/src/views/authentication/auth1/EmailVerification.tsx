@@ -7,7 +7,7 @@ import {
   emailVerifyRequest,
   emailVerifySuccess,
   selectUserId,
-} from 'src/store/apps/auth/AuthSlice';
+} from 'src/store/auth/AuthSlice';
 import AuthSetPassword from 'src/views/authentication/authForms/AuthSetPassword';
 import img1 from 'src/assets/images/backgrounds/login-bg.svg?url';
 import { useVerifyEmailMutation } from 'src/services/api/authApi';

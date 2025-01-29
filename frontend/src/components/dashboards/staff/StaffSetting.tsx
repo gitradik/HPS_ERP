@@ -25,7 +25,7 @@ import {
 } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { useRolesWithAccess } from 'src/utils/roleAccess';
-import { selectUserRole } from 'src/store/apps/auth/AuthSlice';
+import { selectUserRole } from 'src/store/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';

@@ -11,11 +11,12 @@ import {
   Stack,
   Avatar,
   Chip,
+  Tooltip,
 } from '@mui/material';
-import { IconCircle, IconClock, IconEye } from '@tabler/icons-react';
+import { IconCalendarEvent, IconCircle, IconClock, IconEdit } from '@tabler/icons-react';
 import moment from 'moment';
 import { User } from 'src/types/auth/auth';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Staff } from 'src/types/staff/staff';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { useState } from 'react';
@@ -165,11 +166,27 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" color="textSecondary">
-                      <IconButton onClick={() => navigate(`/staff/${row.staffId}`)} size="small">
-                        <IconEye />
-                      </IconButton>
-                    </Typography>
+                    <Stack direction="row" spacing={1}>
+                      <Tooltip title="Bearbeiten" placement="left">
+                        <IconButton
+                          color="success"
+                          size="small"
+                          component={Link}
+                          to={`/staff/${row.staffId}/edit`}
+                        >
+                          <IconEdit width={22} />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title="Personal Einsatz anzeigen" placement="top">
+                        <IconButton
+                          color="secondary"
+                          onClick={() => navigate(`/staff/${row.staffId}/schedule`)}
+                          size="small"
+                        >
+                          <IconCalendarEvent width={22} />
+                        </IconButton>
+                      </Tooltip>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}

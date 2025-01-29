@@ -9,7 +9,7 @@ import { Grid2 as Grid, Tabs, Tab, Box, CardContent, Divider } from '@mui/materi
 import { IconBell, IconUserCircle } from '@tabler/icons-react';
 import BlankCard from '../../../components/shared/BlankCard';
 import { useSelector } from 'src/store/Store';
-import { selectUser } from 'src/store/apps/auth/AuthSlice';
+import { selectUser } from 'src/store/auth/AuthSlice';
 import AccountTab from 'src/components/apps/account-setting/AccountTab';
 import NotificationTab from 'src/components/apps/account-setting/NotificationTab';
 

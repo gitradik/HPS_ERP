@@ -24,5 +24,10 @@
     "CLIENT": "Klientas",
     "USER": "Vartotojas"
   },
-  "setRole": "Priskirti vaidmenį"
+  "setRole": "Priskirti vaidmenį",
+  "ScheduleStatus": {
+    "CLOSED": "Uždaryta",
+    "OPEN": "Atidaryta",
+    "PENDING": "Laukiama"
+  }
 }

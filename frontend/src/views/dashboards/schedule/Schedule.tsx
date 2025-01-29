@@ -21,7 +21,7 @@ import {
 } from 'src/services/api/scheduleApi';
 import { EvType, Schedule } from 'src/types/schedule/schedule';
 import { useSnackbar } from 'notistack';
-import AddCalendarEventDialog from 'src/components/dashboards/schedule/AddCalendarEventDialog';
+import AddScheduleDialog from 'src/components/dashboards/schedule/AddScheduleDialog';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -94,6 +94,7 @@ const SchedulePage = () => {
         color: values.color,
         clientId: values.clientId,
         staffId: values.staffId,
+        status: values.status,
       }).unwrap();
       enqueueSnackbar('Die Veranstaltung wurde erfolgreich erstellt!', {
         variant: 'success',
@@ -116,6 +117,7 @@ const SchedulePage = () => {
         start: values.start.toISOString(),
         end: values.end.toISOString(),
         color: values.color,
+        status: values.status,
       }).unwrap();
       enqueueSnackbar('Die Veranstaltung wurde erfolgreich aktualisiert!', {
         variant: 'success',
@@ -185,7 +187,7 @@ const SchedulePage = () => {
       {/* ------------------------------------------- */}
       {/* Add Calendar Event Dialog */}
       {/* ------------------------------------------- */}
-      <AddCalendarEventDialog
+      <AddScheduleDialog
         open={open}
         scheduleId={evtId}
         slotInfo={slotInfo}

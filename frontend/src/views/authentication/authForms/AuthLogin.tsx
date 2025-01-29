@@ -9,7 +9,7 @@ import CustomTextField from '../../../components/forms/theme-elements/CustomText
 import CustomFormLabel from '../../../components/forms/theme-elements/CustomFormLabel';
 import { emailRegex, phoneRegex } from 'src/utils/regex';
 import { useDispatch } from 'src/store/Store';
-import { loginFailure, loginRequest, loginSuccess } from 'src/store/apps/auth/AuthSlice';
+import { loginFailure, loginRequest, loginSuccess } from 'src/store/auth/AuthSlice';
 
 const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
   const [emailOrPhone, setEmailOrPhone] = useState('');

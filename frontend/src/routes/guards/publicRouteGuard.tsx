@@ -6,7 +6,7 @@ import {
   refreshTokenRequest,
   refreshTokenSuccess,
   selectIsAuthenticated,
-} from '../../store/apps/auth/AuthSlice';
+} from '../../store/auth/AuthSlice';
 import { useRefreshTokenMutation } from '../../services/api/authApi';
 import Spinner from 'src/views/spinner/Spinner';
 

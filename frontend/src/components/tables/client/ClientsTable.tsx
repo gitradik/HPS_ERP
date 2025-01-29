@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import {
   TableContainer,
   Table,
@@ -13,8 +13,9 @@ import {
   Stack,
   Avatar,
   IconButton,
+  Tooltip,
 } from '@mui/material';
-import { IconCircle, IconClock, IconEye } from '@tabler/icons-react';
+import { IconCircle, IconClock, IconEdit } from '@tabler/icons-react';
 import moment from 'moment';
 import TableCard from 'src/components/shared/TableCard';
 import { Client } from 'src/types/client/client';
@@ -39,7 +40,6 @@ const columns: columnType[] = [
 ];
 
 const ClientsTable = ({ clients }: { clients: Client[] }) => {
-  const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<FilterStatusType>('all'); // Состояние фильтра
 
   const filteredRows = clients.filter((client) => {
@@ -163,11 +163,16 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2" color="textSecondary">
-                      <IconButton onClick={() => navigate(`/clients/${client.id}`)} size="small">
-                        <IconEye />
+                    <Tooltip title="Bearbeiten" placement="left">
+                      <IconButton
+                        color="success"
+                        size="small"
+                        component={Link}
+                        to={`/clients/${client.id}/edit`}
+                      >
+                        <IconEdit width={22} />
                       </IconButton>
-                    </Typography>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}
