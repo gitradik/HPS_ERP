@@ -12,27 +12,32 @@ import { GetAllQueryParams } from '../utils/types/query';
 const clientResolvers = {
   JSON: GraphQLJSON,
   Query: {
-    clients: async (parent: any, args: { queryParams: GetAllQueryParams<Client> }, context: any, info: any): Promise<{ items: Client[], totalCount: number }> =>
+    clients: async (
+      parent: any,
+      args: { queryParams: GetAllQueryParams<Client> },
+      context: any,
+      info: any,
+    ): Promise<{ items: Client[]; totalCount: number }> =>
       await authMiddleware(
-      (_parent: any, _args: any, _context: any, _info: any) =>
-        roleMiddleware(
-          [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-          async () => {
-            const { queryParams } = args;
-            const clients = await clientService.getClients(queryParams);
-            const totalCount = await clientService.getClientsCount(queryParams.filters);
-            return { items: clients, totalCount };
-          },
-          _parent,
-          _args,
-          _context,
-          _info,
-        ),
-      parent,
-      args,
-      context,
-      info,
-    ),
+        (_parent: any, _args: any, _context: any, _info: any) =>
+          roleMiddleware(
+            [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+            async () => {
+              const { queryParams } = args;
+              const clients = await clientService.getClients(queryParams);
+              const totalCount = await clientService.getClientsCount(queryParams.filters);
+              return { items: clients, totalCount };
+            },
+            _parent,
+            _args,
+            _context,
+            _info,
+          ),
+        parent,
+        args,
+        context,
+        info,
+      ),
     client: async (
       parent: any,
       { id }: { id: number },

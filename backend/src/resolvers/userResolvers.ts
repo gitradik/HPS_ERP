@@ -10,7 +10,7 @@ const resolvers = {
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
-            [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Roles which have accsess 
+            [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Roles which have accsess
             () => userService.getUsersExcludingId(context.user.id),
             _parent,
             _args,

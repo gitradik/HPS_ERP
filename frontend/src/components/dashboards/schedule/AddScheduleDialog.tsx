@@ -101,8 +101,8 @@ const AddScheduleDialog = ({
   const s = scheduleId ? schedulesData?.schedule : undefined;
   const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery({});
   const clients = clientsData?.items || [];
-  const { data: staffData, isLoading: isLoadingStaff } = useGetStaffsQuery();
-  const staffs = staffData?.staffs || [];
+  const { data: staffData, isLoading: isLoadingStaff } = useGetStaffsQuery({});
+  const staffs = staffData?.items || [];
 
   const evt: EvType | undefined = s && {
     id: s.id,

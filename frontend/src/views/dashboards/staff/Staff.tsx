@@ -34,8 +34,7 @@ const StaffPage = () => {
   const errorMessage = error?.data?.friendlyMessage;
 
   useEffect(() => {
-    if (errorMessage)
-      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
+    if (errorMessage) enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
   }, [errorMessage]);
 
   useEffect(() => {

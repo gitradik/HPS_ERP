@@ -1,4 +1,4 @@
-import { OrderItem, WhereOptions } from "sequelize";
+import { OrderItem, WhereOptions } from 'sequelize';
 
 export interface GetAllQueryParams<T> {
   filters?: WhereOptions<T>;
