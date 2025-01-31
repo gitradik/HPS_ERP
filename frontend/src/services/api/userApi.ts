@@ -29,8 +29,15 @@ const userApi = createApi({
           }
         `,
       }),
-      providesTags: ['Users'],
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Users' as const, id: 'LIST' }, // Тег для всего списка
+              ...result.users.map(({ id }) => ({ type: 'User' as const, id })), // Теги для каждого пользователя
+            ]
+          : [{ type: 'Users' as const, id: 'LIST' }], // Если результат пуст, инвалидируем только список
     }),
+
     getUser: builder.query<{ user: UserResponse }, { userId: string }>({
       query: ({ userId }) => ({
         document: gql`
@@ -53,8 +60,9 @@ const userApi = createApi({
         `,
         variables: { userId },
       }),
-      providesTags: (_result, _error, { userId }) => [{ type: 'User', id: userId }],
+      providesTags: (_result, _error, { userId }) => [{ type: 'User' as const, id: userId }], // Тег для конкретного пользователя
     }),
+
     updateUser: builder.mutation<
       { update: UserResponse },
       { updateId: string; input: UpdateUserInput }
@@ -83,7 +91,10 @@ const userApi = createApi({
           input,
         },
       }),
-      invalidatesTags: (_result, _error, { updateId }) => [{ type: 'User', id: updateId }],
+      invalidatesTags: (_result, _error, { updateId }) => [
+        { type: 'User' as const, id: updateId }, // Инвалидируем конкретного пользователя
+        { type: 'Users' as const, id: 'LIST' }, // Инвалидируем список пользователей
+      ],
     }),
 
     uploadPhoto: builder.mutation({
@@ -99,7 +110,7 @@ const userApi = createApi({
         `,
         variables: { file },
       }),
-      invalidatesTags: ['Users'],
+      invalidatesTags: [{ type: 'Users' as const, id: 'LIST' }], // Инвалидируем список пользователей
     }),
   }),
 });

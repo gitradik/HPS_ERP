@@ -38,6 +38,7 @@ const clientApi = createApi({
                 }
                 companyName
                 isWorking
+                isProblematic
               }
               totalCount
             }
@@ -50,7 +51,13 @@ const clientApi = createApi({
       }) => {
         return response.clients;
       },
-      providesTags: ['Clients'],
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Clients' as const, id: 'LIST' }, // Тег для всего списка клиентов
+              ...result.items.map(({ id }) => ({ type: 'Client' as const, id })), // Теги для каждого клиента
+            ]
+          : [{ type: 'Clients' as const, id: 'LIST' }], // Если результат пуст, инвалидируем только список
     }),
 
     getClient: builder.query<{ client: ClientResponse }, { clientId: string }>({
@@ -78,11 +85,13 @@ const clientApi = createApi({
               }
               companyName
               isWorking
+              isProblematic
             }
           }
         `,
         variables: { clientId },
       }),
+      providesTags: (_result, _error, { clientId }) => [{ type: 'Client' as const, id: clientId }], // Тег для конкретного клиента
     }),
 
     createClient: builder.mutation<ClientResponse, { userId: number }>({
@@ -110,12 +119,15 @@ const clientApi = createApi({
               }
               companyName
               isWorking
+              isProblematic
             }
           }
         `,
         variables: { userId },
       }),
+      invalidatesTags: [{ type: 'Clients' as const, id: 'LIST' }], // Инвалидируем список клиентов
     }),
+
     updateClient: builder.mutation<
       { updateClient: ClientResponse },
       { updateId: string; input: UpdateClientInput }
@@ -144,11 +156,16 @@ const clientApi = createApi({
               }
               companyName
               isWorking
+              isProblematic
             }
           }
         `,
         variables: { updateId, input },
       }),
+      invalidatesTags: (_result, _error, { updateId }) => [
+        { type: 'Client' as const, id: updateId }, // Инвалидируем конкретного клиента
+        { type: 'Clients' as const, id: 'LIST' }, // Инвалидируем список клиентов
+      ],
     }),
   }),
 });

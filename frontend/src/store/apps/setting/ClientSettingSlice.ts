@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { isEmpty } from 'lodash';
 import { Client, UpdateClientInput } from 'src/types/client/client';
 
 const initialState: Partial<UpdateClientInput> = {};
@@ -14,22 +13,29 @@ const clientSettingSlice = createSlice({
     setIsWorking: (state, action: PayloadAction<boolean>) => {
       state.isWorking = action.payload;
     },
+    setIsProblematic: (state, action: PayloadAction<boolean>) => {
+      state.isProblematic = action.payload;
+    },
     resetClientSetting: () => initialState,
 
     updateClientSetting: (state, action: PayloadAction<Partial<Client>>) => {
-      const { companyName, isWorking } = action.payload;
+      const { companyName, isWorking, isProblematic } = action.payload;
       state.companyName = companyName;
       state.isWorking = isWorking;
+      state.isProblematic = isProblematic;
     },
   },
 });
 
 export const selectClientSetting = (state: { clientSetting: UpdateClientInput }) =>
   state.clientSetting;
-export const selectClientSettingIsEmpty = (state: { clientSetting: UpdateClientInput }) =>
-  isEmpty(state.clientSetting);
 
-export const { setCompanyName, setIsWorking, resetClientSetting, updateClientSetting } =
-  clientSettingSlice.actions;
+export const {
+  setCompanyName,
+  setIsWorking,
+  resetClientSetting,
+  updateClientSetting,
+  setIsProblematic,
+} = clientSettingSlice.actions;
 
 export default clientSettingSlice.reducer;

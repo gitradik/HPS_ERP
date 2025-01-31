@@ -9,6 +9,7 @@ const clientSchema = gql`
     user: User
     companyName: String
     isWorking: Boolean!
+    isProblematic: Boolean!
   }
 
   type ClientsResponse {
@@ -23,6 +24,7 @@ const clientSchema = gql`
   input UpdateClientInput {
     companyName: String
     isWorking: Boolean
+    isProblematic: Boolean
   }
 
   input ClientQueryParams {

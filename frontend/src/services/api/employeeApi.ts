@@ -48,7 +48,13 @@ const employeeApi = createApi({
       }) => {
         return response.employees;
       },
-      providesTags: ['Employees'],
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Employees' as const, id: 'LIST' },
+              ...result.items.map(({ id }) => ({ type: 'Employee' as const, id })),
+            ]
+          : [{ type: 'Employees' as const, id: 'LIST' }],
     }),
 
     getEmployee: builder.query<{ employee: EmployeeResponse }, { employeeId: string }>({
@@ -79,6 +85,8 @@ const employeeApi = createApi({
         `,
         variables: { employeeId },
       }),
+      providesTags: (result) =>
+        result ? [{ type: 'Employee' as const, id: result.employee.id }] : [],
     }),
 
     createEmployee: builder.mutation<EmployeeResponse, { userId: number }>({
@@ -109,6 +117,14 @@ const employeeApi = createApi({
         `,
         variables: { userId },
       }),
+      // Use `invalidatesTags` instead of `providesTags` for mutations
+      invalidatesTags: (result) =>
+        result
+          ? [
+              { type: 'Employees', id: 'LIST' }, // Invalidate the list of employees
+              { type: 'Employee', id: result.id }, // Invalidate the specific employee
+            ]
+          : [{ type: 'Employees', id: 'LIST' }], // Fallback to invalidating the list
     }),
   }),
 });

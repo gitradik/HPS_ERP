@@ -16,7 +16,7 @@ import {
   Tooltip,
   Pagination,
 } from '@mui/material';
-import { IconCircle, IconClock, IconEdit } from '@tabler/icons-react';
+import { IconCircle, IconClock, IconEdit, IconForbid } from '@tabler/icons-react';
 import moment from 'moment';
 import { useSelector } from 'src/store/Store';
 import TableCard from 'src/components/shared/TableCard';
@@ -191,16 +191,30 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                   </TableCell>
                   <TableCell>
                     <Chip
-                      label={client.isWorking ? 'Aktiv' : 'Inaktiv'}
+                      label={
+                        client.isProblematic ? 'Blacklist' : client.isWorking ? 'Aktiv' : 'Inaktiv'
+                      }
                       size="small"
-                      icon={client.isWorking ? <IconCircle width={14} /> : <IconClock width={14} />}
+                      icon={
+                        client.isProblematic ? (
+                          <IconForbid width={14} />
+                        ) : client.isWorking ? (
+                          <IconCircle width={14} />
+                        ) : (
+                          <IconClock width={14} />
+                        )
+                      }
                       sx={{
-                        backgroundColor: client.isWorking
-                          ? (theme) => theme.palette.success.light
-                          : (theme) => theme.palette.grey[100],
-                        color: client.isWorking
-                          ? (theme) => theme.palette.success.main
-                          : (theme) => theme.palette.grey[500],
+                        backgroundColor: client.isProblematic
+                          ? (theme) => theme.palette.grey[600]
+                          : client.isWorking
+                            ? (theme) => theme.palette.success.light
+                            : (theme) => theme.palette.grey[100],
+                        color: client.isProblematic
+                          ? (theme) => theme.palette.grey[100]
+                          : client.isWorking
+                            ? (theme) => theme.palette.success.main
+                            : (theme) => theme.palette.grey[500],
                         '.MuiChip-icon': {
                           color: 'inherit !important',
                         },

@@ -8,6 +8,7 @@ export interface ClientResponse {
   user: UserResponse;
   companyName?: string;
   isWorking: boolean;
+  isProblematic: boolean;
 }
 
 export interface Client extends ClientResponse {}
@@ -17,4 +18,5 @@ export interface ClientTable {}
 export interface UpdateClientInput {
   companyName?: string;
   isWorking: boolean;
+  isProblematic: boolean;
 }
