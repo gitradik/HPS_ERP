@@ -7,6 +7,8 @@ import ProtectedRoute from './guards/protectedRouteGuard';
 import PublicRouteGuard from './guards/publicRouteGuard';
 import RestrictedRouteGuard from './guards/user-role-guards/RestrictedRouteGuard';
 
+const QueryParamsProvider = Loadable(lazy(() => import('./providers/QueryParamsProvider')));
+
 /* ***Apps**** */
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
 const Users = Loadable(lazy(() => import('../views/apps/user-profile/Users')));
@@ -94,11 +96,13 @@ const Router = [
         path: '/staff',
         exact: true,
         element: (
-          <ProtectedRoute>
-            <RestrictedRouteGuard>
-              <StaffPage />
-            </RestrictedRouteGuard>
-          </ProtectedRoute>
+          <QueryParamsProvider>
+            <ProtectedRoute>
+              <RestrictedRouteGuard>
+                <StaffPage />
+              </RestrictedRouteGuard>
+            </ProtectedRoute>
+          </QueryParamsProvider>
         ),
       },
       {
@@ -149,11 +153,13 @@ const Router = [
         path: '/employees',
         exact: true,
         element: (
-          <ProtectedRoute>
-            <RestrictedRouteGuard>
-              <Employee />
-            </RestrictedRouteGuard>
-          </ProtectedRoute>
+          <QueryParamsProvider>
+            <ProtectedRoute>
+              <RestrictedRouteGuard>
+                <Employee />
+              </RestrictedRouteGuard>
+            </ProtectedRoute>
+          </QueryParamsProvider>
         ),
       },
       {
@@ -182,11 +188,13 @@ const Router = [
         path: '/clients',
         exact: true,
         element: (
-          <ProtectedRoute>
-            <RestrictedRouteGuard>
-              <Clients />
-            </RestrictedRouteGuard>
-          </ProtectedRoute>
+          <QueryParamsProvider>
+            <ProtectedRoute>
+              <RestrictedRouteGuard>
+                <Clients />
+              </RestrictedRouteGuard>
+            </ProtectedRoute>
+          </QueryParamsProvider>
         ),
       },
       {

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
 import {
   TableContainer,
@@ -6,6 +5,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  TableSortLabel,
   Typography,
   TableHead,
   Box,
@@ -14,22 +14,22 @@ import {
   Avatar,
   IconButton,
   Tooltip,
+  Pagination,
 } from '@mui/material';
 import { IconCircle, IconClock, IconEdit } from '@tabler/icons-react';
 import moment from 'moment';
+import { useSelector } from 'src/store/Store';
 import TableCard from 'src/components/shared/TableCard';
 import { Client } from 'src/types/client/client';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
-import { FilterFormValues, FilterStatusType } from 'src/types/table/filter/filter';
+import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
+import { useSortOrder } from 'src/hooks/useSortOrder';
+import { usePagination } from 'src/hooks/usePagination';
+import { useFilters } from 'src/hooks/useFilters';
+import { FilterStatusType } from 'src/types/table/filter/filter';
+import { ColumnType } from 'src/types/table/column';
 
-interface columnType {
-  id: string;
-  label: string;
-  minWidth: number;
-}
-
-// Kunden → FirstName LastName Email PhoneNumber Address Status(работаем с клиентом или на паузе)
-const columns: columnType[] = [
+const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'companyName', label: 'Name der Firma', minWidth: 170 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
@@ -39,13 +39,13 @@ const columns: columnType[] = [
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
-const ClientsTable = ({ clients }: { clients: Client[] }) => {
-  const [statusFilter, setStatusFilter] = useState<FilterStatusType>('all'); // Состояние фильтра
+const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: number }) => {
+  const queryParams = useSelector(selectQueryParams);
+  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
+  const { handlePageChange, page, count } = usePagination(totalCount);
+  const { handleFilter } = useFilters({ statusFieldName: 'isWorking' });
 
-  const filteredRows = clients.filter((client) => {
-    if (statusFilter === 'all') return true;
-    return statusFilter === 'active' ? client.isWorking : !client.isWorking;
-  });
+  const filteredRows = clients;
 
   const handleDownload = () => {
     const headers = [
@@ -79,17 +79,18 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
     document.body.removeChild(link);
   };
 
-  const handleFilter = ({ status }: FilterFormValues) => {
-    setStatusFilter(status || 'all');
-  };
-
   return (
     <TableCard
       title="Kunden Tabelle"
-      onDownload={handleDownload}
       defaultValues={{
-        status: statusFilter,
+        status:
+          queryParams.filters?.isWorking === undefined
+            ? FilterStatusType.ALL
+            : queryParams.filters?.isWorking
+              ? FilterStatusType.ACTIVE
+              : FilterStatusType.INACTIVE,
       }}
+      onDownload={handleDownload}
       onFilterSubmit={handleFilter}
     >
       <Box>
@@ -97,11 +98,60 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
           <Table sx={{ whiteSpace: 'nowrap' }}>
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} style={{ minWidth: column.minWidth }}>
-                    <Typography variant="h6">{column.label}</Typography>
-                  </TableCell>
-                ))}
+                <TableCell key={columns[0].id} style={{ minWidth: columns[0].minWidth }}>
+                  <Typography variant="h6">{columns[0].label}</Typography>
+                </TableCell>
+
+                <TableCell
+                  style={{ minWidth: columns[1].minWidth }}
+                  sortDirection={getSortDirection(columns[1].id)}
+                >
+                  <TableSortLabel
+                    active={isActiveDirection(columns[1].id)}
+                    direction={getDirection(columns[1].id)}
+                    onClick={() => handleSort(columns[1].id)}
+                  >
+                    <Typography variant="h6">{columns[1].label}</Typography>
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell key={columns[2].id} style={{ minWidth: columns[2].minWidth }}>
+                  <Typography variant="h6">{columns[2].label}</Typography>
+                </TableCell>
+
+                <TableCell key={columns[3].id} style={{ minWidth: columns[3].minWidth }}>
+                  <Typography variant="h6">{columns[3].label}</Typography>
+                </TableCell>
+
+                <TableCell
+                  style={{ minWidth: columns[4].minWidth }}
+                  sortDirection={getSortDirection('isWorking')}
+                >
+                  <TableSortLabel
+                    active={isActiveDirection('isWorking')}
+                    direction={getDirection('isWorking')}
+                    onClick={() => handleSort('isWorking')}
+                  >
+                    <Typography variant="h6">{columns[4].label}</Typography>
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell
+                  style={{ minWidth: columns[5].minWidth }}
+                  sortDirection={getSortDirection(columns[5].id)}
+                >
+                  <TableSortLabel
+                    active={isActiveDirection(columns[5].id)}
+                    direction={getDirection(columns[5].id)}
+                    onClick={() => handleSort(columns[5].id)}
+                  >
+                    <Typography variant="h6">{columns[5].label}</Typography>
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell style={{ minWidth: columns[6].minWidth }}>
+                  <Typography variant="h6">{columns[6].label}</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -179,6 +229,9 @@ const ClientsTable = ({ clients }: { clients: Client[] }) => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Box my={3} display="flex" justifyContent={'center'}>
+          <Pagination count={count} page={page} onChange={handlePageChange} color="primary" />
+        </Box>
       </Box>
     </TableCard>
   );

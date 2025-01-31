@@ -1,17 +1,30 @@
+import GraphQLJSON from 'graphql-type-json';
 import { UserRole } from '../models/User';
 import Employee from '../models/Employee';
 import { authMiddleware } from '../middlewares/authMiddleware';
 import { roleMiddleware } from '../middlewares/roleMiddleware';
 import employeeService from '../services/api/employeeApiService';
+import { GetAllQueryParams } from '../utils/types/query';
 
 const employeeResolvers = {
+  JSON: GraphQLJSON,
   Query: {
-    employees: async (parent: any, args: any, context: any, info: any): Promise<Employee[]> =>
+    employees: async (
+      parent: any,
+      args: { queryParams: GetAllQueryParams<Employee> },
+      context: any,
+      info: any,
+    ): Promise<{ items: Employee[]; totalCount: number }> =>
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-            () => employeeService.getEmployees(),
+            async () => {
+              const { queryParams } = args;
+              const employees = await employeeService.getEmployees(queryParams);
+              const totalCount = await employeeService.getEmployeesCount(queryParams.filters);
+              return { items: employees, totalCount };
+            },
             _parent,
             _args,
             _context,

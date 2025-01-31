@@ -1,3 +1,4 @@
+import { GraphQLJSON } from 'graphql-type-json';
 import { UserRole } from '../models/User';
 import Client from '../models/Client';
 import { authMiddleware } from '../middlewares/authMiddleware';
@@ -6,15 +7,27 @@ import clientService, {
   CreateClientInput,
   UpdateClientInput,
 } from '../services/api/clientApiService';
+import { GetAllQueryParams } from '../utils/types/query';
 
 const clientResolvers = {
+  JSON: GraphQLJSON,
   Query: {
-    clients: async (parent: any, args: any, context: any, info: any): Promise<Client[]> =>
+    clients: async (
+      parent: any,
+      args: { queryParams: GetAllQueryParams<Client> },
+      context: any,
+      info: any,
+    ): Promise<{ items: Client[]; totalCount: number }> =>
       await authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-            () => clientService.getClients(),
+            async () => {
+              const { queryParams } = args;
+              const clients = await clientService.getClients(queryParams);
+              const totalCount = await clientService.getClientsCount(queryParams.filters);
+              return { items: clients, totalCount };
+            },
             _parent,
             _args,
             _context,

@@ -9,6 +9,8 @@ import { useSnackbar } from 'notistack';
 import { useGetStaffsQuery } from 'src/services/api/staffApi';
 import { Staff } from 'src/types/staff/staff';
 import StaffTable from 'src/components/tables/staff/StaffTable';
+import { useSelector } from 'src/store/Store';
+import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
 
 const BCrumb = [
   {
@@ -21,18 +23,18 @@ const BCrumb = [
 ];
 
 const StaffPage = () => {
-  const { data: staffData, isLoading, error, refetch } = useGetStaffsQuery();
+  const queryParams = useSelector(selectQueryParams);
+  const { data: staffData, isLoading, error, refetch } = useGetStaffsQuery(queryParams);
   const { enqueueSnackbar } = useSnackbar();
 
-  const staffs = staffData?.staffs as Staff[];
+  const staffs = staffData?.items as Staff[];
+  const totalCount = staffData?.totalCount || 0;
 
   // @ts-ignore
   const errorMessage = error?.data?.friendlyMessage;
 
   useEffect(() => {
-    if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
-    }
+    if (errorMessage) enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
   }, [errorMessage]);
 
   useEffect(() => {
@@ -40,19 +42,14 @@ const StaffPage = () => {
   }, []);
 
   const renderStaffsTable = useCallback(() => {
-    if (isLoading || !staffs) {
-      return;
-    }
-
-    return <StaffTable staff={staffs} />;
+    if (isLoading || !staffs) return;
+    return <StaffTable staffs={staffs} totalCount={totalCount} />;
   }, [staffs, isLoading]);
 
   return (
     <PageContainer title="Personal" description="Dies ist die Personal-Seite">
       <Breadcrumb title="Personal" items={BCrumb} />
-      <Grid container spacing={3}>
-        {renderStaffsTable()}
-      </Grid>
+      <Grid container>{renderStaffsTable()}</Grid>
     </PageContainer>
   );
 };

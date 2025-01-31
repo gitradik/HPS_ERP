@@ -11,45 +11,39 @@ import {
   Stack,
   Avatar,
   Tooltip,
+  Pagination,
+  TableSortLabel,
 } from '@mui/material';
 import { IconEdit } from '@tabler/icons-react';
 import DownloadCard from 'src/components/shared/DownloadCard';
 import { Employee } from 'src/types/employee/employee';
 import moment from 'moment';
-import { User } from 'src/types/auth/auth';
 import { Link } from 'react-router';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
+import { useSortOrder } from 'src/hooks/useSortOrder';
+import { usePagination } from 'src/hooks/usePagination';
+import { ColumnType } from 'src/types/table/column';
 
-interface columnType {
-  id: string;
-  label: string;
-  minWidth: number;
-}
-
-interface rowType {
-  id: number;
-  employeeId: string;
-  user: User;
-  updatedAt: string;
-}
-
-const columns: columnType[] = [
+const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'position', label: 'Position', minWidth: 100 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
-  // { id: 'status', label: 'Status', minWidth: 100 },
   { id: 'updatedAt', label: 'Zuletzt aktualisiert', minWidth: 170 },
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
-const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
-  const rows: rowType[] = employees.map((employee, idx) => ({
-    id: idx + 1,
-    employeeId: employee.id,
-    user: employee.user,
-    updatedAt: employee.updatedAt,
-  }));
+const EmployeeTable = ({
+  employees,
+  totalCount,
+}: {
+  employees: Employee[];
+  totalCount: number;
+}) => {
+  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
+  const { handlePageChange, page, count } = usePagination(totalCount);
+
+  const rows = employees;
 
   const handleDownload = () => {
     const headers = ['Benutzerdetails', 'E-Mail', 'Position', 'Telefonnummer', 'Adresse'];
@@ -82,11 +76,38 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
           <Table sx={{ whiteSpace: 'nowrap' }}>
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} style={{ minWidth: column.minWidth }}>
-                    <Typography variant="h6">{column.label}</Typography>
-                  </TableCell>
-                ))}
+                <TableCell key={columns[0].id} style={{ minWidth: columns[0].minWidth }}>
+                  <Typography variant="h6">{columns[0].label}</Typography>
+                </TableCell>
+
+                <TableCell key={columns[1].id} style={{ minWidth: columns[1].minWidth }}>
+                  <Typography variant="h6">{columns[1].label}</Typography>
+                </TableCell>
+
+                <TableCell key={columns[2].id} style={{ minWidth: columns[2].minWidth }}>
+                  <Typography variant="h6">{columns[2].label}</Typography>
+                </TableCell>
+
+                <TableCell key={columns[3].id} style={{ minWidth: columns[3].minWidth }}>
+                  <Typography variant="h6">{columns[3].label}</Typography>
+                </TableCell>
+
+                <TableCell
+                  style={{ minWidth: columns[4].minWidth }}
+                  sortDirection={getSortDirection(columns[4].id)}
+                >
+                  <TableSortLabel
+                    active={isActiveDirection(columns[4].id)}
+                    direction={getDirection(columns[4].id)}
+                    onClick={() => handleSort(columns[4].id)}
+                  >
+                    <Typography variant="h6">{columns[4].label}</Typography>
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell style={{ minWidth: columns[5].minWidth }}>
+                  <Typography variant="h6">{columns[5].label}</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -135,7 +156,7 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                         color="success"
                         size="small"
                         component={Link}
-                        to={`/employees/${row.employeeId}/edit`}
+                        to={`/employees/${row.id}/edit`}
                       >
                         <IconEdit width={22} />
                       </IconButton>
@@ -146,6 +167,9 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Box my={3} display="flex" justifyContent={'center'}>
+          <Pagination count={count} page={page} onChange={handlePageChange} color="primary" />
+        </Box>
       </Box>
     </DownloadCard>
   );

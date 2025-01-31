@@ -3,6 +3,7 @@ import Client from '../../models/Client';
 import User, { UserRole } from '../../models/User';
 import userApiService from './userApiService';
 import { updateExistingFields } from '../../utils/updateExistingFields';
+import { GetAllQueryParams } from '../../utils/types/query';
 
 export interface CreateClientInput {
   userId: number;
@@ -13,13 +14,25 @@ export interface UpdateClientInput {
 }
 
 const clientService = {
-  async getClients(): Promise<Client[]> {
+  async getClients(queryOptions: GetAllQueryParams<Client>): Promise<Client[]> {
+    const { filters, sortOptions, offset, limit } = queryOptions;
+
     return await Client.findAll({
       include: {
         model: User,
         required: true,
         as: 'user',
       },
+      where: filters,
+      order: sortOptions,
+      offset,
+      limit,
+    });
+  },
+
+  async getClientsCount(filters: any): Promise<number> {
+    return await Client.count({
+      where: filters,
     });
   },
 

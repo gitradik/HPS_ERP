@@ -12,32 +12,24 @@ import {
   Avatar,
   Chip,
   Tooltip,
+  Pagination,
+  TableSortLabel,
 } from '@mui/material';
 import { IconCalendarEvent, IconCircle, IconClock, IconEdit } from '@tabler/icons-react';
 import moment from 'moment';
-import { User } from 'src/types/auth/auth';
 import { Link, useNavigate } from 'react-router';
 import { Staff } from 'src/types/staff/staff';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
-import { useState } from 'react';
-import { FilterFormValues, FilterStatusType } from 'src/types/table/filter/filter';
+import { FilterStatusType } from 'src/types/table/filter/filter';
 import TableCard from 'src/components/shared/TableCard';
+import { ColumnType } from 'src/types/table/column';
+import { useSelector } from 'src/store/Store';
+import { useSortOrder } from 'src/hooks/useSortOrder';
+import { usePagination } from 'src/hooks/usePagination';
+import { useFilters } from 'src/hooks/useFilters';
+import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
 
-interface columnType {
-  id: string;
-  label: string;
-  minWidth: number;
-}
-
-interface rowType {
-  id: number;
-  staffId: string;
-  user: User;
-  updatedAt: string;
-  isAssigned: boolean;
-}
-
-const columns: columnType[] = [
+const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
@@ -46,26 +38,18 @@ const columns: columnType[] = [
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
-const StaffTable = ({ staff }: { staff: Staff[] }) => {
+const StaffTable = ({ staffs, totalCount }: { staffs: Staff[]; totalCount: number }) => {
   const navigate = useNavigate();
-  const [statusFilter, setStatusFilter] = useState<FilterStatusType>('all');
+  const queryParams = useSelector(selectQueryParams);
+  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
+  const { handlePageChange, page, count } = usePagination(totalCount);
+  const { handleFilter } = useFilters({ statusFieldName: 'isAssigned' });
 
-  const rows: rowType[] = staff
-    .filter((client) => {
-      if (statusFilter === 'all') return true;
-      return statusFilter === 'active' ? client.isAssigned : !client.isAssigned;
-    })
-    .map((staffMember, idx) => ({
-      id: idx + 1,
-      staffId: staffMember.id,
-      user: staffMember.user,
-      isAssigned: staffMember.isAssigned,
-      updatedAt: staffMember.updatedAt,
-    }));
+  const items = staffs;
 
   const handleDownload = () => {
     const headers = ['Benutzerdetails', 'E-Mail', 'Telefonnummer', 'Adresse', 'Status'];
-    const rows = staff.map((item: Staff) => [
+    const rows = items.map((item: Staff) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
       item.user.phoneNumber || 'N/A',
@@ -87,16 +71,17 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
     document.body.removeChild(link);
   };
 
-  const handleFilter = ({ status }: FilterFormValues) => {
-    setStatusFilter(status || 'all');
-  };
-
   return (
     <TableCard
       title="Personal Tabelle"
       onDownload={handleDownload}
       defaultValues={{
-        status: statusFilter,
+        status:
+          queryParams.filters?.isAssigned === undefined
+            ? FilterStatusType.ALL
+            : queryParams.filters?.isAssigned
+              ? FilterStatusType.ACTIVE
+              : FilterStatusType.INACTIVE,
       }}
       onFilterSubmit={handleFilter}
     >
@@ -105,15 +90,49 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
           <Table sx={{ whiteSpace: 'nowrap' }}>
             <TableHead>
               <TableRow>
-                {columns.map((column) => (
-                  <TableCell key={column.id} style={{ minWidth: column.minWidth }}>
-                    <Typography variant="h6">{column.label}</Typography>
-                  </TableCell>
-                ))}
+                <TableCell key={columns[0].id} style={{ minWidth: columns[0].minWidth }}>
+                  <Typography variant="h6">{columns[0].label}</Typography>
+                </TableCell>
+                <TableCell key={columns[1].id} style={{ minWidth: columns[1].minWidth }}>
+                  <Typography variant="h6">{columns[1].label}</Typography>
+                </TableCell>
+                <TableCell key={columns[2].id} style={{ minWidth: columns[2].minWidth }}>
+                  <Typography variant="h6">{columns[2].label}</Typography>
+                </TableCell>
+
+                <TableCell
+                  style={{ minWidth: columns[3].minWidth }}
+                  sortDirection={getSortDirection('isAssigned')}
+                >
+                  <TableSortLabel
+                    active={isActiveDirection('isAssigned')}
+                    direction={getDirection('isAssigned')}
+                    onClick={() => handleSort('isAssigned')}
+                  >
+                    <Typography variant="h6">{columns[3].label}</Typography>
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell
+                  style={{ minWidth: columns[4].minWidth }}
+                  sortDirection={getSortDirection(columns[4].id)}
+                >
+                  <TableSortLabel
+                    active={isActiveDirection(columns[4].id)}
+                    direction={getDirection(columns[4].id)}
+                    onClick={() => handleSort(columns[4].id)}
+                  >
+                    <Typography variant="h6">{columns[4].label}</Typography>
+                  </TableSortLabel>
+                </TableCell>
+
+                <TableCell style={{ minWidth: columns[5].minWidth }}>
+                  <Typography variant="h6">{columns[5].label}</Typography>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {items.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell>
                     <Stack direction="row" spacing={2} alignItems="center">
@@ -172,7 +191,7 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
                           color="success"
                           size="small"
                           component={Link}
-                          to={`/staff/${row.staffId}/edit`}
+                          to={`/staff/${row.id}/edit`}
                         >
                           <IconEdit width={22} />
                         </IconButton>
@@ -180,7 +199,7 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
                       <Tooltip title="Personal Einsatz anzeigen" placement="top">
                         <IconButton
                           color="secondary"
-                          onClick={() => navigate(`/staff/${row.staffId}/schedule`)}
+                          onClick={() => navigate(`/staff/${row.id}/schedule`)}
                           size="small"
                         >
                           <IconCalendarEvent width={22} />
@@ -193,6 +212,9 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Box my={3} display="flex" justifyContent={'center'}>
+          <Pagination count={count} page={page} onChange={handlePageChange} color="primary" />
+        </Box>
       </Box>
     </TableCard>
   );

@@ -11,6 +11,11 @@ const clientSchema = gql`
     isWorking: Boolean!
   }
 
+  type ClientsResponse {
+    items: [Client!]!
+    totalCount: Int!
+  }
+
   input CreateClientInput {
     userId: ID!
   }
@@ -20,17 +25,24 @@ const clientSchema = gql`
     isWorking: Boolean
   }
 
-  # Define the root Query type
-  type Query {
-    clients: [Client!]! # Get all clients
-    client(id: ID!): Client # Get client by ID
+  input ClientQueryParams {
+    filters: JSON
+    sortOptions: [[String]]
+    offset: Int
+    limit: Int
   }
 
-  # Define the root Mutation type
-  type Mutation {
-    createClient(input: CreateClientInput!): Client! # Create a client
-    updateClient(id: ID!, input: UpdateClientInput!): Client! # Create a client
+  type Query {
+    clients(queryParams: ClientQueryParams): ClientsResponse!
+    client(id: ID!): Client
   }
+
+  type Mutation {
+    createClient(input: CreateClientInput!): Client!
+    updateClient(id: ID!, input: UpdateClientInput!): Client!
+  }
+
+  scalar JSON
 `;
 
 export default clientSchema;

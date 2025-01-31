@@ -9,13 +9,25 @@ const employeeSchema = gql`
     user: User!
   }
 
+  type EmployeesResponse {
+    items: [Employee!]!
+    totalCount: Int!
+  }
+
   input CreateEmployeeInput {
     userId: ID!
   }
 
+  input EmployeeQueryParams {
+    filters: JSON
+    sortOptions: [[String]]
+    offset: Int
+    limit: Int
+  }
+
   # Define the root Query type
   type Query {
-    employees: [Employee!]! # Get all employees
+    employees(queryParams: EmployeeQueryParams): EmployeesResponse!
     employee(id: ID!): Employee # Get employee by ID
   }
 
@@ -23,6 +35,8 @@ const employeeSchema = gql`
   type Mutation {
     createEmployee(input: CreateEmployeeInput!): Employee! # Create an employee
   }
+
+  scalar JSON
 `;
 
 export default employeeSchema;
