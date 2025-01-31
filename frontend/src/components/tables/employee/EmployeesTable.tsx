@@ -16,7 +16,6 @@ import { IconEdit } from '@tabler/icons-react';
 import DownloadCard from 'src/components/shared/DownloadCard';
 import { Employee } from 'src/types/employee/employee';
 import moment from 'moment';
-import { User } from 'src/types/auth/auth';
 import { Link } from 'react-router';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
@@ -24,13 +23,6 @@ interface columnType {
   id: string;
   label: string;
   minWidth: number;
-}
-
-interface rowType {
-  id: number;
-  employeeId: string;
-  user: User;
-  updatedAt: string;
 }
 
 const columns: columnType[] = [
@@ -44,12 +36,7 @@ const columns: columnType[] = [
 ];
 
 const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
-  const rows: rowType[] = employees.map((employee, idx) => ({
-    id: idx + 1,
-    employeeId: employee.id,
-    user: employee.user,
-    updatedAt: employee.updatedAt,
-  }));
+  const rows = employees;
 
   const handleDownload = () => {
     const headers = ['Benutzerdetails', 'E-Mail', 'Position', 'Telefonnummer', 'Adresse'];
@@ -135,7 +122,7 @@ const EmployeeTable = ({ employees }: { employees: Employee[] }) => {
                         color="success"
                         size="small"
                         component={Link}
-                        to={`/employees/${row.employeeId}/edit`}
+                        to={`/employees/${row.id}/edit`}
                       >
                         <IconEdit width={22} />
                       </IconButton>

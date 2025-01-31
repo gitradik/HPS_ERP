@@ -1,41 +1,54 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { gql } from 'graphql-request';
 import { enhancedBaseQuery } from './baseQueryMiddleware';
-import { ClientResponse, UpdateClientInput } from 'src/types/client/client';
+import { Client, ClientResponse, UpdateClientInput } from 'src/types/client/client';
+import { GetAllQueryParams } from 'src/types/query';
 
 const clientApi = createApi({
   reducerPath: 'clientApi',
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
-    getClients: builder.query<{ clients: ClientResponse[] }, void>({
-      query: () => ({
+    getClients: builder.query<
+      { items: ClientResponse[]; totalCount: number },
+      GetAllQueryParams<Client>
+    >({
+      query: (queryParams) => ({
         document: gql`
-          query GetClients {
-            clients {
-              id
-              userId
-              createdAt
-              updatedAt
-              user {
+          query GetClients($queryParams: ClientQueryParams) {
+            clients(queryParams: $queryParams) {
+              items {
                 id
-                role
-                email
-                phoneNumber
-                firstName
-                lastName
-                position
-                contactDetails
-                isActive
-                updatedAt
+                userId
                 createdAt
-                photo
+                updatedAt
+                user {
+                  id
+                  role
+                  email
+                  phoneNumber
+                  firstName
+                  lastName
+                  position
+                  contactDetails
+                  isActive
+                  updatedAt
+                  createdAt
+                  photo
+                }
+                companyName
+                isWorking
               }
-              companyName
-              isWorking
+              totalCount
             }
           }
         `,
+        variables: { queryParams },
       }),
+      transformResponse: (response: {
+        clients: { items: ClientResponse[]; totalCount: number };
+      }) => {
+        return response.clients;
+      },
     }),
 
     getClient: builder.query<{ client: ClientResponse }, { clientId: string }>({

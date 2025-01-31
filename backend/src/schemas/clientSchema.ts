@@ -2,35 +2,48 @@ import { gql } from 'apollo-server-express';
 
 const clientSchema = gql`
   type Client {
-    id: ID!
-    userId: ID!
-    createdAt: String!
-    updatedAt: String!
-    user: User
-    companyName: String
-    isWorking: Boolean!
-  }
+  id: ID!
+  userId: ID!
+  createdAt: String!
+  updatedAt: String!
+  user: User
+  companyName: String
+  isWorking: Boolean!
+}
 
-  input CreateClientInput {
-    userId: ID!
-  }
+type ClientsResponse {
+  items: [Client!]!
+  totalCount: Int!
+}
 
-  input UpdateClientInput {
-    companyName: String
-    isWorking: Boolean
-  }
+input CreateClientInput {
+  userId: ID!
+}
 
-  # Define the root Query type
-  type Query {
-    clients: [Client!]! # Get all clients
-    client(id: ID!): Client # Get client by ID
-  }
+input UpdateClientInput {
+  companyName: String
+  isWorking: Boolean
+}
 
-  # Define the root Mutation type
-  type Mutation {
-    createClient(input: CreateClientInput!): Client! # Create a client
-    updateClient(id: ID!, input: UpdateClientInput!): Client! # Create a client
-  }
+input ClientQueryParams {
+  filters: JSON
+  sortOptions: [[String]]
+  offset: Int
+  limit: Int
+}
+
+type Query {
+  clients(queryParams: ClientQueryParams): ClientsResponse!
+  client(id: ID!): Client
+}
+
+type Mutation {
+  createClient(input: CreateClientInput!): Client!
+  updateClient(id: ID!, input: UpdateClientInput!): Client!
+}
+
+scalar JSON
+
 `;
 
 export default clientSchema;

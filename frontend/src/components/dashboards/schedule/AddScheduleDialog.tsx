@@ -99,8 +99,8 @@ const AddScheduleDialog = ({
     { skip: !scheduleId },
   );
   const s = scheduleId ? schedulesData?.schedule : undefined;
-  const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery();
-  const clients = clientsData?.clients || [];
+  const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery({});
+  const clients = clientsData?.items || [];
   const { data: staffData, isLoading: isLoadingStaff } = useGetStaffsQuery();
   const staffs = staffData?.staffs || [];
 
@@ -323,7 +323,7 @@ const AddScheduleDialog = ({
                       onChange={(e: any) => props.setFieldValue('staffId', e.target.value)}
                     >
                       {staffs.map((s, idx) => (
-                        <MenuItem key={`AddScheduleDialog-Staff-${s.id}${idx}`} value={s.id}>
+                        <MenuItem key={`AddScheduleDialog-Staff-${s.id}${idx + 1}`} value={s.id}>
                           <Stack direction="row" spacing={1} alignItems="center">
                             <Avatar
                               src={getUploadsImagesProfilePath(s.user.photo)}
