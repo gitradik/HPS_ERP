@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React, { useEffect, useState, useMemo } from 'react';
-import { CardContent, Grid2 as Grid, Typography, Box, Button, Stack } from '@mui/material';
+import { CardContent, Grid2 as Grid, Typography, Box, Button, Stack, Divider } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
@@ -34,14 +34,16 @@ import {
   resetClientSetting,
   selectClientSetting,
   setCompanyName,
+  setIsProblematic,
   updateClientSetting,
 } from 'src/store/apps/setting/ClientSettingSlice';
 import { useUpdateClientMutation } from 'src/services/api/clientApi';
 import { UserRole } from 'src/types/auth/auth';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
+import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 
 const ClientSetting = ({ client }: { client: Client }) => {
-  const { user, companyName, isWorking } = client;
+  const { user, companyName, isWorking, isProblematic } = client;
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -56,6 +58,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
       ...userAccessRules,
       companyName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
       isWorking: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+      isProblematic: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
     },
     userRole,
   );
@@ -76,13 +79,13 @@ const ClientSetting = ({ client }: { client: Client }) => {
 
   useEffect(() => {
     dispatch(updateAccountSetting(user));
-    dispatch(updateClientSetting({ companyName, isWorking }));
+    dispatch(updateClientSetting({ companyName, isWorking, isProblematic }));
 
     return () => {
       dispatch(resetAccountSetting());
       dispatch(resetClientSetting());
     };
-  }, [user, companyName, isWorking]);
+  }, [user, companyName, isWorking, isProblematic]);
 
   const onSave = async () => {
     try {
@@ -98,7 +101,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
   };
   const onCancel = async () => {
     dispatch(updateAccountSetting(user));
-    dispatch(updateClientSetting({ companyName, isWorking }));
+    dispatch(updateClientSetting({ companyName, isWorking, isProblematic }));
   };
   const onSubmitPwdForm = async (values: any, actions: any) => {
     try {
@@ -224,7 +227,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
               Hier können Sie persönliche Daten des Kunden ändern
             </Typography>
             <form>
-              <Grid container spacing={3}>
+              <Grid pb={3} container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="first-name">
                     Vorname
@@ -245,7 +248,6 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     Nachname
                   </CustomFormLabel>
                   <CustomTextField
-                    id="last-name"
                     value={data.lastName}
                     variant="outlined"
                     fullWidth
@@ -260,7 +262,6 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     E-Mail
                   </CustomFormLabel>
                   <CustomTextField
-                    id="text-email"
                     value={data.email}
                     variant="outlined"
                     fullWidth
@@ -275,7 +276,6 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     Telefonnummer
                   </CustomFormLabel>
                   <CustomTextField
-                    id="text-phone"
                     value={data.phoneNumber || ''}
                     variant="outlined"
                     fullWidth
@@ -289,7 +289,6 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     Name der Firma
                   </CustomFormLabel>
                   <CustomTextField
-                    id="text-companyName"
                     value={clientData.companyName || ''}
                     variant="outlined"
                     fullWidth
@@ -304,7 +303,6 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     Adresse
                   </CustomFormLabel>
                   <CustomTextField
-                    id="text-address"
                     value={data.contactDetails || ''}
                     variant="outlined"
                     fullWidth
@@ -314,6 +312,17 @@ const ClientSetting = ({ client }: { client: Client }) => {
                   />
                 </Grid>
               </Grid>
+              <Divider></Divider>
+              <Stack pt={2}>
+                <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
+                  Ist Problemkunde
+                </CustomFormLabel>
+                <CustomSwitch
+                  checked={clientData.isProblematic}
+                  disabled={!hasAccess('isProblematic')}
+                  onChange={() => dispatch(setIsProblematic(!clientData.isProblematic))}
+                />
+              </Stack>
             </form>
           </CardContent>
         </BlankCard>
