@@ -3,6 +3,7 @@ import Staff from '../../models/Staff';
 import User, { UserRole } from '../../models/User';
 import { updateExistingFields } from '../../utils/updateExistingFields';
 import userApiService from './userApiService';
+import { GetAllQueryParams } from '../../utils/types/query';
 
 export interface CreateStaffInput {
   userId: number;
@@ -12,13 +13,25 @@ export interface UpdateStaffInput extends Partial<CreateStaffInput> {
 }
 
 const staffService = {
-  async getStaffs() {
+  async getStaffs(queryOptions: GetAllQueryParams<Staff>): Promise<Staff[]> {
+    const { filters, sortOptions, offset, limit } = queryOptions;
+
     return await Staff.findAll({
       include: {
         model: User,
         required: true,
         as: 'user',
       },
+      where: filters,
+      order: sortOptions,
+      offset,
+      limit,
+    });
+  },
+
+  async getStaffsCount(filters: any): Promise<number> {
+    return await Staff.count({
+      where: filters,
     });
   },
   async getStaffById(id: number): Promise<Staff | null> {

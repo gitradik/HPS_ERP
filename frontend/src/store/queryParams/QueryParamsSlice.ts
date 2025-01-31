@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { GetAllQueryParams, SortOrder, WhereConditions } from 'src/types/query';
-
-export interface QueryState<T> extends GetAllQueryParams<T> {}
+import { GetAllQueryParams, QueryState, SortOrder, WhereConditions } from 'src/types/query';
 
 const initialState: GetAllQueryParams<any> = {
   filters: {},

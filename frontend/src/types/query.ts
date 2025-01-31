@@ -13,3 +13,5 @@ export interface GetAllQueryParams<T> {
   offset?: number;
   limit?: number;
 }
+
+export interface QueryState<T> extends GetAllQueryParams<T> {}

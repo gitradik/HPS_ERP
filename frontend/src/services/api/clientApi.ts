@@ -6,6 +6,7 @@ import { GetAllQueryParams } from 'src/types/query';
 
 const clientApi = createApi({
   reducerPath: 'clientApi',
+  tagTypes: ['Clients', 'Client'],
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
     getClients: builder.query<
@@ -49,6 +50,7 @@ const clientApi = createApi({
       }) => {
         return response.clients;
       },
+      providesTags: ['Clients'],
     }),
 
     getClient: builder.query<{ client: ClientResponse }, { clientId: string }>({

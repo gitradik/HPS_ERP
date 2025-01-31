@@ -27,14 +27,9 @@ import { useSortOrder } from 'src/hooks/useSortOrder';
 import { usePagination } from 'src/hooks/usePagination';
 import { useFilters } from 'src/hooks/useFilters';
 import { FilterStatusType } from 'src/types/table/filter/filter';
+import { ColumnType } from 'src/types/table/column';
 
-interface columnType {
-  id: string;
-  label: string;
-  minWidth: number;
-}
-
-const columns: columnType[] = [
+const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'companyName', label: 'Name der Firma', minWidth: 170 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },

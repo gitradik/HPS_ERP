@@ -9,6 +9,8 @@ import EmployeesTable from 'src/components/tables/employee/EmployeesTable';
 import { useGetEmployeesQuery } from 'src/services/api/employeeApi';
 import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
+import { useSelector } from 'src/store/Store';
+import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
 
 const BCrumb = [
   {
@@ -21,10 +23,12 @@ const BCrumb = [
 ];
 
 const Employees = () => {
-  const { data: employeesData, isLoading, error, refetch } = useGetEmployeesQuery();
+  const queryParams = useSelector(selectQueryParams);
+  const { data: employeesData, isLoading, error, refetch } = useGetEmployeesQuery(queryParams);
   const { enqueueSnackbar } = useSnackbar();
 
-  const employees = employeesData?.employees as Employee[];
+  const employees = employeesData?.items as Employee[];
+  const totalCount = employeesData?.totalCount || 0;
 
   // @ts-ignore
   const errorMessage = error?.data?.friendlyMessage;
@@ -40,11 +44,8 @@ const Employees = () => {
   }, []);
 
   const renderEmployeeTable = useCallback(() => {
-    if (isLoading || !employees) {
-      return;
-    }
-
-    return <EmployeesTable employees={employees} />;
+    if (isLoading || !employees) return;
+    return <EmployeesTable employees={employees} totalCount={totalCount} />;
   }, [employees, isLoading]);
 
   return (
