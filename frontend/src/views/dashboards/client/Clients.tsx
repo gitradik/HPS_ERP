@@ -9,6 +9,8 @@ import { useSnackbar } from 'notistack';
 import { useGetClientsQuery } from 'src/services/api/clientApi';
 import { Client } from 'src/types/client/client';
 import ClientsTable from 'src/components/tables/client/ClientsTable';
+import { useSelector } from 'src/store/Store';
+import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
 
 const BCrumb = [
   {
@@ -21,18 +23,18 @@ const BCrumb = [
 ];
 
 const Clients = () => {
-  const { data: clientsData, isLoading, error, refetch } = useGetClientsQuery();
+  const queryParams = useSelector(selectQueryParams);
+  const { data: clientsData, isLoading, error, refetch } = useGetClientsQuery(queryParams);
   const { enqueueSnackbar } = useSnackbar();
 
-  const clients = clientsData?.clients as Client[];
+  const clients = clientsData?.items as Client[];
+  const totalCount = clientsData?.totalCount || 0;
 
   // @ts-ignore
   const errorMessage = error?.data?.friendlyMessage;
 
   useEffect(() => {
-    if (errorMessage) {
-      enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
-    }
+    if (errorMessage) enqueueSnackbar(errorMessage, { variant: 'error', autoHideDuration: 3000 });
   }, [errorMessage]);
 
   useEffect(() => {
@@ -40,11 +42,9 @@ const Clients = () => {
   }, []);
 
   const renderClientsTable = useCallback(() => {
-    if (isLoading || !clients) {
-      return;
-    }
+    if (isLoading || !clients) return;
 
-    return <ClientsTable clients={clients} />;
+    return <ClientsTable clients={clients} totalCount={totalCount} />;
   }, [clients, isLoading]);
 
   return (

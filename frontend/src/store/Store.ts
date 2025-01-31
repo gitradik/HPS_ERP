@@ -21,6 +21,7 @@ import customizerReducer from './customizer/CustomizerSlice';
 import userProfileReducer from './apps/userProfile/UserProfileSlice';
 import registerReducer from './auth/RegisterSlice';
 import staffScheduleReducer from './staffSchedule/StaffScheduleSlice';
+import queryParamsReducer from './queryParams/QueryParamsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -32,6 +33,7 @@ export const store = configureStore({
     customizer: customizerReducer,
     userProfile: userProfileReducer,
     staffSchedule: staffScheduleReducer,
+    queryParams: queryParamsReducer,
     [userApi.reducerPath]: userApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     [clientApi.reducerPath]: clientApi.reducer,

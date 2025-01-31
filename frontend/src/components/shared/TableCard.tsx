@@ -27,8 +27,8 @@ interface TableCardProps {
   children: any;
   onDownload: () => void;
   onFilterSubmit: (values: any) => void;
-  defaultValues: {
-    status: FilterStatusType;
+  defaultValues?: {
+    status?: FilterStatusType;
   };
 }
 
@@ -53,7 +53,7 @@ const TableCard = ({
     setAnchorEl(null);
   };
 
-  const initialValues = { ...defaultValues };
+  const initialValues = { ...(defaultValues || {}) };
 
   return (
     <Card
@@ -111,9 +111,9 @@ const TableCard = ({
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                           >
-                            <MenuItem value="all">Alle</MenuItem>
-                            <MenuItem value="active">Aktiv</MenuItem>
-                            <MenuItem value="inactive">Inaktiv</MenuItem>
+                            <MenuItem value={FilterStatusType.ALL}>Alle</MenuItem>
+                            <MenuItem value={FilterStatusType.ACTIVE}>Aktiv</MenuItem>
+                            <MenuItem value={FilterStatusType.INACTIVE}>Inaktiv</MenuItem>
                           </Select>
                         </FormControl>
                       </Stack>

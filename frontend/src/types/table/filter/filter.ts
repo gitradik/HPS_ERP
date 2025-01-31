@@ -1,6 +1,10 @@
 import { UserRole } from 'src/types/auth/auth';
 
-export type FilterStatusType = 'active' | 'inactive' | 'all';
+export enum FilterStatusType {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ALL = 'all',
+}
 export interface FilterFormValues {
   status?: FilterStatusType;
   role?: UserRole;

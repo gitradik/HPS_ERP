@@ -48,12 +48,12 @@ const columns: columnType[] = [
 
 const StaffTable = ({ staff }: { staff: Staff[] }) => {
   const navigate = useNavigate();
-  const [statusFilter, setStatusFilter] = useState<FilterStatusType>('all');
+  const [statusFilter, setStatusFilter] = useState<FilterStatusType>(FilterStatusType.ALL);
 
   const rows: rowType[] = staff
     .filter((client) => {
-      if (statusFilter === 'all') return true;
-      return statusFilter === 'active' ? client.isAssigned : !client.isAssigned;
+      if (statusFilter === FilterStatusType.ALL) return true;
+      return statusFilter === FilterStatusType.ACTIVE ? client.isAssigned : !client.isAssigned;
     })
     .map((staffMember, idx) => ({
       id: idx + 1,
@@ -88,7 +88,7 @@ const StaffTable = ({ staff }: { staff: Staff[] }) => {
   };
 
   const handleFilter = ({ status }: FilterFormValues) => {
-    setStatusFilter(status || 'all');
+    setStatusFilter(status || FilterStatusType.ALL);
   };
 
   return (

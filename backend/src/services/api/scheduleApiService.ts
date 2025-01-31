@@ -127,7 +127,7 @@ const scheduleService = {
     });
 
     if (!schedules.length) {
-      throw new ApolloError(`Keine Schedules für Staff mit der ID ${staffId} gefunden`);
+      throw new ApolloError(`Keine Schedules für Personal mit der ID ${staffId} gefunden`);
     }
 
     return schedules;

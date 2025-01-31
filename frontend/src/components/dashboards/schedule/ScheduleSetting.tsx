@@ -62,8 +62,8 @@ const ScheduleSetting = ({ scheduleId }: ScheduleSettingProps) => {
 
   const { data: schedulesData } = useGetScheduleQuery({ scheduleId: scheduleId! });
   const s = scheduleId ? schedulesData?.schedule : undefined;
-  const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery();
-  const clients = clientsData?.clients || [];
+  const { data: clientsData, isLoading: isLoadingClients } = useGetClientsQuery({});
+  const clients = clientsData?.items || [];
   const { data: staffData, isLoading: isLoadingStaff } = useGetStaffsQuery();
   const staffs = staffData?.staffs || [];
 
