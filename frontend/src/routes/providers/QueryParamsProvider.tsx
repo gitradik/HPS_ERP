@@ -21,9 +21,7 @@ const QueryParamsProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-
     if (prevPath.current !== currentPath) dispatch(resetQueryParams());
-
     prevPath.current = currentPath;
   }, [location.pathname]);
 

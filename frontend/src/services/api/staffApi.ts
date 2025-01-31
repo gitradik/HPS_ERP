@@ -47,7 +47,13 @@ const staffApi = createApi({
       transformResponse: (response: { staffs: { items: StaffResponse[]; totalCount: number } }) => {
         return response.staffs;
       },
-      providesTags: ['Staffs'],
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Staffs' as const, id: 'LIST' }, // Тег для всего списка
+              ...result.items.map(({ id }) => ({ type: 'Staff' as const, id })), // Теги для каждого сотрудника
+            ]
+          : [{ type: 'Staffs' as const, id: 'LIST' }], // Если результат пуст, инвалидируем только список
     }),
 
     getStaff: builder.query<{ staff: StaffResponse }, { staffId: string }>({
@@ -79,7 +85,7 @@ const staffApi = createApi({
         `,
         variables: { staffId },
       }),
-      providesTags: (_result, _error, { staffId }) => [{ type: 'Staff', id: staffId }],
+      providesTags: (_result, _error, { staffId }) => [{ type: 'Staff' as const, id: staffId }], // Тег для конкретного сотрудника
     }),
 
     createStaff: builder.mutation<StaffResponse, { userId: number }>({
@@ -111,7 +117,7 @@ const staffApi = createApi({
         `,
         variables: { userId },
       }),
-      invalidatesTags: ['Staffs'], // Update list of Staffs
+      invalidatesTags: [{ type: 'Staffs' as const, id: 'LIST' }], // Инвалидируем список сотрудников
     }),
 
     updateStaff: builder.mutation<StaffResponse, { id: number; input: { isAssigned: boolean } }>({
@@ -143,7 +149,10 @@ const staffApi = createApi({
         `,
         variables: { id, input },
       }),
-      invalidatesTags: (_result, _error, { id }) => [{ type: 'Staff', id }],
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Staff' as const, id }, // Инвалидируем конкретного сотрудника
+        { type: 'Staffs' as const, id: 'LIST' }, // Инвалидируем список сотрудников
+      ],
     }),
   }),
 });

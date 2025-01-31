@@ -73,7 +73,13 @@ const scheduleApi = createApi({
           }
         `,
       }),
-      providesTags: ['Schedules'], // Добавляем тег для получения всех расписаний
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Schedules' as const, id: 'LIST' }, // Тег для всего списка
+              ...result.schedules.map(({ id }) => ({ type: 'Schedule' as const, id })), // Теги для каждого расписания
+            ]
+          : [{ type: 'Schedules' as const, id: 'LIST' }], // Если результат пуст, инвалидируем только список
     }),
 
     getSchedule: builder.query<{ schedule: ScheduleResponse }, { scheduleId: string }>({
@@ -138,7 +144,9 @@ const scheduleApi = createApi({
         `,
         variables: { scheduleId },
       }),
-      providesTags: (_result, _error, { scheduleId }) => [{ type: 'Schedule', id: scheduleId }],
+      providesTags: (_result, _error, { scheduleId }) => [
+        { type: 'Schedule' as const, id: scheduleId },
+      ],
     }),
 
     getSchedulesByStaffId: builder.query<
@@ -185,7 +193,13 @@ const scheduleApi = createApi({
         `,
         variables: { staffId },
       }),
-      providesTags: (_result, _error, { staffId }) => [{ type: 'Schedules', id: staffId }],
+      providesTags: (result, _error, { staffId }) =>
+        result
+          ? [
+              { type: 'Schedules' as const, id: staffId }, // Тег для расписаний конкретного сотрудника
+              ...result.schedulesByStaffId.map(({ id }) => ({ type: 'Schedule' as const, id })), // Теги для каждого расписания
+            ]
+          : [{ type: 'Schedules' as const, id: staffId }], // Если результат пуст, инвалидируем только список
     }),
 
     createSchedule: builder.mutation<ScheduleResponse, CreateScheduleInput>({
@@ -250,8 +264,7 @@ const scheduleApi = createApi({
         `,
         variables: { input },
       }),
-      // Invalidates the 'Schedules' tag to refetch the list of schedules after creating a new one
-      invalidatesTags: ['Schedules'],
+      invalidatesTags: [{ type: 'Schedules' as const, id: 'LIST' }], // Инвалидируем список расписаний
     }),
 
     updateSchedule: builder.mutation<ScheduleResponse, UpdateScheduleInput>({
@@ -316,8 +329,10 @@ const scheduleApi = createApi({
         `,
         variables: { input },
       }),
-      // Invalidates the specific schedule and the 'Schedules' tag to refetch updated data
-      invalidatesTags: (_result, _error, { id }) => [{ type: 'Schedule', id }, 'Schedules'],
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: 'Schedule' as const, id }, // Инвалидируем конкретное расписание
+        { type: 'Schedules' as const, id: 'LIST' }, // Инвалидируем список расписаний
+      ],
     }),
 
     deleteSchedule: builder.mutation<boolean, { id: string }>({
@@ -329,8 +344,7 @@ const scheduleApi = createApi({
         `,
         variables: { id },
       }),
-      // Invalidates the 'Schedules' tag to refetch the list of schedules after deletion
-      invalidatesTags: ['Schedules'],
+      invalidatesTags: [{ type: 'Schedules' as const, id: 'LIST' }], // Инвалидируем список расписаний
     }),
   }),
 });

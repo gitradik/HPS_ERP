@@ -10,6 +10,7 @@ class Client extends Model {
   public updatedAt!: Date;
   public companyName!: string;
   public isWorking!: boolean;
+  public isProblematic!: boolean;
 }
 
 Client.init(
@@ -38,6 +39,11 @@ Client.init(
       },
     },
     isWorking: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    isProblematic: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
