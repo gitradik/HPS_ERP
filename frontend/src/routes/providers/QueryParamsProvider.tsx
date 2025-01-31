@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'src/store/Store';
 import {
   selectQueryParams,
@@ -7,6 +7,7 @@ import {
   setSortOptions,
   setOffset,
   setLimit,
+  resetQueryParams,
 } from 'src/store/queryParams/QueryParamsSlice';
 import { SortOrder, WhereConditions } from 'src/types/query';
 
@@ -14,6 +15,17 @@ const QueryParamsProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParams = useSelector(selectQueryParams);
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const prevPath = useRef(location.pathname);
+
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    if (prevPath.current !== currentPath) dispatch(resetQueryParams());
+
+    prevPath.current = currentPath;
+  }, [location.pathname]);
 
   useEffect(() => {
     const filters: WhereConditions<any> = {};

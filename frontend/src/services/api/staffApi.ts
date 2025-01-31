@@ -1,41 +1,52 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { gql } from 'graphql-request';
 import { enhancedBaseQuery } from './baseQueryMiddleware';
-import { StaffResponse } from 'src/types/staff/staff';
+import { Staff, StaffResponse } from 'src/types/staff/staff';
+import { GetAllQueryParams } from 'src/types/query';
 
 const staffApi = createApi({
   reducerPath: 'staffApi',
   tagTypes: ['Staffs', 'Staff'],
   baseQuery: enhancedBaseQuery,
   endpoints: (builder) => ({
-    getStaffs: builder.query<{ staffs: StaffResponse[] }, void>({
-      query: () => ({
+    getStaffs: builder.query<
+      { items: StaffResponse[]; totalCount: number },
+      GetAllQueryParams<Staff>
+    >({
+      query: (queryParams) => ({
         document: gql`
-          query GetStaffs {
-            staffs {
-              id
-              userId
-              createdAt
-              updatedAt
-              user {
+          query GetStaffs($queryParams: StaffQueryParams) {
+            staffs(queryParams: $queryParams) {
+              items {
                 id
-                role
-                email
-                phoneNumber
-                firstName
-                lastName
-                position
-                contactDetails
-                isActive
-                updatedAt
+                userId
                 createdAt
-                photo
+                updatedAt
+                user {
+                  id
+                  role
+                  email
+                  phoneNumber
+                  firstName
+                  lastName
+                  position
+                  contactDetails
+                  isActive
+                  updatedAt
+                  createdAt
+                  photo
+                }
+                isAssigned
               }
-              isAssigned
+              totalCount
             }
           }
         `,
+        variables: { queryParams },
       }),
+      transformResponse: (response: { staffs: { items: StaffResponse[]; totalCount: number } }) => {
+        return response.staffs;
+      },
       providesTags: ['Staffs'],
     }),
 
