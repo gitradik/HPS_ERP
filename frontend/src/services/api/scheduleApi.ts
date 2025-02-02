@@ -67,7 +67,7 @@ const scheduleApi = createApi({
                   photo
                 }
                 companyName
-                isWorking
+                status
               }
             }
           }
@@ -137,7 +137,7 @@ const scheduleApi = createApi({
                   photo
                 }
                 companyName
-                isWorking
+                status
               }
             }
           }
@@ -186,7 +186,7 @@ const scheduleApi = createApi({
                   photo
                 }
                 companyName
-                isWorking
+                status
               }
             }
           }
@@ -257,7 +257,7 @@ const scheduleApi = createApi({
                   photo
                 }
                 companyName
-                isWorking
+                status
               }
             }
           }
@@ -322,7 +322,7 @@ const scheduleApi = createApi({
                   photo
                 }
                 companyName
-                isWorking
+                status
               }
             }
           }

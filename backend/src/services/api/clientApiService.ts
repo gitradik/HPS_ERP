@@ -1,5 +1,5 @@
 import { ApolloError } from 'apollo-server-express';
-import Client from '../../models/Client';
+import Client, { ClientStatus } from '../../models/Client';
 import User, { UserRole } from '../../models/User';
 import userApiService from './userApiService';
 import { updateExistingFields } from '../../utils/updateExistingFields';
@@ -10,7 +10,7 @@ export interface CreateClientInput {
 }
 export interface UpdateClientInput {
   companyName?: string;
-  isWorking?: boolean;
+  status?: ClientStatus;
 }
 
 const clientService = {

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Client, UpdateClientInput } from 'src/types/client/client';
+import { Client, ClientStatus, UpdateClientInput } from 'src/types/client/client';
 
 const initialState: Partial<UpdateClientInput> = {};
 
@@ -7,22 +7,18 @@ const clientSettingSlice = createSlice({
   name: 'clientSetting',
   initialState,
   reducers: {
-    setCompanyName: (state, action: PayloadAction<string>) => {
+    setClientCompanyName: (state, action: PayloadAction<string>) => {
       state.companyName = action.payload;
     },
-    setIsWorking: (state, action: PayloadAction<boolean>) => {
-      state.isWorking = action.payload;
-    },
-    setIsProblematic: (state, action: PayloadAction<boolean>) => {
-      state.isProblematic = action.payload;
+    setClientStatus: (state, action: PayloadAction<ClientStatus>) => {
+      state.status = action.payload;
     },
     resetClientSetting: () => initialState,
 
     updateClientSetting: (state, action: PayloadAction<Partial<Client>>) => {
-      const { companyName, isWorking, isProblematic } = action.payload;
+      const { companyName, status } = action.payload;
       state.companyName = companyName;
-      state.isWorking = isWorking;
-      state.isProblematic = isProblematic;
+      state.status = status;
     },
   },
 });
@@ -31,11 +27,10 @@ export const selectClientSetting = (state: { clientSetting: UpdateClientInput })
   state.clientSetting;
 
 export const {
-  setCompanyName,
-  setIsWorking,
+  setClientCompanyName,
+  setClientStatus,
   resetClientSetting,
   updateClientSetting,
-  setIsProblematic,
 } = clientSettingSlice.actions;
 
 export default clientSettingSlice.reducer;

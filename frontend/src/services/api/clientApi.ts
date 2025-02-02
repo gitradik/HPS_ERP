@@ -37,8 +37,7 @@ const clientApi = createApi({
                   photo
                 }
                 companyName
-                isWorking
-                isProblematic
+                status
               }
               totalCount
             }
@@ -84,8 +83,7 @@ const clientApi = createApi({
                 photo
               }
               companyName
-              isWorking
-              isProblematic
+              status
             }
           }
         `,
@@ -118,8 +116,7 @@ const clientApi = createApi({
                 photo
               }
               companyName
-              isWorking
-              isProblematic
+              status
             }
           }
         `,
@@ -155,8 +152,7 @@ const clientApi = createApi({
                 photo
               }
               companyName
-              isWorking
-              isProblematic
+              status
             }
           }
         `,
