@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { selectQueryParams, setOffset } from 'src/store/queryParams/QueryParamsSlice';
+import { selectQueryParams, setOffset } from 'src/store/queryParams/ClientQueryParamsSlice';
 
-export const usePagination = (totalCount: number) => {
+export const useClientPagination = (totalCount: number) => {
   const dispatch = useDispatch();
   const queryParams = useSelector(selectQueryParams);
 

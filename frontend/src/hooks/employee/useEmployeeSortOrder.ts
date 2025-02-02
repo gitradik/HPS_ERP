@@ -1,9 +1,10 @@
+import { setSortOptions, selectQueryParams } from 'src/store/queryParams/EmployeeQueryParamsSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { setSortOptions, selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
 import { SortOrder } from 'src/types/query';
 
-export const useSortOrder = () => {
+export const useEmployeeSortOrder = () => {
   const dispatch = useDispatch();
+  // @ts-ignore
   const queryParams = useSelector(selectQueryParams);
 
   const handleSort = (columnId: string) => {

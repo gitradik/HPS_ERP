@@ -29,5 +29,16 @@
     "CLOSED": "Uždaryta",
     "OPEN": "Atidaryta",
     "PENDING": "Laukiama"
+  },
+  "StatusValue": {
+    "ALL": "Visi",
+    "ACTIVE": "Aktyvus",
+    "INACTIVE": "Neaktyvus"
+  },
+  "ClientStatus": {
+    "ALL": "Visi",
+    "ACTIVE": "Aktyvus",
+    "INACTIVE": "Neaktyvus",
+    "BLACKLIST": "Juodasis sąrašas"
   }
 }

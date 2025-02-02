@@ -20,42 +20,45 @@ import moment from 'moment';
 import { Link, useNavigate } from 'react-router';
 import { Staff } from 'src/types/staff/staff';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
-import { FilterStatusType } from 'src/types/table/filter/filter';
-import TableCard from 'src/components/shared/TableCard';
+import TableCard from 'src/components/shared/tableCards/TableCard';
 import { ColumnType } from 'src/types/table/column';
-import { useSelector } from 'src/store/Store';
-import { useSortOrder } from 'src/hooks/useSortOrder';
-import { usePagination } from 'src/hooks/usePagination';
-import { useFilters } from 'src/hooks/useFilters';
-import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
+import { useStaffSortOrder } from 'src/hooks/staff/useStaffSortOrder';
+import { useStaffPagination } from 'src/hooks/staff/useStaffPagination';
+import { useStaffFilters } from 'src/hooks/staff/useStaffFilters';
 
 const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
   { id: 'status', label: 'Status', minWidth: 100 },
-  { id: 'updatedAt', label: 'Zuletzt aktualisiert', minWidth: 170 },
+  { id: 'createdAt', label: 'Erstelldatum', minWidth: 170 },
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
 const StaffTable = ({ staffs, totalCount }: { staffs: Staff[]; totalCount: number }) => {
   const navigate = useNavigate();
-  const queryParams = useSelector(selectQueryParams);
-  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
-  const { handlePageChange, page, count } = usePagination(totalCount);
-  const { handleFilter } = useFilters({ statusFieldName: 'isAssigned' });
+  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useStaffSortOrder();
+  const { handlePageChange, page, count } = useStaffPagination(totalCount);
+  const { handleFilter, defaultValues } = useStaffFilters();
 
   const items = staffs;
 
   const handleDownload = () => {
-    const headers = ['Benutzerdetails', 'E-Mail', 'Telefonnummer', 'Adresse', 'Status'];
+    const headers = [
+      'Benutzerdetails',
+      'E-Mail',
+      'Telefonnummer',
+      'Adresse',
+      'Status',
+      'Erstelldatum',
+    ];
     const rows = items.map((item: Staff) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
       item.isAssigned ? 'Aktiv' : 'Inaktiv',
-      moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
+      moment(Number(item.createdAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
@@ -75,14 +78,7 @@ const StaffTable = ({ staffs, totalCount }: { staffs: Staff[]; totalCount: numbe
     <TableCard
       title="Personal Tabelle"
       onDownload={handleDownload}
-      defaultValues={{
-        status:
-          queryParams.filters?.isAssigned === undefined
-            ? FilterStatusType.ALL
-            : queryParams.filters?.isAssigned
-              ? FilterStatusType.ACTIVE
-              : FilterStatusType.INACTIVE,
-      }}
+      defaultValues={defaultValues}
       onFilterSubmit={handleFilter}
     >
       <Box>
@@ -181,7 +177,7 @@ const StaffTable = ({ staffs, totalCount }: { staffs: Staff[]; totalCount: numbe
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {moment(Number(row.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(Number(row.createdAt)).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>

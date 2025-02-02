@@ -6,8 +6,9 @@ import Loadable from '../layouts/full/shared/loadable/Loadable';
 import ProtectedRoute from './guards/protectedRouteGuard';
 import PublicRouteGuard from './guards/publicRouteGuard';
 import RestrictedRouteGuard from './guards/user-role-guards/RestrictedRouteGuard';
-
-const QueryParamsProvider = Loadable(lazy(() => import('./providers/QueryParamsProvider')));
+import ClientQueryParamsProvider from './providers/ClientQueryParamsProvider';
+import StaffQueryParamsProvider from './providers/StaffQueryParamsProvider';
+import EmployeeQueryParamsProvider from './providers/EmployeeQueryParamsProvider';
 
 /* ***Apps**** */
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
@@ -19,7 +20,7 @@ const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
 const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')));
 
 /* ****Pages***** */
-const ModernDash = Loadable(lazy(() => import('../views/dashboard/Modern')));
+const ModernDash = Loadable(lazy(() => import('../views/dashboards/modern/Modern')));
 const Employee = Loadable(lazy(() => import('../views/dashboards/employee/Employee')));
 const EmployeeDetail = Loadable(lazy(() => import('../views/dashboards/employee/EmployeeDetail')));
 const Clients = Loadable(lazy(() => import('../views/dashboards/client/Clients')));
@@ -96,13 +97,13 @@ const Router = [
         path: '/staff',
         exact: true,
         element: (
-          <QueryParamsProvider>
+          <StaffQueryParamsProvider>
             <ProtectedRoute>
               <RestrictedRouteGuard>
                 <StaffPage />
               </RestrictedRouteGuard>
             </ProtectedRoute>
-          </QueryParamsProvider>
+          </StaffQueryParamsProvider>
         ),
       },
       {
@@ -153,13 +154,13 @@ const Router = [
         path: '/employees',
         exact: true,
         element: (
-          <QueryParamsProvider>
+          <EmployeeQueryParamsProvider>
             <ProtectedRoute>
               <RestrictedRouteGuard>
                 <Employee />
               </RestrictedRouteGuard>
             </ProtectedRoute>
-          </QueryParamsProvider>
+          </EmployeeQueryParamsProvider>
         ),
       },
       {
@@ -188,13 +189,13 @@ const Router = [
         path: '/clients',
         exact: true,
         element: (
-          <QueryParamsProvider>
+          <ClientQueryParamsProvider>
             <ProtectedRoute>
               <RestrictedRouteGuard>
                 <Clients />
               </RestrictedRouteGuard>
             </ProtectedRoute>
-          </QueryParamsProvider>
+          </ClientQueryParamsProvider>
         ),
       },
       {

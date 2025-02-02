@@ -19,7 +19,6 @@ import { selectIsLoading } from 'src/store/auth/RegisterSlice';
 import SetUserRoleDialog from './SetUserRoleDialog';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import UsersCard, { defaultUserRoleType } from 'src/components/shared/UsersCard';
-import { FilterFormValues } from 'src/types/table/filter/filter';
 import { IconCircle, IconClock } from '@tabler/icons-react';
 
 const UsersCards = () => {
@@ -93,7 +92,7 @@ const UsersCards = () => {
     );
   };
 
-  const handleFilter = ({ role: newRole, search: newSearch }: FilterFormValues) => {
+  const handleFilter = ({ role: newRole, search: newSearch }: any) => {
     setRole(newRole || 'all');
     setSearch(newSearch || '');
   };

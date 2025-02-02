@@ -10,7 +10,7 @@ import { useGetClientsQuery } from 'src/services/api/clientApi';
 import { Client } from 'src/types/client/client';
 import ClientsTable from 'src/components/tables/client/ClientsTable';
 import { useSelector } from 'src/store/Store';
-import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
+import { selectQueryParams } from 'src/store/queryParams/ClientQueryParamsSlice';
 
 const BCrumb = [
   {

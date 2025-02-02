@@ -3,7 +3,7 @@ import { UserResponse } from 'src/types/auth/auth';
 export enum ClientStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
-  BLACKLIST = 'BLACKLIST'
+  BLACKLIST = 'BLACKLIST',
 }
 
 export interface ClientResponse {
