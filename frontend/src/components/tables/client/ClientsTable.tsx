@@ -25,6 +25,7 @@ import { useClinetFilters } from 'src/hooks/client/useClientFilters';
 import ClientTableCard from 'src/components/shared/tableCards/ClientTableCard';
 import { useClientPagination } from 'src/hooks/client/useClientPagination';
 import { useClientSortOrder } from 'src/hooks/client/useClientSortOrder';
+import { useTranslation } from 'react-i18next';
 
 const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
@@ -37,6 +38,7 @@ const columns: ColumnType[] = [
 ];
 
 const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: number }) => {
+  const { t } = useTranslation();
   const { handleSort, getDirection, getSortDirection, isActiveDirection } = useClientSortOrder();
   const { handlePageChange, page, count } = useClientPagination(totalCount);
   const { handleFilter, defaultValues } = useClinetFilters();
@@ -183,10 +185,10 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                     <Chip
                       label={
                         client.status === ClientStatus.BLACKLIST
-                          ? 'Blacklist'
+                          ? t(`ClientStatus.${ClientStatus.BLACKLIST}`)
                           : client.status === ClientStatus.ACTIVE
-                            ? 'Aktiv'
-                            : 'Inaktiv'
+                            ? t(`ClientStatus.${ClientStatus.ACTIVE}`)
+                            : t(`ClientStatus.${ClientStatus.INACTIVE}`)
                       }
                       size="small"
                       icon={

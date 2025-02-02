@@ -54,9 +54,9 @@ const Router = [
     path: '/',
     element: <FullLayout />,
     children: [
-      { path: '/', element: <Navigate to="/dashboards/modern" /> },
+      { path: '/', element: <Navigate to="/modern" /> },
       {
-        path: '/dashboards/modern',
+        path: '/modern',
         exact: true,
         element: (
           <ProtectedRoute>
