@@ -3,6 +3,7 @@ import { Box, CardContent, Grid2 as Grid, Typography } from '@mui/material';
 import icon1 from '../../../assets/images/svgs/icon-connect.svg';
 import icon2 from '../../../assets/images/svgs/icon-user-male.svg';
 import icon3 from '../../../assets/images/svgs/icon-briefcase.svg';
+import icon4 from '../../../assets/images/svgs/icon-tasks.svg';
 
 interface cardType {
   icon: string;
@@ -16,7 +17,7 @@ const topcards: cardType[] = [
     icon: icon2,
     title: 'Mitarbeiter',
     digits: '96',
-    bgcolor: 'primary',
+    bgcolor: 'info',
   },
   {
     icon: icon3,
@@ -28,7 +29,13 @@ const topcards: cardType[] = [
     icon: icon1,
     title: 'Berichte',
     digits: '59',
-    bgcolor: 'info',
+    bgcolor: 'secondary',
+  },
+  {
+    icon: icon4,
+    title: '?',
+    digits: '129',
+    bgcolor: 'success',
   },
 ];
 

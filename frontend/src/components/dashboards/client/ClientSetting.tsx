@@ -313,10 +313,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
               </Grid>
               <Divider></Divider>
               <Stack direction="row" pt={3} spacing={3}>
-                <Stack>
-                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
-                    Ist Activ
-                  </CustomFormLabel>
+                <Stack direction="row" alignItems="center">
                   <CustomSwitch
                     checked={clientData.status === ClientStatus.ACTIVE}
                     disabled={!hasAccess('status') || clientData.status === ClientStatus.BLACKLIST}
@@ -330,11 +327,11 @@ const ClientSetting = ({ client }: { client: Client }) => {
                       )
                     }
                   />
-                </Stack>
-                <Stack>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
-                    Ist Problemkunde
+                    Aktiv / Inaktiv
                   </CustomFormLabel>
+                </Stack>
+                <Stack direction="row" alignItems="center">
                   <CustomSwitch
                     checked={clientData.status === ClientStatus.BLACKLIST}
                     disabled={!hasAccess('status')}
@@ -348,6 +345,9 @@ const ClientSetting = ({ client }: { client: Client }) => {
                       )
                     }
                   />
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
+                    Problemstatus
+                  </CustomFormLabel>
                 </Stack>
               </Stack>
             </form>
