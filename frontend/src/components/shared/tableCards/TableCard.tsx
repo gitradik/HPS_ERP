@@ -19,8 +19,14 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'src/store/Store';
 import { Formik } from 'formik';
-import ParentCard from './ParentCard';
-import { FilterStatusType } from 'src/types/table/filter/filter';
+import ParentCard from '../ParentCard';
+import { useTranslation } from 'react-i18next';
+
+export enum StatusValue {
+  ALL = 'all',
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
 
 interface TableCardProps {
   title: string;
@@ -28,7 +34,7 @@ interface TableCardProps {
   onDownload: () => void;
   onFilterSubmit: (values: any) => void;
   defaultValues?: {
-    status?: FilterStatusType;
+    status?: StatusValue;
   };
 }
 
@@ -39,6 +45,7 @@ const TableCard = ({
   onFilterSubmit,
   defaultValues,
 }: TableCardProps) => {
+  const { t } = useTranslation();
   const customizer = useSelector((state: any) => state.customizer);
 
   const theme = useTheme();
@@ -111,9 +118,11 @@ const TableCard = ({
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                           >
-                            <MenuItem value={FilterStatusType.ALL}>Alle</MenuItem>
-                            <MenuItem value={FilterStatusType.ACTIVE}>Aktiv</MenuItem>
-                            <MenuItem value={FilterStatusType.INACTIVE}>Inaktiv</MenuItem>
+                            {Object.entries(StatusValue).map((se, idx) => (
+                              <MenuItem key={`TableCard-${se[1]}-${idx}`} value={se[1]}>
+                                {t(`StatusValue.${se[0]}`)}
+                              </MenuItem>
+                            ))}
                           </Select>
                         </FormControl>
                       </Stack>

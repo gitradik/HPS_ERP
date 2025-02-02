@@ -26,11 +26,7 @@ const clientSettingSlice = createSlice({
 export const selectClientSetting = (state: { clientSetting: UpdateClientInput }) =>
   state.clientSetting;
 
-export const {
-  setClientCompanyName,
-  setClientStatus,
-  resetClientSetting,
-  updateClientSetting,
-} = clientSettingSlice.actions;
+export const { setClientCompanyName, setClientStatus, resetClientSetting, updateClientSetting } =
+  clientSettingSlice.actions;
 
 export default clientSettingSlice.reducer;

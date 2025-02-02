@@ -1,18 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Employee } from 'src/types/employee/employee';
 import { GetAllQueryParams, QueryState, SortOrder, WhereConditions } from 'src/types/query';
 
-const initialState: GetAllQueryParams<any> = {
+const initialState: GetAllQueryParams<Employee> = {
   filters: {},
   sortOptions: [],
   offset: 0,
   limit: 5,
 };
 
-const queryParamsSlice = createSlice({
-  name: 'queryParams',
+const employeeQueryParamsSlice = createSlice({
+  name: 'employeeQueryParams',
   initialState,
   reducers: {
-    setFilters: (state, action: PayloadAction<WhereConditions<any>>) => {
+    setFilters: (state, action: PayloadAction<WhereConditions<Employee>>) => {
       state.filters = action.payload;
     },
     setSortOptions: (state, action: PayloadAction<[string, SortOrder][]>) => {
@@ -29,12 +30,13 @@ const queryParamsSlice = createSlice({
 });
 
 // Селектор с использованием дженерика при вызове
-export const selectQueryParams = (state: { queryParams: QueryState<any> }): QueryState<any> =>
-  state.queryParams;
+export const selectQueryParams = (state: {
+  employeeQueryParams: QueryState<Employee>;
+}): QueryState<Employee> => state.employeeQueryParams;
 
 // Экспорт действий
 export const { setFilters, setSortOptions, setOffset, setLimit, resetQueryParams } =
-  queryParamsSlice.actions;
+employeeQueryParamsSlice.actions;
 
 // Экспорт редьюсера
-export default queryParamsSlice.reducer;
+export default employeeQueryParamsSlice.reducer;

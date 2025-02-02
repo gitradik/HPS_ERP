@@ -20,16 +20,16 @@ import { Employee } from 'src/types/employee/employee';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
-import { useSortOrder } from 'src/hooks/useSortOrder';
-import { usePagination } from 'src/hooks/usePagination';
 import { ColumnType } from 'src/types/table/column';
+import { useEmployeePagination } from 'src/hooks/employee/useEmployeePagination';
+import { useEmployeeSortOrder } from 'src/hooks/employee/useEmployeeSortOrder';
 
 const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
   { id: 'position', label: 'Position', minWidth: 100 },
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
-  { id: 'updatedAt', label: 'Zuletzt aktualisiert', minWidth: 170 },
+  { id: 'createdAt', label: 'Erstelldatum', minWidth: 170 },
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
@@ -40,20 +40,27 @@ const EmployeeTable = ({
   employees: Employee[];
   totalCount: number;
 }) => {
-  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
-  const { handlePageChange, page, count } = usePagination(totalCount);
+  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useEmployeeSortOrder();
+  const { handlePageChange, page, count } = useEmployeePagination(totalCount);
 
   const rows = employees;
 
   const handleDownload = () => {
-    const headers = ['Benutzerdetails', 'E-Mail', 'Position', 'Telefonnummer', 'Adresse'];
+    const headers = [
+      'Benutzerdetails',
+      'E-Mail',
+      'Position',
+      'Telefonnummer',
+      'Adresse',
+      'Erstelldatum',
+    ];
     const rows = employees.map((item: Employee) => [
       `${item.user.firstName} ${item.user.lastName}`,
       item.user.email || 'N/A',
       item.user.position || 'N/A',
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
-      moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
+      moment(Number(item.createdAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
@@ -147,7 +154,7 @@ const EmployeeTable = ({
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {moment(Number(row.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(Number(row.createdAt)).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>

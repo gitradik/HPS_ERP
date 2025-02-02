@@ -29,5 +29,16 @@
     "CLOSED": "Geschlossen",
     "OPEN": "Geöffnet",
     "PENDING": "Ausstehend"
+  },
+  "StatusValue": {
+    "ALL": "Alle",
+    "ACTIVE": "Activ",
+    "INACTIVE": "Inaktiv"
+  },
+  "ClientStatus": {
+    "ALL": "Alle",
+    "ACTIVE": "Activ",
+    "INACTIVE": "Inaktiv",
+    "BLACKLIST": "Schwarze Liste"
   }
 }

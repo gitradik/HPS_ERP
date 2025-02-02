@@ -10,7 +10,7 @@ import { useGetStaffsQuery } from 'src/services/api/staffApi';
 import { Staff } from 'src/types/staff/staff';
 import StaffTable from 'src/components/tables/staff/StaffTable';
 import { useSelector } from 'src/store/Store';
-import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
+import { selectQueryParams } from 'src/store/queryParams/StaffQueryParamsSlice';
 
 const BCrumb = [
   {

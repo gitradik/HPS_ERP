@@ -10,7 +10,7 @@ import { useGetEmployeesQuery } from 'src/services/api/employeeApi';
 import { Employee } from 'src/types/employee/employee';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'src/store/Store';
-import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
+import { selectQueryParams } from 'src/store/queryParams/EmployeeQueryParamsSlice';
 
 const BCrumb = [
   {

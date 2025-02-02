@@ -18,15 +18,13 @@ import {
 } from '@mui/material';
 import { IconCircle, IconClock, IconEdit, IconForbid } from '@tabler/icons-react';
 import moment from 'moment';
-import { useSelector } from 'src/store/Store';
-import TableCard from 'src/components/shared/TableCard';
 import { Client, ClientStatus } from 'src/types/client/client';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
-import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
-import { useSortOrder } from 'src/hooks/useSortOrder';
-import { usePagination } from 'src/hooks/usePagination';
-import { useFilters } from 'src/hooks/useFilters';
 import { ColumnType } from 'src/types/table/column';
+import { useClinetFilters } from 'src/hooks/client/useClientFilters';
+import ClientTableCard from 'src/components/shared/tableCards/ClientTableCard';
+import { useClientPagination } from 'src/hooks/client/useClientPagination';
+import { useClientSortOrder } from 'src/hooks/client/useClientSortOrder';
 
 const columns: ColumnType[] = [
   { id: 'user', label: 'Benutzerdetails', minWidth: 170 },
@@ -34,15 +32,14 @@ const columns: ColumnType[] = [
   { id: 'phoneNumber', label: 'Telefonnummer', minWidth: 100 },
   { id: 'address', label: 'Adresse', minWidth: 150 },
   { id: 'status', label: 'Status', minWidth: 100 },
-  { id: 'updatedAt', label: 'Zuletzt aktualisiert', minWidth: 170 },
+  { id: 'createdAt', label: 'Erstelldatum', minWidth: 170 },
   { id: 'action', label: 'Aktion', minWidth: 50 },
 ];
 
 const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: number }) => {
-  const queryParams = useSelector(selectQueryParams);
-  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
-  const { handlePageChange, page, count } = usePagination(totalCount);
-  const { handleFilter } = useFilters({ statusFieldName: 'status' });
+  const { handleSort, getDirection, getSortDirection, isActiveDirection } = useClientSortOrder();
+  const { handlePageChange, page, count } = useClientPagination(totalCount);
+  const { handleFilter, defaultValues } = useClinetFilters();
 
   const filteredRows = clients;
 
@@ -54,6 +51,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
       'Telefonnummer',
       'Adresse',
       'Status',
+      'Erstelldatum',
     ];
     const rows = clients.map((item: Client) => [
       `${item.user.firstName} ${item.user.lastName}`,
@@ -62,7 +60,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
       item.status,
-      moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
+      moment(Number(item.createdAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
@@ -79,11 +77,9 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
   };
 
   return (
-    <TableCard
+    <ClientTableCard
       title="Kunden Tabelle"
-      defaultValues={{
-        status: queryParams.filters?.status,
-      }}
+      defaultValues={defaultValues}
       onDownload={handleDownload}
       onFilterSubmit={handleFilter}
     >
@@ -186,7 +182,11 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                   <TableCell>
                     <Chip
                       label={
-                        client.status === ClientStatus.BLACKLIST ? 'Blacklist' : client.status === ClientStatus.ACTIVE ? 'Aktiv' : 'Inaktiv'
+                        client.status === ClientStatus.BLACKLIST
+                          ? 'Blacklist'
+                          : client.status === ClientStatus.ACTIVE
+                            ? 'Aktiv'
+                            : 'Inaktiv'
                       }
                       size="small"
                       icon={
@@ -199,16 +199,18 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                         )
                       }
                       sx={{
-                        backgroundColor: client.status === ClientStatus.BLACKLIST
-                          ? (theme) => theme.palette.grey[600]
-                          : client.status === ClientStatus.ACTIVE
-                            ? (theme) => theme.palette.success.light
-                            : (theme) => theme.palette.grey[100],
-                        color: client.status === ClientStatus.BLACKLIST
-                          ? (theme) => theme.palette.grey[100]
-                          : client.status === ClientStatus.ACTIVE
-                            ? (theme) => theme.palette.success.main
-                            : (theme) => theme.palette.grey[500],
+                        backgroundColor:
+                          client.status === ClientStatus.BLACKLIST
+                            ? (theme) => theme.palette.grey[600]
+                            : client.status === ClientStatus.ACTIVE
+                              ? (theme) => theme.palette.success.light
+                              : (theme) => theme.palette.grey[100],
+                        color:
+                          client.status === ClientStatus.BLACKLIST
+                            ? (theme) => theme.palette.grey[100]
+                            : client.status === ClientStatus.ACTIVE
+                              ? (theme) => theme.palette.success.main
+                              : (theme) => theme.palette.grey[500],
                         '.MuiChip-icon': {
                           color: 'inherit !important',
                         },
@@ -217,7 +219,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {moment(Number(client.updatedAt)).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(Number(client.createdAt)).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -241,7 +243,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
           <Pagination count={count} page={page} onChange={handlePageChange} color="primary" />
         </Box>
       </Box>
-    </TableCard>
+    </ClientTableCard>
   );
 };
 

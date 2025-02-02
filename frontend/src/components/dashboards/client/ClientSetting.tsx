@@ -313,14 +313,22 @@ const ClientSetting = ({ client }: { client: Client }) => {
               </Grid>
               <Divider></Divider>
               <Stack direction="row" pt={3} spacing={3}>
-                <Stack >
+                <Stack>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
                     Ist Activ
                   </CustomFormLabel>
                   <CustomSwitch
                     checked={clientData.status === ClientStatus.ACTIVE}
                     disabled={!hasAccess('status') || clientData.status === ClientStatus.BLACKLIST}
-                    onChange={() => dispatch(setClientStatus(clientData.status === ClientStatus.ACTIVE ? ClientStatus.INACTIVE : ClientStatus.ACTIVE))}
+                    onChange={() =>
+                      dispatch(
+                        setClientStatus(
+                          clientData.status === ClientStatus.ACTIVE
+                            ? ClientStatus.INACTIVE
+                            : ClientStatus.ACTIVE,
+                        ),
+                      )
+                    }
                   />
                 </Stack>
                 <Stack>
@@ -330,7 +338,15 @@ const ClientSetting = ({ client }: { client: Client }) => {
                   <CustomSwitch
                     checked={clientData.status === ClientStatus.BLACKLIST}
                     disabled={!hasAccess('status')}
-                    onChange={() => dispatch(setClientStatus(clientData.status === ClientStatus.BLACKLIST ? ClientStatus.INACTIVE : ClientStatus.BLACKLIST))}
+                    onChange={() =>
+                      dispatch(
+                        setClientStatus(
+                          clientData.status === ClientStatus.BLACKLIST
+                            ? ClientStatus.INACTIVE
+                            : ClientStatus.BLACKLIST,
+                        ),
+                      )
+                    }
                   />
                 </Stack>
               </Stack>
