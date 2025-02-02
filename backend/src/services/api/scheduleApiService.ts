@@ -2,7 +2,7 @@ import { ApolloError } from 'apollo-server-express';
 import { Op } from 'sequelize';
 import Schedule from '../../models/Schedule';
 import Staff from '../../models/Staff';
-import Client from '../../models/Client';
+import Client, { ClientStatus } from '../../models/Client';
 import User from '../../models/User';
 import { updateExistingFields } from '../../utils/updateExistingFields';
 import { ConflictingScheduleStartEndError } from '../../errors/schedule/ConflictingScheduleError';
@@ -169,7 +169,7 @@ const scheduleService = {
     });
 
     await staff.update({ isAssigned: true });
-    await client.update({ isWorking: true });
+    await client.update({ status: ClientStatus.ACTIVE });
 
     await newSchedule.reload({
       include: [
@@ -291,7 +291,7 @@ const scheduleService = {
 
     if (client)
       if ((await Schedule.count({ where: { clientId: client.id } })) === 0)
-        await client.update({ isWorking: false });
+        await client.update({ status: ClientStatus.INACTIVE });
 
     return true;
   },

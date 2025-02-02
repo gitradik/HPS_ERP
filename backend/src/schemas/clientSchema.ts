@@ -1,15 +1,20 @@
 import { gql } from 'apollo-server-express';
 
 const clientSchema = gql`
+  enum ClientStatus {
+    ACTIVE
+    INACTIVE
+    BLACKLIST
+  }
+
   type Client {
     id: ID!
     userId: ID!
     createdAt: String!
     updatedAt: String!
+    status: ClientStatus!
     user: User
     companyName: String
-    isWorking: Boolean!
-    isProblematic: Boolean!
   }
 
   type ClientsResponse {
@@ -23,8 +28,7 @@ const clientSchema = gql`
 
   input UpdateClientInput {
     companyName: String
-    isWorking: Boolean
-    isProblematic: Boolean
+    status: ClientStatus
   }
 
   input ClientQueryParams {

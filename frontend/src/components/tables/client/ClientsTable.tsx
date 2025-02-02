@@ -20,13 +20,12 @@ import { IconCircle, IconClock, IconEdit, IconForbid } from '@tabler/icons-react
 import moment from 'moment';
 import { useSelector } from 'src/store/Store';
 import TableCard from 'src/components/shared/TableCard';
-import { Client } from 'src/types/client/client';
+import { Client, ClientStatus } from 'src/types/client/client';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { selectQueryParams } from 'src/store/queryParams/QueryParamsSlice';
 import { useSortOrder } from 'src/hooks/useSortOrder';
 import { usePagination } from 'src/hooks/usePagination';
 import { useFilters } from 'src/hooks/useFilters';
-import { FilterStatusType } from 'src/types/table/filter/filter';
 import { ColumnType } from 'src/types/table/column';
 
 const columns: ColumnType[] = [
@@ -43,7 +42,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
   const queryParams = useSelector(selectQueryParams);
   const { handleSort, getDirection, getSortDirection, isActiveDirection } = useSortOrder();
   const { handlePageChange, page, count } = usePagination(totalCount);
-  const { handleFilter } = useFilters({ statusFieldName: 'isWorking' });
+  const { handleFilter } = useFilters({ statusFieldName: 'status' });
 
   const filteredRows = clients;
 
@@ -62,7 +61,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
       item.companyName || 'N/A',
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
-      item.isWorking ? 'Aktiv' : 'Inaktiv',
+      item.status,
       moment(Number(item.updatedAt)).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
@@ -83,12 +82,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
     <TableCard
       title="Kunden Tabelle"
       defaultValues={{
-        status:
-          queryParams.filters?.isWorking === undefined
-            ? FilterStatusType.ALL
-            : queryParams.filters?.isWorking
-              ? FilterStatusType.ACTIVE
-              : FilterStatusType.INACTIVE,
+        status: queryParams.filters?.status,
       }}
       onDownload={handleDownload}
       onFilterSubmit={handleFilter}
@@ -125,12 +119,12 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
 
                 <TableCell
                   style={{ minWidth: columns[4].minWidth }}
-                  sortDirection={getSortDirection('isWorking')}
+                  sortDirection={getSortDirection('status')}
                 >
                   <TableSortLabel
-                    active={isActiveDirection('isWorking')}
-                    direction={getDirection('isWorking')}
-                    onClick={() => handleSort('isWorking')}
+                    active={isActiveDirection('status')}
+                    direction={getDirection('status')}
+                    onClick={() => handleSort('status')}
                   >
                     <Typography variant="h6">{columns[4].label}</Typography>
                   </TableSortLabel>
@@ -192,27 +186,27 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                   <TableCell>
                     <Chip
                       label={
-                        client.isProblematic ? 'Blacklist' : client.isWorking ? 'Aktiv' : 'Inaktiv'
+                        client.status === ClientStatus.BLACKLIST ? 'Blacklist' : client.status === ClientStatus.ACTIVE ? 'Aktiv' : 'Inaktiv'
                       }
                       size="small"
                       icon={
-                        client.isProblematic ? (
+                        client.status === ClientStatus.BLACKLIST ? (
                           <IconForbid width={14} />
-                        ) : client.isWorking ? (
+                        ) : client.status === ClientStatus.ACTIVE ? (
                           <IconCircle width={14} />
                         ) : (
                           <IconClock width={14} />
                         )
                       }
                       sx={{
-                        backgroundColor: client.isProblematic
+                        backgroundColor: client.status === ClientStatus.BLACKLIST
                           ? (theme) => theme.palette.grey[600]
-                          : client.isWorking
+                          : client.status === ClientStatus.ACTIVE
                             ? (theme) => theme.palette.success.light
                             : (theme) => theme.palette.grey[100],
-                        color: client.isProblematic
+                        color: client.status === ClientStatus.BLACKLIST
                           ? (theme) => theme.palette.grey[100]
-                          : client.isWorking
+                          : client.status === ClientStatus.ACTIVE
                             ? (theme) => theme.palette.success.main
                             : (theme) => theme.palette.grey[500],
                         '.MuiChip-icon': {

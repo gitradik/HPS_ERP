@@ -29,12 +29,12 @@ import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
 import { userAccessRules } from '../../apps/account-setting/AccountTabData';
-import { Client } from 'src/types/client/client';
+import { Client, ClientStatus } from 'src/types/client/client';
 import {
   resetClientSetting,
   selectClientSetting,
-  setCompanyName,
-  setIsProblematic,
+  setClientCompanyName,
+  setClientStatus,
   updateClientSetting,
 } from 'src/store/apps/setting/ClientSettingSlice';
 import { useUpdateClientMutation } from 'src/services/api/clientApi';
@@ -43,7 +43,7 @@ import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 
 const ClientSetting = ({ client }: { client: Client }) => {
-  const { user, companyName, isWorking, isProblematic } = client;
+  const { user, companyName, status } = client;
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -57,8 +57,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
     {
       ...userAccessRules,
       companyName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-      isWorking: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
-      isProblematic: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+      status: [UserRole.SUPER_ADMIN, UserRole.ADMIN],
     },
     userRole,
   );
@@ -79,13 +78,13 @@ const ClientSetting = ({ client }: { client: Client }) => {
 
   useEffect(() => {
     dispatch(updateAccountSetting(user));
-    dispatch(updateClientSetting({ companyName, isWorking, isProblematic }));
+    dispatch(updateClientSetting({ companyName, status }));
 
     return () => {
       dispatch(resetAccountSetting());
       dispatch(resetClientSetting());
     };
-  }, [user, companyName, isWorking, isProblematic]);
+  }, [user, companyName, status]);
 
   const onSave = async () => {
     try {
@@ -101,7 +100,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
   };
   const onCancel = async () => {
     dispatch(updateAccountSetting(user));
-    dispatch(updateClientSetting({ companyName, isWorking, isProblematic }));
+    dispatch(updateClientSetting({ companyName, status }));
   };
   const onSubmitPwdForm = async (values: any, actions: any) => {
     try {
@@ -227,7 +226,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
               Hier können Sie persönliche Daten des Kunden ändern
             </Typography>
             <form>
-              <Grid pb={3} container spacing={3}>
+              <Grid pb={2} container spacing={3}>
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomFormLabel sx={{ mt: 0 }} htmlFor="first-name">
                     Vorname
@@ -294,7 +293,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
                     fullWidth
                     disabled={!hasAccess('companyName')}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      dispatch(setCompanyName(e.target.value))
+                      dispatch(setClientCompanyName(e.target.value))
                     }
                   />
                 </Grid>
@@ -313,15 +312,27 @@ const ClientSetting = ({ client }: { client: Client }) => {
                 </Grid>
               </Grid>
               <Divider></Divider>
-              <Stack pt={2}>
-                <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
-                  Ist Problemkunde
-                </CustomFormLabel>
-                <CustomSwitch
-                  checked={clientData.isProblematic}
-                  disabled={!hasAccess('isProblematic')}
-                  onChange={() => dispatch(setIsProblematic(!clientData.isProblematic))}
-                />
+              <Stack direction="row" pt={3} spacing={3}>
+                <Stack >
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
+                    Ist Activ
+                  </CustomFormLabel>
+                  <CustomSwitch
+                    checked={clientData.status === ClientStatus.ACTIVE}
+                    disabled={!hasAccess('status') || clientData.status === ClientStatus.BLACKLIST}
+                    onChange={() => dispatch(setClientStatus(clientData.status === ClientStatus.ACTIVE ? ClientStatus.INACTIVE : ClientStatus.ACTIVE))}
+                  />
+                </Stack>
+                <Stack>
+                  <CustomFormLabel sx={{ mt: 0 }} htmlFor="last-Problematic">
+                    Ist Problemkunde
+                  </CustomFormLabel>
+                  <CustomSwitch
+                    checked={clientData.status === ClientStatus.BLACKLIST}
+                    disabled={!hasAccess('status')}
+                    onChange={() => dispatch(setClientStatus(clientData.status === ClientStatus.BLACKLIST ? ClientStatus.INACTIVE : ClientStatus.BLACKLIST))}
+                  />
+                </Stack>
               </Stack>
             </form>
           </CardContent>

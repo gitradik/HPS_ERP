@@ -3,14 +3,19 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../services/databaseService';
 import User from './User';
 
+export enum ClientStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  BLACKLIST = 'BLACKLIST'
+}
+
 class Client extends Model {
   public id!: number;
   public userId!: number;
   public createdAt!: Date;
   public updatedAt!: Date;
   public companyName!: string;
-  public isWorking!: boolean;
-  public isProblematic!: boolean;
+  public status!: ClientStatus;
 }
 
 Client.init(
@@ -38,15 +43,10 @@ Client.init(
         },
       },
     },
-    isWorking: {
-      type: DataTypes.BOOLEAN,
+    status: {
+      type: DataTypes.ENUM(...Object.values(ClientStatus)),
       allowNull: false,
-      defaultValue: false,
-    },
-    isProblematic: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
+      defaultValue: ClientStatus.INACTIVE,
     },
   },
   {
