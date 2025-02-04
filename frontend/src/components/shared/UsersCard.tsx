@@ -20,20 +20,15 @@ import {
 import MenuItem from '@mui/material/MenuItem';
 import { Formik } from 'formik';
 import ParentCard from './ParentCard';
-import { UserRole } from 'src/types/auth/auth';
+import { User, UserRole } from 'src/types/user/user';
 import { useTranslation } from 'react-i18next';
-
-export type defaultUserRoleType = UserRole | 'all';
 
 interface TableCardProps {
   children: any;
   onOpenAddUserDialog: () => void;
   onSearch: (value: string) => void;
-  onFilterSubmit: (values: any) => void;
-  defaultValues: {
-    role: defaultUserRoleType;
-    search: string;
-  };
+  onFilterSubmit: (values: Partial<User>) => void;
+  defaultValues: Partial<User>;
   usersCount: number;
 }
 
@@ -56,7 +51,16 @@ const UsersCard = ({
     setAnchorEl(null);
   };
 
-  const initialValues = { ...defaultValues };
+  const initialValues = {
+    ...defaultValues,
+    role: defaultValues.role || 'all',
+    isActive:
+      defaultValues.isActive !== undefined
+        ? defaultValues.isActive
+          ? 'active'
+          : 'inactive'
+        : 'all',
+  };
 
   return (
     <Grid container spacing={3}>
@@ -110,13 +114,17 @@ const UsersCard = ({
                 <Formik
                   initialValues={initialValues}
                   onSubmit={(values, actions) => {
-                    onFilterSubmit(values);
+                    onFilterSubmit({
+                      role: values.role === 'all' ? undefined : (values.role as UserRole),
+                      isActive:
+                        values.isActive === 'all' ? undefined : values.isActive === 'active',
+                    });
                     actions.setSubmitting(false);
                   }}
                 >
                   {(props) => (
                     <form onSubmit={props.handleSubmit}>
-                      <Stack>
+                      <Stack spacing={2}>
                         <FormControl fullWidth>
                           <Typography variant="subtitle1" fontSize={12} fontWeight={600}>
                             Rolle
@@ -135,6 +143,21 @@ const UsersCard = ({
                                   {t(`UserRole.${role}`)}
                                 </MenuItem>
                               ))}
+                          </Select>
+                        </FormControl>
+                        <FormControl fullWidth>
+                          <Typography variant="subtitle1" fontSize={12} fontWeight={600}>
+                            E-Mail Aktivitätsstatus
+                          </Typography>
+                          <Select
+                            name="isActive"
+                            value={props.values.isActive}
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                          >
+                            <MenuItem value="all">{t('StatusValue.ALL')}</MenuItem>
+                            <MenuItem value="active">{t('StatusValue.ACTIVE')}</MenuItem>
+                            <MenuItem value="inactive">{t('StatusValue.INACTIVE')}</MenuItem>
                           </Select>
                         </FormControl>
                       </Stack>
@@ -161,17 +184,18 @@ const UsersCard = ({
             </Menu>
 
             <TextField
-              id="outlined-search"
-              placeholder="Benutzer suchen"
+              placeholder="Suche"
               size="small"
               type="search"
               variant="outlined"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <IconSearch size="14" />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <IconSearch size="14" />
+                    </InputAdornment>
+                  ),
+                },
               }}
               fullWidth
               onChange={(e) => onSearch(e.target.value)}

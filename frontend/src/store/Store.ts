@@ -24,6 +24,7 @@ import staffScheduleReducer from './staffSchedule/StaffScheduleSlice';
 import clientQueryParamsReducer from './queryParams/ClientQueryParamsSlice';
 import staffQueryParamsReducer from './queryParams/StaffQueryParamsSlice';
 import employeeQueryParamsReducer from './queryParams/EmployeeQueryParamsSlice';
+import userQueryParamsReducer from './queryParams/UserQueryParamsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -38,6 +39,7 @@ export const store = configureStore({
     clientQueryParams: clientQueryParamsReducer,
     staffQueryParams: staffQueryParamsReducer,
     employeeQueryParams: employeeQueryParamsReducer,
+    userQueryParams: userQueryParamsReducer,
     [userApi.reducerPath]: userApi.reducer,
     [employeeApi.reducerPath]: employeeApi.reducer,
     [clientApi.reducerPath]: clientApi.reducer,

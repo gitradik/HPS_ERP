@@ -38,7 +38,7 @@ import {
   updateClientSetting,
 } from 'src/store/apps/setting/ClientSettingSlice';
 import { useUpdateClientMutation } from 'src/services/api/clientApi';
-import { UserRole } from 'src/types/auth/auth';
+import { UserRole } from 'src/types/user/user';
 import AvatarUploaderById from 'src/components/shared/AvatarUploaderById';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 

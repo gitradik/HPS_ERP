@@ -1,7 +1,8 @@
 // src/store/auth/authSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from 'src/services/api/authApi';
-import { LoginResponse, RefreshTokenResponse, User } from 'src/types/auth/auth';
+import { LoginResponse, RefreshTokenResponse } from 'src/types/auth/auth';
+import { User } from 'src/types/user/user';
 
 interface AuthState {
   accessToken: string | null;

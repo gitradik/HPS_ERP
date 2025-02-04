@@ -16,7 +16,7 @@ import { useDispatch } from 'src/store/Store';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useCreateEmployeeMutation } from 'src/services/api/employeeApi';
-import { User, UserRole } from 'src/types/auth/auth'; // Импортируем ваш enum
+import { User, UserRole } from 'src/types/user/user'; // Импортируем ваш enum
 import { registerFailure, registerRequest, registerSuccess } from 'src/store/auth/RegisterSlice';
 import { useSnackbar } from 'notistack';
 import { useCreateClientMutation } from 'src/services/api/clientApi';

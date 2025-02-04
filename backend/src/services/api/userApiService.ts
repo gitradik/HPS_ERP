@@ -9,6 +9,7 @@ import { UserRole } from '../../models/User';
 import { sendEmail } from '../mailService';
 import { LoginResponse } from '../../utils/types/auth';
 import { updateExistingFields } from '../../utils/updateExistingFields';
+import { GetAllQueryParams } from '../../utils/types/query';
 
 dotenv.config();
 
@@ -59,16 +60,35 @@ const createTokens = (userId: number, role: UserRole) => {
 };
 
 const userService = {
-  async getUsers() {
-    return await User.findAll();
+  async getUsers(queryOptions: GetAllQueryParams<User>): Promise<User[]> {
+    const { filters, sortOptions, offset, limit } = queryOptions;
+
+    return await User.findAll({
+      where: filters,
+      order: sortOptions,
+      offset,
+      limit,
+    });
   },
-  async getUsersExcludingId(excludedId: number) {
+  async getUsersExcludingId(excludedId: number, queryOptions: GetAllQueryParams<User>) {
+    const { filters, sortOptions, offset, limit } = queryOptions;
+
     return await User.findAll({
       where: {
+        ...filters,
         id: {
           [Op.ne]: excludedId,
         },
       },
+      order: sortOptions,
+      offset,
+      limit,
+    });
+  },
+
+  async getUsersCount(filters: any): Promise<number> {
+    return await User.count({
+      where: filters,
     });
   },
 

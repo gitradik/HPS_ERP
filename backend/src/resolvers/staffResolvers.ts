@@ -13,15 +13,17 @@ const staffResolvers = {
       context: any,
       info: any,
     ): Promise<{ items: Staff[]; totalCount: number }> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
             async () => {
-              const { queryParams } = args;
-              const staffs = await staffService.getStaffs(queryParams);
-              const totalCount = await staffService.getStaffsCount(queryParams.filters);
-              return { items: staffs, totalCount };
+              const { queryParams } = _args;
+              const [items, totalCount] = await Promise.all([
+                staffService.getStaffs(queryParams),
+                staffService.getStaffsCount(queryParams.filters),
+              ]);
+              return { items, totalCount };
             },
             _parent,
             _args,
@@ -39,7 +41,7 @@ const staffResolvers = {
       context: any,
       info: any,
     ): Promise<Staff | null> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
@@ -62,7 +64,7 @@ const staffResolvers = {
       context: any,
       info: any,
     ): Promise<Staff> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
@@ -83,7 +85,7 @@ const staffResolvers = {
       context: any,
       info: any,
     ): Promise<Staff> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],

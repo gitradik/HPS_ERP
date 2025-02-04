@@ -2,9 +2,9 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 
 import ChildCard from 'src/components/shared/ChildCard';
 import { IconMail, IconMapPin } from '@tabler/icons-react';
-import { User } from 'src/types/auth/auth';
 import { useNavigate } from 'react-router';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import { User } from 'src/types/user/user';
 
 const IntroCard = ({ user }: { user: User }) => {
   const navigate = useNavigate();

@@ -18,15 +18,17 @@ const clientResolvers = {
       context: any,
       info: any,
     ): Promise<{ items: Client[]; totalCount: number }> =>
-      await authMiddleware(
-        (_parent: any, _args: any, _context: any, _info: any) =>
+      authMiddleware(
+        async (_parent: any, _args: typeof args, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
             async () => {
-              const { queryParams } = args;
-              const clients = await clientService.getClients(queryParams);
-              const totalCount = await clientService.getClientsCount(queryParams.filters);
-              return { items: clients, totalCount };
+              const { queryParams } = _args;
+              const [items, totalCount] = await Promise.all([
+                clientService.getClients(queryParams),
+                clientService.getClientsCount(queryParams.filters),
+              ]);
+              return { items, totalCount };
             },
             _parent,
             _args,
@@ -44,7 +46,7 @@ const clientResolvers = {
       context: any,
       info: any,
     ): Promise<Client | null> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
@@ -67,7 +69,7 @@ const clientResolvers = {
       context: any,
       info: any,
     ): Promise<Client> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
@@ -88,7 +90,7 @@ const clientResolvers = {
       context: any,
       info: any,
     ): Promise<Client> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],

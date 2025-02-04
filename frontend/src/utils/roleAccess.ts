@@ -1,4 +1,4 @@
-import { UserRole } from 'src/types/auth/auth';
+import { UserRole } from 'src/types/user/user';
 
 export type RolesWithAccess = {
   [field: string]: UserRole[];

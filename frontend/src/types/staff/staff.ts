@@ -1,4 +1,4 @@
-import { User } from 'src/types/auth/auth';
+import { User } from 'src/types/user/user';
 
 export interface StaffResponse {
   id: string;

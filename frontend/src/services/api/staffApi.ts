@@ -44,9 +44,8 @@ const staffApi = createApi({
         `,
         variables: { queryParams },
       }),
-      transformResponse: (response: { staffs: { items: StaffResponse[]; totalCount: number } }) => {
-        return response.staffs;
-      },
+      transformResponse: (response: { staffs: { items: StaffResponse[]; totalCount: number } }) =>
+        response.staffs,
       providesTags: (result) =>
         result
           ? [

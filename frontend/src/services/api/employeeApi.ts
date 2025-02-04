@@ -45,9 +45,7 @@ const employeeApi = createApi({
       }),
       transformResponse: (response: {
         employees: { items: EmployeeResponse[]; totalCount: number };
-      }) => {
-        return response.employees;
-      },
+      }) => response.employees,
       providesTags: (result) =>
         result
           ? [

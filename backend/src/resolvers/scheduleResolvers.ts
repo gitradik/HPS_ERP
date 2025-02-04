@@ -10,7 +10,7 @@ import scheduleService, {
 const scheduleResolvers = {
   Query: {
     schedules: async (parent: any, args: any, context: any, info: any): Promise<Schedule[]> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER],
@@ -31,7 +31,7 @@ const scheduleResolvers = {
       context: any,
       info: any,
     ): Promise<Schedule | null> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER],
@@ -52,7 +52,7 @@ const scheduleResolvers = {
       context: any,
       info: any,
     ): Promise<Schedule | null> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER],
@@ -75,7 +75,7 @@ const scheduleResolvers = {
       context: any,
       info: any,
     ): Promise<Schedule> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
@@ -96,7 +96,7 @@ const scheduleResolvers = {
       context: any,
       info: any,
     ): Promise<Schedule> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
@@ -117,7 +117,7 @@ const scheduleResolvers = {
       context: any,
       info: any,
     ): Promise<boolean> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
