@@ -45,11 +45,8 @@ const clientApi = createApi({
         `,
         variables: { queryParams },
       }),
-      transformResponse: (response: {
-        clients: { items: ClientResponse[]; totalCount: number };
-      }) => {
-        return response.clients;
-      },
+      transformResponse: (response: { clients: { items: ClientResponse[]; totalCount: number } }) =>
+        response.clients,
       providesTags: (result) =>
         result
           ? [

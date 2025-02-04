@@ -6,7 +6,7 @@ import User from './User';
 export enum ClientStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
-  BLACKLIST = 'BLACKLIST'
+  BLACKLIST = 'BLACKLIST',
 }
 
 class Client extends Model {

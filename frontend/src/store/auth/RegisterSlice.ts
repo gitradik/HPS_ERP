@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserRole } from 'src/types/auth/auth';
+import { UserRole } from 'src/types/user/user';
 
 // Define the initial state for registration
 interface RegisterState {

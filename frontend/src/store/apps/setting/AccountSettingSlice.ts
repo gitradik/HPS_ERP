@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isEmpty } from 'lodash';
-import { UpdateUserInput, User, UserRole } from 'src/types/auth/auth';
+import { UpdateUserInput } from 'src/types/auth/auth';
+import { User, UserRole } from 'src/types/user/user';
 
 export interface AccountSettingState extends UpdateUserInput {
   confirmPassword?: string;

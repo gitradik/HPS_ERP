@@ -15,15 +15,17 @@ const employeeResolvers = {
       context: any,
       info: any,
     ): Promise<{ items: Employee[]; totalCount: number }> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],
             async () => {
-              const { queryParams } = args;
-              const employees = await employeeService.getEmployees(queryParams);
-              const totalCount = await employeeService.getEmployeesCount(queryParams.filters);
-              return { items: employees, totalCount };
+              const { queryParams } = _args;
+              const [items, totalCount] = await Promise.all([
+                employeeService.getEmployees(queryParams),
+                employeeService.getEmployeesCount(queryParams.filters),
+              ]);
+              return { items, totalCount };
             },
             _parent,
             _args,
@@ -41,7 +43,7 @@ const employeeResolvers = {
       context: any,
       info: any,
     ): Promise<Employee | null> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Роли, которым разрешен доступ
@@ -64,7 +66,7 @@ const employeeResolvers = {
       context: any,
       info: any,
     ): Promise<Employee> =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN],

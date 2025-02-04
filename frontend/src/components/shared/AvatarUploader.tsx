@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 
 import { useDispatch } from 'src/store/Store';
 import { updateUserSuccess } from 'src/store/auth/AuthSlice';
-import { User } from 'src/types/auth/auth';
+import { User } from 'src/types/user/user';
 import { useUploadPhotoMutation } from 'src/services/api/uploadApi';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';

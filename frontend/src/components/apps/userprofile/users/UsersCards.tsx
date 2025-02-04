@@ -7,42 +7,36 @@ import {
   Typography,
   Divider,
   Button,
+  Pagination,
 } from '@mui/material';
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import BlankCard from 'src/components/shared/BlankCard';
 import { useTranslation } from 'react-i18next';
 import { useGetUsersQuery } from 'src/services/api/userApi';
-import { User, UserRole } from 'src/types/auth/auth';
+import { User, UserRole } from 'src/types/user/user';
 import CreateUserDialog from './CreateUserDialog';
 import { useSelector } from 'src/store/Store';
-import { selectIsLoading } from 'src/store/auth/RegisterSlice';
 import SetUserRoleDialog from './SetUserRoleDialog';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
-import UsersCard, { defaultUserRoleType } from 'src/components/shared/UsersCard';
+import UsersCard from 'src/components/shared/UsersCard';
 import { IconCircle, IconClock } from '@tabler/icons-react';
+import { selectQueryParams } from 'src/store/queryParams/UserQueryParamsSlice';
+import { useUserFilters } from 'src/hooks/user/useUserFilters';
+import { useUserPagination } from 'src/hooks/user/useUserPagination';
 
 const UsersCards = () => {
-  const filterUsers = (cSearch: string, role: defaultUserRoleType, users?: User[]) => {
-    if (!users) return [];
-
-    return users.filter((user) => {
-      const matchesSearch = (user.firstName + ' ' + user.lastName + ' ' + user.email)
-        .toLocaleLowerCase()
-        .includes(cSearch.toLocaleLowerCase());
-
-      const matchesRole = role === 'all' || user.role === role;
-
-      return matchesSearch && matchesRole;
-    });
-  };
-  const [search, setSearch] = React.useState('');
-  const [role, setRole] = React.useState<defaultUserRoleType>('all');
   const [open, setOpen] = React.useState(false);
   const [openUserDialog, setOpenUserDialog] = React.useState(false);
-  const isLoadingRegisterUser = useSelector(selectIsLoading);
-  const { data, refetch } = useGetUsersQuery();
+
+  const queryParams = useSelector(selectQueryParams);
+  const { data } = useGetUsersQuery(queryParams);
   const { t } = useTranslation();
-  const users = data?.users || [];
+  const users = data?.items || [];
+  const { handlePageChange, page, count } = useUserPagination(data?.totalCount || 0);
+  const { handleFilter, defaultValues } = useUserFilters();
+  const handleSerach = (value: string) => {
+    console.log('handleSerach', value);
+  };
 
   const [selectedUser, setSelectedUser] = React.useState<User | null>(null);
 
@@ -50,15 +44,6 @@ const UsersCards = () => {
     setSelectedUser(u);
     setOpenUserDialog(true);
   };
-
-  useEffect(() => {
-    if (!isLoadingRegisterUser) refetch().then();
-  }, [isLoadingRegisterUser]);
-
-  const getUsers = useCallback(
-    () => filterUsers(search, role, users),
-    [users, search, filterUsers],
-  );
 
   const isRoleUser = (u: User) => u.role === UserRole.USER;
   const showActiveStatus = (u: User) => {
@@ -92,16 +77,11 @@ const UsersCards = () => {
     );
   };
 
-  const handleFilter = ({ role: newRole, search: newSearch }: any) => {
-    setRole(newRole || 'all');
-    setSearch(newSearch || '');
-  };
-
   return (
     <UsersCard
       onFilterSubmit={handleFilter}
-      defaultValues={{ role, search }}
-      onSearch={(value) => setSearch(value)}
+      defaultValues={defaultValues}
+      onSearch={handleSerach}
       onOpenAddUserDialog={() => setOpen(true)}
       usersCount={users.length}
     >
@@ -115,7 +95,7 @@ const UsersCards = () => {
         />
       )}
 
-      {getUsers().map((profile) => (
+      {users.map((profile) => (
         <Grid
           key={profile.id}
           size={{
@@ -161,6 +141,17 @@ const UsersCards = () => {
           </BlankCard>
         </Grid>
       ))}
+
+      <Box
+        my={3}
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Pagination count={count} page={page} onChange={handlePageChange} color="primary" />
+      </Box>
     </UsersCard>
   );
 };

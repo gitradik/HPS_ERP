@@ -1,3 +1,5 @@
+import { User, UserRole } from '../user/user';
+
 export interface registerType {
   title?: string;
   subtitle?: any | any[];
@@ -14,21 +16,7 @@ export interface signInType {
   title?: string;
 }
 
-export interface UserResponse {
-  id: string;
-  role: UserRole;
-  email: string;
-  phoneNumber?: string;
-  firstName: string;
-  lastName: string;
-  position?: string;
-  contactDetails?: string;
-  isActive: boolean;
-  updatedAt: string;
-  createdAt: string;
-  photo?: string;
-}
-export interface User extends UserResponse {}
+export interface UserResponse extends User {}
 
 export interface UpdateUserInput {
   role?: string;
@@ -87,14 +75,4 @@ export interface RefreshTokenResponse {
 
 export interface LogoutResponse {
   success: boolean;
-}
-
-export enum UserRole {
-  SUPER_ADMIN = 'SUPER_ADMIN',
-  ADMIN = 'ADMIN',
-  MANAGER = 'MANAGER',
-  STAFF = 'STAFF',
-  EMPLOYEE = 'EMPLOYEE',
-  CLIENT = 'CLIENT',
-  USER = 'USER',
 }

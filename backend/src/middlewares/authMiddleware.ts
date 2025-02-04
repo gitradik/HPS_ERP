@@ -20,7 +20,7 @@ function decodToken(token: string) {
 
 // Authentication and permission checking middleware
 const authMiddleware = async (
-  resolve: (parent: any, args: any, context: any, info: any) => any,
+  resolve: (parent: any, args: any, context: any, info: any) => Promise<any>,
   parent: any,
   args: any,
   context: any,

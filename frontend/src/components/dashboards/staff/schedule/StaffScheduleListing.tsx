@@ -17,11 +17,12 @@ import {
   TableContainer,
   IconButton,
   Tooltip,
+  InputAdornment,
 } from '@mui/material';
 import dayjs from 'dayjs';
 import { useSnackbar } from 'notistack';
 import { useTranslation } from 'react-i18next';
-import { IconEdit, IconEye, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconEye, IconSearch, IconTrash } from '@tabler/icons-react';
 import { Schedule, ScheduleStatus } from 'src/types/schedule/schedule';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import {
@@ -103,8 +104,19 @@ const StaffScheduleListing = () => {
     <Box mt={4}>
       <Box sx={{ maxWidth: '260px', ml: 'auto' }} mb={3}>
         <TextField
+          placeholder="Suche"
           size="small"
-          label="Search"
+          type="search"
+          variant="outlined"
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <IconSearch size="14" />
+                </InputAdornment>
+              ),
+            },
+          }}
           fullWidth
           onChange={(e) => dispatch(setSearchSchedule(e.target.value))}
         />

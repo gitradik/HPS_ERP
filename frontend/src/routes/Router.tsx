@@ -9,6 +9,7 @@ import RestrictedRouteGuard from './guards/user-role-guards/RestrictedRouteGuard
 import ClientQueryParamsProvider from './providers/ClientQueryParamsProvider';
 import StaffQueryParamsProvider from './providers/StaffQueryParamsProvider';
 import EmployeeQueryParamsProvider from './providers/EmployeeQueryParamsProvider';
+import UserQueryParamsProvider from './providers/UserQueryParamsProvider';
 
 /* ***Apps**** */
 const UserProfile = Loadable(lazy(() => import('../views/apps/user-profile/UserProfile')));
@@ -178,11 +179,13 @@ const Router = [
         path: '/users',
         exact: true,
         element: (
-          <ProtectedRoute>
-            <RestrictedRouteGuard>
-              <Users />
-            </RestrictedRouteGuard>
-          </ProtectedRoute>
+          <UserQueryParamsProvider>
+            <ProtectedRoute>
+              <RestrictedRouteGuard>
+                <Users />
+              </RestrictedRouteGuard>
+            </ProtectedRoute>
+          </UserQueryParamsProvider>
         ),
       },
       {

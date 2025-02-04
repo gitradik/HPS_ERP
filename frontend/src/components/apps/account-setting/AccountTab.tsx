@@ -10,7 +10,6 @@ import CustomTextField from '../../forms/theme-elements/CustomTextField';
 import CustomFormLabel from '../../forms/theme-elements/CustomFormLabel';
 
 // images
-import { User } from 'src/types/auth/auth';
 import Spinner from 'src/views/spinner/Spinner';
 import {
   resetAccountSetting,
@@ -31,6 +30,7 @@ import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useSnackbar } from 'notistack';
 import AvatarUploader from 'src/components/shared/AvatarUploader';
+import { User } from 'src/types/user/user';
 
 const AccountTab = ({ user }: { user: User }) => {
   const dispatch = useDispatch();

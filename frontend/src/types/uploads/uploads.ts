@@ -1,4 +1,4 @@
-import { User } from '../auth/auth';
+import { User } from '../user/user';
 
 export interface UploadPhotoResponse {
   success: boolean;

@@ -5,7 +5,7 @@ import { Grid2 as Grid, Box, Typography, Avatar, CardMedia, styled } from '@mui/
 import profilecover from 'src/assets/images/backgrounds/abstract-paper-background-concept.jpg';
 import ProfileTab from './ProfileTab';
 import BlankCard from '../../../shared/BlankCard';
-import { User } from 'src/types/auth/auth';
+import { User } from 'src/types/user/user';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 const ProfileBanner = ({ user, isProfile }: { user: User; isProfile?: boolean }) => {

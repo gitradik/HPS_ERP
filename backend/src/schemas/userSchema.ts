@@ -60,6 +60,11 @@ const userSchema = gql`
     role: UserRole
   }
 
+  type UsersResponse {
+    items: [User!]!
+    totalCount: Int!
+  }
+
   type RegisterResponse {
     success: Boolean!
     message: String!
@@ -79,9 +84,16 @@ const userSchema = gql`
     message: String!
   }
 
+  input UserQueryParams {
+    filters: JSON
+    sortOptions: [[String]]
+    offset: Int
+    limit: Int
+  }
+
   # Define the root Query type
   type Query {
-    users: [User!]! # Get all users
+    users(queryParams: UserQueryParams): UsersResponse!
     user(id: ID!): User # Get user by ID
     usersByRole(role: UserRole!): [User!]!
     activeUsers: [User!]! # Получить активных пользователей

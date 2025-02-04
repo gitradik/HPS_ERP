@@ -6,7 +6,7 @@ import { useDispatch } from 'src/store/Store';
 import { useUploadPhotoByIdMutation } from 'src/services/api/uploadApi';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { updateAccountSetting } from 'src/store/apps/setting/AccountSettingSlice';
-import { User } from 'src/types/auth/auth';
+import { User } from 'src/types/user/user';
 
 const AvatarUploaderById = ({ user }: { user: User }) => {
   const initialAvatar = getUploadsImagesProfilePath(user.photo);

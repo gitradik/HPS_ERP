@@ -7,11 +7,20 @@ import { roleMiddleware } from '../middlewares/roleMiddleware';
 const resolvers = {
   Query: {
     users: async (parent: any, args: any, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
-            [UserRole.SUPER_ADMIN, UserRole.ADMIN], // Roles which have accsess
-            () => userService.getUsersExcludingId(context.user.id),
+            [UserRole.SUPER_ADMIN, UserRole.ADMIN],
+            async () => {
+              {
+                const { queryParams } = _args;
+                const [items, totalCount] = await Promise.all([
+                  userService.getUsersExcludingId(context.user.id, queryParams),
+                  userService.getUsersCount(queryParams.filters),
+                ]);
+                return { items, totalCount };
+              }
+            },
             _parent,
             _args,
             _context,
@@ -23,7 +32,7 @@ const resolvers = {
         info,
       ),
     user: async (parent: any, { id }: { id: number }, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) => userService.getUserById(id),
         parent,
         { id },
@@ -31,7 +40,7 @@ const resolvers = {
         info,
       ),
     usersByRole: async (parent: any, { role }: { role: UserRole }, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) => userService.getUsersByRole(role),
         parent,
         { role },
@@ -39,7 +48,7 @@ const resolvers = {
         info,
       ),
     activeUsers: async (parent: any, args: any, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) => userService.getActiveUsers(),
         parent,
         args,
@@ -47,7 +56,7 @@ const resolvers = {
         info,
       ),
     usersByName: async (parent: any, { name }: { name: string }, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         (_parent: any, _args: any, _context: any, _info: any) => userService.getUsersByName(name),
         parent,
         { name },
@@ -63,7 +72,7 @@ const resolvers = {
       context: any,
       info: any,
     ) =>
-      await authMiddleware(
+      authMiddleware(
         async (_parent: any, _args: any, _context: any, _info: any) =>
           userService.updateUser(id, input),
         parent,
@@ -72,7 +81,7 @@ const resolvers = {
         info,
       ),
     delete: async (parent: any, { id }: { id: number }, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         async (_parent: any, _args: any, _context: any, _info: any) => userService.deleteUser(id),
         parent,
         { id },
@@ -86,16 +95,16 @@ const resolvers = {
         phoneNumber?: string;
         password: string;
       },
-    ): Promise<LoginResponse> => await userService.loginUser(input),
+    ): Promise<LoginResponse> => userService.loginUser(input),
     register: async (_: unknown, { input }: { input: CreateUserInput }): Promise<UserResponse> =>
-      await userService.registerUser(input),
+      userService.registerUser(input),
     refreshToken: async (
       parent: any,
       { refreshToken }: { refreshToken: string },
       context: any,
       info: any,
     ) =>
-      await authMiddleware(
+      authMiddleware(
         async (_parent: any, _args: any, _context: any, _info: any) =>
           userService.refreshUserToken(refreshToken),
         parent,
@@ -104,7 +113,7 @@ const resolvers = {
         info,
       ),
     logout: async (parent: any, args: any, context: any, info: any) =>
-      await authMiddleware(
+      authMiddleware(
         async (_parent: any, _args: any, _context: any, _info: any) =>
           userService.getLogoutResponse(),
         parent,
@@ -113,7 +122,7 @@ const resolvers = {
         info,
       ),
     verifyEmail: async (_: any, { token }: { token: string }): Promise<LoginResponse> =>
-      await userService.verifyEmail(token),
+      userService.verifyEmail(token),
   },
 };
 

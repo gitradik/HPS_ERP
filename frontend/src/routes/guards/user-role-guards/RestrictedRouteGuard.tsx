@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { selectUserRole } from 'src/store/auth/AuthSlice';
 import { useSelector } from 'src/store/Store';
-import { UserRole } from 'src/types/auth/auth';
+import { UserRole } from 'src/types/user/user';
 
 const roles = [UserRole.EMPLOYEE, UserRole.CLIENT, UserRole.STAFF, UserRole.USER];
 

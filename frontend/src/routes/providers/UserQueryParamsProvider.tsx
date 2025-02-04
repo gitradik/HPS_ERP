@@ -6,11 +6,11 @@ import {
   setLimit,
   setOffset,
   setSortOptions,
-} from 'src/store/queryParams/EmployeeQueryParamsSlice';
+} from 'src/store/queryParams/UserQueryParamsSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
 import { SortOrder, WhereConditions } from 'src/types/query';
 
-const EmployeeQueryParamsProvider = ({ children }: { children: React.ReactNode }) => {
+const UserQueryParamsProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const queryParams = useSelector(selectQueryParams);
   const dispatch = useDispatch();
@@ -51,6 +51,9 @@ const EmployeeQueryParamsProvider = ({ children }: { children: React.ReactNode }
         if (value) {
           newParams[key] = value as string;
         }
+        if (key === 'isActive' && typeof value === 'boolean') {
+          newParams[key] = value ? 'true' : 'false';
+        }
       });
 
     // sorting
@@ -70,4 +73,4 @@ const EmployeeQueryParamsProvider = ({ children }: { children: React.ReactNode }
   return <>{children}</>;
 };
 
-export default EmployeeQueryParamsProvider;
+export default UserQueryParamsProvider;
