@@ -19,7 +19,7 @@ const IntroCard = ({ user }: { user: User }) => {
           size="small"
           variant="outlined"
           color="primary"
-          onClick={() => navigate('/account-setting')}
+          onClick={() => navigate('/user-profile/account-setting')}
         >
           Bearbeiten
         </Button>

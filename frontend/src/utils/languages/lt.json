@@ -6,7 +6,12 @@
   "Outlined": "Apibūdinta",
   "External Link": "Išorinis nuoroda",
   "MenuItems": {
+    "subheader1": "Srities meniu",
     "schedule": "Tvarkaraščio valdymas",
+    "schedule_descr": "Tai yra puslapis, skirtas darbo grafiko valdymui",
+    "home_page": "Pagrindinis",
+    "calendar": "Kalendorius",
+    "calendar_descr": "Tai yra kalendoriaus valdymo puslapis",
     "staff_management": "Personalas valdymas",
     "time_tracking": "Laiko sekimas",
     "employees": "Darbuotojai",

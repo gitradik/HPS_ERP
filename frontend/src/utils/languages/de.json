@@ -6,7 +6,12 @@
   "Outlined": "Umrandet",
   "External Link": "Externer Link",
   "MenuItems": {
+    "subheader1": "Bereichsmenü",
     "schedule": "Einsatzplan verwalten",
+    "schedule_descr": "Dies ist die Seite zur Verwaltung des Einsatzplans",
+    "home_page": "Startseite",
+    "calendar": "Kalendar",
+    "calendar_descr": "Dies ist die Seite zur Verwaltung des Kalenders",
     "staff_management": "Personal verwalten",
     "time_tracking": "Zeiterfassung",
     "employees": "Mitarbeiter",

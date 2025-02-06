@@ -9,8 +9,10 @@ import QuickLinks from './QuickLinks';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const AppDD = () => {
+  const { t } = useTranslation();
   const [anchorEl2, setAnchorEl2] = useState(null);
 
   // const handleClick2 = (event: any) => {
@@ -105,16 +107,16 @@ const AppDD = () => {
         to="/"
         component={Link}
       >
-        Startseite
+        {t('MenuItems.home_page')}
       </Button>
       <Button
         color="inherit"
         sx={{ color: (theme) => theme.palette.text.secondary }}
         variant="text"
-        to="/"
+        to="/calendar"
         component={Link}
       >
-        Kalendar
+        {t('MenuItems.calendar')}
       </Button>
     </>
   );
