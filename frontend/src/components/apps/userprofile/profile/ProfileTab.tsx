@@ -29,7 +29,7 @@ const ProfileTab = () => {
     {
       label: 'Benutzer',
       icon: <IconUsersGroup size="20" />,
-      to: '/users',
+      to: '/user-profile/users',
     },
   ];
 

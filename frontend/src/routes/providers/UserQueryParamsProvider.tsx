@@ -48,11 +48,10 @@ const UserQueryParamsProvider = ({ children }: { children: React.ReactNode }) =>
     // filters
     if (queryParams.filters)
       Object.entries(queryParams.filters).forEach(([key, value]) => {
-        if (value) {
-          newParams[key] = value as string;
-        }
-        if (key === 'isActive' && typeof value === 'boolean') {
+        if (typeof value === 'boolean') {
           newParams[key] = value ? 'true' : 'false';
+        } else if (value) {
+          newParams[key] = value as string;
         }
       });
 

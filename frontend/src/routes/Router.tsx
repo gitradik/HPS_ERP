@@ -28,6 +28,7 @@ const Clients = Loadable(lazy(() => import('../views/dashboards/client/Clients')
 const ClientDetail = Loadable(lazy(() => import('../views/dashboards/client/ClientDetail')));
 const StaffPage = Loadable(lazy(() => import('../views/dashboards/staff/Staff')));
 const StaffDetail = Loadable(lazy(() => import('../views/dashboards/staff/StaffDetail')));
+const Calendar = Loadable(lazy(() => import('../views/dashboards/calendar/Calendar')));
 const Schedule = Loadable(lazy(() => import('../views/dashboards/schedule/Schedule')));
 const StaffSchedule = Loadable(
   lazy(() => import('../views/dashboards/staff/schedule/StaffSchedule')),
@@ -62,24 +63,6 @@ const Router = [
         element: (
           <ProtectedRoute>
             <ModernDash />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/user-profile',
-        exact: true,
-        element: (
-          <ProtectedRoute>
-            <UserProfile />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/account-setting',
-        exact: true,
-        element: (
-          <ProtectedRoute>
-            <AccountSetting />
           </ProtectedRoute>
         ),
       },
@@ -176,19 +159,6 @@ const Router = [
         ),
       },
       {
-        path: '/users',
-        exact: true,
-        element: (
-          <UserQueryParamsProvider>
-            <ProtectedRoute>
-              <RestrictedRouteGuard>
-                <Users />
-              </RestrictedRouteGuard>
-            </ProtectedRoute>
-          </UserQueryParamsProvider>
-        ),
-      },
-      {
         path: '/clients',
         exact: true,
         element: (
@@ -208,6 +178,49 @@ const Router = [
           <ProtectedRoute>
             <RestrictedRouteGuard>
               <ClientDetail />
+            </RestrictedRouteGuard>
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: '/user-profile',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/user-profile/account-setting',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <AccountSetting />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/user-profile/users',
+        exact: true,
+        element: (
+          <UserQueryParamsProvider>
+            <ProtectedRoute>
+              <RestrictedRouteGuard>
+                <Users />
+              </RestrictedRouteGuard>
+            </ProtectedRoute>
+          </UserQueryParamsProvider>
+        ),
+      },
+      {
+        path: '/calendar',
+        exact: true,
+        element: (
+          <ProtectedRoute>
+            <RestrictedRouteGuard>
+              <Calendar />
             </RestrictedRouteGuard>
           </ProtectedRoute>
         ),
