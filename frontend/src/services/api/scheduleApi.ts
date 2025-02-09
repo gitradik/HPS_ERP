@@ -202,6 +202,80 @@ const scheduleApi = createApi({
           : [{ type: 'Schedules' as const, id: staffId }], // Если результат пуст, инвалидируем только список
     }),
 
+    getSchedulesByStaffIds: builder.query<
+      { schedulesByStaffIds: ScheduleResponse[] },
+      { staffIds: string[] }
+    >({
+      query: ({ staffIds }) => ({
+        document: gql`
+          query GetSchedulesByStaffIds($staffIds: [ID!]!) {
+            schedulesByStaffIds(staffIds: $staffIds) {
+              id
+              title
+              allDay
+              start
+              end
+              color
+              status
+              createdAt
+              updatedAt
+              staff {
+                id
+                userId
+                createdAt
+                updatedAt
+                user {
+                  id
+                  role
+                  email
+                  phoneNumber
+                  firstName
+                  lastName
+                  position
+                  contactDetails
+                  isActive
+                  updatedAt
+                  createdAt
+                  photo
+                }
+                isAssigned
+              }
+              client {
+                id
+                userId
+                createdAt
+                updatedAt
+                user {
+                  id
+                  role
+                  email
+                  phoneNumber
+                  firstName
+                  lastName
+                  position
+                  contactDetails
+                  isActive
+                  updatedAt
+                  createdAt
+                  photo
+                }
+                companyName
+                status
+              }
+            }
+          }
+        `,
+        variables: { staffIds },
+      }),
+      providesTags: (result, _error) =>
+        result
+          ? [
+              { type: 'Schedules' as const, id: 'LIST' },
+              ...result.schedulesByStaffIds.map(({ id }) => ({ type: 'Schedule' as const, id })),
+            ]
+          : [{ type: 'Schedules' as const, id: 'LIST' }],
+    }),
+
     createSchedule: builder.mutation<ScheduleResponse, CreateScheduleInput>({
       query: (input) => ({
         document: gql`
@@ -353,6 +427,7 @@ export const {
   useGetSchedulesQuery,
   useGetScheduleQuery,
   useGetSchedulesByStaffIdQuery,
+  useGetSchedulesByStaffIdsQuery,
   useCreateScheduleMutation,
   useUpdateScheduleMutation,
   useDeleteScheduleMutation,

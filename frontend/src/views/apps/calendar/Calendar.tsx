@@ -12,7 +12,6 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 import './Calendar.css';
 import PageContainer from 'src/components/container/PageContainer';
 import BlankCard from 'src/components/shared/BlankCard';
-import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import {
   useCreateScheduleMutation,
   useDeleteScheduleMutation,
@@ -32,16 +31,6 @@ const localizer = momentLocalizer(moment);
 
 const CalendarPage = () => {
   const { t } = useTranslation();
-
-  const BCrumb = [
-    {
-      to: '/',
-      title: t('MenuItems.home_page'),
-    },
-    {
-      title: t('MenuItems.calendar'),
-    },
-  ];
 
   const { enqueueSnackbar } = useSnackbar();
   const { data: schedulesData } = useGetSchedulesQuery();
@@ -162,7 +151,6 @@ const CalendarPage = () => {
 
   return (
     <PageContainer title={t('MenuItems.calendar')} description={t('MenuItems.calendar_descr')}>
-      <Breadcrumb title={t('MenuItems.calendar')} items={BCrumb} />
       <BlankCard>
         {/* ------------------------------------------- */}
         {/* Calendar */}
