@@ -16,34 +16,7 @@ import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useSnackbar } from 'notistack';
-
-const ColorVariation = [
-  {
-    id: 1,
-    eColor: '#1a97f5',
-    value: 'default',
-  },
-  {
-    id: 2,
-    eColor: '#39b69a',
-    value: 'green',
-  },
-  {
-    id: 3,
-    eColor: '#fc4b6c',
-    value: 'red',
-  },
-  {
-    id: 4,
-    eColor: '#615dff',
-    value: 'azure',
-  },
-  {
-    id: 5,
-    eColor: '#fdd43f',
-    value: 'warning',
-  },
-];
+import { ColorVariation } from 'src/utils/constants/colorVariation';
 
 interface ScheduleSettingProps {
   scheduleId: string;

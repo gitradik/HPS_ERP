@@ -21,6 +21,7 @@ const BlankCard = ({ children, className, sx }: Props) => {
     <Card
       sx={{
         p: 0,
+        mt: 1,
         border: !customizer.isCardShadow ? `1px solid ${borderColor}` : 'none',
         position: 'relative',
         sx,

@@ -67,6 +67,27 @@ const scheduleResolvers = {
         context,
         info,
       ),
+    schedulesByStaffIds: async (
+      parent: any,
+      { staffIds }: { staffIds: number[] },
+      context: any,
+      info: any,
+    ): Promise<Schedule[]> =>
+      authMiddleware(
+        (_parent: any, _args: any, _context: any, _info: any) =>
+          roleMiddleware(
+            [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER],
+            () => scheduleService.getSchedulesByStaffIds(_args.staffIds),
+            _parent,
+            _args,
+            _context,
+            _info,
+          ),
+        parent,
+        { staffIds },
+        context,
+        info,
+      ),
   },
   Mutation: {
     createSchedule: async (

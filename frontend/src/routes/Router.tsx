@@ -28,7 +28,7 @@ const Clients = Loadable(lazy(() => import('../views/dashboards/client/Clients')
 const ClientDetail = Loadable(lazy(() => import('../views/dashboards/client/ClientDetail')));
 const StaffPage = Loadable(lazy(() => import('../views/dashboards/staff/Staff')));
 const StaffDetail = Loadable(lazy(() => import('../views/dashboards/staff/StaffDetail')));
-const Calendar = Loadable(lazy(() => import('../views/dashboards/calendar/Calendar')));
+const Calendar = Loadable(lazy(() => import('../views/apps/calendar/Calendar')));
 const Schedule = Loadable(lazy(() => import('../views/dashboards/schedule/Schedule')));
 const StaffSchedule = Loadable(
   lazy(() => import('../views/dashboards/staff/schedule/StaffSchedule')),

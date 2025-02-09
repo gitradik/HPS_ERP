@@ -32,6 +32,7 @@ import { useGetClientsQuery } from 'src/services/api/clientApi';
 import { useGetStaffsQuery } from 'src/services/api/staffApi';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { isConflictingField } from 'src/utils/error';
+import { ColorVariation } from 'src/utils/constants/colorVariation';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -49,34 +50,6 @@ interface AddScheduleDialogProps {
   onCreate: (values: any, actions: any) => Promise<void>;
   onDelete: (e: EvType) => Promise<void>;
 }
-
-const ColorVariation = [
-  {
-    id: 1,
-    eColor: '#1a97f5',
-    value: 'default',
-  },
-  {
-    id: 2,
-    eColor: '#39b69a',
-    value: 'green',
-  },
-  {
-    id: 3,
-    eColor: '#fc4b6c',
-    value: 'red',
-  },
-  {
-    id: 4,
-    eColor: '#615dff',
-    value: 'azure',
-  },
-  {
-    id: 5,
-    eColor: '#fdd43f',
-    value: 'warning',
-  },
-];
 
 const AddScheduleDialog = ({
   open,

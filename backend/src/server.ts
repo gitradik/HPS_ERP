@@ -16,9 +16,8 @@ const app = express();
 
 const corsOptions = {
   origin:
-    process.env.NODE_ENV === 'production' ? 'http://herba-solution.com' : 'http://localhost:5173',
+    process.env.NODE_ENV === 'production' ? 'http://herba-solution.com' : true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 };
 
