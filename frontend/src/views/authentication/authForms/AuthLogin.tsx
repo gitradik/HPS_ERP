@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography, FormGroup, FormControlLabel, Button, Stack } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom'; // Обратите внимание: 'react-router-dom', а не 'react-router'
+import { Link, useNavigate } from 'react-router-dom';
 import { useLoginMutation } from 'src/services/api/authApi';
 
 import { loginType } from 'src/types/auth/auth';
@@ -51,6 +51,13 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleLogin();
+    }
+  };
+
   return (
     <>
       {title && (
@@ -61,75 +68,77 @@ const AuthLogin = ({ title, subtitle, subtext }: loginType) => {
 
       {subtext}
 
-      <Stack>
-        <Box>
-          {validationError && (
-            <Typography color="error" variant="body2" mt={2}>
-              {validationError}
-            </Typography>
-          )}
-        </Box>
-        <Box>
-          {errorMessage && (
-            <Typography color="error" variant="body2" mt={2}>
-              {errorMessage}
-            </Typography>
-          )}
-        </Box>
-        <Box>
-          <CustomFormLabel htmlFor="emailOrPhone">E-Mail</CustomFormLabel>
-          <CustomTextField
-            id="emailOrPhone"
-            variant="outlined"
-            fullWidth
-            value={emailOrPhone}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailOrPhone(e.target.value)}
-          />
-        </Box>
-        <Box>
-          <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
-          <CustomTextField
-            id="password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-          />
-        </Box>
-        <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
-          <FormGroup>
-            <FormControlLabel
-              control={<CustomCheckbox defaultChecked />}
-              label="Dieses Gerät merken"
+      <form onKeyDown={handleKeyDown}>
+        <Stack>
+          <Box>
+            {validationError && (
+              <Typography color="error" variant="body2" mt={2}>
+                {validationError}
+              </Typography>
+            )}
+          </Box>
+          <Box>
+            {errorMessage && (
+              <Typography color="error" variant="body2" mt={2}>
+                {errorMessage}
+              </Typography>
+            )}
+          </Box>
+          <Box>
+            <CustomFormLabel htmlFor="emailOrPhone">E-Mail</CustomFormLabel>
+            <CustomTextField
+              id="emailOrPhone"
+              variant="outlined"
+              fullWidth
+              value={emailOrPhone}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmailOrPhone(e.target.value)}
             />
-          </FormGroup>
-          <Typography
-            component={Link}
-            to="/auth/forgot-password"
-            fontWeight="500"
-            sx={{
-              textDecoration: 'none',
-              color: 'primary.main',
-            }}
-          >
-            Passwort vergessen?
-          </Typography>
+          </Box>
+          <Box>
+            <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
+            <CustomTextField
+              id="password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            />
+          </Box>
+          <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
+            <FormGroup>
+              <FormControlLabel
+                control={<CustomCheckbox defaultChecked />}
+                label="Dieses Gerät merken"
+              />
+            </FormGroup>
+            <Typography
+              component={Link}
+              to="/auth/forgot-password"
+              fontWeight="500"
+              sx={{
+                textDecoration: 'none',
+                color: 'primary.main',
+              }}
+            >
+              Passwort vergessen?
+            </Typography>
+          </Stack>
         </Stack>
-      </Stack>
 
-      <Box>
-        <Button
-          color="primary"
-          variant="contained"
-          size="large"
-          fullWidth
-          onClick={handleLogin}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Anmeldung läuft...' : 'Anmelden'}
-        </Button>
-      </Box>
+        <Box>
+          <Button
+            color="primary"
+            variant="contained"
+            size="large"
+            fullWidth
+            onClick={handleLogin}
+            disabled={isLoading}
+          >
+            Anmelden
+          </Button>
+        </Box>
+      </form>
 
       {subtitle}
     </>

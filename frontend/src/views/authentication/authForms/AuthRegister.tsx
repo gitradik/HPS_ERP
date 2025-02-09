@@ -83,6 +83,13 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLFormElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleRegister();
+    }
+  };
+
   return (
     <>
       {title && (
@@ -93,104 +100,106 @@ const AuthRegister = ({ title, subtitle, subtext }: registerType) => {
 
       {subtext}
 
-      <Stack>
-        <Box>
-          {validationError && (
-            <Typography color="error" variant="body2" mt={2}>
-              {validationError}
-            </Typography>
-          )}
-        </Box>
-        <Box>
-          {errorMessage && (
-            <Typography color="error" variant="body2" mt={2}>
-              {errorMessage}
-            </Typography>
-          )}
-        </Box>
+      <form onKeyDown={handleKeyDown}>
+        <Stack>
+          <Box>
+            {validationError && (
+              <Typography color="error" variant="body2" mt={2}>
+                {validationError}
+              </Typography>
+            )}
+          </Box>
+          <Box>
+            {errorMessage && (
+              <Typography color="error" variant="body2" mt={2}>
+                {errorMessage}
+              </Typography>
+            )}
+          </Box>
 
-        <Box>
-          <CustomFormLabel htmlFor="first-name">Vorname</CustomFormLabel>
-          <CustomTextField
-            id="first-name"
-            variant="outlined"
+          <Box>
+            <CustomFormLabel htmlFor="first-name">Vorname</CustomFormLabel>
+            <CustomTextField
+              id="first-name"
+              variant="outlined"
+              fullWidth
+              value={firstName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch(setFirstName(e.target.value))
+              }
+            />
+          </Box>
+
+          <Box>
+            <CustomFormLabel htmlFor="last-name">Nachname</CustomFormLabel>
+            <CustomTextField
+              id="last-name"
+              variant="outlined"
+              fullWidth
+              value={lastName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch(setLastName(e.target.value))
+              }
+            />
+          </Box>
+
+          <Box>
+            <CustomFormLabel htmlFor="emailOrPhone">E-Mail</CustomFormLabel>
+            <CustomTextField
+              id="emailOrPhone"
+              variant="outlined"
+              fullWidth
+              value={email || phoneNumber}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                e.target.value.includes('@')
+                  ? dispatch(setEmail(e.target.value))
+                  : dispatch(setPhoneNumber(e.target.value))
+              }
+            />
+          </Box>
+
+          <Box>
+            <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
+            <CustomTextField
+              id="password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch(setPassword(e.target.value))
+              }
+            />
+          </Box>
+
+          <Box>
+            <CustomFormLabel htmlFor="confirm-password">Passwort bestätigen</CustomFormLabel>
+            <CustomTextField
+              id="confirm-password"
+              type="password"
+              variant="outlined"
+              fullWidth
+              value={confirmPassword}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                dispatch(setConfirmPassword(e.target.value))
+              }
+            />
+          </Box>
+        </Stack>
+
+        <Box sx={{ mt: 4 }}>
+          <Button
+            color="primary"
+            variant="contained"
+            size="large"
             fullWidth
-            value={firstName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              dispatch(setFirstName(e.target.value))
-            }
-          />
+            onClick={handleRegister}
+            disabled={isLoading}
+          >
+            Registrieren
+          </Button>
         </Box>
-
-        <Box>
-          <CustomFormLabel htmlFor="last-name">Nachname</CustomFormLabel>
-          <CustomTextField
-            id="last-name"
-            variant="outlined"
-            fullWidth
-            value={lastName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              dispatch(setLastName(e.target.value))
-            }
-          />
-        </Box>
-
-        <Box>
-          <CustomFormLabel htmlFor="emailOrPhone">E-Mail</CustomFormLabel>
-          <CustomTextField
-            id="emailOrPhone"
-            variant="outlined"
-            fullWidth
-            value={email || phoneNumber} // Use whichever one is populated
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              e.target.value.includes('@')
-                ? dispatch(setEmail(e.target.value))
-                : dispatch(setPhoneNumber(e.target.value))
-            }
-          />
-        </Box>
-
-        <Box>
-          <CustomFormLabel htmlFor="password">Passwort</CustomFormLabel>
-          <CustomTextField
-            id="password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              dispatch(setPassword(e.target.value))
-            }
-          />
-        </Box>
-
-        <Box>
-          <CustomFormLabel htmlFor="confirm-password">Passwort bestätigen</CustomFormLabel>
-          <CustomTextField
-            id="confirm-password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            value={confirmPassword}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              dispatch(setConfirmPassword(e.target.value))
-            }
-          />
-        </Box>
-      </Stack>
-
-      <Box sx={{ mt: 4 }}>
-        <Button
-          color="primary"
-          variant="contained"
-          size="large"
-          fullWidth
-          onClick={handleRegister}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Wird registriert...' : 'Registrieren'}
-        </Button>
-      </Box>
+      </form>
 
       {subtitle}
     </>

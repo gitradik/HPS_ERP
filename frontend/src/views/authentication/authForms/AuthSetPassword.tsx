@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Box, Typography, CircularProgress, Stack } from '@mui/material';
+import { Button, Box, Typography, Stack } from '@mui/material';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
 import { useDispatch } from 'react-redux';
 import { refreshTokenFailure } from 'src/store/auth/AuthSlice';
@@ -77,8 +77,15 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId, title, subtit
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched }) => (
-          <Form>
+        {({ values, errors, touched }) => (
+          <Form
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSubmit(values);
+              }
+            }}
+          >
             {errorMessage && (
               <Typography color="error" variant="body2" mt={2} align="center">
                 {errorMessage}
@@ -120,9 +127,10 @@ const AuthSetPassword: React.FC<AuthSetPasswordProps> = ({ userId, title, subtit
                 variant="contained"
                 size="large"
                 fullWidth
+                loading={isLoading}
                 disabled={isLoading}
               >
-                {isLoading ? <CircularProgress size={24} /> : 'Speichern'}
+                Speichern
               </Button>
             </Box>
           </Form>
