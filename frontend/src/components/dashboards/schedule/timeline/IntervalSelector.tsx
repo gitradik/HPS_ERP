@@ -8,11 +8,11 @@ interface IntervalSelectorProps {
 export const IntervalSelector = ({ interval, handleIntervalChange }: IntervalSelectorProps) => {
   return (
     <ToggleButtonGroup value={interval} exclusive onChange={handleIntervalChange}>
-      <ToggleButton value="year">12 месяцев</ToggleButton>
-      <ToggleButton value="6months">6 месяцев</ToggleButton>
-      <ToggleButton value="3months">3 месяца</ToggleButton>
-      <ToggleButton value="month">1 месяц</ToggleButton>
-      <ToggleButton value="week">1 неделя</ToggleButton>
+      <ToggleButton value="year">12 Monate</ToggleButton>
+      <ToggleButton value="6months">6 Monate</ToggleButton>
+      <ToggleButton value="3months">3 Monate</ToggleButton>
+      <ToggleButton value="month">1 Monat</ToggleButton>
+      <ToggleButton value="week">1 Woche</ToggleButton>
     </ToggleButtonGroup>
   );
 };
