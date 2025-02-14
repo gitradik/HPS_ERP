@@ -6,48 +6,41 @@ interface TimelineEventsProps {
   schedules: any[];
   visibleItems: number;
   startDate: moment.Moment;
-  interval: string;
 }
 
-export const TimelineEvents = ({
-  schedules,
-  visibleItems,
-  startDate,
-  interval,
-}: TimelineEventsProps) => {
-  const intervalToMomentUnit = {
-    year: 'months',
-    '6months': 'months',
-    '3months': 'months',
-    month: 'weeks',
-    week: 'days',
-  };
+export const TimelineEvents = ({ schedules, visibleItems, startDate }: TimelineEventsProps) => {
+  const groupedSchedules = schedules.reduce(
+    (acc, schedule) => {
+      const { id } = schedule.staff;
+      if (!acc[id]) acc[id] = [];
+      acc[id].push(schedule);
+      return acc;
+    },
+    {} as Record<string, any[]>,
+  );
 
-  const generateEvents = () => {
-    let events: any = [];
-    // @ts-ignore
-    const unit = intervalToMomentUnit[interval];
+  const generateEvents = (schedules: any[]) => {
+    const events: any[] = [];
+    const visibleRangeStart = startDate.clone().startOf('isoWeek');
+    const visibleRangeEnd = startDate.clone().add(visibleItems, 'weeks').endOf('isoWeek');
+    const totalWeeksInVisibleRange = visibleRangeEnd.diff(visibleRangeStart, 'weeks');
 
     schedules.forEach((s) => {
-      const scheduleStart = moment(Number(s.start));
-      const scheduleEnd = moment(Number(s.end)).endOf('day'); // Учитываем конец дня
-
-      const visibleRangeStart = startDate.clone().startOf(unit);
-      const visibleRangeEnd = startDate
-        .clone()
-        .add(visibleItems - 1, unit)
-        .endOf(unit);
-      const totalDaysInVisibleRange = visibleRangeEnd.diff(visibleRangeStart, 'days');
+      const scheduleStart = moment(Number(s.start)).startOf('isoWeek');
+      const scheduleEnd = moment(Number(s.end)).endOf('isoWeek');
 
       if (scheduleStart.isBefore(visibleRangeEnd) && scheduleEnd.isAfter(visibleRangeStart)) {
-        const startWithinRange = moment.max(scheduleStart, visibleRangeStart);
-        const endWithinRange = moment.min(scheduleEnd, visibleRangeEnd);
+        const startWithinRange = moment.max(scheduleStart, visibleRangeStart).startOf('isoWeek');
+        const endWithinRange = moment
+          .min(scheduleEnd, visibleRangeEnd)
+          .endOf('isoWeek')
+          .add(1, 'week');
 
-        const startOffsetDays = startWithinRange.diff(visibleRangeStart, 'days', true);
-        const durationDays = endWithinRange.diff(startWithinRange, 'days', true);
+        const startOffsetWeeks = startWithinRange.diff(visibleRangeStart, 'weeks');
+        const durationWeeks = endWithinRange.diff(startWithinRange, 'weeks');
 
-        const left = Math.max(0, (startOffsetDays / totalDaysInVisibleRange) * 100);
-        const width = Math.min(100 - left, (durationDays / totalDaysInVisibleRange) * 100);
+        const left = (startOffsetWeeks / totalWeeksInVisibleRange) * 100;
+        const width = (durationWeeks / totalWeeksInVisibleRange) * 100;
 
         if (width > 0) {
           events.push(
@@ -69,14 +62,20 @@ export const TimelineEvents = ({
   };
 
   return (
-    <Box
-      mt={1}
-      sx={{
-        position: 'relative',
-        width: '100%',
-      }}
-    >
-      {generateEvents()}
+    <Box pt={1} sx={{ width: '100%' }}>
+      {Object.entries(groupedSchedules).map(([staffId, staffSchedules]: [string, any]) => (
+        <Box
+          key={staffId}
+          sx={{
+            position: 'relative',
+            width: '100%',
+            height: '40px',
+            mb: 1,
+          }}
+        >
+          {generateEvents(staffSchedules)}
+        </Box>
+      ))}
     </Box>
   );
 };
