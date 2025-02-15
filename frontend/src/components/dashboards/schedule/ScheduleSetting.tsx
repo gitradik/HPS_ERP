@@ -55,8 +55,8 @@ const ScheduleSetting = ({ scheduleId }: ScheduleSettingProps) => {
   const initialValues = {
     title: evt?.title || '',
     allDay: evt?.allDay || false,
-    start: evt?.start ? dayjs(evt.start).toDate() : dayjs().startOf('day').toDate(),
-    end: evt?.end ? dayjs(evt.end).toDate() : dayjs().endOf('day').toDate(),
+    start: evt?.start ? dayjs(evt.start).toDate() : dayjs().startOf('week').add(1, 'day').toDate(),
+    end: evt?.end ? dayjs(evt.end).toDate() : dayjs().endOf('week').subtract(1, 'day').toDate(),
     color: evt?.color || ColorVariation[0].value,
     clientId: evt?.clientId || '',
     staffId: evt?.staffId || '',
@@ -208,9 +208,12 @@ const ScheduleSetting = ({ scheduleId }: ScheduleSettingProps) => {
                       name="start"
                       value={dayjs(props.values.start)}
                       format="DD.MM.YYYY"
-                      onChange={(value) =>
-                        props.setFieldValue('start', dayjs(value).startOf('day').toDate())
-                      }
+                      shouldDisableDate={(date) => date.day() !== 1} // Only monday
+                      onChange={(value) => {
+                        if (value && value.day() === 1) {
+                          props.setFieldValue('start', dayjs(value).startOf('day').toDate());
+                        }
+                      }}
                       slotProps={{
                         textField: {
                           label: 'Startdatum',
@@ -232,9 +235,12 @@ const ScheduleSetting = ({ scheduleId }: ScheduleSettingProps) => {
                       name="end"
                       value={dayjs(props.values.end)}
                       format="DD.MM.YYYY"
-                      onChange={(value) =>
-                        props.setFieldValue('end', dayjs(value).endOf('day').toDate())
-                      }
+                      shouldDisableDate={(date) => date.day() !== 5} // Only friday
+                      onChange={(value) => {
+                        if (value && value.day() === 5) {
+                          props.setFieldValue('end', dayjs(value).endOf('day').toDate());
+                        }
+                      }}
                       slotProps={{
                         textField: {
                           label: 'Enddatum',

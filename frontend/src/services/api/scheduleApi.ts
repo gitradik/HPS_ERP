@@ -202,14 +202,14 @@ const scheduleApi = createApi({
           : [{ type: 'Schedules' as const, id: staffId }], // Если результат пуст, инвалидируем только список
     }),
 
-    getSchedulesByStaffIds: builder.query<
-      { schedulesByStaffIds: ScheduleResponse[] },
-      { staffIds: string[] }
+    getSchedulesByClientIds: builder.query<
+      { schedulesByClientIds: ScheduleResponse[] },
+      { clientIds: string[] }
     >({
-      query: ({ staffIds }) => ({
+      query: ({ clientIds }) => ({
         document: gql`
-          query GetSchedulesByStaffIds($staffIds: [ID!]!) {
-            schedulesByStaffIds(staffIds: $staffIds) {
+          query GetSchedulesByClientIds($clientIds: [ID!]!) {
+            schedulesByClientIds(clientIds: $clientIds) {
               id
               title
               allDay
@@ -265,13 +265,13 @@ const scheduleApi = createApi({
             }
           }
         `,
-        variables: { staffIds },
+        variables: { clientIds },
       }),
       providesTags: (result, _error) =>
         result
           ? [
               { type: 'Schedules' as const, id: 'LIST' },
-              ...result.schedulesByStaffIds.map(({ id }) => ({ type: 'Schedule' as const, id })),
+              ...result.schedulesByClientIds.map(({ id }) => ({ type: 'Schedule' as const, id })),
             ]
           : [{ type: 'Schedules' as const, id: 'LIST' }],
     }),
@@ -427,7 +427,7 @@ export const {
   useGetSchedulesQuery,
   useGetScheduleQuery,
   useGetSchedulesByStaffIdQuery,
-  useGetSchedulesByStaffIdsQuery,
+  useGetSchedulesByClientIdsQuery,
   useCreateScheduleMutation,
   useUpdateScheduleMutation,
   useDeleteScheduleMutation,

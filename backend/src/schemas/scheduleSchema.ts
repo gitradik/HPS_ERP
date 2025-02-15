@@ -46,7 +46,7 @@ const scheduleSchema = gql`
     schedules: [Schedule!]!
     schedule(id: ID!): Schedule
     schedulesByStaffId(staffId: ID!): [Schedule!]!
-    schedulesByStaffIds(staffIds: [ID!]!): [Schedule!]!
+    schedulesByClientIds(clientIds: [ID!]!): [Schedule!]!
   }
 
   type Mutation {

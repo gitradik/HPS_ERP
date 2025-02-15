@@ -67,9 +67,9 @@ const scheduleResolvers = {
         context,
         info,
       ),
-    schedulesByStaffIds: async (
+    schedulesByClientIds: async (
       parent: any,
-      { staffIds }: { staffIds: number[] },
+      { clientIds }: { clientIds: number[] },
       context: any,
       info: any,
     ): Promise<Schedule[]> =>
@@ -77,14 +77,14 @@ const scheduleResolvers = {
         (_parent: any, _args: any, _context: any, _info: any) =>
           roleMiddleware(
             [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.MANAGER],
-            () => scheduleService.getSchedulesByStaffIds(_args.staffIds),
+            () => scheduleService.getSchedulesByClientIds(_args.clientIds),
             _parent,
             _args,
             _context,
             _info,
           ),
         parent,
-        { staffIds },
+        { clientIds },
         context,
         info,
       ),

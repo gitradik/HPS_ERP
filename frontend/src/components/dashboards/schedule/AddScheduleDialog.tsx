@@ -95,13 +95,13 @@ const AddScheduleDialog = ({
     start: evt?.start
       ? dayjs(evt.start).toDate()
       : slotInfo
-        ? dayjs(slotInfo.start).startOf('day').toDate()
-        : dayjs().startOf('day').toDate(),
+        ? dayjs(slotInfo.start).startOf('week').add(1, 'day').toDate()
+        : dayjs().startOf('week').add(1, 'day').toDate(),
     end: evt?.end
       ? dayjs(evt.end).toDate()
       : slotInfo
-        ? dayjs(slotInfo.end).add(-1, 'day').endOf('day').toDate()
-        : dayjs().endOf('day').toDate(),
+        ? dayjs(slotInfo.end).endOf('week').subtract(1, 'day').toDate()
+        : dayjs().endOf('week').subtract(1, 'day').toDate(),
     color: evt?.color || ColorVariation[0].value,
     clientId: evt?.clientId || '',
     staffId: evt?.staffId || '',
@@ -174,9 +174,12 @@ const AddScheduleDialog = ({
                       name="start"
                       value={dayjs(props.values.start)}
                       format="DD.MM.YYYY"
-                      onChange={(value) =>
-                        props.setFieldValue('start', dayjs(value).startOf('day').toDate())
-                      }
+                      shouldDisableDate={(date) => date.day() !== 1} // Только понедельник
+                      onChange={(value) => {
+                        if (value && value.day() === 1) {
+                          props.setFieldValue('start', dayjs(value).startOf('day').toDate());
+                        }
+                      }}
                       slotProps={{
                         textField: {
                           label: 'Startdatum',
@@ -198,9 +201,12 @@ const AddScheduleDialog = ({
                       name="end"
                       value={dayjs(props.values.end)}
                       format="DD.MM.YYYY"
-                      onChange={(value) =>
-                        props.setFieldValue('end', dayjs(value).endOf('day').toDate())
-                      }
+                      shouldDisableDate={(date) => date.day() !== 5} // Только пятница
+                      onChange={(value) => {
+                        if (value && value.day() === 5) {
+                          props.setFieldValue('end', dayjs(value).endOf('day').toDate());
+                        }
+                      }}
                       slotProps={{
                         textField: {
                           label: 'Enddatum',
