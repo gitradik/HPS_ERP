@@ -1,25 +1,22 @@
 import moment from 'moment';
 import { TimelineEvent } from './TimelineEvent';
 import { Box } from '@mui/material';
+import { Schedule } from 'src/types/schedule/schedule';
 
 interface TimelineEventsProps {
-  schedules: any[];
+  groupedSchedules: Record<string, Record<string, Schedule[]>>;
   visibleItems: number;
   startDate: moment.Moment;
+  groupBy: number;
 }
 
-export const TimelineEvents = ({ schedules, visibleItems, startDate }: TimelineEventsProps) => {
-  const groupedSchedules = schedules.reduce(
-    (acc, schedule) => {
-      const { id } = schedule.staff;
-      if (!acc[id]) acc[id] = [];
-      acc[id].push(schedule);
-      return acc;
-    },
-    {} as Record<string, any[]>,
-  );
-
-  const generateEvents = (schedules: any[]) => {
+export const TimelineEvents = ({
+  groupedSchedules,
+  visibleItems,
+  startDate,
+  groupBy,
+}: TimelineEventsProps) => {
+  const generateEvents = (schedules: Schedule[]) => {
     const events: any[] = [];
     const visibleRangeStart = startDate.clone().startOf('isoWeek');
     const visibleRangeEnd = startDate.clone().add(visibleItems, 'weeks').endOf('isoWeek');
@@ -46,6 +43,7 @@ export const TimelineEvents = ({ schedules, visibleItems, startDate }: TimelineE
           events.push(
             <TimelineEvent
               key={s.id}
+              isBeforeStart={scheduleStart.isBefore(visibleRangeStart)}
               event={{
                 id: s.id,
                 left: `${left}%`,
@@ -63,19 +61,21 @@ export const TimelineEvents = ({ schedules, visibleItems, startDate }: TimelineE
 
   return (
     <Box pt={1} sx={{ width: '100%' }}>
-      {Object.entries(groupedSchedules).map(([staffId, staffSchedules]: [string, any]) => (
-        <Box
-          key={staffId}
-          sx={{
-            position: 'relative',
-            width: '100%',
-            height: '40px',
-            mb: 1,
-          }}
-        >
-          {generateEvents(staffSchedules)}
-        </Box>
-      ))}
+      {Object.entries(groupedSchedules).map(([clientId, staffData]) =>
+        Object.entries(staffData).map(([staffId, schedules]) => (
+          <Box
+            key={`${clientId}-${staffId}`}
+            sx={{
+              position: 'relative',
+              width: '100%',
+              height: `${groupBy}px`,
+              mb: 1,
+            }}
+          >
+            {generateEvents(schedules)}
+          </Box>
+        )),
+      )}
     </Box>
   );
 };

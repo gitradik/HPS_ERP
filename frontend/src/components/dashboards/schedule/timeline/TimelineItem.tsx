@@ -16,6 +16,7 @@ export const TimelineItem = styled('div')<{
   color: ${(props) =>
     props.isCurrent ? props.theme.palette.primary.contrastText : props.theme.palette.grey[600]};
   font-weight: ${(props) => (props.isCurrent ? 'bold' : 'normal')};
+
   &:last-child {
     border-right: none;
   }
@@ -23,7 +24,6 @@ export const TimelineItem = styled('div')<{
   ${(props) =>
     props.isLast &&
     `
-    
     &::after {
       content: "";
       position: absolute;

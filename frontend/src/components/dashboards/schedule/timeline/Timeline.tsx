@@ -31,8 +31,8 @@ export const Timeline = ({ visibleItems, startDate }: TimelineProps) => {
           isCurrent={isCurrent}
           isLast={isLast}
         >
-          {/* {`KW ${weekStart.isoWeek()}`} */}
-          {weekStart.format('MMM')}
+          {`KW ${weekStart.isoWeek()}`}
+          {/* {weekStart.format('MMM')} */}
         </TimelineItem>,
       );
 
@@ -44,13 +44,21 @@ export const Timeline = ({ visibleItems, startDate }: TimelineProps) => {
 
     return (
       <>
-        <Box sx={{
-          backgroundColor: theme.palette.primary.light,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', p: 1 }}>
+        <Box
+          sx={{
+            backgroundColor: theme.palette.primary.light,
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            display: 'flex',
+            justifyContent: 'space-between',
+            fontWeight: 'bold',
+            p: 1,
+          }}
+        >
           {[...years].map((year) => (
-            <Typography color={theme.palette.primary.dark} fontWeight={600} key={year}>{year}</Typography>
+            <Typography color={theme.palette.primary.dark} fontWeight={600} key={year}>
+              {year}
+            </Typography>
           ))}
         </Box>
         <Box
@@ -78,15 +86,17 @@ export const Timeline = ({ visibleItems, startDate }: TimelineProps) => {
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         position: 'sticky',
         top: 0,
         zIndex: 1,
         backgroundColor: theme.palette.primary.light,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
       }}
     >
       {generateTimeline()}
-    </div>
+    </Box>
   );
 };

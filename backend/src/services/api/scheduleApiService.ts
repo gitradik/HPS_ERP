@@ -133,9 +133,9 @@ const scheduleService = {
     return schedules;
   },
 
-  async getSchedulesByStaffIds(staffIds: number[]): Promise<Schedule[]> {
+  async getSchedulesByClientIds(clientIds: number[]): Promise<Schedule[]> {
     const schedules = await Schedule.findAll({
-      where: { staffId: staffIds },
+      where: { clientId: clientIds },
       include: [
         {
           model: Staff,
@@ -162,13 +162,15 @@ const scheduleService = {
           ],
         },
       ],
-      order: [['staffId', 'ASC']],
+      order: [['clientId', 'ASC']],
     });
-  
+
     if (!schedules.length) {
-      throw new ApolloError(`Keine Schedules für Personal mit den IDs ${staffIds.join(', ')} gefunden`);
+      throw new ApolloError(
+        `Keine Schedules für Personal mit den IDs ${clientIds.join(', ')} gefunden`,
+      );
     }
-  
+
     return schedules;
   },
 

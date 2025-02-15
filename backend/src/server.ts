@@ -15,8 +15,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-  origin:
-    process.env.NODE_ENV === 'production' ? 'http://herba-solution.com' : true,
+  origin: process.env.NODE_ENV === 'production' ? 'http://herba-solution.com' : true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD'],
   credentials: true,
 };

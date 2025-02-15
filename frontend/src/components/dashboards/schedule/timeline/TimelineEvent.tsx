@@ -1,13 +1,16 @@
 import { Avatar, Box, Typography } from '@mui/material';
+import { useMemo } from 'react';
 import { ColorVariation } from 'src/utils/constants/colorVariation';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 
 interface TimelineEventProps {
   event: any;
+  isBeforeStart: boolean;
 }
 
-export const TimelineEvent = ({ event }: TimelineEventProps) => {
+export const TimelineEvent = ({ event, isBeforeStart }: TimelineEventProps) => {
   const avatarPath = getUploadsImagesProfilePath(event.schedule.staff.user.photo);
+  const leftRadius = useMemo(() => (isBeforeStart ? 0 : undefined), [isBeforeStart]);
 
   return (
     <Box
@@ -21,6 +24,8 @@ export const TimelineEvent = ({ event }: TimelineEventProps) => {
         display: 'flex',
         p: 1,
         height: '100%',
+        borderTopLeftRadius: leftRadius,
+        borderBottomLeftRadius: leftRadius,
       }}
     >
       <Avatar src={avatarPath} alt="Personaleavatar" sx={{ width: 20, height: 20, mr: 1 }} />
