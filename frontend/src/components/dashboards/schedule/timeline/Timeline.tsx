@@ -88,9 +88,6 @@ export const Timeline = ({ visibleItems, startDate }: TimelineProps) => {
   return (
     <Box
       sx={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1,
         backgroundColor: theme.palette.primary.light,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,

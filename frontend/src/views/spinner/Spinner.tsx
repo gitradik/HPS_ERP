@@ -1,8 +1,11 @@
-import { FC } from 'react';
 import './spinner.css';
 
-const Spinner: FC = () => (
-  <div className="fallback-spinner">
+interface SpinnerProps {
+  free?: boolean;
+}
+
+const Spinner = ({ free }: SpinnerProps) => (
+  <div className={`fallback-spinner ${free ? 'fallback-spinner-free' : ''}`}>
     <div className="loading component-loader">
       <div className="effect-1 effects" />
       <div className="effect-2 effects" />

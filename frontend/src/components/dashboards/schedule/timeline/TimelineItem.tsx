@@ -33,7 +33,7 @@ export const TimelineItem = styled('div')<{
       height: 100vh;
       opacity: 35%;
       border-right: 1px dotted ${props.theme.palette.grey[600]};
-      z-index: 0;
+      z-index: 1;
     }
   `}
 `;
