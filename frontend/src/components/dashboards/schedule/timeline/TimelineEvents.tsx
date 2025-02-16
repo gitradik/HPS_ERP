@@ -60,7 +60,7 @@ export const TimelineEvents = ({
   };
 
   return (
-    <Box pt={1} sx={{ width: '100%' }}>
+    <Box pt={1}>
       {Object.entries(groupedSchedules).map(([clientId, staffData]) =>
         Object.entries(staffData).map(([staffId, schedules]) => (
           <Box

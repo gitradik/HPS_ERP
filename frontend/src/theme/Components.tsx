@@ -9,6 +9,20 @@ const components: any = (theme: Theme) => {
         '*': {
           boxSizing: 'border-box',
         },
+        '*::-webkit-scrollbar': {
+          width: '13px',
+        },
+        '*::-webkit-scrollbar-track': {
+          background: theme.palette.info.light, // Фон трека
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: theme.palette.info.light, // Цвет ползунка
+          borderRadius: '4px',
+          border: `1px solid ${theme.palette.primary.main}`, // Граница ползунка
+        },
+        '*::-webkit-scrollbar-thumb:hover': {
+          background: theme.palette.primary.main, // Цвет ползунка при наведении
+        },
         html: {
           height: '100%',
           width: '100%',
