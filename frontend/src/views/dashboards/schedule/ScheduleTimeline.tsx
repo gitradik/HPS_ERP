@@ -7,43 +7,42 @@ import { TimelineEvents } from 'src/components/dashboards/schedule/timeline/Time
 import { useGetClientsQuery } from 'src/services/api/clientApi';
 import { useGetSchedulesByClientIdsQuery } from 'src/services/api/scheduleApi';
 import { ClientStatus } from 'src/types/client/client';
-import { SortOrder } from 'src/types/query';
 import { Schedule } from 'src/types/schedule/schedule';
 
-const maxHeight = '57vh'; // for set 40px
-const getTimeLineEventsSx = (maxHeight: string) => ({
+const maxHeight = '57vh';
+const getTimeLineEventsSx = {
   maxHeight,
-  overflowY: 'auto',
-  overflowX: 'hidden',
-  pointerEvents: 'none',
+  overflow: 'hidden',
   scrollbarWidth: 'none',
   '&::-webkit-scrollbar': { display: 'none' },
-});
+};
 
 export const ScheduleTimeline = () => {
   const { data: clientsData } = useGetClientsQuery({
     filters: { status: ClientStatus.ACTIVE },
-    sortOptions: [['id', SortOrder.ASC]],
   });
   const clients = clientsData?.items || [];
-  const { data } = useGetSchedulesByClientIdsQuery(
+  const { data, isSuccess } = useGetSchedulesByClientIdsQuery(
     { clientIds: clients.map((item) => item.id) },
     { skip: !clientsData },
   );
-  const groupedSchedules = (data?.schedulesByClientIds || []).reduce(
-    (acc, schedule) => {
-      const clientId = schedule.client.id;
-      const staffId = schedule.staff.id;
 
-      if (!acc[clientId]) acc[clientId] = {};
-      if (!acc[clientId][staffId]) acc[clientId][staffId] = [];
+  const groupedSchedules: [string, Map<string, Schedule[]>][] = [];
 
-      acc[clientId][staffId].push(schedule);
+  if (data && isSuccess)
+    clients.forEach((client) => {
+      const staffSchedules = new Map<string, Schedule[]>();
 
-      return acc;
-    },
-    {} as Record<string, Record<string, Schedule[]>>,
-  );
+      data.schedulesByClientIds.forEach((s: Schedule) => {
+        if (s.client.id === client.id) {
+          const staffId = s.staff.id;
+          if (!staffSchedules.has(staffId)) staffSchedules.set(staffId, []);
+          staffSchedules.get(staffId)?.push(s);
+        }
+      });
+
+      groupedSchedules.push([client.id, staffSchedules]);
+    });
 
   const [startDate, setStartDate] = useState(moment());
   const [visibleItems] = useState(12);
@@ -53,18 +52,15 @@ export const ScheduleTimeline = () => {
   const timelineEventsRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = () => {
-    if (clientsListRef.current && timelineEventsRef.current) {
+    if (clientsListRef.current && timelineEventsRef.current)
       timelineEventsRef.current.scrollTop = clientsListRef.current.scrollTop;
-    }
   };
 
   const handleWheel = (e: any) => {
     const unit = 'week';
-
-    const newStartDate =
-      e.deltaY < 0 ? startDate.clone().subtract(1, unit) : startDate.clone().add(1, unit);
-
-    setStartDate(newStartDate);
+    setStartDate(
+      e.deltaY < 0 ? startDate.clone().subtract(1, unit) : startDate.clone().add(1, unit),
+    );
   };
 
   return (
@@ -72,7 +68,6 @@ export const ScheduleTimeline = () => {
       mt={1}
       sx={{
         overflow: 'hidden',
-        position: 'relative',
       }}
     >
       <Grid container spacing={2} columns={12}>
@@ -90,7 +85,7 @@ export const ScheduleTimeline = () => {
         </Grid>
         <Grid size={10} onWheel={handleWheel}>
           <Timeline visibleItems={visibleItems} startDate={startDate} />
-          <Box ref={timelineEventsRef} sx={getTimeLineEventsSx(maxHeight)}>
+          <Box ref={timelineEventsRef} sx={getTimeLineEventsSx}>
             <TimelineEvents
               groupedSchedules={groupedSchedules}
               visibleItems={visibleItems}

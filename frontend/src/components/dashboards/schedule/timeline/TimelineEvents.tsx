@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import { Schedule } from 'src/types/schedule/schedule';
 
 interface TimelineEventsProps {
-  groupedSchedules: Record<string, Record<string, Schedule[]>>;
+  groupedSchedules: [string, Map<string, Schedule[]>][];
   visibleItems: number;
   startDate: moment.Moment;
   groupBy: number;
@@ -61,13 +61,12 @@ export const TimelineEvents = ({
 
   return (
     <Box pt={1}>
-      {Object.entries(groupedSchedules).map(([clientId, staffData]) =>
-        Object.entries(staffData).map(([staffId, schedules]) => (
+      {groupedSchedules.map(([clientId, staffData]) =>
+        Array.from(staffData.entries()).map(([staffId, schedules]) => (
           <Box
             key={`${clientId}-${staffId}`}
             sx={{
               position: 'relative',
-              width: '100%',
               height: `${groupBy}px`,
               mb: 1,
             }}

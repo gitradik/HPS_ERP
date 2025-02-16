@@ -162,7 +162,6 @@ const scheduleService = {
           ],
         },
       ],
-      order: [['clientId', 'ASC']],
     });
 
     if (!schedules.length) {
