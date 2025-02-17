@@ -6,9 +6,10 @@ import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 interface TimelineEventProps {
   event: any;
   isBeforeStart: boolean;
+  onClickTitle: () => void;
 }
 
-export const TimelineEvent = ({ event, isBeforeStart }: TimelineEventProps) => {
+export const TimelineEvent = ({ event, isBeforeStart, onClickTitle }: TimelineEventProps) => {
   const avatarPath = getUploadsImagesProfilePath(event.schedule.staff.user.photo);
   const leftRadius = useMemo(() => (isBeforeStart ? 0 : undefined), [isBeforeStart]);
 
@@ -29,9 +30,11 @@ export const TimelineEvent = ({ event, isBeforeStart }: TimelineEventProps) => {
       }}
     >
       <Avatar src={avatarPath} alt="Personaleavatar" sx={{ width: 20, height: 20, mr: 1 }} />
-      <Tooltip title={event.schedule.title}>
+      <Tooltip title={`${event.schedule.title} bearbeiten`}>
         <Typography
+          component="span"
           color="white"
+          onClick={() => onClickTitle()}
           sx={{
             overflow: 'hidden',
             textOverflow: 'ellipsis',

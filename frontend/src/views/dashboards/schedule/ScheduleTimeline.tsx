@@ -1,4 +1,5 @@
-import { Box, Grid2 as Grid } from '@mui/material';
+import { Box, Button, Grid2 as Grid, Stack, Tooltip } from '@mui/material';
+import { IconSquareRoundedPlus, IconFilter } from '@tabler/icons-react';
 import moment from 'moment';
 import { useRef, useState } from 'react';
 import { ClientsList } from 'src/components/dashboards/schedule/ClientsList';
@@ -17,7 +18,13 @@ const getTimeLineEventsSx = {
   '&::-webkit-scrollbar': { display: 'none' },
 };
 
-export const ScheduleTimeline = () => {
+export const ScheduleTimeline = ({
+  onEdit,
+  onCreate,
+}: {
+  onEdit: (s: Schedule) => void;
+  onCreate: () => void;
+}) => {
   const { data: clientsData } = useGetClientsQuery({
     filters: { status: ClientStatus.ACTIVE },
   });
@@ -71,14 +78,32 @@ export const ScheduleTimeline = () => {
       }}
     >
       <Grid container spacing={2} columns={12}>
-        <Grid size={2} pt="116px">
+        <Grid direction="column" size={2}>
+          <Box height="100%" maxHeight="116px">
+            <Stack spacing={1} direction="row">
+              <Tooltip title="Einsatz erstellen" placement="top">
+                <Button
+                  onClick={() => onCreate()}
+                  sx={{ width: '100%', height: 48, borderRadius: 1, bgcolor: 'primary.light' }}
+                >
+                  <IconSquareRoundedPlus size="26" />
+                </Button>
+              </Tooltip>
+
+              <Tooltip title="Filter" placement="top">
+                <Button
+                  sx={{ width: '100%', height: 48, borderRadius: 1, bgcolor: 'primary.light' }}
+                >
+                  <IconFilter size="26" />
+                </Button>
+              </Tooltip>
+            </Stack>
+          </Box>
           <Box
             ref={clientsListRef}
             onScroll={handleScroll}
             maxHeight={maxHeight}
-            sx={{
-              overflowY: 'auto',
-            }}
+            sx={{ overflowY: 'auto' }}
           >
             <ClientsList clients={clients} groupedSchedules={groupedSchedules} groupBy={groupBy} />
           </Box>
@@ -87,6 +112,7 @@ export const ScheduleTimeline = () => {
           <Timeline visibleItems={visibleItems} startDate={startDate} />
           <Box ref={timelineEventsRef} sx={getTimeLineEventsSx}>
             <TimelineEvents
+              onEdit={onEdit}
               groupedSchedules={groupedSchedules}
               visibleItems={visibleItems}
               startDate={startDate}

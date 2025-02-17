@@ -91,6 +91,7 @@ export const Timeline = ({ visibleItems, startDate }: TimelineProps) => {
         backgroundColor: theme.palette.primary.light,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
+        maxHeight: '116px',
       }}
     >
       {generateTimeline()}
