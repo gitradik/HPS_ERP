@@ -8,6 +8,7 @@ interface TimelineEventsProps {
   visibleItems: number;
   startDate: moment.Moment;
   groupBy: number;
+  onEdit: (s: Schedule) => void;
 }
 
 export const TimelineEvents = ({
@@ -15,6 +16,7 @@ export const TimelineEvents = ({
   visibleItems,
   startDate,
   groupBy,
+  onEdit,
 }: TimelineEventsProps) => {
   const generateEvents = (schedules: Schedule[]) => {
     const events: any[] = [];
@@ -42,6 +44,7 @@ export const TimelineEvents = ({
         if (width > 0) {
           events.push(
             <TimelineEvent
+              onClickTitle={() => onEdit(s)}
               key={s.id}
               isBeforeStart={scheduleStart.isBefore(visibleRangeStart)}
               event={{

@@ -162,6 +162,7 @@ const scheduleService = {
           ],
         },
       ],
+      order: [['createdAt', 'asc']]
     });
 
     if (!schedules.length) {
