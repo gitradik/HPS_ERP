@@ -23,7 +23,7 @@ import {
   updateAccountSetting,
 } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { useRolesWithAccess } from 'src/utils/roleAccess';
+import { useRolesAccess } from 'src/hooks/useRolesAccess';
 import { selectUserRole } from 'src/store/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
@@ -53,7 +53,7 @@ const ClientSetting = ({ client }: { client: Client }) => {
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const [updateClient, { isLoading: isLoadingClient }] = useUpdateClientMutation();
   const userRole = useSelector(selectUserRole);
-  const { hasAccess } = useRolesWithAccess(
+  const { hasAccess } = useRolesAccess(
     {
       ...userAccessRules,
       companyName: [UserRole.SUPER_ADMIN, UserRole.ADMIN],

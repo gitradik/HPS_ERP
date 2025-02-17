@@ -64,6 +64,8 @@ export const ScheduleTimeline = ({
   };
 
   const handleWheel = (e: any) => {
+    if (e.deltaMode === 0) if (Math.abs(e.deltaY) < 99) return;
+
     const unit = 'week';
     setStartDate(
       e.deltaY < 0 ? startDate.clone().subtract(1, unit) : startDate.clone().add(1, unit),

@@ -24,7 +24,7 @@ import {
   updateAccountSetting,
 } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { useRolesWithAccess } from 'src/utils/roleAccess';
+import { useRolesAccess } from 'src/hooks/useRolesAccess';
 import { selectUserId, selectUserRole } from 'src/store/auth/AuthSlice';
 import { isEmpty } from 'lodash';
 import { useUpdateUserMutation } from 'src/services/api/userApi';
@@ -43,7 +43,7 @@ const EmployeeSetting = ({ employee }: { employee: Employee }) => {
   const [updateUser, { isLoading }] = useUpdateUserMutation();
   const userId = useSelector(selectUserId);
   const userRole = useSelector(selectUserRole);
-  const { hasAccess } = useRolesWithAccess(userAccessRules, userRole);
+  const { hasAccess } = useRolesAccess(userAccessRules, userRole);
 
   const initialValues = {
     password: '',
