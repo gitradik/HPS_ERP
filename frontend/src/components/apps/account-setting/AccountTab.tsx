@@ -23,7 +23,7 @@ import {
   updateAccountSetting,
 } from 'src/store/apps/setting/AccountSettingSlice';
 import { useDispatch, useSelector } from 'src/store/Store';
-import { useRolesWithAccess } from 'src/utils/roleAccess';
+import { useRolesAccess } from 'src/hooks/useRolesAccess';
 import { userAccessRules } from './AccountTabData';
 import { updateUserSuccess } from 'src/store/auth/AuthSlice';
 import { isEmpty } from 'lodash';
@@ -38,7 +38,7 @@ const AccountTab = ({ user }: { user: User }) => {
 
   const data = useSelector(selectAccountSetting);
   const [updateUser, { isLoading, error }] = useUpdateUserMutation();
-  const { hasAccess } = useRolesWithAccess(userAccessRules, user.role);
+  const { hasAccess } = useRolesAccess(userAccessRules, user.role);
 
   // @ts-ignore
   const errorMessage = error?.data?.friendlyMessage;
