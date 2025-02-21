@@ -18,7 +18,7 @@ import {
   useGetSchedulesQuery,
   useUpdateScheduleMutation,
 } from 'src/services/api/scheduleApi';
-import { EvType, Schedule, ScheduleOvertime, ScheduleResponse } from 'src/types/schedule/schedule';
+import { EvType, Schedule, ScheduleOvertime } from 'src/types/schedule/schedule';
 import { useSnackbar } from 'notistack';
 import AddScheduleDialog from 'src/components/dashboards/schedule/AddScheduleDialog';
 import { useTranslation } from 'react-i18next';
