@@ -62,7 +62,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
       item.status,
-      moment(Number(item.createdAt)).format('YYYY-MM-DD HH:mm:ss'),
+      moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
@@ -221,7 +221,7 @@ const ClientsTable = ({ clients, totalCount }: { clients: Client[]; totalCount: 
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {moment(Number(client.createdAt)).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(client.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>

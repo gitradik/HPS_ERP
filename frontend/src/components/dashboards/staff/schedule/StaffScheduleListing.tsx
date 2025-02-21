@@ -191,12 +191,12 @@ const StaffScheduleListing = () => {
                 </TableCell>
                 <TableCell>
                   <Typography variant="body1">
-                    {dayjs(Number(schedule.start)).format('DD MMM YYYY')}
+                    {dayjs(schedule.start).format('DD MMM YYYY')}
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="body1">
-                    {dayjs(Number(schedule.end)).format('DD MMM YYYY')}
+                    {dayjs(schedule.end).format('DD MMM YYYY')}
                   </Typography>
                 </TableCell>
                 <TableCell>

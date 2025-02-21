@@ -25,8 +25,8 @@ export const TimelineEvents = ({
     const totalWeeksInVisibleRange = visibleRangeEnd.diff(visibleRangeStart, 'weeks');
 
     schedules.forEach((s) => {
-      const scheduleStart = moment(Number(s.start)).startOf('isoWeek');
-      const scheduleEnd = moment(Number(s.end)).endOf('isoWeek');
+      const scheduleStart = moment(s.start).startOf('isoWeek');
+      const scheduleEnd = moment(s.end).endOf('isoWeek');
 
       if (scheduleStart.isBefore(visibleRangeEnd) && scheduleEnd.isAfter(visibleRangeStart)) {
         const startWithinRange = moment.max(scheduleStart, visibleRangeStart).startOf('isoWeek');

@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 const userSchema = gql`
+  scalar DateTime
   enum UserRole {
     SUPER_ADMIN
     ADMIN
@@ -18,8 +19,8 @@ const userSchema = gql`
     email: String
     phoneNumber: String
     isActive: Boolean!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
     role: UserRole
     position: String
     contactDetails: String

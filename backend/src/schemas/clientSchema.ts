@@ -1,6 +1,7 @@
 import { gql } from 'apollo-server-express';
 
 const clientSchema = gql`
+  scalar DateTime
   enum ClientStatus {
     ACTIVE
     INACTIVE
@@ -10,8 +11,8 @@ const clientSchema = gql`
   type Client {
     id: ID!
     userId: ID!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
     status: ClientStatus!
     user: User
     companyName: String

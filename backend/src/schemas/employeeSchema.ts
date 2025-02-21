@@ -1,11 +1,12 @@
 import { gql } from 'apollo-server-express';
 
 const employeeSchema = gql`
+  scalar DateTime
   type Employee {
     id: ID!
     userId: ID!
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
     user: User!
   }
 

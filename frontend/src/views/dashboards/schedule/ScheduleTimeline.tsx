@@ -64,8 +64,6 @@ export const ScheduleTimeline = ({
   };
 
   const handleWheel = (e: any) => {
-    if (e.deltaMode === 0) if (Math.abs(e.deltaY) < 99) return;
-
     const unit = 'week';
     setStartDate(
       e.deltaY < 0 ? startDate.clone().subtract(1, unit) : startDate.clone().add(1, unit),
@@ -77,6 +75,7 @@ export const ScheduleTimeline = ({
       mt={1}
       sx={{
         overflow: 'hidden',
+        borderRadius: 0,
       }}
     >
       <Grid container spacing={2} columns={12}>
@@ -112,7 +111,7 @@ export const ScheduleTimeline = ({
         </Grid>
         <Grid size={10} onWheel={handleWheel}>
           <Timeline visibleItems={visibleItems} startDate={startDate} />
-          <Box ref={timelineEventsRef} sx={getTimeLineEventsSx}>
+          <Box borderRadius={0} ref={timelineEventsRef} sx={getTimeLineEventsSx}>
             <TimelineEvents
               onEdit={onEdit}
               groupedSchedules={groupedSchedules}

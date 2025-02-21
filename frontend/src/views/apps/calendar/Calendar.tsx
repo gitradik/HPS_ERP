@@ -18,10 +18,16 @@ import {
   useGetSchedulesQuery,
   useUpdateScheduleMutation,
 } from 'src/services/api/scheduleApi';
-import { EvType, Schedule } from 'src/types/schedule/schedule';
+import { EvType, Schedule, ScheduleOvertime, ScheduleResponse } from 'src/types/schedule/schedule';
 import { useSnackbar } from 'notistack';
 import AddScheduleDialog from 'src/components/dashboards/schedule/AddScheduleDialog';
 import { useTranslation } from 'react-i18next';
+import {
+  useCreateScheduleOvertimeMutation,
+  useDeleteScheduleOvertimeMutation,
+  useGetScheduleOvertimesByScheduleIdQuery,
+  useUpdateScheduleOvertimeMutation,
+} from 'src/services/api/scheduleOvertimeApi';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -36,8 +42,8 @@ const CalendarPage = () => {
   const { data: schedulesData } = useGetSchedulesQuery();
   const calevents = schedulesData?.schedules.map((s) => ({
     ...s,
-    start: dayjs(Number(s.start)).toDate(),
-    end: dayjs(Number(s.end)).toDate(),
+    start: dayjs(s.start).toDate(),
+    end: dayjs(s.end).toDate(),
   }));
 
   const [createSchedule, { isLoading: createIsLoading, error: createError, reset: resetCreate }] =
@@ -46,9 +52,19 @@ const CalendarPage = () => {
     useUpdateScheduleMutation();
   const [deleteSchedule, { isLoading: deleteIsLoading }] = useDeleteScheduleMutation();
 
+  const [createScheduleOvertime] = useCreateScheduleOvertimeMutation();
+  const [updateScheduleOvertime] = useUpdateScheduleOvertimeMutation();
+  const [deleteScheduleOvertime] = useDeleteScheduleOvertimeMutation();
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [evtId, setEvtId] = React.useState<string | undefined>();
   const [slotInfo, setSlotInfo] = React.useState<EvType | undefined>();
+
+  const { data: scheduleOvertimesData } = useGetScheduleOvertimesByScheduleIdQuery(
+    { scheduleId: evtId },
+    { skip: !evtId },
+  );
+  const scheduleOvertimes = scheduleOvertimesData?.scheduleOvertimesByScheduleId || [];
 
   useEffect(() => {
     resetCreate();
@@ -78,7 +94,7 @@ const CalendarPage = () => {
 
   const handleCreate = async (values: any, actions: any) => {
     try {
-      await createSchedule({
+      const result = await createSchedule({
         allDay: values.allDay,
         title: values.title,
         start: values.start.toISOString(),
@@ -92,8 +108,10 @@ const CalendarPage = () => {
         variant: 'success',
         autoHideDuration: 3000,
       });
+
       actions.setSubmitting(false);
-      handleClose();
+      setEvtId(result.createSchedule.id);
+      setSlotInfo(undefined);
     } catch (err: any) {
       enqueueSnackbar(err?.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
       notifyConflictingSchedules(err?.data?.extensionDetails?.conflictingObjects);
@@ -102,6 +120,32 @@ const CalendarPage = () => {
   };
   const handleUpdate = async (values: any, actions: any) => {
     try {
+      const existingIds = new Set(scheduleOvertimes.map((so: ScheduleOvertime) => so.id));
+      const newIds = new Set(values.scheduleOvertimes.map((overtime: any) => overtime.id));
+
+      await Promise.all([
+        ...values.scheduleOvertimes.map((overtime: any) => {
+          if (overtime.id) {
+            return updateScheduleOvertime({
+              id: overtime.id,
+              date: overtime.date.toISOString(),
+              hours: overtime.hours,
+              type: overtime.type,
+            }).unwrap();
+          }
+
+          return createScheduleOvertime({
+            scheduleId: evtId,
+            date: overtime.date.toISOString(),
+            hours: overtime.hours,
+            type: overtime.type,
+          }).unwrap();
+        }),
+        ...Array.from(existingIds)
+          .filter((id) => !newIds.has(id))
+          .map((id) => deleteScheduleOvertime({ id }).unwrap()),
+      ]);
+
       await updateSchedule({
         id: evtId!,
         allDay: values.allDay,

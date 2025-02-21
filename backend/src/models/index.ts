@@ -5,6 +5,9 @@ import Employee from './Employee';
 import RefreshToken from './RefreshToken';
 import Staff from './Staff';
 import Schedule from './Schedule';
+import ScheduleOvertime from './ScheduleOvertime';
+
+ScheduleOvertime.belongsTo(Schedule, { foreignKey: 'scheduleId', as: 'schedule' });
 
 const models = {
   User,
@@ -13,6 +16,7 @@ const models = {
   RefreshToken,
   Staff,
   Schedule,
+  ScheduleOvertime,
 };
 
 export { sequelize, models };

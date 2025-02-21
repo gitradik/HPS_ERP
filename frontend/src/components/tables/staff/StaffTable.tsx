@@ -58,7 +58,7 @@ const StaffTable = ({ staffs, totalCount }: { staffs: Staff[]; totalCount: numbe
       item.user.phoneNumber || 'N/A',
       item.user.contactDetails || 'N/A',
       item.isAssigned ? 'Aktiv' : 'Inaktiv',
-      moment(Number(item.createdAt)).format('YYYY-MM-DD HH:mm:ss'),
+      moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss'),
     ]);
 
     const csvContent = [headers.join(','), ...rows.map((e: any[]) => e.join(','))].join('\n');
@@ -177,7 +177,7 @@ const StaffTable = ({ staffs, totalCount }: { staffs: Staff[]; totalCount: numbe
                   </TableCell>
                   <TableCell>
                     <Typography variant="body2" color="textSecondary">
-                      {moment(Number(row.createdAt)).format('YYYY-MM-DD HH:mm:ss')}
+                      {moment(row.createdAt).format('YYYY-MM-DD HH:mm:ss')}
                     </Typography>
                   </TableCell>
                   <TableCell>

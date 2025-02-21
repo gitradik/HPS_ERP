@@ -44,6 +44,22 @@ export interface UpdateScheduleInput {
   status?: ScheduleStatus;
 }
 
+export enum OvertimeType {
+  HOLIDAY = 'HOLIDAY',
+  WEEKEND = 'WEEKEND',
+  OVERTIME = 'OVERTIME',
+}
+
+export interface ScheduleOvertime {
+  id: string;
+  schedule: Schedule; // Замените на соответствующий тип
+  date: Date;
+  hours: number;
+  type: OvertimeType;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export type EvType = {
   id: string;
   title: string;
@@ -54,4 +70,5 @@ export type EvType = {
   status?: ScheduleStatus;
   clientId?: string;
   staffId?: string;
+  scheduleOvertimes?: ScheduleOvertime[];
 };

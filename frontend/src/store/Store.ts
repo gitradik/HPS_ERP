@@ -13,6 +13,7 @@ import {
   staffApi,
   uploadApi,
   userApi,
+  scheduleOvertimeApi,
 } from '../services/api';
 import authReducer from './auth/AuthSlice';
 import accountSettingReducer from './apps/setting/AccountSettingSlice';
@@ -46,6 +47,7 @@ export const store = configureStore({
     [staffApi.reducerPath]: staffApi.reducer,
     [uploadApi.reducerPath]: uploadApi.reducer,
     [scheduleApi.reducerPath]: scheduleApi.reducer,
+    [scheduleOvertimeApi.reducerPath]: scheduleOvertimeApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -58,6 +60,7 @@ export const store = configureStore({
       staffApi.middleware,
       uploadApi.middleware,
       scheduleApi.middleware,
+      scheduleOvertimeApi.middleware,
     ),
 });
 
