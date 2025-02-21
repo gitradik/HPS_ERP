@@ -2,6 +2,7 @@ import { DataTypes, Model } from 'sequelize';
 import sequelize from '../services/databaseService';
 import Staff from './Staff';
 import Client from './Client';
+import ScheduleOvertime from './ScheduleOvertime';
 
 enum ScheduleStatus {
   CLOSED = 'CLOSED',
@@ -84,5 +85,10 @@ Schedule.init(
 
 Schedule.belongsTo(Staff, { foreignKey: 'staffId', as: 'staff' });
 Schedule.belongsTo(Client, { foreignKey: 'clientId', as: 'client' });
+Schedule.hasMany(ScheduleOvertime, {
+  foreignKey: 'scheduleId',
+  as: 'scheduleOvertime',
+  onDelete: 'CASCADE',
+});
 
 export default Schedule;

@@ -4,6 +4,7 @@ import clientSchema from './clientSchema';
 import employeeSchema from './employeeSchema';
 import staffSchema from './staffSchema';
 import scheduleSchema from './scheduleSchema';
+import scheduleOvertimeSchema from './scheduleOvertimeSchema';
 
 const combinedSchema = mergeTypeDefs([
   userSchema,
@@ -11,6 +12,7 @@ const combinedSchema = mergeTypeDefs([
   employeeSchema,
   staffSchema,
   scheduleSchema,
+  scheduleOvertimeSchema,
 ]);
 
 export default combinedSchema;

@@ -86,7 +86,7 @@ const StaffScheduleDetail = () => {
               size="small"
               color="secondary"
               variant="outlined"
-              label={`${dayjs(Number(schedule?.start)).format('DD MMM YYYY')} - ${dayjs(Number(schedule?.end)).format('DD MMM YYYY')}`}
+              label={`${dayjs(schedule?.start).format('DD MMM YYYY')} - ${dayjs(schedule?.end).format('DD MMM YYYY')}`}
             ></Chip>
           </Box>
         </Box>

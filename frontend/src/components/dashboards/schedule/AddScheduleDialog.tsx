@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Avatar,
   Box,
@@ -8,22 +9,30 @@ import {
   Fab,
   IconButton,
   MenuItem,
+  Paper,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Tooltip,
   Typography,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { IconCheck, IconTrash } from '@tabler/icons-react';
+import { IconCheck, IconPlus, IconSquareRoundedPlus, IconTrash } from '@tabler/icons-react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import { FieldArray } from 'formik';
 
-import { EvType, ScheduleStatus } from 'src/types/schedule/schedule';
+import { EvType, OvertimeType, ScheduleStatus } from 'src/types/schedule/schedule';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import { useGetScheduleQuery } from 'src/services/api/scheduleApi';
@@ -33,6 +42,7 @@ import { useGetStaffsQuery } from 'src/services/api/staffApi';
 import { getUploadsImagesProfilePath } from 'src/utils/uploadsPath';
 import { isConflictingField } from 'src/utils/error';
 import { ColorVariation } from 'src/utils/constants/colorVariation';
+import { useGetScheduleOvertimesByScheduleIdQuery } from 'src/services/api/scheduleOvertimeApi';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -76,17 +86,23 @@ const AddScheduleDialog = ({
   const clients = clientsData?.items || [];
   const { data: staffData, isLoading: isLoadingStaff } = useGetStaffsQuery({});
   const staffs = staffData?.items || [];
+  const { data: scheduleOvertimesData, refetch } = useGetScheduleOvertimesByScheduleIdQuery(
+    { scheduleId },
+    { skip: !scheduleId },
+  );
+  const scheduleOvertimes = scheduleOvertimesData?.scheduleOvertimesByScheduleId || [];
 
   const evt: EvType | undefined = s && {
     id: s.id,
     title: s.title,
     allDay: s.allDay,
     color: s.color,
-    start: dayjs(Number(s.start)).toDate(),
-    end: dayjs(Number(s.end)).toDate(),
+    start: dayjs(s.start).toDate(),
+    end: dayjs(s.end).toDate(),
     clientId: s.client.id,
     staffId: s.staff.id,
     status: s.status,
+    scheduleOvertimes,
   };
 
   const initialValues = {
@@ -106,6 +122,8 @@ const AddScheduleDialog = ({
     clientId: evt?.clientId || '',
     staffId: evt?.staffId || '',
     status: evt?.status || ScheduleStatus.PENDING,
+    scheduleOvertimes:
+      evt?.scheduleOvertimes?.map((so) => ({ ...so, date: dayjs(so.date).toDate() })) || [],
   };
 
   const validationSchema = Yup.object({
@@ -122,10 +140,27 @@ const AddScheduleDialog = ({
       .min(Yup.ref('start'), 'Enddatum darf nicht vor dem Startdatum liegen'),
     clientId: Yup.string().required('Kunde ist erforderlich'),
     staffId: Yup.string().required('Mitarbeiter ist erforderlich'),
+    scheduleOvertimes: Yup.array().of(
+      Yup.object().shape({
+        date: Yup.date()
+          .required('Datum ist erforderlich')
+          .typeError('Bitte wählen Sie ein gültiges Datum aus'),
+        hours: Yup.number()
+          .required('Stunden sind erforderlich')
+          .min(0, 'Stunden müssen positiv sein'),
+        type: Yup.string()
+          .required('Typ ist erforderlich')
+          .oneOf([...Object.entries(OvertimeType).map(([_, value]) => value)]),
+      }),
+    ),
   });
 
+  useEffect(() => {
+    open && scheduleId && refetch().unwrap();
+  }, [open]);
+
   return (
-    <Dialog open={open} onClose={onClose} fullWidth>
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth={'md'}>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -145,8 +180,8 @@ const AddScheduleDialog = ({
               </Typography>
               <Typography mb={3} variant="subtitle2">
                 {!scheduleId
-                  ? 'Um ein Ereignis hinzuzufügen, füllen Sie bitte den Titel aus, wählen Sie die Ereignisfarbe und klicken Sie auf den Hinzufügen-Button'
-                  : 'Um ein Ereignis zu bearbeiten/aktualisieren, ändern Sie bitte den Titel, wählen Sie die Ereignisfarbe und klicken Sie auf den Aktualisieren-Button'}
+                  ? 'Um ein Ereignis hinzuzufügen, füllen Sie bitte den Titel aus, wählen Sie die Ereignisfarbe und klicken Sie auf den Hinzufügen-Button '
+                  : 'Um ein Ereignis zu bearbeiten/aktualisieren, ändern Sie bitte den Titel, wählen Sie die Ereignisfarbe und klicken Sie auf den Aktualisieren-Button '}
                 {evt?.title}
               </Typography>
 
@@ -331,6 +366,187 @@ const AddScheduleDialog = ({
                   </Box>
                 </Stack>
               </Stack>
+
+              {scheduleId && (
+                <Stack pt={2} spacing={1} width="100%">
+                  <Paper variant="outlined">
+                    <FieldArray name="scheduleOvertimes">
+                      {({ push, remove }) => (
+                        <Box>
+                          <Stack
+                            flexWrap="initial"
+                            direction="row"
+                            alignItems="center"
+                            justifyContent={'space-between'}
+                            pl={1}
+                            pr={1}
+                          >
+                            <Typography variant="h6" fontWeight={600} my={2}>
+                              Überstunden
+                            </Typography>
+                            <Box>
+                              <Tooltip title="Überstunden hinzufügen">
+                                <Button
+                                  variant="contained"
+                                  startIcon={<IconPlus />}
+                                  onClick={() =>
+                                    push({
+                                      date: dayjs(evt?.start).toDate(),
+                                      hours: 0,
+                                      type: 'OVERTIME',
+                                    })
+                                  }
+                                >
+                                  Hinzufügen
+                                </Button>
+                              </Tooltip>
+                            </Box>
+                          </Stack>
+
+                          <TableContainer sx={{ whiteSpace: { xs: 'nowrap', md: 'unset' } }}>
+                            <Table>
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>
+                                    <Typography variant="h6" fontSize="14px">
+                                      Datum
+                                    </Typography>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Typography variant="h6" fontSize="14px">
+                                      Stunden
+                                    </Typography>
+                                  </TableCell>
+                                  <TableCell>
+                                    <Typography variant="h6" fontSize="14px">
+                                      Typ
+                                    </Typography>
+                                  </TableCell>
+                                  <TableCell sx={{ textAlign: 'center' }}>
+                                    <Typography variant="h6" fontSize="14px">
+                                      Actions
+                                    </Typography>
+                                  </TableCell>
+                                </TableRow>
+                              </TableHead>
+
+                              <TableBody>
+                                {props.values.scheduleOvertimes.map((overtime, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell>
+                                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker
+                                          format="DD.MM.YYYY"
+                                          value={dayjs(overtime.date)}
+                                          onChange={(value) =>
+                                            props.setFieldValue(
+                                              `scheduleOvertimes[${index}].date`,
+                                              value,
+                                            )
+                                          }
+                                          sx={{ width: '100%' }}
+                                        />
+                                      </LocalizationProvider>
+                                      {props.touched.scheduleOvertimes &&
+                                        props.touched.scheduleOvertimes[index] &&
+                                        props.errors.scheduleOvertimes &&
+                                        props.errors.scheduleOvertimes[index] &&
+                                        (props.errors.scheduleOvertimes[index] as { date?: string })
+                                          .date && (
+                                          <Typography color="error" variant="caption">
+                                            {
+                                              (
+                                                props.errors.scheduleOvertimes[index] as {
+                                                  date?: string;
+                                                }
+                                              ).date
+                                            }
+                                          </Typography>
+                                        )}
+                                    </TableCell>
+
+                                    <TableCell width={170}>
+                                      <CustomTextField
+                                        type="number"
+                                        value={overtime.hours}
+                                        onChange={props.handleChange(
+                                          `scheduleOvertimes[${index}].hours`,
+                                        )}
+                                        sx={{ width: '100%' }}
+                                      />
+                                      {props.touched.scheduleOvertimes &&
+                                        props.touched.scheduleOvertimes[index] &&
+                                        props.errors.scheduleOvertimes &&
+                                        props.errors.scheduleOvertimes[index] &&
+                                        (
+                                          props.errors.scheduleOvertimes[index] as {
+                                            hours?: number;
+                                          }
+                                        ).hours && (
+                                          <Typography color="error" variant="caption">
+                                            {
+                                              (
+                                                props.errors.scheduleOvertimes[index] as {
+                                                  hours?: number;
+                                                }
+                                              ).hours
+                                            }
+                                          </Typography>
+                                        )}
+                                    </TableCell>
+                                    <TableCell width={170}>
+                                      <CustomSelect
+                                        value={overtime.type}
+                                        onChange={props.handleChange(
+                                          `scheduleOvertimes[${index}].type`,
+                                        )}
+                                        sx={{ width: '100%' }}
+                                      >
+                                        {Object.entries(OvertimeType).map(([key, value], idx) => (
+                                          <MenuItem key={`OvertimeType-${key}${idx}`} value={value}>
+                                            {value}
+                                          </MenuItem>
+                                        ))}
+                                      </CustomSelect>
+                                    </TableCell>
+
+                                    <TableCell sx={{ textAlign: 'center' }}>
+                                      <Tooltip placement="top-end" title="Überstunden hinzufügen">
+                                        <IconButton
+                                          size="small"
+                                          onClick={() => {
+                                            push({
+                                              date: dayjs(evt?.start).toDate(),
+                                              hours: 0,
+                                              type: OvertimeType.OVERTIME,
+                                            });
+                                          }}
+                                          color="primary"
+                                        >
+                                          <IconSquareRoundedPlus width={22} />
+                                        </IconButton>
+                                      </Tooltip>
+                                      <Tooltip placement="top-end" title="Überstunden löschen">
+                                        <IconButton
+                                          color="error"
+                                          size="small"
+                                          onClick={() => remove(index)}
+                                        >
+                                          <IconTrash />
+                                        </IconButton>
+                                      </Tooltip>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </Box>
+                      )}
+                    </FieldArray>
+                  </Paper>
+                </Stack>
+              )}
             </DialogContent>
 
             <DialogActions sx={{ p: 3 }}>
@@ -339,6 +555,7 @@ const AddScheduleDialog = ({
                   <IconButton
                     color="error"
                     loading={loadingDelete}
+                    size="large"
                     sx={{ mr: 'auto' }}
                     onClick={() => onDelete(evt)}
                     disabled={loadingDelete}

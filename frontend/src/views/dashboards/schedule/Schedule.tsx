@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'src/store/Store';
 import { toggleLayout } from 'src/store/customizer/CustomizerSlice';
 import AddScheduleDialog from 'src/components/dashboards/schedule/AddScheduleDialog';
-import { EvType, Schedule } from 'src/types/schedule/schedule';
+import { EvType, Schedule, ScheduleOvertime } from 'src/types/schedule/schedule';
 import {
   useCreateScheduleMutation,
   useDeleteScheduleMutation,
@@ -15,6 +15,12 @@ import {
 } from 'src/services/api/scheduleApi';
 import { useSnackbar } from 'notistack';
 import moment from 'moment';
+import {
+  useCreateScheduleOvertimeMutation,
+  useDeleteScheduleOvertimeMutation,
+  useGetScheduleOvertimesByScheduleIdQuery,
+  useUpdateScheduleOvertimeMutation,
+} from 'src/services/api/scheduleOvertimeApi';
 
 const SchedulePage = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -28,8 +34,18 @@ const SchedulePage = () => {
     useUpdateScheduleMutation();
   const [deleteSchedule, { isLoading: deleteIsLoading }] = useDeleteScheduleMutation();
 
+  const [createScheduleOvertime] = useCreateScheduleOvertimeMutation();
+  const [updateScheduleOvertime] = useUpdateScheduleOvertimeMutation();
+  const [deleteScheduleOvertime] = useDeleteScheduleOvertimeMutation();
+
   const [open, setOpen] = React.useState<boolean>(false);
   const [evtId, setEvtId] = React.useState<string | undefined>();
+
+  const { data: scheduleOvertimesData } = useGetScheduleOvertimesByScheduleIdQuery(
+    { scheduleId: evtId },
+    { skip: !evtId },
+  );
+  const scheduleOvertimes = scheduleOvertimesData?.scheduleOvertimesByScheduleId || [];
 
   useEffect(() => {
     resetCreate();
@@ -57,7 +73,7 @@ const SchedulePage = () => {
 
   const handleCreate = async (values: any, actions: any) => {
     try {
-      await createSchedule({
+      const result = await createSchedule({
         allDay: values.allDay,
         title: values.title,
         start: values.start.toISOString(),
@@ -67,12 +83,14 @@ const SchedulePage = () => {
         staffId: values.staffId,
         status: values.status,
       }).unwrap();
+
       enqueueSnackbar('Die Veranstaltung wurde erfolgreich erstellt!', {
         variant: 'success',
         autoHideDuration: 3000,
       });
+
       actions.setSubmitting(false);
-      handleClose();
+      setEvtId(result.createSchedule.id);
     } catch (err: any) {
       enqueueSnackbar(err?.data?.friendlyMessage, { variant: 'error', autoHideDuration: 3000 });
       notifyConflictingSchedules(err?.data?.extensionDetails?.conflictingObjects);
@@ -81,6 +99,32 @@ const SchedulePage = () => {
   };
   const handleUpdate = async (values: any, actions: any) => {
     try {
+      const existingIds = new Set(scheduleOvertimes.map((so: ScheduleOvertime) => so.id));
+      const newIds = new Set(values.scheduleOvertimes.map((overtime: any) => overtime.id));
+
+      await Promise.all([
+        ...values.scheduleOvertimes.map((overtime: any) => {
+          if (overtime.id) {
+            return updateScheduleOvertime({
+              id: overtime.id,
+              date: overtime.date.toISOString(),
+              hours: overtime.hours,
+              type: overtime.type,
+            }).unwrap();
+          }
+
+          return createScheduleOvertime({
+            scheduleId: evtId,
+            date: overtime.date.toISOString(),
+            hours: overtime.hours,
+            type: overtime.type,
+          }).unwrap();
+        }),
+        ...Array.from(existingIds)
+          .filter((id) => !newIds.has(id))
+          .map((id) => deleteScheduleOvertime({ id }).unwrap()),
+      ]);
+
       await updateSchedule({
         id: evtId!,
         allDay: values.allDay,
@@ -90,6 +134,7 @@ const SchedulePage = () => {
         color: values.color,
         status: values.status,
       }).unwrap();
+
       enqueueSnackbar('Die Veranstaltung wurde erfolgreich aktualisiert!', {
         variant: 'success',
         autoHideDuration: 3000,

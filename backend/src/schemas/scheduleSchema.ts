@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server-express';
 
 const scheduleSchema = gql`
+  scalar DateTime
+
   enum ScheduleStatus {
     CLOSED
     OPEN
@@ -11,21 +13,21 @@ const scheduleSchema = gql`
     id: ID!
     title: String!
     allDay: Boolean!
-    start: String!
-    end: String!
+    start: DateTime!
+    end: DateTime!
     color: String!
     status: ScheduleStatus!
     staff: Staff! # Relation with staff
     client: Client! # Relation with client
-    createdAt: String!
-    updatedAt: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
   }
 
   input CreateScheduleInput {
     title: String!
     allDay: Boolean!
-    start: String!
-    end: String!
+    start: DateTime!
+    end: DateTime!
     color: String
     status: ScheduleStatus!
     staffId: ID!
@@ -36,8 +38,8 @@ const scheduleSchema = gql`
     id: ID!
     title: String
     allDay: Boolean
-    start: String
-    end: String
+    start: DateTime
+    end: DateTime
     color: String
     status: ScheduleStatus
   }

@@ -276,7 +276,7 @@ const scheduleApi = createApi({
           : [{ type: 'Schedules' as const, id: 'LIST' }],
     }),
 
-    createSchedule: builder.mutation<ScheduleResponse, CreateScheduleInput>({
+    createSchedule: builder.mutation<{ createSchedule: ScheduleResponse }, CreateScheduleInput>({
       query: (input) => ({
         document: gql`
           mutation CreateSchedule($input: CreateScheduleInput!) {
@@ -341,7 +341,7 @@ const scheduleApi = createApi({
       invalidatesTags: [{ type: 'Schedules' as const, id: 'LIST' }], // Инвалидируем список расписаний
     }),
 
-    updateSchedule: builder.mutation<ScheduleResponse, UpdateScheduleInput>({
+    updateSchedule: builder.mutation<{ updateSchedule: ScheduleResponse }, UpdateScheduleInput>({
       query: (input) => ({
         document: gql`
           mutation UpdateSchedule($input: UpdateScheduleInput!) {
